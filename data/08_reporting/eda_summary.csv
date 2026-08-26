@@ -1,0 +1,59 @@
+section,metric,value
+meta,n_rows,1324
+meta,n_cols,15
+meta,duplicate_rows,0
+nulls,null_id,0 (0.0%)
+nulls,null_name,0 (0.0%)
+nulls,null_category,0 (0.0%)
+nulls,null_body_part,0 (0.0%)
+nulls,null_equipment,0 (0.0%)
+nulls,null_instructions,0 (0.0%)
+nulls,null_instruction_steps,0 (0.0%)
+nulls,null_muscle_group,0 (0.0%)
+nulls,null_secondary_muscles,0 (0.0%)
+nulls,null_target,0 (0.0%)
+nulls,null_image,0 (0.0%)
+nulls,null_gif_url,0 (0.0%)
+nulls,null_media_id,0 (0.0%)
+nulls,null_created_at,0 (0.0%)
+nulls,null_attribution,0 (0.0%)
+dtypes,dtype_id,int64
+dtypes,dtype_name,str
+dtypes,dtype_category,str
+dtypes,dtype_body_part,str
+dtypes,dtype_equipment,str
+dtypes,dtype_instructions,object
+dtypes,dtype_instruction_steps,object
+dtypes,dtype_muscle_group,str
+dtypes,dtype_secondary_muscles,object
+dtypes,dtype_target,str
+dtypes,dtype_image,str
+dtypes,dtype_gif_url,str
+dtypes,dtype_media_id,str
+dtypes,dtype_created_at,"datetime64[us, UTC]"
+dtypes,dtype_attribution,str
+top5_body_part,upper arms,292
+top5_body_part,upper legs,227
+top5_body_part,back,203
+top5_body_part,waist,169
+top5_body_part,chest,163
+top5_equipment,body weight,325
+top5_equipment,dumbbell,294
+top5_equipment,cable,157
+top5_equipment,barbell,154
+top5_equipment,leverage machine,81
+top5_muscle_group,shoulders,191
+top5_muscle_group,forearms,165
+top5_muscle_group,biceps,164
+top5_muscle_group,triceps,161
+top5_muscle_group,hamstrings,127
+top5_secondary_muscle,shoulders,400
+top5_secondary_muscle,hamstrings,289
+top5_secondary_muscle,forearms,277
+top5_secondary_muscle,triceps,268
+top5_secondary_muscle,biceps,194
+top5_target,abs,169
+top5_target,pectorals,158
+top5_target,biceps,151
+top5_target,glutes,144
+top5_target,delts,143

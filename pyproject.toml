@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gym_exercises"
+version = "0.1.0"
+description = "Kedro pipeline for EDA on a fitness exercises dataset"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+gym-exercises = "gym_exercises.__main__:main"
+
+[tool.kedro]
+package_name = "gym_exercises"
+project_name = "Gym Exercises EDA"
+kedro_init_version = "1.5.0"
+tools = ""
+example_pipeline = "false"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.kedro_telemetry]
+project_id = "4d780cf565b74e65997768a8186b8432"

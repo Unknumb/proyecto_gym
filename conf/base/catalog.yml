@@ -1,0 +1,22 @@
+# =============================================================================
+# Catálogo de datos — Gym Exercises EDA
+# =============================================================================
+
+# ── Capa 01: Raw ─────────────────────────────────────────────────────────────
+raw_exercises_data:
+  type: pandas.JSONDataset
+  filepath: data/01_raw/exercises.json
+
+# ── Capa 02: Intermediate ────────────────────────────────────────────────────
+intermediate_exercises_clean:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/exercises_clean.parquet
+
+# ── Capa 08: Reporting ───────────────────────────────────────────────────────
+eda_summary_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/eda_summary.csv
+
+distribution_metrics:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/distribution_metrics.csv
