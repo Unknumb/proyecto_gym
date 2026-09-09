@@ -1,0 +1,10 @@
+verificacion,conformes,total,pct,resultado
+cobertura_gif_url,1324,1324,100.0,OK
+cobertura_image,1324,1324,100.0,OK
+cobertura_media_id,1324,1324,100.0,OK
+media_id_unico,1324,1324,100.0,OK
+gif_url_unico,1324,1324,100.0,OK
+patron_gif_url,1324,1324,100.0,OK
+patron_image,1324,1324,100.0,OK
+extension_gif,1324,1324,100.0,OK
+atribucion_presente,1324,1324,100.0,OK
