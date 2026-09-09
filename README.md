@@ -61,7 +61,8 @@ supuesto: ver §4.1.
 | Estructura | Semi-estructurada: 15 campos, con diccionarios anidados y listas |
 | Recursos visuales | Animaciones cinemáticas (GIF) e imágenes estáticas de **GymVisual**, referenciadas por ruta relativa |
 | Idiomas | Instrucciones completas en 10 idiomas: `en`, `es`, `fr`, `hi`, `it`, `ko`, `pl`, `ru`, `tr`, `zh` |
-| Licencia de los medios | © GymVisual — uso académico, ver §5.2 |
+| Licencia de los datos | **MIT** (© 2026 Hasan Emir Yıldırım) — uso, modificación y distribución libres |
+| Licencia de los medios | Propiedad de **Gym visual**, permiso escrito de redistribución a 180×180 con atribución — ver §5.2 |
 
 **Campos de origen:** `id`, `name`, `category`, `body_part`, `equipment`, `target`,
 `muscle_group`, `secondary_muscles`, `instructions`, `instruction_steps`, `image`,
@@ -278,31 +279,62 @@ gimnasio; y (c) **rechazar explícitamente** la recomendación cuando el múscul
 esté por debajo del umbral de 10 ejercicios, devolviendo una advertencia de cobertura
 insuficiente en lugar de una sugerencia poco fundamentada.
 
-### 5.2 Propiedad intelectual — GymVisual
+### 5.2 Propiedad intelectual — licenciamiento dual
 
-Los recursos visuales (GIF animados e imágenes) son **propiedad de GymVisual**, según
-consta en el campo `attribution` de los 1.324 registros
-(`© Gym visual — https://gymvisual.com/`).
+El repositorio de origen **no tiene una sola licencia**: separa explícitamente los datos
+de los medios, y cada mitad se rige por un régimen distinto. La distinción es central
+para este proyecto, porque determina qué se puede publicar y qué no.
 
-**Marco de uso adoptado:**
+| Componente | Régimen | Alcance |
+|---|---|---|
+| **Datos tabulares** (nombres, categorías, partes del cuerpo, equipamiento, músculos, instrucciones multilingües) | **Licencia MIT** — © 2026 Hasan Emir Yıldırım | Uso, modificación, distribución y sublicenciamiento libres, conservando el aviso de copyright |
+| **Medios** (GIF animados e imágenes) | **Propiedad de Gym visual**, redistribuidos con permiso escrito separado | Sujeto a los *Terms & Conditions* de Gym visual y a las condiciones de redistribución del `NOTICE.md` |
 
-- **Uso académico sin fines comerciales.** El proyecto se desarrolla en el contexto de
-  la asignatura MLY1101. No hay explotación comercial, monetización ni distribución
-  pública de los medios.
-- **Atribución preservada.** El campo `attribution` se conserva íntegro en todas las
-  capas del pipeline. No se elimina ni se ofusca la autoría en ningún punto de la
-  transformación.
-- **Desacople estructural entre datos y renderizados.** Ésta es la decisión de diseño
-  clave. El sistema **no redistribuye los archivos de GymVisual**: el pipeline consume
-  los GIF únicamente como *señal de entrada* para extraer coordenadas articulares, y lo
-  que persiste es la **representación numérica derivada** (secuencias de puntos
-  corporales), no el material audiovisual. La aplicación final desacopla la capa de
-  datos de la capa de renderizado, de modo que una versión distribuible pueda operar con
-  animaciones propias o con licencia distinta.
-- **Límite reconocido.** El *fair use* académico **no habilita** la publicación del
-  dataset con los medios incluidos ni un despliegue comercial. Cualquier paso en esa
-  dirección exige una licencia comercial con GymVisual. Se documenta aquí para que la
-  restricción sea explícita y no se descubra tarde.
+**Sobre los datos (lo que usa esta entrega).** Todo el trabajo de EV1 —el pipeline, el
+EDA, las tablas derivadas— opera **exclusivamente sobre la mitad MIT** del dataset. No
+hay restricción legal alguna sobre lo entregado aquí.
+
+**Sobre los medios.** El `NOTICE.md` del repositorio de origen establece condiciones
+explícitas que conviene citar textualmente, porque son más estrictas de lo que sugiere
+el campo `attribution`:
+
+- Los medios se redistribuyen con el **permiso escrito separado** del titular —el
+  mecanismo que los propios términos de Gym visual exigen para redistribuir—, no bajo
+  una licencia abierta ni bajo doctrina de *fair use*.
+- **Límite de resolución contractual: 180×180 únicamente.** No es una limitación
+  técnica que se pueda resolver pidiendo archivos mejores: es una condición del permiso.
+- **Atribución obligatoria** en todo uso: `© Gym visual — https://gymvisual.com/`.
+- Y de forma expresa: *"este repositorio no te otorga ningún derecho sobre los medios
+  más allá de lo que permiten los términos de Gym visual — clonar este repositorio no
+  es una licencia."*
+
+**Consecuencias prácticas para el proyecto:**
+
+1. **Bifurcar el forkeo no otorga derechos.** El equipo, por haber forkeado el
+   repositorio, **no adquirió licencia sobre los GIF**. Cualquier uso que exceda los
+   términos de Gym visual requiere una licencia propia obtenida directamente del titular.
+2. **El uso como dato de entrenamiento es un uso derivado distinto del de exhibición.**
+   El permiso documentado cubre la *redistribución* de los medios. Entrenar un modelo
+   sobre ellos —extraer coordenadas articulares para ajustar parámetros— es una
+   utilización derivada que los términos citados no autorizan de forma explícita. Antes
+   de cualquier entrenamiento sobre este material hay que resolver esa pregunta con el
+   titular, no asumirla.
+3. **Atribución preservada por diseño.** El campo `attribution` se conserva íntegro en
+   todas las capas del pipeline; no se elimina ni se ofusca en ningún punto de la
+   transformación.
+4. **Desacople estructural entre datos y renderizados.** La arquitectura separa la capa
+   de datos (MIT, redistribuible) de la capa de medios (restringida), de modo que una
+   versión distribuible del sistema pueda operar con animaciones propias o de licencia
+   distinta sin tocar el resto del pipeline.
+
+> **Corrección respecto de la formulación inicial del proyecto.** El encuadre original
+> invocaba la doctrina de *uso académico / fair use*. Tras revisar el `NOTICE.md` y el
+> `LICENSE` de la fuente, ese encuadre era **incorrecto y además innecesariamente
+> débil**: los datos están bajo MIT (un permiso explícito, no una defensa), y los medios
+> se rigen por un permiso escrito con condiciones tasadas. El *fair use* es un argumento
+> defensivo que se invoca cuando no hay licencia; aquí sí la hay, y conviene apoyarse en
+> ella. Lo que el *fair use* tampoco habilitaría —publicar los medios o desplegarlos
+> comercialmente— sigue igualmente vedado.
 
 ### 5.3 Responsabilidad algorítmica y seguridad
 
