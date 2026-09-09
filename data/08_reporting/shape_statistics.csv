@@ -1,0 +1,11 @@
+variable,n,media,mediana,desv_std,cv,minimo,maximo,asimetria,curtosis,forma
+n_pasos,1324,5.823,6.0,1.079,0.185,4.0,11.0,0.825,1.175,sesgo positivo moderado
+n_palabras,1324,87.958,86.0,18.387,0.209,34.0,172.0,0.743,1.449,sesgo positivo moderado
+n_caracteres,1324,514.971,503.5,105.887,0.206,213.0,990.0,0.721,1.143,sesgo positivo moderado
+palabras_por_paso,1324,15.183,15.0,2.159,0.142,8.2,24.333,0.354,0.787,aproximadamente simétrica
+n_palabras_paso_max,1324,22.069,22.0,3.767,0.171,11.0,39.0,0.553,1.161,sesgo positivo moderado
+n_palabras_nombre,1324,4.217,4.0,1.655,0.392,1.0,12.0,0.763,0.898,sesgo positivo moderado
+n_musculos_secundarios,1324,1.949,2.0,0.726,0.372,1.0,6.0,0.742,1.707,sesgo positivo moderado
+n_musculos_total,1324,2.948,3.0,0.728,0.247,1.0,7.0,0.727,1.701,sesgo positivo moderado
+frecuencia_equipamiento,1324,194.376,157.0,117.285,0.603,1.0,325.0,-0.223,-1.55,aproximadamente simétrica
+frecuencia_musculo_primario,1324,121.438,143.0,47.725,0.393,2.0,169.0,-1.006,-0.428,sesgo negativo fuerte
