@@ -74,7 +74,7 @@ supuesto: ver §4.1.
 | **Kedro 1.5** | Orquestación de pipelines | Separa la lógica de negocio (nodos puros) del I/O (catálogo declarativo). Los nodos son funciones testeables sin tocar disco, y la arquitectura por capas (`01_raw` → `02_intermediate` → `08_reporting`) hace la trazabilidad explícita. |
 | **pandas + NumPy** | Transformación | Operaciones vectorizadas en lugar de bucles fila a fila, requisito para no desbordar memoria al escalar. |
 | **Parquet** | Capa intermedia | Formato columnar binario: preserva los `dtypes` (crítico para no corromper la llave `id`) y reduce el footprint frente a CSV/JSON. Ver §3.3. |
-| **Seaborn / Matplotlib** | EDA visual | Boxplots, histogramas con KDE y mapas de calor. |
+| **Plotly** | EDA visual | Gráficos interactivos con capa de *hover*: el lector inspecciona cada valor sin depender de etiquetas impresas. `kaleido` exporta además la versión estática en PNG para este informe. |
 | **Git / GitHub** | Versionamiento | Trabajo en ramas por integrante (`benja`, `feature/data-understanding-pipeline`) con integración revisada. |
 | **Databricks Community Edition** | Escalado futuro | Coste cero. Si se requiere cómputo mayor, instancias *Single Node* con auto-terminación a los 15 min de inactividad, bajo el presupuesto FinOps de USD 100. |
 
@@ -429,6 +429,17 @@ jupyter lab notebooks/01_exploratory_data_analysis.ipynb
 El notebook está versionado **con todas las salidas ejecutadas y visibles**. Se ejecuta
 de principio a fin sin errores en orden secuencial (celdas 1 a 21).
 
+Los diez gráficos son **interactivos** (Plotly): cada marca expone su valor al pasar el
+cursor, y las tablas de datos que los acompañan permiten leer las mismas cifras sin
+depender del color. El renderizador `notebook` embebe `plotly.js` dentro del `.ipynb`,
+de modo que los gráficos se ven **sin conexión a internet** en Jupyter, JupyterLab,
+VS Code y nbviewer.
+
+> **Nota:** la previsualización de `.ipynb` en la web de GitHub no ejecuta JavaScript y
+> por tanto **no muestra los gráficos interactivos**. Para revisarlos hay que abrir el
+> notebook en Jupyter o VS Code. Las versiones estáticas en PNG están en
+> `data/08_reporting/figures/` y son las que se incrustan en este README.
+
 ### 8.4 Estructura del repositorio
 
 ```
@@ -447,7 +458,7 @@ proyecto_ejercicios/
 │       ├── outliers_iqr.csv
 │       ├── shape_statistics.csv
 │       ├── correlation_matrix.csv
-│       └── figures/                 # Gráficos exportados del EDA
+│       └── figures/                 # Exportación PNG de los 9 gráficos
 ├── notebooks/
 │   └── 01_exploratory_data_analysis.ipynb
 ├── src/gym_exercises/
