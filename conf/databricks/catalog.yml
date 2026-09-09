@@ -1,0 +1,79 @@
+# =============================================================================
+# Catálogo — entorno Databricks (Unity Catalog + Delta Lake)
+# =============================================================================
+# Se activa con:  kedro run --env=databricks
+#
+# Los NODOS NO CAMBIAN. `databricks.ManagedTableDataset` con
+# `dataframe_type: pandas` convierte desde/hacia Delta en el borde de I/O, así
+# que las funciones puras de `nodes.py` siguen recibiendo y devolviendo
+# DataFrames de pandas. Esto es exactamente lo que sostiene el README §2.3:
+# migrar es reapuntar el catálogo, no reescribir la lógica.
+#
+# Requiere: pip install "kedro-datasets[databricks]" y un workspace con los
+# esquemas `gym_bronze` / `gym_silver` / `gym_gold` ya creados (notebook 01).
+
+_delta: &delta
+  type: databricks.ManagedTableDataset
+  catalog: workspace
+  dataframe_type: pandas
+  write_mode: overwrite
+
+# ── Capa 01: Raw ─────────────────────────────────────────────────────────────
+# El JSON crudo vive en un volumen de Unity Catalog. En serverless no hay DBFS:
+# los archivos van a /Volumes/<catalog>/<schema>/<volume>/.
+raw_exercises_data:
+  type: pandas.JSONDataset
+  filepath: /Volumes/workspace/gym_bronze/raw/exercises.json
+  load_args:
+    dtype:
+      id: str
+      media_id: str
+
+# ── Capa 02: Intermediate (silver) ───────────────────────────────────────────
+intermediate_exercises_clean:
+  <<: *delta
+  database: gym_silver
+  table: exercises_clean
+
+intermediate_exercise_features:
+  <<: *delta
+  database: gym_silver
+  table: exercise_features
+
+# ── Capa 08: Reporting (gold) ────────────────────────────────────────────────
+eda_summary_report:
+  <<: *delta
+  database: gym_gold
+  table: eda_summary
+
+distribution_metrics:
+  <<: *delta
+  database: gym_gold
+  table: distribution_metrics
+
+outliers_iqr_report:
+  <<: *delta
+  database: gym_gold
+  table: outliers_iqr
+
+shape_statistics_report:
+  <<: *delta
+  database: gym_gold
+  table: shape_statistics
+
+correlation_matrix_report:
+  <<: *delta
+  database: gym_gold
+  table: correlation_matrix
+
+media_references_report:
+  <<: *delta
+  database: gym_gold
+  table: media_references_audit
+
+# La auditoría física de medios requiere red saliente, restringida en serverless
+# (solo dominios de confianza). Se mantiene como archivo en el volumen y se
+# produce localmente con scripts/auditar_media_fisica.py.
+media_sample_audit:
+  type: pandas.CSVDataset
+  filepath: /Volumes/workspace/gym_bronze/raw/media_sample_audit.csv

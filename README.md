@@ -103,19 +103,34 @@ de propagarlo silenciosamente por todo el pipeline. A eso se suman transacciones
 Para un proyecto con implicancias clínicas, poder auditar **qué datos produjeron qué
 recomendación** no es opcional.
 
+Esto no queda como afirmación: la sección 6 del notebook
+`notebooks/databricks/01_bronze_ingesta_delta.py` **falla a propósito**. Intenta anexar a
+la tabla bronze el mismo `id` que Spark infiere como `bigint` y Delta rechaza la
+escritura por incompatibilidad de tipos. El defecto que en pandas se propagó en silencio
+hasta la capa de reporting, en Delta muere en el `write`.
+
 **2. La arquitectura medallion ya está implementada.** Las capas de Kedro
 (`01_raw` → `02_intermediate` → `08_reporting`) son literalmente bronze → silver → gold.
 Migrar consiste en apuntar el catálogo a tablas Delta; los nodos son funciones puras
-sobre DataFrames y no cambian:
+sobre DataFrames y no cambian. La migración está implementada en `conf/databricks/`
+y se activa con `kedro run --env=databricks`:
 
 ```yaml
 intermediate_exercise_features:
-  type: spark.SparkDataset
-  filepath: dbfs:/mnt/gym/silver/exercise_features
-  file_format: delta
-  save_args:
-    mode: overwrite
+  type: databricks.ManagedTableDataset
+  catalog: workspace
+  database: gym_silver
+  table: exercise_features
+  dataframe_type: pandas      # la conversión ocurre en el borde de I/O
+  write_mode: overwrite
 ```
+
+`dataframe_type: pandas` es lo que hace literal la afirmación anterior: `nodes.py` sigue
+recibiendo y devolviendo DataFrames de pandas, y la conversión desde/hacia Delta ocurre
+en el dataset. Nótese que no aparece ninguna ruta `dbfs:/`: el cómputo serverless no
+expone DBFS y los archivos crudos viven en un **volumen de Unity Catalog**
+(`/Volumes/workspace/gym_bronze/raw/`), que además queda gobernado por los mismos
+permisos que las tablas.
 
 **3. Es la ruta de escalamiento del único trabajo que sí es masivo.** El procesamiento
 de medios —1.324 animaciones × 12 a 47 fotogramas, del orden de 25.000 imágenes— es
@@ -124,17 +139,45 @@ Databricks deja de ser una decisión de forma y pasa a ser necesario. Conviene s
 que, por lo documentado en §4.4, ese procesamiento **no se ejecutará sobre este corpus**;
 la ruta queda descrita para cuando exista material apto.
 
-**Control de costes (FinOps).** El presupuesto del proyecto es de USD 100, de modo que
-la configuración es parte del diseño y no un detalle operativo:
+**Control de costes (FinOps).** El presupuesto del proyecto es de USD 100 y el gasto
+efectivo es **cero**, porque el entorno en uso es **Databricks Free Edition** —el
+reemplazo de la antigua Community Edition, retirada en 2025—. Conviene ser preciso sobre
+qué implica esa elección, porque determina qué controles de coste existen y cuáles
+simplemente no aplican:
 
-| Medida | Configuración |
+| Medida efectiva | Cómo opera en Free Edition |
 |---|---|
-| Entorno de trabajo | **Databricks Free Edition** — coste cero y suficiente para esta escala. Es el entorno efectivamente en uso por el equipo; sustituye a la antigua Community Edition. |
-| Si se requiere cómputo propio | Clúster **Single Node**, el mínimo que ejecuta Spark |
+| Entorno de trabajo | **Free Edition**, sin tarjeta de crédito y sin consumo facturable. Uso no comercial, que es el caso de esta asignatura. |
+| Cómputo | **Serverless exclusivamente.** No se aprovisionan clústeres: no hay tamaño, ni tipo de instancia, ni auto-terminación que configurar, porque no hay recurso encendido entre sesiones. |
+| Almacenamiento | *Default storage* de la cuenta, bajo Unity Catalog. Sin buckets propios que administrar ni cobrar. |
+| Techo de gasto | Estructural, no configurado: la plataforma aplica cuotas de uso y suspende el cómputo al excederlas. No existe factura que limitar. |
+| Aislamiento | Un workspace y un metastore por cuenta, sin consola de cuenta. Cada integrante trabaja en el suyo y la colaboración ocurre en Git, no dentro del workspace. |
+
+**Sobre lo que aquí no se controla, y por qué.** Los controles habituales de un workspace
+de pago —clúster *Single Node*, auto-terminación a 15 minutos, instancias *spot*,
+*budget alert* en la nube— **no tienen dónde configurarse en Free Edition**: presuponen
+un plano de cómputo propio y una consola de cuenta que esta edición no expone.
+Enumerarlos como si estuvieran aplicados sería describir un entorno distinto del que el
+equipo usa. Quedan, entonces, como el plan para el único escenario que los requeriría —el
+procesamiento distribuido de medios del punto 3, sobre un workspace de pago—:
+
+| Medida | Configuración prevista al migrar a workspace de pago |
+|---|---|
+| Cómputo | Clúster **Single Node**, el mínimo que ejecuta Spark, o *job compute* efímero |
 | Auto-terminación | **15 minutos** de inactividad, sin excepción |
 | Instancias | *Spot* con reversión a bajo demanda |
-| Alerta de gasto | *Budget alert* en AWS al 50 % del crédito |
+| Alerta de gasto | *Budget alert* al 50 % del crédito |
 | Regla operativa | Ningún clúster queda encendido fuera de una sesión de trabajo activa |
+
+**Límite conocido del entorno.** El cómputo serverless restringe la red saliente a un
+conjunto de dominios de confianza. Por eso `scripts/auditar_media_fisica.py` —la única
+pieza del proyecto que descarga recursos externos (§4.4)— se ejecuta localmente y no en
+el workspace. La restricción es coherente con el diseño: el pipeline y el notebook de EDA
+son reproducibles sin red.
+
+**Puesta en marcha.** El procedimiento operativo completo —crear la cuenta, clonar el
+repositorio como *Git folder*, ejecutar los notebooks y leer las tablas resultantes— está
+en [`docs/databricks_setup.md`](docs/databricks_setup.md).
 
 > **Postura del equipo.** Se adopta Databricks por gobierno del dato y por ser la ruta de
 > escalamiento del procesamiento de medios, **no por volumen**. Documentar que en esta
@@ -615,9 +658,12 @@ VS Code y nbviewer.
 
 ```
 proyecto_ejercicios/
-├── conf/base/
-│   ├── catalog.yml                  # Definición declarativa de los datasets
-│   └── parameters.yml
+├── conf/
+│   ├── base/
+│   │   ├── catalog.yml              # Definición declarativa de los datasets
+│   │   └── parameters.yml
+│   └── databricks/
+│       └── catalog.yml              # Mismo pipeline sobre tablas Delta (§2.3)
 ├── data/
 │   ├── 01_raw/exercises.json        # Fuente inmutable (17 MB)
 │   ├── 02_intermediate/
@@ -635,7 +681,12 @@ proyecto_ejercicios/
 ├── scripts/
 │   └── auditar_media_fisica.py      # Auditoría de GIF (única parte con red)
 ├── notebooks/
-│   └── 01_exploratory_data_analysis.ipynb
+│   ├── 01_exploratory_data_analysis.ipynb
+│   └── databricks/                  # Notebooks de la migración a Delta (§2.3)
+│       ├── 01_bronze_ingesta_delta.py
+│       └── 02_silver_gold_medallion.py
+├── docs/
+│   └── databricks_setup.md          # Puesta en marcha del workspace
 ├── src/gym_exercises/
 │   ├── pipeline_registry.py
 │   └── pipelines/data_understanding/
