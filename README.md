@@ -77,7 +77,70 @@ supuesto: ver §4.1.
 | **Parquet** | Capa intermedia | Formato columnar binario: preserva los `dtypes` (crítico para no corromper la llave `id`) y reduce el footprint frente a CSV/JSON. Ver §3.3. |
 | **Plotly** | EDA visual | Gráficos interactivos con capa de *hover*: el lector inspecciona cada valor sin depender de etiquetas impresas. `kaleido` exporta además la versión estática en PNG para este informe. |
 | **Git / GitHub** | Versionamiento | Trabajo en ramas por integrante (`benja`, `feature/data-understanding-pipeline`) con integración revisada. |
-| **Databricks Community Edition** | Escalado futuro | Coste cero. Si se requiere cómputo mayor, instancias *Single Node* con auto-terminación a los 15 min de inactividad, bajo el presupuesto FinOps de USD 100. |
+| **Databricks + Delta Lake** | Gobierno del dato y escalamiento | *Schema enforcement*, transacciones ACID y *time travel* sobre la arquitectura medallion. Justificación detallada y control de costes en §2.3. |
+
+### 2.3 Databricks: dónde encaja y dónde no
+
+Databricks forma parte del ecosistema tecnológico del proyecto, por lo que corresponde
+justificar su rol con honestidad en lugar de invocarlo como credencial.
+
+**El argumento de volumen no aplica, y conviene decirlo.** La tabla analítica ocupa
+**260 KB en disco y 1,04 MB en memoria**; el JSON crudo completo son 16,6 MB. La
+partición por defecto de Spark es de 128 MB: el dataset entero cabe en el **0,2 % de una
+sola partición**. Spark lo procesaría en una única tarea, pagando íntegro el coste de
+arranque de la JVM y de planificación distribuida sin ningún paralelismo que compense.
+En esta escala, pandas es más rápido —y sostener lo contrario en la defensa sería
+indefendible frente a la primera pregunta sobre el tamaño del dato.
+
+**Los argumentos que sí sostienen su adopción son tres, y ninguno es de rendimiento:**
+
+**1. Delta Lake como capa de gobierno, no de velocidad.** El defecto más grave que
+encontró esta entrega —el `id` corrompiéndose de `"0001"` a `1` en la carga, §3.3— es
+exactamente el tipo de error que el *schema enforcement* de Delta detiene en la
+escritura: una tabla Delta con `id STRING` habría rechazado el `long` inferido en lugar
+de propagarlo silenciosamente por todo el pipeline. A eso se suman transacciones ACID y
+*time travel*, que permiten reproducir el estado exacto de una capa en una fecha dada.
+Para un proyecto con implicancias clínicas, poder auditar **qué datos produjeron qué
+recomendación** no es opcional.
+
+**2. La arquitectura medallion ya está implementada.** Las capas de Kedro
+(`01_raw` → `02_intermediate` → `08_reporting`) son literalmente bronze → silver → gold.
+Migrar consiste en apuntar el catálogo a tablas Delta; los nodos son funciones puras
+sobre DataFrames y no cambian:
+
+```yaml
+intermediate_exercise_features:
+  type: spark.SparkDataset
+  filepath: dbfs:/mnt/gym/silver/exercise_features
+  file_format: delta
+  save_args:
+    mode: overwrite
+```
+
+**3. Es la ruta de escalamiento del único trabajo que sí es masivo.** El procesamiento
+de medios —1.324 animaciones × 12 a 47 fotogramas, del orden de 25.000 imágenes— es
+*embarrassingly parallel* y sí justifica cómputo distribuido. Es el punto en que
+Databricks deja de ser una decisión de forma y pasa a ser necesario. Conviene señalar
+que, por lo documentado en §4.4, ese procesamiento **no se ejecutará sobre este corpus**;
+la ruta queda descrita para cuando exista material apto.
+
+**Control de costes (FinOps).** El presupuesto del proyecto es de USD 100, de modo que
+la configuración es parte del diseño y no un detalle operativo:
+
+| Medida | Configuración |
+|---|---|
+| Entorno de trabajo | **Databricks Free / Community Edition** — coste cero, suficiente para esta escala. *(Verificar cuál de las dos está disponible al momento de la inscripción: Databricks reemplazó Community Edition por Free Edition para cuentas nuevas.)* |
+| Si se requiere cómputo propio | Clúster **Single Node**, el mínimo que ejecuta Spark |
+| Auto-terminación | **15 minutos** de inactividad, sin excepción |
+| Instancias | *Spot* con reversión a bajo demanda |
+| Alerta de gasto | *Budget alert* en AWS al 50 % del crédito |
+| Regla operativa | Ningún clúster queda encendido fuera de una sesión de trabajo activa |
+
+> **Postura del equipo.** Se adopta Databricks por gobierno del dato y por ser la ruta de
+> escalamiento del procesamiento de medios, **no por volumen**. Documentar que en esta
+> escala Spark sería contraproducente es parte del criterio de ingeniería que la
+> asignatura evalúa: saber cuándo *no* usar una herramienta es tan relevante como saber
+> operarla.
 
 ---
 
@@ -236,6 +299,59 @@ en §5.1.
 - `n_musculos_total` ↔ `n_pasos` = **0,10**. La complejidad biomecánica y la textual son
   **ejes independientes**: la extensión de la instrucción no predice la exigencia del
   movimiento. Ambas aportan señal no redundante al futuro modelo.
+
+### 4.4 Auditoría de los recursos cinemáticos
+
+El catálogo tiene dos mitades. Las secciones anteriores analizan los metadatos
+tabulares; ésta caracteriza los **1.324 GIF animados**, que son la entrada prevista del
+análisis de movimiento. Una arquitectura que depende de ellos no puede validarse
+mirando solo el JSON.
+
+**Integridad referencial: sin hallazgos.** El nodo `audit_media_references` verifica
+nueve propiedades sin acceder a la red, y las nueve pasan al 100 %: cobertura completa
+de `gif_url`, `image` y `media_id`; las tres llaves son únicas (ningún GIF se reutiliza
+entre ejercicios); la nomenclatura respeta el patrón `videos/{id}-{media_id}.gif`; y la
+atribución está presente en cada registro.
+
+Fue precisamente esta auditoría la que expuso la corrupción del `id` en el cargador
+(§3.3): con la llave dañada, solo el 46,8 % de los registros reconstruía su ruta.
+
+**Caracterización física.** Los archivos no están versionados aquí (§5.2), así que
+`scripts/auditar_media_fisica.py` descarga una muestra estratificada por parte del
+cuerpo, la mide y persiste el resultado en CSV —de modo que el notebook siga siendo
+reproducible sin conexión. Sobre 38 animaciones:
+
+| Propiedad | Valor medido | Implicación |
+|---|---|---|
+| Resolución | **180×180**, sin excepción | Es un **límite contractual**, no técnico (§5.2): no se puede solicitar material mejor |
+| Tasa de muestreo | **mediana 4 FPS** (máx. 5,95) | Un fotograma cada 250 ms. Una fase concéntrica rápida (~0,5 s) queda descrita por 2 muestras |
+| Fotogramas | mediana 12; 79 % ≤ 12 | Los clips largos (hasta 47) son movimientos compuestos **a la misma tasa baja** |
+| Repeticiones por clip | **1** | No existe señal para entrenar un contador de repeticiones |
+| Etiquetas temporales | **ninguna** | Sin campos de fase, tempo ni ángulo: cero supervisión |
+| Energía de movimiento | 7,4 % de píxeles por fotograma | Hay movimiento real, pero mezclado con el de las estelas |
+
+![Fotogramas de un GIF](data/08_reporting/figures/media_fotogramas.png)
+
+Dos propiedades que ninguna métrica captura y que la evidencia visual muestra de
+inmediato: el material son **ilustraciones anatómicas sin piel** —no personas—, con el
+músculo objetivo resaltado en rojo; y la animación sugiere la trayectoria superponiendo
+la posición inicial como **estela fantasma**, de modo que en la mayoría de los
+fotogramas hay dos figuras humanas simultáneas.
+
+> **Consecuencia para la arquitectura de destino.** El componente de *deep learning*
+> temporal (componente 2 de §7) **no es entrenable con este corpus**. La limitación no es de volumen
+> —que se resolvería con más ejercicios— sino de **naturaleza de la señal**: resolución
+> fijada por contrato, muestreo temporal un orden de magnitud por debajo de lo
+> necesario, dominio visual equivocado para los estimadores de pose disponibles y
+> ausencia total de etiquetas.
+>
+> Esto **no invalida el producto**: el estimador de pose se aplica sobre la cámara del
+> usuario, donde la resolución y la tasa las fija el dispositivo. Lo que queda
+> descartado es usar estos GIF como *corpus de entrenamiento*.
+>
+> Detectarlo **ahora**, en la fase de comprensión de datos, es justamente lo que la
+> advertencia del *salto al vacío* busca prevenir: descubrir que los datos no sostienen
+> el modelo **después** de haberlo construido.
 
 ---
 
@@ -429,9 +545,10 @@ y la técnica coinciden.
    articulaciones. El mapeo músculo → articulación comprometida requiere una **fuente
    externa validada clínicamente**, aún no incorporada. Es el prerrequisito del grafo
    biomecánico.
-3. **Medios no disponibles localmente.** Los GIF se referencian por ruta relativa
-   (`videos/0001-2gPfomN.gif`) pero **no están en el repositorio**. La extracción
-   cinemática requiere obtenerlos primero.
+3. **Los recursos cinemáticos no sirven como corpus de entrenamiento.** Medidos en
+   §4.4: 180×180 px por límite contractual, mediana de 4 FPS, una repetición por clip,
+   ilustraciones anatómicas en lugar de personas y sin etiqueta temporal alguna. No es
+   una limitación de acceso —los archivos son obtenibles— sino de contenido.
 4. **Sin validación clínica.** Ninguna de las asignaciones musculares del catálogo ha
    sido verificada por un profesional del área. Se asume la fuente como correcta.
 5. **Sesgo lingüístico.** Se conserva únicamente el español; el análisis textual no es
@@ -446,9 +563,12 @@ Norte técnico del proyecto, **no implementado en esta entrega**:
 1. **Grafo de conocimiento biomecánico** — nodos de tipo Ejercicio, Músculo Primario,
    Músculo Sinergista, Articulación y Equipamiento; ruteo topológico por vecindad
    (Node2Vec / GCN) para hallar sustitutos enmascarando articulaciones lesionadas.
-2. **Análisis temporal de movimiento** — extracción de 33 puntos corporales 3D desde los
-   GIF, secuencias `(T, 33×3)`, y modelo secuencial sobre variaciones angulares para
-   clasificar fases del movimiento (excéntrica, concéntrica, isométrica).
+2. **Análisis temporal de movimiento** — ⚠️ **replanteado tras la auditoría de §4.4.**
+   La formulación original entrenaba un modelo secuencial sobre coordenadas extraídas de
+   los GIF; ese corpus no lo permite. La vía viable extrae la pose de la **cámara del
+   usuario**, donde el dispositivo fija resolución y tasa. Nótese además que MediaPipe
+   entrega 33 puntos y Apple Vision 19 (2D) o 17 (3D): no son topologías
+   intercambiables, y hay que comprometerse con una.
 3. **Despliegue Edge AI** — cuantización a Core ML e inferencia en el Apple Neural
    Engine (§5.4).
 
@@ -509,7 +629,11 @@ proyecto_ejercicios/
 │       ├── outliers_iqr.csv
 │       ├── shape_statistics.csv
 │       ├── correlation_matrix.csv
-│       └── figures/                 # Exportación PNG de los 9 gráficos
+│       ├── media_references_audit.csv   # Integridad referencial de los medios
+│       ├── media_sample_audit.csv       # Caracterización física (muestra)
+│       └── figures/                 # Exportación PNG de los gráficos
+├── scripts/
+│   └── auditar_media_fisica.py      # Auditoría de GIF (única parte con red)
 ├── notebooks/
 │   └── 01_exploratory_data_analysis.ipynb
 ├── src/gym_exercises/
@@ -533,6 +657,7 @@ proyecto_ejercicios/
 | `detect_outliers_iqr` | `intermediate_exercise_features` | `outliers_iqr_report` |
 | `compute_shape_statistics` | `intermediate_exercise_features` | `shape_statistics_report` |
 | `compute_correlation_matrix` | `intermediate_exercise_features` | `correlation_matrix_report` |
+| `audit_media_references` | `raw_exercises_data` | `media_references_report` |
 
 ---
 
@@ -545,5 +670,6 @@ proyecto_ejercicios/
 | **Outliers (IQR)** | 287 en 8 de 10 variables; **ninguno eliminado** (extremos legítimos) |
 | **Forma de las distribuciones** | Sesgo positivo moderado en 7 de 10 variables |
 | **Multicolinealidad** | 2 pares redundantes (*r* = 0,999 y 0,981) marcados para depuración |
+| **Recursos cinemáticos** | Integridad referencial 100 %; pero 180×180 a 4 FPS, sin etiquetas: no entrenables |
 | **Riesgo ético principal** | Gini de equipamiento 0,737; 4 grupos musculares bajo el umbral de cobertura |
 | **Estado CRISP-DM** | Fases 1–3 cerradas. **Sin modelado predictivo**, conforme al alcance de EV1 |
