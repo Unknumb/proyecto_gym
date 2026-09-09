@@ -2,9 +2,9 @@ kedro>=1.0
 kedro-datasets[pandas,json]
 pandas>=2.0
 numpy>=1.24
-matplotlib>=3.7
-seaborn>=0.12
 scipy>=1.11
+plotly>=6.0
+kaleido>=1.0
 ipywidgets>=8.0
 jupyter
 pyarrow
