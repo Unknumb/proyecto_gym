@@ -128,11 +128,30 @@ Ejemplo: en `3/4 sit-up` se marcaba *hip flexors* como primario, cuando el objet
 biomecánico habría tenido **invertidas las aristas agonista/sinergista**, y las
 sustituciones por lesión habrían sido incorrectas de forma sistemática.
 
-**2. Corrupción de la llave primaria.**
-`id` se serializaba a CSV y pandas lo releía como entero: `"0001"` → `1`. Eso rompe el
-join con `gif_url` y `media_id` (`videos/0001-2gPfomN.gif`), que es precisamente la
-entrada de la fase cinemática. Se fuerza a texto con relleno de ceros y se persiste en
-Parquet, que preserva el `dtype`.
+**2. Corrupción de la llave primaria — en la carga, no solo al serializar.**
+`id` se releía como entero y perdía los ceros a la izquierda: `"0001"` → `1`. Eso rompe
+el join con `gif_url` y `media_id` (`videos/0001-2gPfomN.gif`), que es precisamente la
+entrada de la fase cinemática.
+
+El diagnóstico inicial atribuyó la pérdida a la serialización a CSV. Al construir la
+auditoría de medios (§4.4) quedó claro que el problema es **anterior**: `pandas.read_json`
+infiere el tipo y corrompe la llave **en el momento de la carga**, antes de cualquier
+transformación. Con el `id` corrupto, solo el 46,8 % de los registros reconstruía
+correctamente su ruta de medios.
+
+Se corrige por tanto **en el origen**, declarando el tipo en el catálogo:
+
+```yaml
+raw_exercises_data:
+  type: pandas.JSONDataset
+  filepath: data/01_raw/exercises.json
+  load_args:
+    dtype: {id: str, media_id: str}
+```
+
+Con la llave declarada como texto, la conformidad sube al **100 %**. La capa intermedia
+se persiste además en Parquet, que preserva los `dtypes` y evita que el problema
+reaparezca al reescribir.
 
 **3. Sobreconteo muscular.**
 `n_musculos_total` se calculaba como `1 + len(secundarios)`, lo que suma dos veces el
