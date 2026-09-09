@@ -20,3 +20,22 @@ eda_summary_report:
 distribution_metrics:
   type: pandas.CSVDataset
   filepath: data/08_reporting/distribution_metrics.csv
+
+# ── IE3: Tabla analítica y salidas del EDA diagnóstico ───────────────────────
+# Se usa Parquet (columnar binario) en la capa intermedia para mantener el
+# footprint bajo y preservar los dtypes, según la restricción FinOps.
+intermediate_exercise_features:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/exercise_features.parquet
+
+outliers_iqr_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/outliers_iqr.csv
+
+shape_statistics_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/shape_statistics.csv
+
+correlation_matrix_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/correlation_matrix.csv
