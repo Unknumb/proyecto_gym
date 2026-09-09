@@ -17,7 +17,7 @@ nulls,null_gif_url,0 (0.0%)
 nulls,null_media_id,0 (0.0%)
 nulls,null_created_at,0 (0.0%)
 nulls,null_attribution,0 (0.0%)
-dtypes,dtype_id,int64
+dtypes,dtype_id,str
 dtypes,dtype_name,str
 dtypes,dtype_category,str
 dtypes,dtype_body_part,str
