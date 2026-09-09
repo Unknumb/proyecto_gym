@@ -129,7 +129,7 @@ la configuración es parte del diseño y no un detalle operativo:
 
 | Medida | Configuración |
 |---|---|
-| Entorno de trabajo | **Databricks Free / Community Edition** — coste cero, suficiente para esta escala. *(Verificar cuál de las dos está disponible al momento de la inscripción: Databricks reemplazó Community Edition por Free Edition para cuentas nuevas.)* |
+| Entorno de trabajo | **Databricks Free Edition** — coste cero y suficiente para esta escala. Es el entorno efectivamente en uso por el equipo; sustituye a la antigua Community Edition. |
 | Si se requiere cómputo propio | Clúster **Single Node**, el mínimo que ejecuta Spark |
 | Auto-terminación | **15 minutos** de inactividad, sin excepción |
 | Instancias | *Spot* con reversión a bajo demanda |
