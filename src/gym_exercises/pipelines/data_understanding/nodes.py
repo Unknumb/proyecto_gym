@@ -543,3 +543,65 @@ def compute_correlation_matrix(exercise_features: pd.DataFrame) -> pd.DataFrame:
         )
 
     return matriz.reset_index(names="variable")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 9. Auditoría de integridad de las referencias a recursos cinemáticos
+# ─────────────────────────────────────────────────────────────────────────────
+def audit_media_references(raw_data: pd.DataFrame) -> pd.DataFrame:
+    """Audita las referencias a los medios (GIF e imágenes) sin acceder a la red.
+
+    Los archivos de medios no están versionados en este repositorio —son
+    propiedad de Gym visual y su redistribución está sujeta a permiso—, por lo
+    que este nodo verifica únicamente la **integridad referencial**: que cada
+    ejercicio apunte a un recurso, que la llave sea única y que la nomenclatura
+    siga el patrón ``videos/{id}-{media_id}.gif``.
+
+    La caracterización **física** de los GIF (resolución, fotogramas, tasa de
+    muestreo) requiere descargarlos y vive en
+    ``scripts/auditar_media_fisica.py``, cuyo resultado se persiste en
+    ``data/08_reporting/media_sample_audit.csv``. Se mantienen separados para
+    que el pipeline sea ejecutable sin conexión.
+
+    Args:
+        raw_data: DataFrame cargado directamente del JSON crudo.
+
+    Returns:
+        DataFrame con una fila por verificación, su resultado y el diagnóstico.
+    """
+    n = len(raw_data)
+    ids = raw_data["id"].astype(str).str.strip()
+    media_ids = raw_data["media_id"].astype(str).str.strip()
+
+    gif_esperado = "videos/" + ids + "-" + media_ids + ".gif"
+    img_esperada = "images/" + ids + "-" + media_ids + ".jpg"
+
+    def _vacios(columna: str) -> int:
+        serie = raw_data[columna]
+        return int(serie.isna().sum() + serie.astype(str).str.strip().eq("").sum())
+
+    verificaciones = [
+        ("cobertura_gif_url", n - _vacios("gif_url"), n),
+        ("cobertura_image", n - _vacios("image"), n),
+        ("cobertura_media_id", n - _vacios("media_id"), n),
+        ("media_id_unico", int(media_ids.nunique()), n),
+        ("gif_url_unico", int(raw_data["gif_url"].nunique()), n),
+        ("patron_gif_url", int(raw_data["gif_url"].eq(gif_esperado).sum()), n),
+        ("patron_image", int(raw_data["image"].eq(img_esperada).sum()), n),
+        ("extension_gif", int(raw_data["gif_url"].str.endswith(".gif").sum()), n),
+        ("atribucion_presente", n - _vacios("attribution"), n),
+    ]
+
+    reporte = pd.DataFrame(verificaciones,
+                           columns=["verificacion", "conformes", "total"])
+    reporte["pct"] = (reporte["conformes"] / reporte["total"] * 100).round(2)
+    reporte["resultado"] = np.where(
+        reporte["conformes"] == reporte["total"], "OK", "REVISAR"
+    )
+
+    fallos = int((reporte["resultado"] != "OK").sum())
+    logger.info(
+        "Auditoría de medios: %d verificaciones, %d con hallazgos.",
+        len(reporte), fallos,
+    )
+    return reporte

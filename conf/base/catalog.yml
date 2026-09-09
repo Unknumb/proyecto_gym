@@ -6,6 +6,14 @@
 raw_exercises_data:
   type: pandas.JSONDataset
   filepath: data/01_raw/exercises.json
+  load_args:
+    # Sin esto, pandas infiere `id` y `media_id` como enteros y destruye los
+    # ceros a la izquierda ("0001" -> 1), rompiendo la llave hacia `gif_url`
+    # y `media_id`. La corrupción ocurre en la carga, antes de cualquier
+    # transformación, así que se corrige en el origen.
+    dtype:
+      id: str
+      media_id: str
 
 # ── Capa 02: Intermediate ────────────────────────────────────────────────────
 intermediate_exercises_clean:
@@ -39,3 +47,14 @@ shape_statistics_report:
 correlation_matrix_report:
   type: pandas.CSVDataset
   filepath: data/08_reporting/correlation_matrix.csv
+
+# ── Auditoría de recursos cinemáticos ────────────────────────────────────────
+media_references_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/media_references_audit.csv
+
+# Producido por scripts/auditar_media_fisica.py (requiere red; se ejecuta aparte
+# para que el pipeline y el notebook sigan siendo reproducibles sin conexión).
+media_sample_audit:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/media_sample_audit.csv

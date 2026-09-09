@@ -24,6 +24,7 @@ from kedro.pipeline import Pipeline, node, pipeline
 
 from .nodes import (
     audit_dataset_structure,
+    audit_media_references,
     build_exercise_features,
     compute_correlation_matrix,
     compute_distribution_metrics,
@@ -80,6 +81,12 @@ def create_pipeline(**kwargs) -> Pipeline:  # noqa: ARG001
                 inputs="intermediate_exercise_features",
                 outputs="shape_statistics_report",
                 name="compute_shape_statistics",
+            ),
+            node(
+                func=audit_media_references,
+                inputs="raw_exercises_data",
+                outputs="media_references_report",
+                name="audit_media_references",
             ),
             node(
                 func=compute_correlation_matrix,
