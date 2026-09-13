@@ -1,0 +1,121 @@
+muestra,id,name,titulo_megagym,similitud,veredicto
+regla_estricta_difuso,0307,dumbbell decline twist fly,Decline Dumbbell Flyes,85.11,variante
+regla_estricta_difuso,1379,dumbbell seated calf raise,Standing Dumbbell Calf Raise,85.19,variante
+regla_estricta_difuso,0105,barbell standing bradford press,Standing Bradford press,85.19,mismo
+regla_estricta_difuso,0433,dumbbell straight arm pullover,Straight-arm dumbbell pull-over,85.25,mismo
+regla_estricta_difuso,0382,dumbbell revers grip biceps curl,Reverse-grip dumbbell curl,85.71,mismo
+regla_estricta_difuso,0320,dumbbell incline hammer curl,Flexor Incline Dumbbell Curls,85.71,variante
+regla_estricta_difuso,0666,raise single arm push-up,Single-Arm Push-Up,85.71,distinto
+regla_estricta_difuso,1273,clap push up,Clapping Push-Up,85.71,mismo
+regla_estricta_difuso,0362,dumbbell one arm triceps extension (on bench),One Arm Pronated Dumbbell Triceps Extension,85.71,variante
+regla_estricta_difuso,1678,dumbbell seated hammer curl,Preacher Hammer Dumbbell Curl,85.71,variante
+regla_estricta_difuso,0231,cable standing one arm triceps extension,Single-arm cable triceps extension,86.11,mismo
+regla_estricta_difuso,0402,dumbbell seated preacher curl,Dumbbell preacher curl,86.27,mismo
+regla_estricta_difuso,0039,barbell front chest squat,Barbell front squat,86.36,mismo
+regla_estricta_difuso,0117,barbell sumo deadlift,Barbell Deadlift,86.49,variante
+regla_estricta_difuso,0788,standing behind neck press,Standing Barbell Press Behind Neck,86.67,mismo
+regla_estricta_difuso,0391,dumbbell seated curl,Seated dumbbell biceps curl,86.96,mismo
+regla_estricta_difuso,1366,upward facing dog,HM Upward-Facing Dog Pose,87.18,mismo
+regla_estricta_difuso,1429,wide grip pull-up,Wide-Grip Rear Pull-Up,87.18,variante
+regla_estricta_difuso,0525,kettlebell bottoms up clean from the hang position,Bottoms-Up Clean From The Hang Position,87.36,mismo
+regla_estricta_difuso,0238,cable straight arm pulldown,Straight-Arm Pulldown,87.5,mismo
+regla_estricta_difuso,1663,dumbbell one arm hammer preacher curl,Preacher Hammer Dumbbell Curl,87.88,variante
+regla_estricta_difuso,0593,lever reverse hyperextension,Reverse Hyperextension,88.0,mismo
+regla_estricta_difuso,0155,cable cross-over variation,Cable Cross-Over - Gethin Variation,88.14,variante
+regla_estricta_difuso,1344,ez bar reverse grip bent over row,Reverse-grip bent-over row,88.14,variante
+regla_estricta_difuso,2138,stationary bike run v. 3,Stationary bike,88.24,variante
+regla_estricta_difuso,0026,barbell bench squat,Barbell Squat To A Bench,88.37,mismo
+regla_estricta_difuso,0297,dumbbell concentration curl,30 Arms Seated Dumbbell Concentration Curl,88.52,mismo
+regla_estricta_difuso,0291,dumbbell bench squat,Dumbbell Squat To A Bench,88.89,mismo
+regla_estricta_difuso,0180,cable low seated row,Seated Cable Rows,88.89,mismo
+regla_estricta_difuso,0242,cable tuck reverse crunch,Cable reverse crunch,88.89,variante
+regla_estricta_difuso,0094,barbell seated twist,Seated bar twist,88.89,mismo
+regla_estricta_difuso,0080,barbell reverse curl,Reverse-grip barbell curl,88.89,mismo
+regla_estricta_difuso,0864,dumbbell upright shoulder external rotation,Dumbbell external shoulder rotation,89.74,variante
+regla_estricta_difuso,3888,dumbbell one arm snatch,Single-Arm Dumbbell Snatch,89.8,mismo
+regla_estricta_difuso,1655,dumbbell biceps curl squat,Seated dumbbell biceps curl,90.2,distinto
+regla_estricta_difuso,0426,dumbbell standing overhead press,FYR2 Single-Dumbbell Overhead Press,90.32,variante
+regla_estricta_difuso,1705,squat on bosu ball,Bosu Ball Squat,90.91,mismo
+regla_estricta_difuso,0627,mixed grip chin-up,Mixed Grip Chin,90.91,mismo
+regla_estricta_difuso,0036,barbell decline wide-grip press,Wide-Grip Decline Barbell Bench Press,91.18,mismo
+regla_estricta_difuso,0335,dumbbell lateral to front raise,Dumbbell front raise to lateral raise,91.18,mismo
+regla_estricta_difuso,1272,chest stretch with exercise ball,Exercise ball chest stretch,91.53,mismo
+regla_estricta_difuso,1307,push up on bosu ball,Bosu Ball Push-Up,91.89,mismo
+regla_estricta_difuso,0863,dumbbell lying external shoulder rotation,Dumbbell external shoulder rotation,92.11,variante
+regla_estricta_difuso,0859,wrist rollerer,Wrist Roller,92.31,mismo
+regla_estricta_difuso,1301,machine inner chest press,30 Chest Machine Incline Chest Press,92.31,variante
+regla_estricta_difuso,0271,crunch (on stability ball),Exercise ball crunch,93.02,mismo
+regla_estricta_difuso,0650,pull-in (on stability ball),Exercise Ball Pull-In,93.33,mismo
+regla_estricta_difuso,0519,kettlebell alternating press on floor,Kettlebell alternating floor press,95.77,mismo
+regla_estricta_difuso,1512,all fours squad stretch,All Fours Quad Stretch,97.67,mismo
+regla_estricta_difuso,0370,dumbbell peacher hammer curl,Preacher Hammer Dumbbell Curl,98.25,mismo
+regla_estricta_exacto,3219,scissor jumps (male),Scissors Jump,100.0,mismo
+regla_estricta_exacto,1306,plyo push up,Plyo push-up,100.0,mismo
+regla_estricta_exacto,0576,lever chest press,Leverage Chest Press,100.0,mismo
+regla_estricta_exacto,0262,cross body crunch,Cross-Body Crunch,100.0,mismo
+regla_estricta_exacto,1302,medicine ball chest pass,Medicine Ball Chest Pass,100.0,mismo
+regla_estricta_exacto,0653,push-up (bosu ball),Bosu Ball Push-Up,100.0,mismo
+regla_estricta_exacto,0536,kettlebell lunge pass through,Kettlebell pass-through lunge,100.0,mismo
+regla_estricta_exacto,1428,wrist circles,Wrist Circles,100.0,mismo
+regla_estricta_exacto,1489,sissy squat,Sissy squat,100.0,mismo
+regla_estricta_exacto,0851,weighted sissy squat,Weighted sissy squat,100.0,mismo
+regla_estricta_exacto,0431,dumbbell step-up,Dumbbell step-up,100.0,mismo
+regla_estricta_exacto,0508,janda sit-up,Janda Sit-Up,100.0,mismo
+regla_estricta_exacto,0289,dumbbell bench press,Dumbbell Bench Press,100.0,mismo
+regla_estricta_exacto,0220,cable shrug,Cable shrug,100.0,mismo
+regla_estricta_exacto,0088,barbell seated calf raise,Barbell Seated Calf Raise,100.0,mismo
+regla_estricta_exacto,0870,butt-ups,Butt-Ups,100.0,mismo
+regla_estricta_exacto,1297,isometric chest squeeze,Isometric Chest Squeezes,100.0,mismo
+regla_estricta_exacto,0282,decline sit-up,Decline sit-up,100.0,mismo
+regla_estricta_exacto,0031,barbell curl,Barbell Curl,100.0,mismo
+regla_estricta_exacto,0025,barbell bench press,30 Chest Barbell Bench Press,100.0,mismo
+wratio_rama_benja,0058,barbell lying lifting (on hip),Barbell roll-out,85.5,distinto
+wratio_rama_benja,3361,skater hops,Front Cone Hops (or hurdle hops),85.5,distinto
+wratio_rama_benja,1630,cable close grip curl,Standing cable low-to-high twist,85.5,distinto
+wratio_rama_benja,0208,cable reverse-grip straight back seated high row,Partner plank band row,85.5,distinto
+wratio_rama_benja,1741,dumbbell standing bent over two arm triceps extension,Kettlebell 3-point leg extension,85.5,distinto
+wratio_rama_benja,2327,dumbbell reverse grip row (female),Partner plank band row,85.5,distinto
+wratio_rama_benja,0286,dumbbell alternate side press,Barbell Side Bend,85.5,distinto
+wratio_rama_benja,1701,medicine ball close grip push up,Bottoms Up,85.5,distinto
+wratio_rama_benja,0387,dumbbell seated alternate front raise,Seated bar twist,85.5,distinto
+wratio_rama_benja,0433,dumbbell straight arm pullover,Dumbbell side bend,85.5,distinto
+wratio_rama_benja,1405,back pec stretch,Standing torso twist stretch,85.5,distinto
+wratio_rama_benja,0337,dumbbell lying extension (across face),Dumbbell V-Sit Cross Jab,85.5,distinto
+wratio_rama_benja,0767,smith shrug,Smith machine straight-legged hip raise,85.5,distinto
+wratio_rama_benja,1582,reclining big toe pose with rope,Holman Boat with Feet Push-Out and Overhead Press,85.5,distinto
+wratio_rama_benja,0152,cable concentration extension (on knee),Kneeling cable crunch,85.5,distinto
+wratio_rama_benja,0338,dumbbell lying elbow press,Dumbbell crunch,85.5,distinto
+wratio_rama_benja,1714,assisted prone rectus femoris stretch,Seated Overhead Stretch,85.5,distinto
+wratio_rama_benja,3656,short stride run,Bench Press With Short Bands,85.5,distinto
+wratio_rama_benja,0002,45° side bend,Holman Right Side Plank with Left Triceps Press,85.5,distinto
+wratio_rama_benja,0857,wheel rollerout,Ab Wheel Roll-Out - Gethin Variation,85.5,variante
+wratio_rama_benja,1378,calf stretch with rope,30 Hanging Leg Raise With Dumbbell,85.5,distinto
+wratio_rama_benja,1735,dumbbell lying single extension,Leg extension,86.4,distinto
+wratio_rama_benja,0149,cable alternate triceps extension,Low Cable Triceps Extension,87.4,variante
+wratio_rama_benja,1671,dumbbell one arm standing hammer curl,Hammer curl,90.0,variante
+wratio_rama_benja,0014,assisted motion russian twist,Russian twist,90.0,variante
+wratio_rama_benja,1767,weighted triceps dip on high parallel bars,Triceps dip,90.0,variante
+wratio_rama_benja,2334,sled lying calf press,Calf Press,90.0,variante
+wratio_rama_benja,0635,oblique crunches floor,Crunch,90.0,distinto
+wratio_rama_benja,1461,barbell full squat (back pov),Barbell Full Squat,90.0,mismo
+wratio_rama_benja,1672,dumbbell one arm zottman preacher curl,Preacher Curl,90.0,variante
+wratio_rama_benja,3470,forward lunge (male),Forward lunge,90.0,mismo
+wratio_rama_benja,0749,smith bent knee good morning,Good Morning,90.0,variante
+wratio_rama_benja,1007,band standing twisting crunch,Crunch,90.0,variante
+wratio_rama_benja,0274,crunch floor,Crunch,90.0,variante
+wratio_rama_benja,0370,dumbbell peacher hammer curl,Preacher Hammer Dumbbell Curl,93.33,mismo
+wratio_rama_benja,0757,smith incline bench press,Incline bench press,95.0,variante
+wratio_rama_benja,0775,smith upright row,Smith machine upright row,95.0,mismo
+wratio_rama_benja,1661,dumbbell lying supine biceps curl,Lying Supine Dumbbell Curl,95.0,mismo
+wratio_rama_benja,0795,standing single leg curl,Standing Leg Curl,95.0,variante
+wratio_rama_benja,0344,dumbbell lying one arm pronated triceps extension,One Arm Pronated Dumbbell Triceps Extension,95.0,mismo
+wratio_rama_benja,0592,lever preacher curl,Preacher Curl,95.0,variante
+wratio_rama_benja,1358,side lying floor stretch,Side-Lying Floor Stretch,95.83,mismo
+wratio_rama_benja,0120,barbell upright row,Barbell upright row,100.0,mismo
+wratio_rama_benja,0808,suspended row,Suspended row,100.0,mismo
+wratio_rama_benja,1355,one arm against wall,One Arm Against Wall,100.0,mismo
+wratio_rama_benja,0873,cable reverse crunch,Cable reverse crunch,100.0,mismo
+wratio_rama_benja,0630,mountain climber,Mountain climber,100.0,mismo
+wratio_rama_benja,0042,barbell front squat,Barbell front squat,100.0,mismo
+wratio_rama_benja,3699,shoulder tap,Shoulder tap,100.0,mismo
+wratio_rama_benja,0544,kettlebell pistol squat,Kettlebell Pistol Squat,100.0,mismo
