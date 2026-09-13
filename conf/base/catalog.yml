@@ -58,3 +58,16 @@ media_references_report:
 media_sample_audit:
   type: pandas.CSVDataset
   filepath: data/08_reporting/media_sample_audit.csv
+
+# ── Mapeo músculo → articulación (prerrequisito del grafo, README §6.2) ─────
+# Producido por scripts/construir_mapeo_articulaciones.py (requiere red para el
+# contraste de Wikipedia; ExRx.net se cura a mano, ver docstring del script).
+musculo_articulacion_manual:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/musculo_articulacion_manual.csv
+
+cobertura_articulaciones:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/cobertura_articulaciones.csv
+  save_args:
+    index: true
