@@ -1,0 +1,24 @@
+exercises_raw:
+  type: json.JSONDataset
+  filepath: data/01_raw/exercises.json
+
+mega_gym_dataset:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/megaGymDataset.csv
+
+exercises_limpio:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/exercises_limpio.csv
+  save_args:
+    index: False
+  fs_args:
+    open_args_save:
+      mode: "w"
+      encoding: "utf-8"
+    open_args_load:
+      mode: "r"
+      encoding: "utf-8"
+
+exercise_features_enriched:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/exercise_features_enriched.parquet
