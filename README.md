@@ -584,16 +584,40 @@ y la técnica coinciden.
 1. **Ausencia de variables de estratificación.** El esquema carece de nivel de
    dificultad, mecánica (compuesto/aislado), tipo de fuerza (empuje/tracción) y
    contraindicaciones. Sin ellas es imposible auditar el sesgo por nivel del usuario.
-2. **Articulaciones no modeladas explícitamente.** El catálogo describe músculos, no
-   articulaciones. El mapeo músculo → articulación comprometida requiere una **fuente
-   externa validada clínicamente**, aún no incorporada. Es el prerrequisito del grafo
-   biomecánico.
+2. **Articulaciones no modeladas explícitamente — parcialmente resuelto.** El
+   catálogo describe músculos, no articulaciones. `scripts/construir_mapeo_articulaciones.py`
+   construye `data/01_raw/musculo_articulacion_manual.csv`: de los 50 valores únicos
+   de músculo del catálogo (`target` + `secondary_muscles`), **39 tienen articulación
+   confirmada** por dos fuentes independientes y citadas por fila —la ficha anatómica
+   de Wikipedia (`Infobox muscle`, vía API) y, donde esa fuente no alcanzaba, consulta
+   directa a ExRx.net—. Sigue **sin validación clínica profesional** (ver punto 4), que
+   es el prerrequisito real para producción, no solo para el prototipo del grafo.
+
+   > **Decisión pendiente de arquitectura.** Cuatro etiquetas del catálogo son regiones
+   > compuestas, no un músculo con una sola articulación: `back`, `chest`, `shoulders`,
+   > `core` (p. ej. `back` es la unión de dorsal ancho, trapecio, romboides, rotador y
+   > erector espinal —cada uno ya confirmado por separado en la tabla—). Falta decidir
+   > qué hace el nodo que construya las aristas del grafo cuando un ejercicio trae una
+   > de estas etiquetas en vez de un músculo específico:
+   >
+   > | Opción | Consecuencia |
+   > |---|---|
+   > | **Excluir la arista** | Ese registro no aporta arista músculo→articulación. Pierde cobertura, no inventa precisión que el dato no tiene. |
+   > | **Fan-out a los sub-músculos** | Se generan aristas hacia los ~4-5 músculos de la descomposición. Gana cobertura, pero asume que el ejercicio trabajó *todos* esos músculos por igual, lo cual no está en la fuente. |
+   >
+   > Se favorece **excluir** por el mismo criterio que ya rige los outliers de §4.1: no
+   > eliminar datos por comodidad, pero tampoco fabricar una relación que el catálogo no
+   > afirma. Otras seis etiquetas (`ankles`, `cardiovascular system`, `feet`, `hands`,
+   > `spine`, `wrists`) no son músculos en absoluto —son la articulación misma o un
+   > sistema no muscular— y se excluyen del mapeo sin ambigüedad, no quedan como decisión
+   > abierta.
 3. **Los recursos cinemáticos no sirven como corpus de entrenamiento.** Medidos en
    §4.4: 180×180 px por límite contractual, mediana de 4 FPS, una repetición por clip,
    ilustraciones anatómicas en lugar de personas y sin etiqueta temporal alguna. No es
    una limitación de acceso —los archivos son obtenibles— sino de contenido.
-4. **Sin validación clínica.** Ninguna de las asignaciones musculares del catálogo ha
-   sido verificada por un profesional del área. Se asume la fuente como correcta.
+4. **Sin validación clínica.** Ninguna de las asignaciones musculares del catálogo, ni
+   del mapeo músculo → articulación del punto 2, ha sido verificada por un profesional
+   del área. Se asume la fuente como correcta.
 5. **Sesgo lingüístico.** Se conserva únicamente el español; el análisis textual no es
    extrapolable a los otros nueve idiomas.
 
@@ -606,6 +630,9 @@ Norte técnico del proyecto, **no implementado en esta entrega**:
 1. **Grafo de conocimiento biomecánico** — nodos de tipo Ejercicio, Músculo Primario,
    Músculo Sinergista, Articulación y Equipamiento; ruteo topológico por vecindad
    (Node2Vec / GCN) para hallar sustitutos enmascarando articulaciones lesionadas.
+   El mapeo músculo → articulación (§6.2) ya cubre 39/50 músculos del catálogo; falta
+   la validación clínica y resolver la decisión de arquitectura sobre las etiquetas
+   compuestas (`back`, `chest`, `shoulders`, `core`) antes de generar las aristas.
 2. **Análisis temporal de movimiento** — ⚠️ **replanteado tras la auditoría de §4.4.**
    La formulación original entrenaba un modelo secuencial sobre coordenadas extraídas de
    los GIF; ese corpus no lo permite. La vía viable extrae la pose de la **cámara del
@@ -665,7 +692,10 @@ proyecto_ejercicios/
 │   └── databricks/
 │       └── catalog.yml              # Mismo pipeline sobre tablas Delta (§2.3)
 ├── data/
-│   ├── 01_raw/exercises.json        # Fuente inmutable (17 MB)
+│   ├── 01_raw/
+│   │   ├── exercises.json               # Fuente inmutable (17 MB)
+│   │   ├── musculo_articulacion_manual.csv   # Curación músculo → articulación (§6.2)
+│   │   └── movimientos_articulares_wikipedia.csv  # Taxonomía de movimientos por articulación
 │   ├── 02_intermediate/
 │   │   ├── exercises_clean.parquet  # Grano ejercicio × músculo secundario
 │   │   └── exercise_features.parquet# Grano ejercicio (tabla analítica)
@@ -679,7 +709,8 @@ proyecto_ejercicios/
 │       ├── media_sample_audit.csv       # Caracterización física (muestra)
 │       └── figures/                 # Exportación PNG de los gráficos
 ├── scripts/
-│   └── auditar_media_fisica.py      # Auditoría de GIF (única parte con red)
+│   ├── auditar_media_fisica.py      # Auditoría de GIF (única parte con red)
+│   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6.2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
 │   └── databricks/                  # Notebooks de la migración a Delta (§2.3)
