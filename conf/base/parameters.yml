@@ -2,3 +2,11 @@
 # Parámetros del proyecto — Gym Exercises EDA
 # =============================================================================
 # Agrega aquí parámetros compartidos entre pipelines.
+
+# Emparejamiento por nombre entre el catálogo y megaGymDataset (README §3.5).
+# Un par difuso se acepta si supera AMBOS umbrales y además es coherente en
+# región muscular y equipamiento. Se prefiere perder cobertura antes que
+# transferir un nivel de dificultad desde el ejercicio equivocado.
+emparejamiento_megagym:
+  umbral_similitud: 85    # token_sort_ratio (0-100) sobre nombres normalizados
+  umbral_jaccard: 0.5     # solapamiento de tokens, estrictamente mayor que
