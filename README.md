@@ -54,6 +54,17 @@ supuesto: ver §4.1.
 
 ### 2.1 Origen de los datos
 
+La entrega combina **tres fuentes**. El catálogo base es el esqueleto; las otras dos
+aportan variables que su esquema no trae.
+
+| # | Fuente | Aporta | Cómo se une | Licencia |
+|---|---|---|---|---|
+| 1 | Catálogo `exercises.json` | 1.324 ejercicios: músculos, equipamiento, instrucciones | — | MIT |
+| 2 | **megaGymDataset** (Kaggle) | Nivel de dificultad, tipo, valoración | Por nombre, emparejamiento difuso auditado (§3.5) | CC0 |
+| 3 | **Mapeo músculo → articulación** (curado) | Articulación(es) de cada músculo | Por músculo (§6.2) | Wikipedia CC BY-SA; ExRx.net citado, sin copia |
+
+**Fuente 1 — Catálogo base**
+
 | Atributo | Detalle |
 |---|---|
 | Fuente | Catálogo `exercises.json` (fork de `dataset_ejercicios`) |
@@ -68,6 +79,23 @@ supuesto: ver §4.1.
 `muscle_group`, `secondary_muscles`, `instructions`, `instruction_steps`, `image`,
 `gif_url`, `media_id`, `created_at`, `attribution`.
 
+**Fuente 2 — megaGymDataset**
+
+| Atributo | Detalle |
+|---|---|
+| Origen | Kaggle, [`niharika41298/gym-exercise-data`](https://www.kaggle.com/datasets/niharika41298/gym-exercise-data) — *Gym Exercise Dataset*, Niharika Pandit |
+| Versión | 1 (publicada el 2022-12-30; es la única versión, así que el contenido queda fijado aunque no conste la fecha exacta de descarga) |
+| Volumen | **2.918 filas × 9 columnas** (`Title`, `Desc`, `Type`, `BodyPart`, `Equipment`, `Level`, `Rating`, `RatingDesc` + índice) |
+| Integridad del archivo | Kaggle declara 673.158 bytes; el versionado pesa 670.239. La diferencia coincide exactamente con sus 2.919 saltos de línea, consistente con una conversión CRLF → LF, no con filas perdidas |
+| Licencia | **CC0: Public Domain**, verificada en la API de Kaggle el 2026-09-13. Matiz de propiedad intelectual en §5.2 |
+| Incorporación | Rama `benja` (commit `e074742`), portado a `data/01_raw/megaGymDataset.csv` |
+| Calidad | 7 títulos repetidos; `Rating` nulo en el 64,7 % y `0.0` como marcador de "sin valoración" en otras 244 filas; `Desc` nula en el 53 % |
+
+**Fuente 3 — Mapeo músculo → articulación.** Tabla curada en
+`data/01_raw/musculo_articulacion_manual.csv` por
+`scripts/construir_mapeo_articulaciones.py`: 40 de los 50 músculos del catálogo con
+articulación confirmada y fuente citada por fila. Metodología y límites en §6.2.
+
 ### 2.2 Stack tecnológico y justificación
 
 | Herramienta | Rol | Por qué |
@@ -75,6 +103,7 @@ supuesto: ver §4.1.
 | **Kedro 1.5** | Orquestación de pipelines | Separa la lógica de negocio (nodos puros) del I/O (catálogo declarativo). Los nodos son funciones testeables sin tocar disco, y la arquitectura por capas (`01_raw` → `02_intermediate` → `08_reporting`) hace la trazabilidad explícita. |
 | **pandas + NumPy** | Transformación | Operaciones vectorizadas en lugar de bucles fila a fila, requisito para no desbordar memoria al escalar. |
 | **Parquet** | Capa intermedia | Formato columnar binario: preserva los `dtypes` (crítico para no corromper la llave `id`) y reduce el footprint frente a CSV/JSON. Ver §3.3. |
+| **rapidfuzz** | Emparejamiento por nombre | Similitud de cadenas vectorizada (`process.cdist`) para unir megaGymDataset sin llave común: 1.324 × 2.590 comparaciones en menos de un segundo. §3.5 |
 | **Plotly** | EDA visual | Gráficos interactivos con capa de *hover*: el lector inspecciona cada valor sin depender de etiquetas impresas. `kaleido` exporta además la versión estática en PNG para este informe. |
 | **Git / GitHub** | Versionamiento | Trabajo en ramas por integrante (`benja`, `feature/data-understanding-pipeline`) con integración revisada. |
 | **Databricks + Delta Lake** | Gobierno del dato y escalamiento | *Schema enforcement*, transacciones ACID y *time travel* sobre la arquitectura medallion. Justificación detallada y control de costes en §2.3. |
@@ -275,9 +304,91 @@ proyecto.
 **No se requirió imputación.** El dataset presenta **0 nulos y 0 duplicados** por `id`
 en las 15 columnas de origen. El esquema **no incluye** campos de mecánica
 (compuesto/aislado), fuerza (empuje/tracción) ni nivel de dificultad — variables
-habituales en catálogos de este tipo. Su ausencia se documenta como limitación (§6); no
-se imputan porque **la información no existe en la fuente** y fabricarla introduciría
-sesgo sintético en variables clínicamente sensibles.
+habituales en catálogos de este tipo. La dificultad se incorpora **parcialmente** desde
+megaGymDataset (§3.5): solo el 24,7 % del catálogo recibe un nivel curado. El resto, y
+las demás variables, se documentan como limitación (§6); no se imputan porque **la
+información no existe en las fuentes** y fabricarla introduciría sesgo sintético en
+variables clínicamente sensibles. El EDA combinado lo confirma: la dificultad no se
+asocia con `n_pasos` ni con `n_musculos_total` (§4.5), así que un valor imputado desde
+ellas no tendría relación con la dificultad real.
+
+### 3.5 Integración de megaGymDataset (pipeline `data_enrichment`)
+
+Las dos fuentes no comparten llave, así que se unen por **nombre de ejercicio**. El
+pipeline tiene tres nodos: `preparar_megagym` limpia la fuente, `emparejar_con_megagym`
+decide el par de cada ejercicio y deja la decisión auditable en
+`data/08_reporting/megagym_match_audit.csv`, y `enrich_with_external_metadata` une
+`nivel`, `tipo` y `rating` a la tabla analítica →
+`data/03_primary/exercise_features_enriched.parquet`.
+
+La primera versión, en la rama `benja`, se revisó contra los datos antes de integrarla.
+Se corrigieron cuatro defectos:
+
+**1. Emparejamiento con falsos positivos (crítico).** `WRatio ≥ 80` reportaba **99,62 %
+de cobertura**. `WRatio` incluye coincidencia *parcial* de subcadenas: una palabra corta
+compartida (`row`, `twist`) basta para puntuar 85,5 y superar el umbral. Resultado:
+
+```
+Pares aceptados por WRatio ≥ 80:           1.319 (99,62 %)
+  … que apuntan a otra región anatómica:     572 (44,3 %)
+  … con el puntaje artefacto 85,5:           565
+Precisión en muestra revisada (n = 50):      56 %  (IC 95 %: 42–69 %)
+```
+
+Ejemplos: `barbell seated overhead press` → *Barbell roll-out*; `single leg squat
+(pistol) male` → *Lying leg pullover*; una sola ficha, *Seated bar twist*, asignada a 43
+ejercicios. Casi la mitad del catálogo habría recibido la dificultad de otro ejercicio.
+
+**Regla que la reemplaza:** nombres normalizados (sin prefijos de programa como `30 Arms`
+o `Holman`, sin marcas `(male)` / `v. 2` / `(back pov)`, con sinónimos de escritura
+unificados), aceptación **exacta** si coinciden, y **difusa** solo si
+`token_sort_ratio ≥ 85` (cadena completa, sin subcadenas), el solapamiento de palabras
+supera 0,5 y la ficha es **coherente en región muscular y equipamiento**. Umbrales en
+`conf/base/parameters.yml`.
+
+| Método | Cobertura | Precisión (muestra revisada) | Pares correctos estimados | Pares de otro ejercicio |
+|---|---|---|---|---|
+| WRatio ≥ 80 (rama `benja`) | 99,6 % | 56 % | ~739 | **~580** |
+| Regla estricta — exactos | 20,5 % | 20/20 | 271 | 0 |
+| Regla estricta — difusos | 11,5 % | 96 % (IC 95 %: 87–99 %) | ~146 | ~6 |
+
+La regla estricta **cambia cobertura por precisión a sabiendas**: deja al 68 % del
+catálogo sin etiqueta en lugar de etiquetar mal al 44 %. Para una variable que servirá
+para no proponerle a un principiante un ejercicio avanzado, un nulo honesto es
+preferible a una etiqueta falsa (el criterio de *fallar hacia la abstención* de §5.3).
+La conclusión es estable: entre umbrales 80 y 90 la cobertura va de 40,8 % a 24,2 %,
+pero el reparto de dificultad no cambia (≈ 41 % *Beginner*, ≈ 58 % *Intermediate*).
+
+> **Sobre la validación.** Las muestras (50 pares por método, semilla 2026) y su
+> veredicto —*mismo*, *variante* o *distinto*— están en
+> `data/01_raw/megagym_match_validacion_manual.csv`. La revisión se hizo durante la
+> integración con apoyo de un asistente de IA; conviene que el equipo revise al menos los
+> pares marcados *variante* y *distinto* antes de la defensa.
+
+**2. Fan-out del merge.** megaGymDataset trae 7 títulos repetidos. Como el merge no
+deduplicaba el lado derecho, 8 ejercicios salían duplicados: **1.332 filas en lugar de
+1.324**, lo que habría inflado cualquier conteo posterior (incluido el Gini). Ahora se
+deduplica antes de unir y el merge valida `many_to_one`; el nodo además verifica que la
+salida conserve exactamente una fila por ejercicio.
+
+**3. Reintroducción de dos defectos ya corregidos.** El nodo `clean_exercises` de la
+rama reconstruía el catálogo desde el JSON con `musculo_primario = muscle_group` —la
+jerarquía invertida de §3.3, en el 100 % de los registros— y lo pasaba por CSV, lo que
+volvía a corromper el `id` (`"0001"` → `1`). El enriquecimiento parte ahora de
+`intermediate_exercise_features`, que ya tiene ambos resueltos. El reporte de
+emparejamiento, que sí es CSV, declara `id` como texto en el catálogo por la misma razón.
+
+**4. Nulos honestos.** Los ejercicios sin par recibían el texto `"No especificado"` en
+`Level`, `Type` y `Rating`, lo que convertía `Rating` en texto y mezclaba "sin match" con
+"match sin valoración". Ahora quedan como nulos, y `Rating = 0.0` —marcador de "sin
+valoraciones" en la fuente— también pasa a nulo.
+
+**Hallazgo adicional: `Level = Intermediate` es un valor de relleno.** En las 1.887
+fichas de megaGymDataset sin valoración, el nivel es *Intermediate* en el 99,7 % de los
+casos y **nunca** *Beginner*; en las 1.031 con valoración aparecen los tres niveles. El
+84 % de *Intermediate* de la fuente es, por tanto, el valor por defecto de las fichas no
+curadas. El pipeline conserva `nivel` tal cual y añade `nivel_curado`; **todo análisis de
+dificultad usa solo las fichas curadas**: 327 ejercicios (24,7 % del catálogo).
 
 ---
 
@@ -396,6 +507,40 @@ fotogramas hay dos figuras humanas simultáneas.
 > advertencia del *salto al vacío* busca prevenir: descubrir que los datos no sostienen
 > el modelo **después** de haberlo construido.
 
+### 4.5 EDA combinado — catálogo + megaGymDataset + mapeo articular
+
+Parte III del notebook (§14–17). Antes de analizar la unión se auditó la unión misma
+(§3.5):
+
+![Emparejamiento](data/08_reporting/figures/megagym_emparejamiento.png)
+
+**Dificultad.** Con solo las fichas curadas, **327 ejercicios (24,7 %)** tienen nivel
+fiable: **41 % *Beginner*, 58 % *Intermediate* y 2 *Expert*** (`barbell hack squat`,
+`scissor jumps`). `Type` casi no varía (*Strength* en el 89 % de los emparejados) y
+`Rating` tiene efecto techo (mediana 8,4/10); además mide popularidad, el criterio que
+§1.1 descarta para recomendar, así que se conserva solo como descriptor.
+
+![Dificultad](data/08_reporting/figures/dificultad_nivel.png)
+
+**Dificultad frente a complejidad.** No hay diferencia entre *Beginner* e
+*Intermediate* en pasos de instrucción (medianas 6 y 5; Mann-Whitney p = 0,16) ni en
+músculos implicados (3 y 3; p = 0,14), con tamaños de efecto despreciables
+(|r| < 0,1). La dificultad es un **eje propio**, igual que §4.3 mostró para la
+complejidad textual y la biomecánica, y confirma que no era imputable (§3.4).
+
+![Dificultad vs complejidad](data/08_reporting/figures/dificultad_vs_complejidad.png)
+
+**Articulación × equipamiento.** El tren superior depende del gimnasio: en `codo`
+(73 %), `muñeca` / `radiocubital` (79 %), `escapulotorácica` (74 %) y `hombro` (68 %) la
+mayoría de los ejercicios exige peso libre o máquina, y el peso corporal no pasa del
+17 %. `columna (lumbar)` (46 % peso corporal, 18 % rehabilitación) y `cadera` (40 % y
+13 %) concentran las alternativas sin material. Consecuencia directa para la mitigación
+de §5.1: la cuota de alternativas sin equipamiento es viable en cadera, columna y
+rodilla, pero en codo, muñeca y hombro tendrá pocos candidatos y el sistema recurrirá
+más a la abstención.
+
+![Articulación × equipamiento](data/08_reporting/figures/articulacion_equipamiento.png)
+
 ---
 
 ## 5. IE4 — Evaluación ética, sesgos y privacidad
@@ -413,6 +558,7 @@ el coeficiente de Gini sobre las distribuciones de frecuencia (0 = cobertura uni
 |---|---|---|
 | Gini de equipamiento | **0,737** | Concentración alta |
 | Gini de músculo primario | **0,478** | Concentración moderada |
+| Gini por articulación | **0,436** | Concentración moderada: `codo` en el 56 % del catálogo, `muñeca/dedos` en 1 ejercicio (notebook §12.2) |
 | Top-3 equipamientos | **58,6 %** del catálogo | *body weight*, *dumbbell*, *cable* |
 | Categorías con <10 ejercicios | 13 de 28 | Suman solo 30 ejercicios (2,3 %) |
 
@@ -456,6 +602,29 @@ mínima de alternativas sin equipamiento**, de modo que el ranking no colapse ha
 gimnasio; y (c) **rechazar explícitamente** la recomendación cuando el músculo objetivo
 esté por debajo del umbral de 10 ejercicios, devolviendo una advertencia de cobertura
 insuficiente en lugar de una sugerencia poco fundamentada.
+
+**El enriquecimiento hereda —y agrava— el sesgo.** Unir una fuente externa no es
+neutral. megaGymDataset proviene de un sitio de musculación, y eso se nota en quién
+recibe una dificultad fiable:
+
+![Sesgo del enriquecimiento](data/08_reporting/figures/sesgo_enriquecimiento.png)
+
+| Contexto | Ejercicios | % con dificultad curada |
+|---|---|---|
+| Gimnasio tradicional | 811 | 24,0 % |
+| Peso corporal / calistenia | 325 | 26,5 % |
+| **Rehabilitación / funcional** | 120 | **6,7 %** |
+| Cardio / otros | 68 | 55,9 % |
+
+1. **Doble exclusión de la rehabilitación.** Era ya el contexto menos representado del
+   catálogo (9,1 %), y es además el que menos dificultad curada recibe. La población
+   que más necesitaría una graduación fiable es la que menos la obtiene.
+2. **El nivel por defecto es un riesgo de seguridad.** Tomar `Level` sin filtrar habría
+   etiquetado como *Intermediate* a casi todo el catálogo (§3.5). Un sistema que gradúa
+   progresiones con esa etiqueta ofrecería a un principiante ejercicios "intermedios"
+   que nadie clasificó. `nivel_curado` es obligatorio en cualquier uso posterior.
+3. **Sin nivel experto no hay progresión avanzada** (2 ejercicios). El sistema no debe
+   prometer planes para usuarios avanzados sobre esta base.
 
 ### 5.2 Propiedad intelectual — licenciamiento dual
 
@@ -514,6 +683,19 @@ el campo `attribution`:
 > ella. Lo que el *fair use* tampoco habilitaría —publicar los medios o desplegarlos
 > comercialmente— sigue igualmente vedado.
 
+**Las fuentes externas.**
+
+- **megaGymDataset** se publica en Kaggle bajo **CC0** (dominio público), verificado en
+  la ficha del dataset. Pero la propia ficha declara que los datos fueron *extraídos de
+  diversas fuentes de internet*: quien lo sube puede renunciar a sus derechos, no a los
+  de terceros. Por eso el pipeline usa solo atributos fácticos (`Level`, `Type`,
+  `Rating`) y **descarta `Desc`**, que es texto redactado por terceros; ninguna salida
+  del proyecto la redistribuye.
+- **Mapeo músculo → articulación.** Las filas de Wikipedia se basan en contenido
+  CC BY-SA y citan su fuente; las de ExRx.net se obtuvieron por consulta manual y citada,
+  sin copiar texto ni automatizar la extracción (su `robots.txt` lo prohíbe; ver el
+  docstring de `scripts/construir_mapeo_articulaciones.py`).
+
 ### 5.3 Responsabilidad algorítmica y seguridad
 
 > **⚕️ Exención de responsabilidad médica.** Este sistema es una herramienta informativa
@@ -530,7 +712,7 @@ el campo `attribution`:
 |---|---|
 | No prescribir sobre articulación comprometida | Enmascarado obligatorio de la articulación declarada; el ejercicio se excluye del espacio de búsqueda, no se pondera a la baja |
 | Abstención ante cobertura insuficiente | Si el músculo objetivo tiene <10 ejercicios, se devuelve advertencia explícita en lugar de recomendación |
-| No inferir capacidad clínica | El catálogo carece de nivel de dificultad y contraindicaciones; el sistema **no estima** esas variables ausentes |
+| No inferir capacidad clínica | El catálogo carece de contraindicaciones y solo el 24,7 % tiene dificultad curada (§3.5); el sistema **no estima** las variables ausentes ni usa el nivel por defecto de megaGymDataset |
 | Trazabilidad de la recomendación | Toda sugerencia expone su justificación (músculo objetivo preservado, articulación excluida), de modo que sea auditable por el usuario o su terapeuta |
 | Sin retroalimentación correctiva en tiempo real | El análisis de postura reporta desviaciones angulares como *observación*, nunca como corrección imperativa que el usuario deba ejecutar bajo carga |
 
@@ -581,17 +763,23 @@ y la técnica coinciden.
 
 ## 6. Limitaciones reconocidas
 
-1. **Ausencia de variables de estratificación.** El esquema carece de nivel de
-   dificultad, mecánica (compuesto/aislado), tipo de fuerza (empuje/tracción) y
-   contraindicaciones. Sin ellas es imposible auditar el sesgo por nivel del usuario.
+1. **Variables de estratificación — dificultad solo parcial.** El catálogo carece de
+   mecánica (compuesto/aislado), tipo de fuerza (empuje/tracción) y contraindicaciones.
+   La dificultad llega desde megaGymDataset solo para el **24,7 %** de los ejercicios
+   (nivel curado, §3.5), con 2 casos *Expert* y un sesgo contra la rehabilitación
+   (§5.1). Alcanza para describir el catálogo, no para auditar el sesgo por nivel del
+   usuario en todo él.
 2. **Articulaciones no modeladas explícitamente — parcialmente resuelto.** El
    catálogo describe músculos, no articulaciones. `scripts/construir_mapeo_articulaciones.py`
    construye `data/01_raw/musculo_articulacion_manual.csv`: de los 50 valores únicos
-   de músculo del catálogo (`target` + `secondary_muscles`), **39 tienen articulación
-   confirmada** por dos fuentes independientes y citadas por fila —la ficha anatómica
-   de Wikipedia (`Infobox muscle`, vía API) y, donde esa fuente no alcanzaba, consulta
-   directa a ExRx.net—. Sigue **sin validación clínica profesional** (ver punto 4), que
-   es el prerrequisito real para producción, no solo para el prototipo del grafo.
+   de músculo del catálogo (`target` + `secondary_muscles`), **40 tienen articulación
+   confirmada** con fuente citada por fila —la ficha anatómica de Wikipedia
+   (`Infobox muscle` vía API, más una fila desde su tabla de movimientos por
+   articulación; 35 filas) y, donde esa fuente no alcanzaba, consulta directa a
+   ExRx.net (5 filas)—. En las filas de Wikipedia, la ficha se contrastó además con un
+   borrador de anatomía estándar antes de aceptarla. Sigue **sin validación clínica
+   profesional** (ver punto 4), que es el prerrequisito real para producción, no solo
+   para el prototipo del grafo.
 
    > **Decisión pendiente de arquitectura.** Cuatro etiquetas del catálogo son regiones
    > compuestas, no un músculo con una sola articulación: `back`, `chest`, `shoulders`,
@@ -620,6 +808,13 @@ y la técnica coinciden.
    del área. Se asume la fuente como correcta.
 5. **Sesgo lingüístico.** Se conserva únicamente el español; el análisis textual no es
    extrapolable a los otros nueve idiomas.
+6. **Emparejamiento por nombre.** La unión con megaGymDataset no tiene llave: su
+   precisión (96 % en los pares difusos) se estima sobre una muestra de 50 pares, no
+   sobre todos, y la regla estricta renuncia a variantes que probablemente sí son el
+   mismo ejercicio (cobertura 31,9 %). Una regla de *contención* (el título de
+   megaGymDataset contenido en el nombre, con coherencia de región y equipamiento)
+   podría recuperar parte de ellas; queda como mejora, validada con una muestra nueva
+   antes de adoptarla.
 
 ---
 
@@ -630,7 +825,7 @@ Norte técnico del proyecto, **no implementado en esta entrega**:
 1. **Grafo de conocimiento biomecánico** — nodos de tipo Ejercicio, Músculo Primario,
    Músculo Sinergista, Articulación y Equipamiento; ruteo topológico por vecindad
    (Node2Vec / GCN) para hallar sustitutos enmascarando articulaciones lesionadas.
-   El mapeo músculo → articulación (§6.2) ya cubre 39/50 músculos del catálogo; falta
+   El mapeo músculo → articulación (§6.2) ya cubre 40/50 músculos del catálogo; falta
    la validación clínica y resolver la decisión de arquitectura sobre las etiquetas
    compuestas (`back`, `chest`, `shoulders`, `core`) antes de generar las aristas.
 2. **Análisis temporal de movimiento** — ⚠️ **replanteado tras la auditoría de §4.4.**
@@ -657,8 +852,9 @@ pip install -r requirements.txt
 ### 8.2 Ejecución del pipeline
 
 ```bash
-kedro run                              # pipeline completo (8 nodos)
-kedro run --pipeline=data_understanding
+kedro run                              # pipeline completo (12 nodos)
+kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
+kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
 ```
 
 ### 8.3 Notebook de EDA
@@ -668,9 +864,10 @@ jupyter lab notebooks/01_exploratory_data_analysis.ipynb
 ```
 
 El notebook está versionado **con todas las salidas ejecutadas y visibles**. Se ejecuta
-de principio a fin sin errores en orden secuencial (celdas 1 a 21).
+de principio a fin sin errores en orden secuencial (67 celdas, en tres partes:
+composición del catálogo, diagnóstico IE3/IE4 y EDA combinado de las tres fuentes).
 
-Los diez gráficos son **interactivos** (Plotly): cada marca expone su valor al pasar el
+Los quince gráficos son **interactivos** (Plotly): cada marca expone su valor al pasar el
 cursor, y las tablas de datos que los acompañan permiten leer las mismas cifras sin
 depender del color. El renderizador `notebook` embebe `plotly.js` dentro del `.ipynb`,
 de modo que los gráficos se ven **sin conexión a internet** en Jupyter, JupyterLab,
@@ -693,12 +890,17 @@ proyecto_ejercicios/
 │       └── catalog.yml              # Mismo pipeline sobre tablas Delta (§2.3)
 ├── data/
 │   ├── 01_raw/
-│   │   ├── exercises.json               # Fuente inmutable (17 MB)
-│   │   ├── musculo_articulacion_manual.csv   # Curación músculo → articulación (§6.2)
-│   │   └── movimientos_articulares_wikipedia.csv  # Taxonomía de movimientos por articulación
+│   │   ├── exercises.json               # Fuente 1, inmutable (17 MB)
+│   │   ├── megaGymDataset.csv           # Fuente 2, Kaggle CC0 (§2.1)
+│   │   ├── musculo_articulacion_manual.csv   # Fuente 3: curación músculo → articulación (§6.2)
+│   │   ├── movimientos_articulares_wikipedia.csv  # Taxonomía de movimientos por articulación
+│   │   └── megagym_match_validacion_manual.csv    # Muestras revisadas del emparejamiento (§3.5)
 │   ├── 02_intermediate/
 │   │   ├── exercises_clean.parquet  # Grano ejercicio × músculo secundario
-│   │   └── exercise_features.parquet# Grano ejercicio (tabla analítica)
+│   │   ├── exercise_features.parquet# Grano ejercicio (tabla analítica)
+│   │   └── megagym.parquet          # megaGymDataset limpio y deduplicado
+│   ├── 03_primary/
+│   │   └── exercise_features_enriched.parquet  # Tabla analítica + nivel, tipo, rating
 │   └── 08_reporting/
 │       ├── eda_summary.csv
 │       ├── distribution_metrics.csv
@@ -707,6 +909,8 @@ proyecto_ejercicios/
 │       ├── correlation_matrix.csv
 │       ├── media_references_audit.csv   # Integridad referencial de los medios
 │       ├── media_sample_audit.csv       # Caracterización física (muestra)
+│       ├── cobertura_articulaciones.csv # Ejercicios por articulación (notebook §12.2)
+│       ├── megagym_match_audit.csv      # Decisión de emparejamiento por ejercicio
 │       └── figures/                 # Exportación PNG de los gráficos
 ├── scripts/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (única parte con red)
@@ -720,9 +924,13 @@ proyecto_ejercicios/
 │   └── databricks_setup.md          # Puesta en marcha del workspace
 ├── src/gym_exercises/
 │   ├── pipeline_registry.py
-│   └── pipelines/data_understanding/
-│       ├── nodes.py                 # 8 nodos puros y testeables
-│       └── pipeline.py              # Definición del DAG
+│   └── pipelines/
+│       ├── data_understanding/
+│       │   ├── nodes.py             # 9 nodos puros y testeables
+│       │   └── pipeline.py          # Definición del DAG
+│       └── data_enrichment/
+│           ├── nodes.py             # 3 nodos: limpieza, emparejamiento auditado, unión
+│           └── pipeline.py
 ├── requirements.txt
 └── README.md
 ```
@@ -740,6 +948,13 @@ proyecto_ejercicios/
 | `compute_shape_statistics` | `intermediate_exercise_features` | `shape_statistics_report` |
 | `compute_correlation_matrix` | `intermediate_exercise_features` | `correlation_matrix_report` |
 | `audit_media_references` | `raw_exercises_data` | `media_references_report` |
+| `preparar_megagym` | `raw_megagym_data` | `intermediate_megagym` |
+| `emparejar_con_megagym` | `intermediate_exercise_features`, `intermediate_megagym`, `params:emparejamiento_megagym` | `megagym_match_report` |
+| `enrich_with_external_metadata` | `intermediate_exercise_features`, `intermediate_megagym`, `megagym_match_report` | `primary_exercise_features_enriched` |
+
+Los tres últimos forman el pipeline `data_enrichment`. El entorno `conf/databricks/` no
+los reapunta todavía a Delta: con `--env=databricks` leen y escriben las rutas locales
+de `conf/base/`.
 
 ---
 
@@ -748,10 +963,14 @@ proyecto_ejercicios/
 | Dimensión | Resultado |
 |---|---|
 | **Calidad estructural** | Excelente: 1.324 registros, 0 nulos, 0 duplicados, esquema consistente |
+| **Fuentes** | 3 combinadas: catálogo (MIT), megaGymDataset (CC0) y mapeo músculo → articulación (40/50 músculos) |
 | **Corrección aplicada** | Jerarquía muscular invertida en el 100 % de los registros — detectada y corregida |
+| **Integración externa** | Cobertura declarada 99,62 % con precisión ~56 %; regla estricta: 31,9 % con 96 %. Fan-out 1.332 → 1.324 corregido |
+| **Dificultad** | *Intermediate* es relleno en la fuente; nivel curado en 327 ejercicios (24,7 %): 41 % *Beginner*, 58 % *Intermediate*, 2 *Expert*. Independiente de `n_pasos` y `n_musculos_total` |
+| **Articulación × equipamiento** | Tren superior dependiente del gimnasio (codo 73 %, muñeca 79 %); columna lumbar y cadera concentran las alternativas sin material |
 | **Outliers (IQR)** | 287 en 8 de 10 variables; **ninguno eliminado** (extremos legítimos) |
 | **Forma de las distribuciones** | Sesgo positivo moderado en 7 de 10 variables |
 | **Multicolinealidad** | 2 pares redundantes (*r* = 0,999 y 0,981) marcados para depuración |
 | **Recursos cinemáticos** | Integridad referencial 100 %; pero 180×180 a 4 FPS, sin etiquetas: no entrenables |
-| **Riesgo ético principal** | Gini de equipamiento 0,737; 4 grupos musculares bajo el umbral de cobertura |
+| **Riesgo ético principal** | Gini de equipamiento 0,737; 4 grupos musculares bajo el umbral de cobertura; la rehabilitación recibe dificultad curada en solo el 6,7 % de sus ejercicios |
 | **Estado CRISP-DM** | Fases 1–3 cerradas. **Sin modelado predictivo**, conforme al alcance de EV1 |
