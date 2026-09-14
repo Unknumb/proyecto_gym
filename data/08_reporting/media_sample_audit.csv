@@ -1,0 +1,39 @@
+id,name,body_part,gif_url,estado,ancho,alto,n_frames,duracion_s,fps,peso_kb,energia_movimiento_media,energia_movimiento_max
+0794,standing lateral stretch,back,videos/0794-1jXLYEw.gif,ok,180,180,12,3.0,4.0,76.0,0.0491,0.0718
+0548,kettlebell sumo high pull,back,videos/0548-8ARQ9Hw.gif,ok,180,180,12,3.0,4.0,80.4,0.0942,0.1079
+1360,smith one arm row,back,videos/1360-Q4DSJPC.gif,ok,180,180,12,3.0,4.0,108.7,0.0599,0.0797
+0581,lever high row,back,videos/0581-nZZZy9m.gif,ok,180,180,12,3.0,4.0,124.0,0.0876,0.1214
+3672,back and forth step,cardio,videos/3672-fNGumX0.gif,ok,180,180,24,5.0,4.8,169.1,0.1246,0.1416
+1201,dumbbell burpee,cardio,videos/1201-0JtKWum.gif,ok,180,180,30,5.5,5.45,129.4,0.0907,0.128
+0501,jack burpee,cardio,videos/0501-mr7pkqP.gif,ok,180,180,30,5.5,5.45,92.6,0.0418,0.0521
+3637,wheel run,cardio,videos/3637-km2Ljzj.gif,ok,180,180,36,7.5,4.8,199.6,0.0925,0.1197
+1689,push and pull bodyweight,chest,videos/1689-wXvUZC8.gif,ok,180,180,12,3.0,4.0,67.4,0.0442,0.0659
+0158,cable decline fly,chest,videos/0158-7saC5zz.gif,ok,180,180,12,3.0,4.0,78.3,0.068,0.0978
+0653,push-up (bosu ball),chest,videos/0653-2kr2lWy.gif,ok,180,180,12,3.0,4.0,81.7,0.1172,0.1311
+1284,dumbbell lying pullover on exercise ball,chest,videos/1284-iK59oEA.gif,ok,180,180,12,3.0,4.0,93.4,0.0695,0.1071
+0401,dumbbell seated palms up wrist curl,lower arms,videos/0401-2dImyQ8.gif,ok,180,180,12,3.0,4.0,109.6,0.1014,0.1516
+0224,cable standing back wrist curl,lower arms,videos/0224-VhX2JdE.gif,ok,180,180,12,3.0,4.0,60.6,0.024,0.0443
+1428,wrist circles,lower arms,videos/1428-2zNKRUB.gif,ok,180,180,12,3.0,4.0,69.1,0.025,0.0517
+0247,cable wrist curl,lower arms,videos/0247-LrV4s90.gif,ok,180,180,12,3.0,4.0,102.6,0.0595,0.1014
+1382,exercise ball on the wall calf raise,lower legs,videos/1382-xo6sENf.gif,ok,180,180,12,3.0,4.0,79.9,0.0675,0.0948
+3240,exercise ball on the wall calf raise (tennis ball between knees),lower legs,videos/3240-j74M6Zn.gif,ok,180,180,12,3.0,4.0,82.2,0.0739,0.0985
+1253,lever donkey calf raise,lower legs,videos/1253-C9LuR4A.gif,ok,180,180,12,3.0,4.0,147.5,0.1075,0.1575
+2315,lever rotary calf,lower legs,videos/2315-MrgP9L6.gif,ok,180,180,12,3.0,4.0,146.9,0.1088,0.1659
+1403,neck side stretch,neck,videos/1403-x2chWLO.gif,ok,180,180,12,3.0,4.0,73.3,0.0276,0.0561
+0716,side push neck stretch,neck,videos/0716-oQRJYkC.gif,ok,180,180,12,3.0,4.0,89.2,0.0553,0.0806
+2136,dumbbell cuban press v. 2,shoulders,videos/2136-BqgCRif.gif,ok,180,180,36,9.0,4.0,185.0,0.066,0.1014
+0359,dumbbell one arm reverse fly (with support),shoulders,videos/0359-e25F58f.gif,ok,180,180,12,3.0,4.0,105.2,0.0787,0.1156
+0834,weighted front raise,shoulders,videos/0834-e4aFmFY.gif,ok,180,180,12,3.0,4.0,80.1,0.0663,0.0893
+0405,dumbbell seated shoulder press,shoulders,videos/0405-znQUdHY.gif,ok,180,180,12,3.0,4.0,85.6,0.0762,0.106
+0038,barbell drag curl,upper arms,videos/0038-IENzBdA.gif,ok,180,180,12,3.0,4.0,81.5,0.0771,0.1032
+0092,barbell seated overhead triceps extension,upper arms,videos/0092-5uFK1xr.gif,ok,180,180,12,3.0,4.0,89.4,0.0933,0.1315
+0471,handstand push-up,upper arms,videos/0471-rQxwMxO.gif,ok,180,180,12,3.0,4.0,58.9,0.065,0.0776
+0384,dumbbell reverse preacher curl,upper arms,videos/0384-O8Aq69u.gif,ok,180,180,12,3.0,4.0,89.2,0.0939,0.1276
+3215,hands reversed clasped circular toe touch (male),upper legs,videos/3215-yq3GAJX.gif,ok,180,180,47,7.9,5.95,181.1,0.0433,0.0805
+0811,trap bar deadlift,upper legs,videos/0811-jQGwmxN.gif,ok,180,180,12,3.0,4.0,92.7,0.1659,0.1793
+2133,farmers walk,upper legs,videos/2133-qPEzJjA.gif,ok,180,180,24,5.0,4.8,132.9,0.0673,0.0994
+1759,single leg squat (pistol) male,upper legs,videos/1759-nqs5HGV.gif,ok,180,180,12,3.0,4.0,82.6,0.0951,0.1062
+0212,cable seated crunch,waist,videos/0212-8xUv4J7.gif,ok,180,180,12,3.0,4.0,119.7,0.0964,0.1243
+1761,hanging oblique knee raise,waist,videos/1761-BaE7O6U.gif,ok,180,180,24,5.0,4.8,110.8,0.0519,0.0669
+3301,frog planche,waist,videos/3301-rQhGcin.gif,ok,180,180,12,2.1,5.71,81.2,0.0084,0.01
+0474,hanging straight leg hip raise,waist,videos/0474-pj0X0tF.gif,ok,180,180,12,3.0,4.0,117.1,0.082,0.1185

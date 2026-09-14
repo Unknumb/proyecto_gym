@@ -1,0 +1,1325 @@
+id,name,nombre_norm,candidato_titulo,candidato_titulo_norm,similitud,jaccard,region_coherente,equipo_coherente,metodo,aceptado
+0001,3/4 sit-up,3 4 sit up,3/4 sit-up,3 4 sit up,100.0,1.0,True,True,exacto,True
+0002,45° side bend,45 side bend,HM Side-Bend Pose,side bend pose,69.23,0.5,True,True,sin_match,False
+0003,air bike,air bike,FYR2 Air Ball,air ball,62.5,0.333,True,False,sin_match,False
+1512,all fours squad stretch,all four squad stretch,All Fours Quad Stretch,all four quad stretch,97.67,1.0,True,True,difuso,True
+0006,alternate heel touchers,alternate heel toucher,Alternating heel-touch,alternating heel touch,86.36,0.5,True,True,sin_match,False
+0007,alternate lateral pulldown,alternate lateral pulldown,MetaBurn Alternating Lateral Sprawl,alternating lateral sprawl,73.08,0.2,False,False,sin_match,False
+1368,ankle circles,ankle circle,Ankle Circles,ankle circle,100.0,1.0,True,True,exacto,True
+3293,archer pull up,archer pull up,UN Pull-Up Neutral,pull up neutral,68.97,0.5,False,True,sin_match,False
+3294,archer push up,archer push up,Holman Narrow Push-Up,narrow push up,78.57,0.5,True,True,sin_match,False
+2355,arm slingers hanging bent knee legs,arm slinger hanging bent knee leg,Lying Bent Leg Groin,lying bent leg groin,64.15,0.25,False,True,sin_match,False
+2333,arm slingers hanging straight legs,arm slinger hanging straight leg,Alternating single-leg sprawl,alternating single leg sprawl,65.57,0.125,True,True,sin_match,False
+3214,arms apart circular toe touch (male),arm apart circular toe touch,Crab toe-touch,crab toe touch,61.9,0.333,False,True,sin_match,False
+3204,arms overhead full sit-up (male),arm overhead full sit up,Single-Arm Dumbbell Overhead Squat,single arm dumbbell overhead squat,72.41,0.25,False,False,sin_match,False
+0009,assisted chest dip (kneeling),assisted chest dip kneeling,FYR Kneeling Biceps,kneeling bicep,63.41,0.2,False,False,sin_match,False
+0011,assisted hanging knee raise,assisted hanging knee raise,Alternating hanging knee raise,alternating hanging knee raise,77.19,0.6,True,True,sin_match,False
+0010,assisted hanging knee raise with throw down,assisted hanging knee raise with throw down,Hanging leg raise with throw down,hanging leg raise with throw down,81.58,0.625,True,True,sin_match,False
+1708,assisted lying calves stretch,assisted lying calve stretch,Lying glute stretch,lying glute stretch,68.09,0.4,False,True,sin_match,False
+1709,assisted lying glutes stretch,assisted lying glute stretch,Lying glute stretch,lying glute stretch,80.85,0.75,True,True,sin_match,False
+1710,assisted lying gluteus and piriformis stretch,assisted lying gluteu and piriformi stretch,IT Band and Glute Stretch,it band and glute stretch,64.71,0.375,True,True,sin_match,False
+0012,assisted lying leg raise with lateral throw down,assisted lying leg raise with lateral throw down,Partner lying leg raise with lateral throw down,partner lying leg raise with lateral throw down,82.11,0.778,True,True,sin_match,False
+0013,assisted lying leg raise with throw down,assisted lying leg raise with throw down,Partner lying leg raise with throw down,partner lying leg raise with throw down,78.48,0.75,True,True,sin_match,False
+0014,assisted motion russian twist,assisted motion russian twist,Medicine ball Russian twist,medicine ball russian twist,67.86,0.333,True,True,sin_match,False
+0015,assisted parallel close grip pull-up,assisted parallel close grip pull up,UN Band Assisted Pull-up Pronated,band assisted pull up pronated,66.67,0.375,True,False,sin_match,False
+0016,assisted prone hamstring,assisted prone hamstring,Assisted Chin-Up,assisted chin up,70.0,0.2,False,True,sin_match,False
+1713,assisted prone lying quads stretch,assisted prone lying quad stretch,Lying quad stretch with band,lying quad stretch with band,68.85,0.429,True,True,sin_match,False
+1714,assisted prone rectus femoris stretch,assisted prone rectu femori stretch,Intermediate Hip Flexor and Quad Stretch,intermediate hip flexor and quad stretch,61.33,0.1,False,True,sin_match,False
+0017,assisted pull-up,assisted pull up,Band-assisted pull-up,band assisted pull up,86.49,0.75,True,False,sin_match,False
+1716,assisted seated pectoralis major stretch with stability ball,assisted seated pectorali major stretch with exercise ball,Natural Glute Ham Raise with Stability Ball,natural glute ham raise with exercise ball,58.0,0.25,False,True,sin_match,False
+1712,assisted side lying adductor stretch,assisted side lying adductor stretch,Side-To-Side Adductor Stretch,side to side adductor stretch,76.92,0.5,True,True,sin_match,False
+1758,assisted sit-up,assisted sit up,Assisted Chin-Up,assisted chin up,83.87,0.5,False,True,sin_match,False
+1431,assisted standing chin-up,assisted standing chin up,Assisted Single-Arm Chin-Up,assisted single arm chin up,80.77,0.5,True,False,sin_match,False
+1432,assisted standing pull-up,assisted standing pull up,Assisted Single-Arm Pull-Up,assisted single arm pull up,80.77,0.5,True,False,sin_match,False
+0018,assisted standing triceps extension (with towel),assisted standing tricep extension with towel,Standing Towel Triceps Extension,standing towel tricep extension,81.58,0.667,True,True,sin_match,False
+0019,assisted triceps dip (kneeling),assisted tricep dip kneeling,Kneeling cable triceps extension,kneeling cable tricep extension,67.8,0.333,True,False,sin_match,False
+2364,assisted wide-grip chest dip (kneeling),assisted wide grip chest dip kneeling,Wide-Grip Decline Barbell Bench Press,wide grip decline barbell bench press,54.05,0.2,True,False,sin_match,False
+3220,astride jumps (male),astride jump,HM Side V-Up,side v up,66.67,0.0,,True,sin_match,False
+3672,back and forth step,back and forth step,Groin and Back Stretch,groin and back stretch,68.29,0.333,,True,sin_match,False
+1314,back extension on exercise ball,back extension on exercise ball,Exercise ball weighted hyperextension,exercise ball weighted hyperextension,70.59,0.286,True,True,sin_match,False
+3297,back lever,back lever,Lower back SMR,lower back smr,66.67,0.25,False,False,sin_match,False
+1405,back pec stretch,back pec stretch,UNS Pec stretch,pec stretch,81.48,0.667,False,True,sin_match,False
+1473,backward jump,backward jump,Broad jump,broad jump,69.57,0.333,True,True,sin_match,False
+0020,balance board,balance board,Balance Board,balance board,100.0,1.0,False,True,exacto,True
+0968,band alternating biceps curl,band alternating bicep curl,Alternating biceps curl,alternating bicep curl,89.8,0.75,True,False,sin_match,False
+0969,band alternating v-up,band alternating v up,HM Alternating Step-Back,alternating step back,76.19,0.167,False,False,sin_match,False
+0970,band assisted pull-up,band assisted pull up,Band-assisted pull-up,band assisted pull up,100.0,1.0,True,True,exacto,True
+0971,band assisted wheel rollerout,band assisted wheel rollerout,Band-assisted pull-up,band assisted pull up,68.0,0.333,False,True,sin_match,False
+1254,band bench press,band bench press,Bench Press - With Bands,bench press with band,86.49,0.75,True,True,difuso,True
+0980,band bent-over hip extension,band bent over hip extension,Hip Extension with Bands,hip extension with band,74.51,0.5,True,True,sin_match,False
+0972,band bicycle crunch,band bicycle crunch,Banded crunch,banded crunch,75.0,0.667,True,True,sin_match,False
+0974,band close-grip pulldown,band close grip pulldown,Close-Grip Front Lat Pulldown,close grip front lat pulldown,71.7,0.5,True,False,sin_match,False
+0975,band close-grip push-up,band close grip push up,30 Arms BFR Close-Grip Push-Up,bfr close grip push up,88.89,0.667,True,False,sin_match,False
+0976,band concentration curl,band concentration curl,Concentration curl,concentration curl,87.8,0.667,True,False,sin_match,False
+3117,band fixed back close grip pulldown,band fixed back close grip pulldown,Close-Grip Front Lat Pulldown,close grip front lat pulldown,65.62,0.375,True,False,sin_match,False
+3116,band fixed back underhand pulldown,band fixed back underhand pulldown,30 Back Underhand Bent-Over Barbell Row,underhand bent over barbell row,61.54,0.111,True,False,sin_match,False
+0977,band front lateral raise,band front lateral raise,Band lateral raise,band lateral raise,85.71,0.75,True,True,difuso,True
+0978,band front raise,band front raise,30 Shoulders EZ-Bar Front Raise,ez bar front raise,82.35,0.4,True,False,sin_match,False
+1408,band hip lift,band hip lift,Hip Lift with Band,hip lift with band,83.87,0.75,True,True,sin_match,False
+0979,band horizontal pallof press,band horizontal pallof press,30 Cable Pallof Press,30 cable pallof press,65.31,0.333,True,False,sin_match,False
+0981,band jack knife sit-up,band jack knife sit up,Side Jackknife,side jackknife,66.67,0.167,True,False,sin_match,False
+0983,band kneeling one arm pulldown,band kneeling one arm pulldown,One-Arm Long Bar Row,one arm long bar row,68.0,0.25,True,False,sin_match,False
+0985,band kneeling twisting crunch,band kneeling twisting crunch,Kneeling cable crunch,kneeling cable crunch,68.0,0.4,True,False,sin_match,False
+0984,band lying hip internal rotation,band lying hip internal rotation,Internal Rotation with Band,internal rotation with band,74.58,0.5,False,True,sin_match,False
+1002,band lying straight leg raise,band lying straight leg raise,30 Shoulders Cable Straight-Bar Front Raise,cable straight bar front raise,74.58,0.25,False,False,sin_match,False
+0986,band one arm overhead biceps curl,band one arm overhead bicep curl,Overhead cable curl,overhead cable curl,66.67,0.286,True,False,sin_match,False
+0987,band one arm single leg split squat,band one arm single leg split squat,HM Single-Leg Squat on Chair,single leg squat on chair,73.33,0.333,True,False,sin_match,False
+0988,band one arm standing low row,band one arm standing low row,Single-arm band low row,single arm band low row,80.77,0.571,True,True,sin_match,False
+0989,band one arm twisting chest press,band one arm twisting chest press,Single-arm banded landmine press,single arm banded landmine press,70.77,0.375,False,True,sin_match,False
+0990,band one arm twisting seated row,band one arm twisting seated row,Single-arm cable seated row,single arm cable seated row,74.58,0.375,True,False,sin_match,False
+0991,band pull through,band pull through,Pull Through,pull through,82.76,0.667,True,False,sin_match,False
+0992,band push sit-up,band push sit up,Holman Sit Back Push-Up,sit back push up,87.5,0.6,False,False,sin_match,False
+0993,band reverse fly,band reverse fly,FYR2 Bent-Over Reverse Fly,bent over reverse fly,75.68,0.4,False,False,sin_match,False
+0994,band reverse wrist curl,band reverse wrist curl,Reverse Band Power Squat,reverse band power squat,72.34,0.333,False,False,sin_match,False
+0996,band seated hip internal rotation,band seated hip internal rotation,Internal Rotation with Band,internal rotation with band,80.0,0.5,False,True,sin_match,False
+1011,band seated twist,band seated twist,Seated bar twist,seated bar twist,90.91,0.5,True,False,sin_match,False
+0997,band shoulder press,band shoulder press,Band shoulder press,band shoulder press,100.0,1.0,True,True,exacto,True
+1018,band shrug,band shrug,Clean Shrug,clean shrug,76.19,0.333,True,False,sin_match,False
+0998,band side triceps extension,band side tricep extension,Band overhead triceps extension,band overhead tricep extension,82.14,0.6,True,True,sin_match,False
+0999,band single leg calf raise,band single leg calf raise,Single-arm cable lateral raise,single arm cable lateral raise,75.0,0.25,False,False,sin_match,False
+1000,band single leg reverse calf raise,band single leg reverse calf raise,Smith Machine Reverse Calf Raises,smith reverse calf raise,72.41,0.429,True,False,sin_match,False
+1001,band single leg split squat,band single leg split squat,Single-leg box squat,single leg box squat,76.6,0.5,True,False,sin_match,False
+1004,band squat,band squat,Squat with Bands,squat with band,80.0,0.667,True,False,sin_match,False
+1003,band squat row,band squat row,Band front squat,band front squat,86.67,0.5,True,True,sin_match,False
+1005,band standing crunch,band standing crunch,Standing cable crunch,standing cable crunch,82.93,0.5,True,False,sin_match,False
+1022,band standing rear delt row,band standing rear delt row,Standing cable rear delt row,standing cable rear delt row,87.27,0.667,True,False,sin_match,False
+1007,band standing twisting crunch,band standing twisting crunch,Holman Standing Russian Twist,standing russian twist,70.59,0.4,True,False,sin_match,False
+1008,band step-up,band step up,Janda Sit-Up,janda sit up,75.0,0.2,False,False,sin_match,False
+1009,band stiff leg deadlift,band stiff leg deadlift,Stiff-Legged Deadlift,stiff legged deadlift,81.82,0.75,True,False,sin_match,False
+1023,band straight back stiff leg deadlift,band straight back stiff leg deadlift,Barbell stiff-legged deadlift,barbell stiff legged deadlift,66.67,0.429,True,False,sin_match,False
+1010,band straight leg deadlift,band straight leg deadlift,Deadlift with Bands,deadlift with band,72.73,0.4,True,False,sin_match,False
+1012,band twisting overhead press,band twisting overhead press,Band overhead triceps press,band overhead tricep press,81.48,0.6,False,True,sin_match,False
+1369,band two legs calf raise - (band under both legs) v. 2,band two leg calf raise band under both leg,Flat Bench Lying Leg Raise - Gethin Variation,flat bench lying leg raise gethin variation,55.81,0.167,False,False,sin_match,False
+1013,band underhand pulldown,band underhand pulldown,BFR underhand straight-bar push-down,underhand straight bar push down,61.82,0.143,False,False,sin_match,False
+1014,band v-up,band v up,X-body V-up,x body v up,70.0,0.4,True,False,sin_match,False
+1015,band vertical pallof press,band vertical pallof press,Pallof press,pallof press,63.16,0.5,True,False,sin_match,False
+1016,band wrist curl,band wrist curl,Bryant Wrist Curl,bryant wrist curl,87.5,0.5,True,False,sin_match,False
+1017,band y-raise,band y raise,Calf Raises - With Bands,calf raise with band,68.75,0.4,False,True,sin_match,False
+0023,barbell alternate biceps curl,barbell alternate bicep curl,Alternating biceps curl,alternating bicep curl,76.0,0.4,True,False,sin_match,False
+0024,barbell bench front squat,barbell bench front squat,Front Barbell Squat To A Bench,front barbell squat to a bench,90.91,0.667,True,True,difuso,True
+0025,barbell bench press,barbell bench press,30 Chest Barbell Bench Press,barbell bench press,100.0,1.0,True,True,exacto,True
+0026,barbell bench squat,barbell bench squat,Barbell Squat To A Bench,barbell squat to a bench,88.37,0.6,True,True,difuso,True
+1316,barbell bent arm pullover,barbell bent arm pullover,Bent-arm barbell pull-over,bent arm barbell pull over,82.35,0.8,True,True,sin_match,False
+0027,barbell bent over row,barbell bent over row,Bent Over Barbell Row,bent over barbell row,100.0,1.0,True,True,exacto,True
+2407,barbell biceps curl (with arm blaster),barbell bicep curl with arm blaster,Cable straight-bar biceps curl,cable straight bar bicep curl,65.62,0.375,True,False,sin_match,False
+0028,barbell clean and press,barbell clean and press,Axle Clean And Press,axle clean and press,83.72,0.6,False,True,sin_match,False
+0029,barbell clean-grip front squat,barbell clean grip front squat,Front Squat (Clean Grip),front squat clean grip,84.62,0.8,True,True,sin_match,False
+0030,barbell close-grip bench press,barbell close grip bench press,Close-grip EZ-bar bench press,close grip ez bar bench press,88.14,0.833,False,False,sin_match,False
+0031,barbell curl,barbell curl,Barbell Curl,barbell curl,100.0,1.0,True,True,exacto,True
+0032,barbell deadlift,barbell deadlift,Barbell Deadlift,barbell deadlift,100.0,1.0,True,True,exacto,True
+0033,barbell decline bench press,barbell decline bench press,Decline barbell bench press,decline barbell bench press,100.0,1.0,True,True,exacto,True
+0034,barbell decline bent arm pullover,barbell decline bent arm pullover,Bent-arm barbell pull-over,bent arm barbell pull over,77.97,0.667,True,True,sin_match,False
+0035,barbell decline close grip to skull press,barbell decline close grip to skull press,Wide-Grip Decline Barbell Bench Press,wide grip decline barbell bench press,74.36,0.444,False,True,sin_match,False
+1255,barbell decline pullover,barbell decline pullover,Wide-Grip Decline Barbell Pullover,wide grip decline barbell pullover,82.76,0.6,True,True,sin_match,False
+0036,barbell decline wide-grip press,barbell decline wide grip press,Wide-Grip Decline Barbell Bench Press,wide grip decline barbell bench press,91.18,0.833,True,True,difuso,True
+0037,barbell decline wide-grip pullover,barbell decline wide grip pullover,Wide-Grip Decline Barbell Pullover,wide grip decline barbell pullover,100.0,1.0,False,True,exacto,True
+0038,barbell drag curl,barbell drag curl,Barbell spider curl,barbell spider curl,83.33,0.5,True,False,sin_match,False
+1370,barbell floor calf raise,barbell floor calf raise,Barbell floor wiper,barbell floor wiper,74.42,0.4,False,False,sin_match,False
+0039,barbell front chest squat,barbell front chest squat,Barbell front squat,barbell front squat,86.36,0.75,True,True,difuso,True
+0041,barbell front raise,barbell front raise,Barbell front raise,barbell front raise,100.0,1.0,True,True,exacto,True
+0040,barbell front raise and pullover,barbell front raise and pullover,Front Raise And Pullover,front raise and pullover,85.71,0.8,True,True,difuso,True
+0042,barbell front squat,barbell front squat,Barbell front squat,barbell front squat,100.0,1.0,True,True,exacto,True
+0043,barbell full squat,barbell full squat,Barbell Full Squat,barbell full squat,100.0,1.0,True,True,exacto,True
+1461,barbell full squat (back pov),barbell full squat,Barbell Full Squat,barbell full squat,100.0,1.0,True,True,exacto,True
+1462,barbell full squat (side pov),barbell full squat,Barbell Full Squat,barbell full squat,100.0,1.0,True,True,exacto,True
+1545,barbell full zercher squat,barbell full zercher squat,Barbell Full Squat,barbell full squat,81.82,0.75,True,True,sin_match,False
+1409,barbell glute bridge,barbell glute bridge,Barbell glute bridge,barbell glute bridge,100.0,1.0,True,True,exacto,True
+3562,barbell glute bridge two legs on bench (male),barbell glute bridge two leg on bench,Barbell glute bridge,barbell glute bridge,70.18,0.429,True,True,sin_match,False
+0044,barbell good morning,barbell good morning,Barbell good morning,barbell good morning,100.0,1.0,True,True,exacto,True
+0045,barbell guillotine bench press,barbell guillotine bench press,Barbell Guillotine Bench Press,barbell guillotine bench press,100.0,1.0,True,True,exacto,True
+0046,barbell hack squat,barbell hack squat,Barbell hack squat,barbell hack squat,100.0,1.0,True,True,exacto,True
+1436,barbell high bar squat,barbell high bar squat,TBS High-Bar Back Squat,high bar back squat,82.93,0.6,True,True,sin_match,False
+0047,barbell incline bench press,barbell incline bench press,30 Chest Incline Barbell Bench Press,incline barbell bench press,100.0,1.0,True,True,exacto,True
+1719,barbell incline close grip bench press,barbell incline close grip bench press,Barbell Incline Bench Press Medium-Grip,barbell incline bench press medium grip,83.12,0.714,False,True,sin_match,False
+0048,barbell incline reverse-grip press,barbell incline reverse grip press,Reverse-grip incline dumbbell bench press,reverse grip incline dumbbell bench press,85.33,0.571,False,False,sin_match,False
+0049,barbell incline row,barbell incline row,Incline dumbbell row,incline dumbbell row,87.18,0.5,True,False,sin_match,False
+0050,barbell incline shoulder raise,barbell incline shoulder raise,Dumbbell Incline Shoulder Raise,dumbbell incline shoulder raise,91.8,0.6,True,False,sin_match,False
+0051,barbell jefferson squat,barbell jefferson squat,Barbell front squat,barbell front squat,85.71,0.5,True,True,sin_match,False
+0052,barbell jm bench press,barbell jm bench press,30 Chest Barbell Bench Press,barbell bench press,92.68,0.75,False,True,sin_match,False
+0053,barbell jump squat,barbell jump squat,Dumbbell jump squat,dumbbell jump squat,86.49,0.5,True,False,sin_match,False
+1410,barbell lateral lunge,barbell lateral lunge,Lateral lunge,lateral lunge,76.47,0.667,True,False,sin_match,False
+1435,barbell low bar squat,barbell low bar squat,Barbell back squat,barbell back squat,82.05,0.4,True,True,sin_match,False
+0054,barbell lunge,barbell lunge,Dumbbell Lunges,dumbbell lunge,81.48,0.333,True,False,sin_match,False
+1720,barbell lying back of the head tricep extension,barbell lying back of the head tricep extension,Standing barbell overhead triceps extension,standing barbell overhead tricep extension,74.16,0.3,True,True,sin_match,False
+0055,barbell lying close-grip press,barbell lying close grip press,Lying Close-Grip Barbell Triceps Press To Chin,lying close grip barbell tricep press to chin,80.0,0.625,True,False,sin_match,False
+0056,barbell lying close-grip triceps extension,barbell lying close grip tricep extension,Lying cable triceps extension,lying cable tricep extension,78.26,0.429,True,False,sin_match,False
+0057,barbell lying extension,barbell lying extension,Lying cable triceps extension,lying cable tricep extension,74.51,0.4,True,False,sin_match,False
+0058,barbell lying lifting (on hip),barbell lying lifting on hip,Lying High Bench Barbell Curl,lying high bench barbell curl,66.67,0.25,False,True,sin_match,False
+0059,barbell lying preacher curl,barbell lying preacher curl,EZ-bar preacher curl,ez bar preacher curl,76.6,0.6,True,True,sin_match,False
+0061,barbell lying triceps extension,barbell lying tricep extension,Lying cable triceps extension,lying cable tricep extension,89.66,0.6,True,False,sin_match,False
+0060,barbell lying triceps extension skull crusher,barbell lying tricep extension skullcrusher,FYR2 Single-Dumbbell Triceps Extension,single dumbbell tricep extension,74.67,0.286,True,False,sin_match,False
+0063,barbell narrow stance squat,barbell narrow stance squat,Narrow-stance squat,narrow stance squat,82.61,0.75,True,True,sin_match,False
+0064,barbell one arm bent over row,barbell one arm bent over row,Bent Over Barbell Row,bent over barbell row,84.0,0.667,True,True,sin_match,False
+0065,barbell one arm floor press,barbell one arm floor press,One Arm Floor Press,one arm floor press,82.61,0.8,True,True,sin_match,False
+0066,barbell one arm side deadlift,barbell one arm side deadlift,Barbell stiff-legged deadlift,barbell stiff legged deadlift,72.41,0.286,True,True,sin_match,False
+0067,barbell one arm snatch,barbell one arm snatch,Single-Arm Dumbbell Snatch,single arm dumbbell snatch,79.17,0.333,False,False,sin_match,False
+0068,barbell one leg squat,barbell one leg squat,Barbell front squat,barbell front squat,80.0,0.4,True,True,sin_match,False
+0069,barbell overhead squat,barbell overhead squat,HM Dumbbell Overhead Squat,dumbbell overhead squat,88.89,0.5,True,False,sin_match,False
+1411,barbell palms down wrist curl over a bench,barbell palm down wrist curl over a bench,Palms-down wrist curl over bench,palm down wrist curl over bench,86.11,0.75,True,True,difuso,True
+1412,barbell palms up wrist curl over a bench,barbell palm up wrist curl over a bench,Palms-up wrist curl over bench,palm up wrist curl over bench,85.29,0.75,True,True,difuso,True
+3017,barbell pendlay row,barbell pendlay row,Pendlay Row,pendlay row,73.33,0.667,True,True,sin_match,False
+1751,barbell pin presses,barbell pin presse,30 Chest Barbell Bench Press,barbell bench press,81.08,0.5,False,True,sin_match,False
+0070,barbell preacher curl,barbell preacher curl,Reverse Barbell Preacher Curls,reverse barbell preacher curl,84.0,0.75,True,False,sin_match,False
+0071,barbell press sit-up,barbell press sit up,Barbell press sit-up,barbell press sit up,100.0,1.0,True,False,exacto,True
+0072,barbell prone incline curl,barbell prone incline curl,30 Chest Incline Barbell Bench Press,incline barbell bench press,79.25,0.333,False,True,sin_match,False
+0073,barbell pullover,barbell pullover,UN Barbell Rack Pull,barbell rack pull,78.79,0.667,True,True,sin_match,False
+0022,barbell pullover to press,barbell pullover to press,Barbell pull-over to press,barbell pull over to press,82.35,0.8,True,True,sin_match,False
+0074,barbell rack pull,barbell rack pull,UN Barbell Rack Pull,barbell rack pull,100.0,1.0,False,True,exacto,True
+0075,barbell rear delt raise,barbell rear delt raise,Exercise ball rear delt fly,exercise ball rear delt fly,76.0,0.286,False,False,sin_match,False
+0076,barbell rear delt row,barbell rear delt row,Bent Over Barbell Row,bent over barbell row,80.95,0.333,False,True,sin_match,False
+0078,barbell rear lunge,barbell reverse lunge,Barbell reverse lunge,barbell reverse lunge,100.0,1.0,True,True,exacto,True
+0077,barbell rear lunge v. 2,barbell reverse lunge,Barbell reverse lunge,barbell reverse lunge,100.0,1.0,True,True,exacto,True
+0079,barbell revers wrist curl v. 2,barbell rever wrist curl,Reverse-grip barbell curl,reverse grip barbell curl,77.55,0.6,False,True,sin_match,False
+2187,barbell reverse close-grip bench press,barbell reverse close grip bench press,Wide-Grip Decline Barbell Bench Press,wide grip decline barbell bench press,80.0,0.5,False,True,sin_match,False
+0080,barbell reverse curl,barbell reverse curl,Reverse-grip barbell curl,reverse grip barbell curl,88.89,0.75,True,True,difuso,True
+0118,barbell reverse grip bent over row,barbell reverse grip bent over row,Reverse-grip bent-over row,reverse grip bent over row,86.67,0.833,True,True,difuso,True
+1256,barbell reverse grip decline bench press,barbell reverse grip decline bench press,Wide-Grip Decline Barbell Bench Press,wide grip decline barbell bench press,88.31,0.714,True,True,difuso,True
+1257,barbell reverse grip incline bench press,barbell reverse grip incline bench press,Barbell Incline Bench Press Medium-Grip,barbell incline bench press medium grip,81.01,0.714,True,True,sin_match,False
+1317,barbell reverse grip incline bench row,barbell reverse grip incline bench row,Barbell Incline Bench Press Medium-Grip,barbell incline bench press medium grip,77.92,0.5,False,True,sin_match,False
+1721,barbell reverse grip skullcrusher,barbell reverse grip skullcrusher,30 Arms Barbell Skullcrusher,barbell skullcrusher,75.47,0.5,True,True,sin_match,False
+0081,barbell reverse preacher curl,barbell reverse preacher curl,Reverse Barbell Preacher Curls,reverse barbell preacher curl,100.0,1.0,True,False,exacto,True
+0082,barbell reverse wrist curl,barbell reverse wrist curl,Reverse-grip barbell curl,reverse grip barbell curl,78.43,0.6,False,True,sin_match,False
+0084,barbell rollerout,barbell rollerout,Barbell roll-out,barbell roll out,72.73,0.667,True,True,sin_match,False
+0083,barbell rollerout from bench,barbell rollerout from bench,Bench barbell roll-out,bench barbell roll out,80.0,0.6,True,True,sin_match,False
+0085,barbell romanian deadlift,barbell romanian deadlift,Romanian Deadlift,romanian deadlift,80.95,0.667,True,True,sin_match,False
+0086,barbell seated behind head military press,barbell seated behind head military press,Paul Carter Barbell Seated Military Press,barbell seated military press,82.86,0.667,True,True,sin_match,False
+0087,barbell seated bradford rocky press,barbell seated bradford rocky press,Paul Carter Barbell Seated Military Press,barbell seated military press,71.88,0.5,True,True,sin_match,False
+0088,barbell seated calf raise,barbell seated calf raise,Barbell Seated Calf Raise,barbell seated calf raise,100.0,1.0,True,True,exacto,True
+1371,barbell seated calf raise,barbell seated calf raise,Barbell Seated Calf Raise,barbell seated calf raise,100.0,1.0,True,True,exacto,True
+1718,barbell seated close grip behind neck triceps extension,barbell seated close grip behind neck tricep extension,Dumbbell Tricep Extension -Pronated Grip,dumbbell tricep extension pronated grip,70.97,0.3,True,False,sin_match,False
+0089,barbell seated close-grip concentration curl,barbell seated close grip concentration curl,Seated Close-Grip Concentration Barbell Curl,seated close grip concentration barbell curl,100.0,1.0,True,True,exacto,True
+0090,barbell seated good morning,barbell seated good morning,Barbell good morning,barbell good morning,85.11,0.75,True,True,difuso,True
+0091,barbell seated overhead press,barbell seated overhead press,UP Seated Dumbbell Overhead Press,seated dumbbell overhead press,91.53,0.6,True,False,sin_match,False
+0092,barbell seated overhead triceps extension,barbell seated overhead tricep extension,Standing barbell overhead triceps extension,standing barbell overhead tricep extension,90.24,0.667,True,True,difuso,True
+0094,barbell seated twist,barbell seated twist,Seated bar twist,seated bar twist,88.89,1.0,True,True,difuso,True
+0095,barbell shrug,barbell shrug,Barbell shrug,barbell shrug,100.0,1.0,True,True,exacto,True
+0096,barbell side bent v. 2,barbell side bent,Barbell Side Bend,barbell side bend,94.12,0.5,True,True,sin_match,False
+0098,barbell side split squat,barbell side split squat,Barbell side split squat,barbell side split squat,100.0,1.0,True,True,exacto,True
+0097,barbell side split squat v. 2,barbell side split squat,Barbell side split squat,barbell side split squat,100.0,1.0,True,True,exacto,True
+1756,barbell single leg deadlift,barbell single leg deadlift,Barbell stiff-legged deadlift,barbell stiff legged deadlift,82.14,0.6,True,True,sin_match,False
+0099,barbell single leg split squat,barbell single leg split squat,Barbell side split squat,barbell side split squat,85.19,0.5,True,True,sin_match,False
+2799,barbell sitted alternate leg raise,barbell sitted alternate leg raise,RG Alternating Seated Dumbbell Lateral Raise,alternating seated dumbbell lateral raise,74.67,0.111,False,False,sin_match,False
+2800,barbell sitted alternate leg raise (female),barbell sitted alternate leg raise,RG Alternating Seated Dumbbell Lateral Raise,alternating seated dumbbell lateral raise,74.67,0.111,False,False,sin_match,False
+0100,barbell skier,barbell skier,Dumbbell skier,dumbbell skier,81.48,0.333,False,False,sin_match,False
+0101,barbell speed squat,barbell speed squat,Barbell speed squat,barbell speed squat,100.0,1.0,True,True,exacto,True
+2810,barbell split squat v. 2,barbell split squat,Paul Carter Barbell Split Squat,barbell split squat,100.0,1.0,True,True,exacto,True
+0102,barbell squat (on knees),barbell squat on knee,Barbell front squat,barbell front squat,80.0,0.4,True,True,sin_match,False
+2798,barbell squat jump step rear lunge,barbell squat jump step reverse lunge,Barbell step-down reverse lunge,barbell step down reverse lunge,79.41,0.571,True,True,sin_match,False
+0103,barbell standing ab rollerout,barbell standing ab rollerout,AM Standing Barbell Curl,standing barbell curl,76.0,0.4,False,True,sin_match,False
+0104,barbell standing back wrist curl,barbell standing back wrist curl,Standing behind-the-back wrist curl,standing behind the back wrist curl,80.6,0.571,True,True,sin_match,False
+0105,barbell standing bradford press,barbell standing bradford press,Standing Bradford press,standing bradford press,85.19,0.75,True,True,difuso,True
+1372,barbell standing calf raise,barbell standing calf raise,Standing barbell calf raise,standing barbell calf raise,100.0,1.0,True,True,exacto,True
+0106,barbell standing close grip curl,barbell standing close grip curl,Close-grip barbell curl,close grip barbell curl,83.64,0.8,True,True,sin_match,False
+1456,barbell standing close grip military press,barbell standing close grip military press,Paul Carter Barbell Seated Military Press,barbell seated military press,73.24,0.429,True,True,sin_match,False
+2414,barbell standing concentration curl,barbell standing concentration curl,Band standing concentration curl,band standing concentration curl,89.55,0.6,True,False,sin_match,False
+0107,barbell standing front raise over head,barbell standing front raise over head,Standing barbell calf raise,standing barbell calf raise,73.85,0.429,False,True,sin_match,False
+0108,barbell standing leg calf raise,barbell standing leg calf raise,Standing barbell calf raise,standing barbell calf raise,93.1,0.8,True,True,difuso,True
+0109,barbell standing overhead triceps extension,barbell standing overhead tricep extension,Standing barbell overhead triceps extension,standing barbell overhead tricep extension,100.0,1.0,True,True,exacto,True
+0110,barbell standing reverse grip curl,barbell standing reverse grip curl,Standing reverse-grip cable curl,standing reverse grip cable curl,90.91,0.667,True,False,sin_match,False
+0111,barbell standing rocking leg calf raise,barbell standing rocking leg calf raise,Rocking Standing Calf Raise,rocking standing calf raise,81.82,0.667,True,True,sin_match,False
+0112,barbell standing twist,barbell standing twist,Standing cable twist,standing cable twist,85.71,0.5,True,False,sin_match,False
+1629,barbell standing wide grip biceps curl,barbell standing wide grip bicep curl,Wide-grip barbell curl,wide grip barbell curl,74.58,0.667,True,True,sin_match,False
+1457,barbell standing wide military press,barbell standing wide military press,Paul Carter Barbell Seated Military Press,barbell seated military press,80.0,0.5,True,True,sin_match,False
+0113,barbell standing wide-grip curl,barbell standing wide grip curl,Wide-grip barbell curl,wide grip barbell curl,83.02,0.8,True,True,sin_match,False
+0114,barbell step-up,barbell step up,Barbell step-up,barbell step up,100.0,1.0,True,True,exacto,True
+0115,barbell stiff leg good morning,barbell stiff leg good morning,Stiff Leg Barbell Good Morning,stiff leg barbell good morning,100.0,1.0,True,True,exacto,True
+0116,barbell straight leg deadlift,barbell straight leg deadlift,Barbell stiff-legged deadlift,barbell stiff legged deadlift,82.76,0.6,True,True,sin_match,False
+0117,barbell sumo deadlift,barbell sumo deadlift,Barbell Deadlift,barbell deadlift,86.49,0.667,True,True,difuso,True
+3305,barbell thruster,barbell thruster,Barbell thruster,barbell thruster,100.0,1.0,False,True,exacto,True
+0120,barbell upright row,barbell upright row,Barbell upright row,barbell upright row,100.0,1.0,True,True,exacto,True
+0119,barbell upright row v. 2,barbell upright row,Barbell upright row,barbell upright row,100.0,1.0,True,True,exacto,True
+0121,barbell upright row v. 3,barbell upright row,Barbell upright row,barbell upright row,100.0,1.0,True,True,exacto,True
+0122,barbell wide bench press,barbell wide bench press,Barbell Bench Press-Wide Grip,barbell bench press wide grip,90.57,0.8,True,True,difuso,True
+1258,barbell wide reverse grip bench press,barbell wide reverse grip bench press,Barbell Bench Press-Wide Grip,barbell bench press wide grip,87.88,0.833,True,True,difuso,True
+0124,barbell wide squat,barbell wide squat,Barbell Squat,barbell squat,83.87,0.667,True,True,sin_match,False
+0123,barbell wide-grip upright row,barbell wide grip upright row,Barbell upright row,barbell upright row,79.17,0.6,True,True,sin_match,False
+0126,barbell wrist curl,barbell wrist curl,Cable Wrist Curl,cable wrist curl,82.35,0.5,True,False,sin_match,False
+0125,barbell wrist curl v. 2,barbell wrist curl,Cable Wrist Curl,cable wrist curl,82.35,0.5,True,False,sin_match,False
+0127,barbell zercher squat,barbell zercher squat,Barbell Squat,barbell squat,76.47,0.667,True,True,sin_match,False
+3212,basic toe touch (male),basic toe touch,Crab toe-touch,crab toe touch,75.86,0.5,False,True,sin_match,False
+0128,battling ropes,battling rope,Battle ropes,battle rope,83.33,0.333,True,True,sin_match,False
+3360,bear crawl,bear crawl,Bear crawl,bear crawl,100.0,1.0,,True,exacto,True
+1259,behind head chest stretch,behind head chest stretch,Behind Head Chest Stretch,behind head chest stretch,100.0,1.0,True,True,exacto,True
+0129,bench dip (knees bent),bench dip knee bent,Weighted bench dip,weighted bench dip,64.86,0.4,True,True,sin_match,False
+1399,bench dip on floor,bench dip on floor,Bench dip,bench dip,66.67,0.5,True,True,sin_match,False
+0130,bench hip extension,bench hip extension,Hip Extension with Bands,hip extension with band,76.19,0.4,True,False,sin_match,False
+3019,bench pull-ups,bench pull up,30 Chest Bench Push-Up,bench push up,84.62,0.5,False,True,sin_match,False
+3639,bent knee lying twist (male),bent knee lying twist,Cable lying twist on ball,cable lying twist on ball,65.22,0.286,False,False,sin_match,False
+1770,biceps leg concentration curl,bicep leg concentration curl,30 Arms Cable Concentration Curl,cable concentration curl,80.77,0.4,True,False,sin_match,False
+0139,biceps narrow pull-ups,bicep narrow pull up,Holman Narrow Push-Up,narrow push up,70.59,0.4,False,True,sin_match,False
+0140,biceps pull-up,bicep pull up,Biceps Rope Curl,bicep rope curl,71.43,0.2,False,False,sin_match,False
+0137,body-up,body up,X-body V-up,x body v up,77.78,0.5,False,True,sin_match,False
+3543,bodyweight drop jump squat,bodyweight drop jump squat,Bodyweight squat,bodyweight squat,76.19,0.5,True,True,sin_match,False
+3544,bodyweight incline side plank,bodyweight incline side plank,Bodyweight Walking Lunge,bodyweight walking lunge,67.92,0.167,False,True,sin_match,False
+1771,bodyweight kneeling triceps extension,bodyweight kneeling tricep extension,Kneeling cable triceps extension,kneeling cable tricep extension,83.58,0.6,True,False,sin_match,False
+1769,bodyweight side lying biceps curl,bodyweight side lying bicep curl,Lying cable biceps curl,lying cable bicep curl,70.37,0.5,True,False,sin_match,False
+3168,bodyweight squatting row,bodyweight squatting row,Bodyweight squat,bodyweight squat,80.0,0.667,False,True,sin_match,False
+3167,bodyweight squatting row (with towel),bodyweight squatting row with towel,Bodyweight squat,bodyweight squat,62.75,0.4,False,True,sin_match,False
+1373,bodyweight standing calf raise,bodyweight standing calf raise,Standing Calf Raises,standing calf raise,77.55,0.75,True,False,sin_match,False
+3156,bodyweight standing close-grip one arm row,bodyweight standing close grip one arm row,30 Back Standing Low Cable Rope Row,standing low cable rope row,66.67,0.2,True,False,sin_match,False
+3158,bodyweight standing close-grip row,bodyweight standing close grip row,Standing V-Grip Cable Rows,standing v grip cable row,71.19,0.429,True,False,sin_match,False
+3162,bodyweight standing one arm row,bodyweight standing one arm row,High-cable standing row,high cable standing row,70.37,0.286,True,False,sin_match,False
+3161,bodyweight standing one arm row (with towel),bodyweight standing one arm row with towel,Standing cable low-to-high twist,standing cable low to high twist,67.57,0.083,False,False,sin_match,False
+3166,bodyweight standing row,bodyweight standing row,High-cable standing row,high cable standing row,78.26,0.4,True,False,sin_match,False
+3165,bodyweight standing row (with towel),bodyweight standing row with towel,Standing cable low-to-high twist,standing cable low to high twist,72.73,0.1,False,False,sin_match,False
+0138,bottoms-up,bottom up,Bottoms Up,bottom up,100.0,1.0,True,True,exacto,True
+1374,box jump down with one leg stabilization,box jump down with one leg stabilization,Single-Leg Box Jump,single leg box jump,54.24,0.375,False,True,sin_match,False
+2466,bridge - mountain climber (cross body),bridge mountain climber cross body,Cross-body mountain climber,cross body mountain climber,88.52,0.8,True,True,difuso,True
+1160,burpee,burpee,Burpee,burpee,100.0,1.0,,True,exacto,True
+0870,butt-ups,butt ups,Butt-Ups,butt ups,100.0,1.0,True,True,exacto,True
+1494,butterfly yoga pose,butterfly yoga pose,Butterfly,butterfly,64.29,0.333,False,False,sin_match,False
+0148,cable alternate shoulder press,cable alternate shoulder press,Alternating Cable Shoulder Press,alternating cable shoulder press,93.55,0.6,True,True,difuso,True
+0149,cable alternate triceps extension,cable alternate tricep extension,Single-arm cable triceps extension,single arm cable tricep extension,76.92,0.5,True,True,sin_match,False
+3235,cable assisted inverse leg curl,cable assisted inverse leg curl,Single-arm cable biceps curl,single arm cable bicep curl,65.52,0.25,False,True,sin_match,False
+0150,cable bar lateral pulldown,cable bar lateral pulldown,Single-arm cable lateral raise,single arm cable lateral raise,64.29,0.286,False,True,sin_match,False
+0151,cable bench press,cable bench press,Incline bench press,incline bench press,83.33,0.5,True,False,sin_match,False
+1630,cable close grip curl,cable close grip curl,Close-grip barbell curl,close grip barbell curl,86.36,0.6,True,False,sin_match,False
+1631,cable concentration curl,cable concentration curl,30 Arms Cable Concentration Curl,cable concentration curl,100.0,1.0,True,True,exacto,True
+0152,cable concentration extension (on knee),cable concentration extension on knee,30 Arms Cable Concentration Curl,cable concentration curl,65.57,0.333,False,True,sin_match,False
+0153,cable cross-over lateral pulldown,cable cross over lateral pulldown,Low-cable cross-over,low cable cross over,67.92,0.5,False,True,sin_match,False
+0154,cable cross-over revers fly,cable cross over rever fly,Low-cable cross-over,low cable cross over,78.26,0.5,False,True,sin_match,False
+0155,cable cross-over variation,cable cross over variation,Cable Cross-Over - Gethin Variation,cable cross over gethin variation,88.14,0.8,True,True,difuso,True
+0868,cable curl,cable curl,High Cable Curls,high cable curl,80.0,0.667,True,True,sin_match,False
+0157,cable deadlift,cable deadlift,Cable Deadlifts,cable deadlift,100.0,1.0,True,True,exacto,True
+0158,cable decline fly,cable decline fly,AM Decline Abs,decline abs,71.43,0.25,False,False,sin_match,False
+1260,cable decline one arm press,cable decline one arm press,Decline barbell bench press,decline barbell bench press,70.37,0.286,True,False,sin_match,False
+1261,cable decline press,cable decline press,Incline cable chest press,incline cable chest press,81.82,0.4,True,True,sin_match,False
+0159,cable decline seated wide-grip row,cable decline seated wide grip row,30 Back Close-Grip Seated Cable Row,close grip seated cable row,81.97,0.571,True,True,sin_match,False
+1632,cable drag curl,cable drag curl,High Cable Curls,high cable curl,80.0,0.5,True,True,sin_match,False
+0160,cable floor seated wide-grip row,cable floor seated wide grip row,30 Back Close-Grip Seated Cable Row,close grip seated cable row,81.36,0.571,True,True,sin_match,False
+0161,cable forward raise,cable forward raise,Lying cable front raise,lying cable front raise,66.67,0.4,True,True,sin_match,False
+0162,cable front raise,cable front raise,Lying cable front raise,lying cable front raise,85.0,0.75,True,True,difuso,True
+0164,cable front shoulder raise,cable front shoulder raise,Single-arm cable front raise,single arm cable front raise,77.78,0.5,True,True,sin_match,False
+0165,cable hammer curl (with rope),cable hammer curl with rope,Cable rope hammer curl,cable rope hammer curl,89.8,0.8,True,True,difuso,True
+1722,cable high pulley overhead tricep extension,cable high pulley overhead tricep extension,30 Arms Cable Rope Overhead Triceps Extension,cable rope overhead tricep extension,86.08,0.571,True,True,difuso,True
+0167,cable high row (kneeling),cable high row kneeling,30 Back Kneeling High Cable Pull-Down,kneeling high cable pull down,76.92,0.5,True,True,sin_match,False
+0168,cable hip adduction,cable hip adduction,Cable Hip Adduction,cable hip adduction,100.0,1.0,True,True,exacto,True
+0169,cable incline bench press,cable incline bench press,Incline bench press,incline bench press,86.36,0.75,True,False,sin_match,False
+1318,cable incline bench row,cable incline bench row,Incline bench press,incline bench press,71.43,0.4,False,False,sin_match,False
+0171,cable incline fly,cable incline fly,30 Chest Incline Cable Fly,incline cable fly,100.0,1.0,True,True,exacto,True
+0170,cable incline fly (on stability ball),cable incline fly on exercise ball,Incline cable chest fly,incline cable chest fly,70.18,0.429,True,True,sin_match,False
+0172,cable incline pushdown,cable incline pushdown,Incline cable chest press,incline cable chest press,68.09,0.4,False,True,sin_match,False
+0173,cable incline triceps extension,cable incline tricep extension,Incline cable rope triceps extension,incline cable rope tricep extension,92.31,0.8,True,True,difuso,True
+0174,cable judo flip,cable judo flip,Cable Judo Flip,cable judo flip,100.0,1.0,True,True,exacto,True
+0860,cable kickback,cable kickback,Glute Kickback,glute kickback,78.57,0.333,False,False,sin_match,False
+0175,cable kneeling crunch,cable kneeling crunch,Kneeling cable crunch,kneeling cable crunch,100.0,1.0,True,True,exacto,True
+3697,cable kneeling rear delt row (with rope) (male),cable kneeling rear delt row with rope,Standing cable rear delt row,standing cable rear delt row,63.64,0.5,True,True,sin_match,False
+0176,cable kneeling triceps extension,cable kneeling tricep extension,Kneeling cable triceps extension,kneeling cable tricep extension,100.0,1.0,True,True,exacto,True
+2330,cable lat pulldown full range of motion,cable lat pulldown full range of motion,Full Range-Of-Motion Lat Pulldown,full range of motion lat pulldown,91.67,0.857,True,True,difuso,True
+0177,cable lateral pulldown (with rope attachment),cable lateral pulldown with rope attachment,30 Shoulders Single-Arm Leaning Cable Lateral Raise,single arm leaning cable lateral raise,59.26,0.2,False,True,sin_match,False
+2616,cable lateral pulldown with v-bar,cable lateral pulldown with v bar,T-Bar Row with Handle,t bar row with handle,62.96,0.222,True,False,sin_match,False
+0178,cable lateral raise,cable lateral raise,Lying cable lateral raise,lying cable lateral raise,86.36,0.75,True,True,difuso,True
+0179,cable low fly,cable low fly,UP Cable Fly,cable fly,81.82,0.667,True,True,sin_match,False
+0180,cable low seated row,cable low seated row,Seated Cable Rows,seated cable row,88.89,0.75,True,True,difuso,True
+1634,cable lying bicep curl,cable lying bicep curl,Lying cable biceps curl,lying cable bicep curl,100.0,1.0,True,True,exacto,True
+0182,cable lying close-grip curl,cable lying close grip curl,Lying cable leg curl,lying cable leg curl,76.6,0.5,False,True,sin_match,False
+0184,cable lying extension pullover (with rope attachment),cable lying extension pullover with rope attachment,Single-arm cable triceps extension,single arm cable tricep extension,64.29,0.2,False,True,sin_match,False
+0185,cable lying fly,cable lying fly,Lying cable chest fly,lying cable chest fly,83.33,0.75,True,True,sin_match,False
+0186,cable lying triceps extension v. 2,cable lying tricep extension,Lying cable triceps extension,lying cable tricep extension,100.0,1.0,True,True,exacto,True
+0188,cable middle fly,cable middle fly,30 Chest Incline Cable Fly,incline cable fly,78.79,0.5,True,True,sin_match,False
+0189,cable one arm bent over row,cable one arm bent over row,Bent Over Barbell Row,bent over barbell row,70.83,0.429,True,False,sin_match,False
+0190,cable one arm curl,cable one arm curl,Standing One-Arm Cable Curl,standing one arm cable curl,80.0,0.8,True,True,sin_match,False
+1262,cable one arm decline chest fly,cable one arm decline chest fly,Incline cable chest press,incline cable chest press,67.86,0.25,True,True,sin_match,False
+1263,cable one arm fly on exercise ball,cable one arm fly on exercise ball,Exercise ball rear delt fly,exercise ball rear delt fly,68.85,0.333,False,False,sin_match,False
+1264,cable one arm incline fly on exercise ball,cable one arm incline fly on exercise ball,Single-arm incline cable cross-over,single arm incline cable cross over,64.94,0.273,False,False,sin_match,False
+1265,cable one arm incline press,cable one arm incline press,Incline cable chest press,incline cable chest press,73.08,0.5,True,True,sin_match,False
+1266,cable one arm incline press on exercise ball,cable one arm incline press on exercise ball,Barbell Incline Bench Press Medium-Grip,barbell incline bench press medium grip,65.06,0.167,True,False,sin_match,False
+0191,cable one arm lateral bent-over,cable one arm lateral bent over,Single-arm cable lateral raise,single arm cable lateral raise,68.85,0.375,False,True,sin_match,False
+0192,cable one arm lateral raise,cable one arm lateral raise,Lying cable lateral raise,lying cable lateral raise,80.77,0.5,True,True,sin_match,False
+1633,cable one arm preacher curl,cable one arm preacher curl,EZ-bar preacher curl,ez bar preacher curl,76.6,0.286,True,False,sin_match,False
+1267,cable one arm press on exercise ball,cable one arm press on exercise ball,Exercise ball knee roll-in,exercise ball knee roll in,64.52,0.2,False,False,sin_match,False
+3563,cable one arm pulldown,cable one arm pulldown,LD Cable One-Arm Upright Row,cable one arm upright row,68.09,0.5,False,True,sin_match,False
+1635,cable one arm reverse preacher curl,cable one arm reverse preacher curl,Reverse Barbell Preacher Curls,reverse barbell preacher curl,81.25,0.429,True,False,sin_match,False
+0193,cable one arm straight back high row (kneeling),cable one arm straight back high row kneeling,LD Cable One-Arm Upright Row,cable one arm upright row,65.71,0.444,False,True,sin_match,False
+1723,cable one arm tricep pushdown,cable one arm tricep pushdown,Single-arm cable push-down,single arm cable push down,72.73,0.429,False,True,sin_match,False
+1636,cable overhead curl,cable overhead curl,Overhead cable curl,overhead cable curl,100.0,1.0,True,True,exacto,True
+1637,cable overhead curl on exercise ball,cable overhead curl on exercise ball,Exercise Ball Cable Crunch - Gethin Variation,exercise ball cable crunch gethin variation,70.89,0.333,False,True,sin_match,False
+0194,cable overhead triceps extension (rope attachment),cable overhead tricep extension rope attachment,30 Arms Cable Rope Overhead Triceps Extension,cable rope overhead tricep extension,86.75,0.833,True,True,difuso,True
+1319,cable palm rotational row,cable palm rotational row,Cable Internal Rotation,cable internal rotation,70.83,0.4,True,True,sin_match,False
+0195,cable preacher curl,cable preacher curl,Preacher Curl,preacher curl,81.25,0.667,True,False,sin_match,False
+1268,cable press on exercise ball,cable press on exercise ball,Exercise ball leg curl,exercise ball leg curl,72.0,0.286,False,False,sin_match,False
+0196,cable pull through (with rope),cable pull through with rope,UN Cable Pull-Through,cable pull through,78.26,0.6,False,True,sin_match,False
+0198,cable pulldown,cable pulldown,Cable Judo Flip,cable judo flip,68.97,0.25,False,True,sin_match,False
+0197,cable pulldown (pro lat bar),cable pulldown pro lat bar,30 Back Standing Low Cable Bar Row,standing low cable bar row,65.38,0.25,True,True,sin_match,False
+1638,cable pulldown bicep curl,cable pulldown bicep curl,Lying cable biceps curl,lying cable bicep curl,80.85,0.6,True,True,sin_match,False
+0201,cable pushdown,cable pushdown,Cable Judo Flip,cable judo flip,68.97,0.25,False,True,sin_match,False
+0199,cable pushdown (straight arm) v. 2,cable pushdown straight arm,UP Cable Straight-Arm Pull-Down,cable straight arm pull down,83.64,0.5,True,True,sin_match,False
+0200,cable pushdown (with rope attachment),cable pushdown with rope attachment,MetaBurn Alternating Plank Row With Push-Up,alternating plank row with push up,60.87,0.222,False,False,sin_match,False
+0202,cable rear delt row (stirrups),cable rear delt row stirrup,Standing cable rear delt row,standing cable rear delt row,83.64,0.667,True,True,sin_match,False
+0203,cable rear delt row (with rope),cable rear delt row with rope,Standing cable rear delt row,standing cable rear delt row,73.68,0.571,True,True,sin_match,False
+0204,cable rear drive,cable rear drive,Rear Leg Raises,rear leg raise,73.33,0.2,False,False,sin_match,False
+0205,cable rear pulldown,cable rear pulldown,30 Shoulders Cable Rope Face Pull,cable rope face pull,66.67,0.4,False,True,sin_match,False
+0873,cable reverse crunch,cable reverse crunch,Cable reverse crunch,cable reverse crunch,100.0,1.0,True,True,exacto,True
+0206,cable reverse curl,cable reverse curl,Reverse Cable Curl,reverse cable curl,100.0,1.0,True,True,exacto,True
+2406,cable reverse grip triceps pushdown (sz-bar) (with arm blaster),cable reverse grip tricep pushdown ez bar with arm blaster,Reverse-Grip Cable Triceps Pushdown - Gethin Variation,reverse grip cable tricep pushdown gethin variation,71.56,0.417,True,True,sin_match,False
+1413,cable reverse one arm curl,cable reverse one arm curl,Reverse Cable Curl,reverse cable curl,81.82,0.6,True,True,sin_match,False
+0209,cable reverse preacher curl,cable reverse preacher curl,Reverse Barbell Preacher Curls,reverse barbell preacher curl,89.29,0.6,True,False,sin_match,False
+0210,cable reverse wrist curl,cable reverse wrist curl,Reverse Cable Curl,reverse cable curl,85.71,0.75,False,True,sin_match,False
+0207,cable reverse-grip pushdown,cable reverse grip pushdown,Reverse Grip Triceps Pushdown,reverse grip tricep pushdown,76.36,0.6,True,True,sin_match,False
+0208,cable reverse-grip straight back seated high row,cable reverse grip straight back seated high row,Reverse-grip cable straight-bar push-down,reverse grip cable straight bar push down,71.91,0.364,False,True,sin_match,False
+1320,cable rope crossover seated row,cable rope crossover seated row,30 Back Close-Grip Seated Cable Row,close grip seated cable row,82.76,0.429,True,True,sin_match,False
+1321,cable rope elevated seated row,cable rope elevated seated row,30 Back Close-Grip Seated Cable Row,close grip seated cable row,77.19,0.429,True,True,sin_match,False
+1322,cable rope extension incline bench row,cable rope extension incline bench row,Incline cable rope triceps extension,incline cable rope tricep extension,82.19,0.571,False,True,sin_match,False
+1639,cable rope hammer preacher curl,cable rope hammer preacher curl,Cable rope preacher hammer curl,cable rope preacher hammer curl,100.0,1.0,True,True,exacto,True
+1724,cable rope high pulley overhead tricep extension,cable rope high pulley overhead tricep extension,30 Arms Cable Rope Overhead Triceps Extension,cable rope overhead tricep extension,85.71,0.714,True,True,difuso,True
+1725,cable rope incline tricep extension,cable rope incline tricep extension,Incline cable rope triceps extension,incline cable rope tricep extension,100.0,1.0,True,True,exacto,True
+1726,cable rope lying on floor tricep extension,cable rope lying on floor tricep extension,Incline cable rope triceps extension,incline cable rope tricep extension,80.52,0.5,True,True,sin_match,False
+1640,cable rope one arm hammer preacher curl,cable rope one arm hammer preacher curl,Cable rope preacher hammer curl,cable rope preacher hammer curl,88.57,0.714,True,True,difuso,True
+1323,cable rope seated row,cable rope seated row,Seated Cable Rows,seated cable row,86.49,0.75,True,True,difuso,True
+0211,cable russian twists (on stability ball),cable russian twist on exercise ball,Medicine ball Russian twist,medicine ball russian twist,73.02,0.429,True,False,sin_match,False
+2144,cable seated chest press,cable seated chest press,Standing Cable Chest Press,standing cable chest press,84.0,0.6,True,True,sin_match,False
+0212,cable seated crunch,cable seated crunch,Cable Seated Crunch,cable seated crunch,100.0,1.0,True,True,exacto,True
+1641,cable seated curl,cable seated curl,Seated cable biceps curl,seated cable bicep curl,85.0,0.75,True,True,difuso,True
+0213,cable seated high row (v-bar),cable seated high row v bar,Seated Cable Rows,seated cable row,74.42,0.5,True,True,sin_match,False
+0214,cable seated one arm alternate row,cable seated one arm alternate row,Single-arm cable seated row,single arm cable seated row,65.57,0.571,True,True,sin_match,False
+1642,cable seated one arm concentration curl,cable seated one arm concentration curl,Seated Close-Grip Concentration Barbell Curl,seated close grip concentration barbell curl,79.52,0.333,True,False,sin_match,False
+1643,cable seated overhead curl,cable seated overhead curl,Overhead cable curl,overhead cable curl,84.44,0.75,True,True,sin_match,False
+0215,cable seated rear lateral raise,cable seated rear lateral raise,Cable Seated Lateral Raise,cable seated lateral raise,91.23,0.8,True,True,difuso,True
+0861,cable seated row,cable seated row,Seated Cable Rows,seated cable row,100.0,1.0,True,True,exacto,True
+0216,cable seated shoulder internal rotation,cable seated shoulder internal rotation,Cable Internal Rotation,cable internal rotation,74.19,0.6,True,True,sin_match,False
+2399,cable seated twist,cable seated twist,Seated bar twist,seated bar twist,82.35,0.5,True,False,sin_match,False
+0218,cable seated wide-grip row,cable seated wide grip row,30 back Wide-Grip Seated Cable Row,30 back wide grip seated cable row,86.67,0.714,True,True,difuso,True
+0219,cable shoulder press,cable shoulder press,Cable Shoulder Press,cable shoulder press,100.0,1.0,True,True,exacto,True
+0220,cable shrug,cable shrug,Cable shrug,cable shrug,100.0,1.0,True,True,exacto,True
+0222,cable side bend,cable side bend,HM Side-Bend Pose,side bend pose,75.86,0.5,True,False,sin_match,False
+0221,cable side bend crunch (bosu ball),cable side bend crunch bosu ball,Bosu Ball Cable Crunch With Side Bends,bosu ball cable crunch with side bend,92.75,0.857,True,True,difuso,True
+0223,cable side crunch,cable side crunch,Cable Seated Crunch,cable seated crunch,83.33,0.5,True,True,sin_match,False
+1717,cable squat row (with rope attachment),cable squat row with rope attachment,Squat with alternating side leg raise,squat with alternating side leg raise,63.01,0.2,False,False,sin_match,False
+1644,cable squatting curl,cable squatting curl,Squatting cable EZ-bar biceps curl,squatting cable ez bar bicep curl,75.47,0.5,True,True,sin_match,False
+0224,cable standing back wrist curl,cable standing back wrist curl,Standing behind-the-back wrist curl,standing behind the back wrist curl,83.08,0.571,True,False,sin_match,False
+1375,cable standing calf raise,cable standing calf raise,Standing barbell calf raise,standing barbell calf raise,88.46,0.6,True,False,sin_match,False
+0225,cable standing cross-over high reverse fly,cable standing cross over high reverse fly,Standing reverse-grip cable curl,standing reverse grip cable curl,78.38,0.333,False,True,sin_match,False
+0226,cable standing crunch,cable standing crunch,Standing cable crunch,standing cable crunch,100.0,1.0,True,True,exacto,True
+0874,cable standing crunch (with rope attachment),cable standing crunch with rope attachment,Standing cable crunch,standing cable crunch,66.67,0.5,True,True,sin_match,False
+0227,cable standing fly,cable standing fly,Standing cable leg curl,standing cable leg curl,78.05,0.4,False,True,sin_match,False
+0228,cable standing hip extension,cable standing hip extension,Standing hip extension,standing hip extension,88.0,0.75,True,False,sin_match,False
+0229,cable standing inner curl,cable standing inner curl,Standing Inner-Biceps Curl,standing inner bicep curl,88.0,0.6,True,False,sin_match,False
+0230,cable standing lift,cable standing lift,Standing cable leg curl,standing cable leg curl,76.19,0.4,False,True,sin_match,False
+0231,cable standing one arm triceps extension,cable standing one arm tricep extension,Single-arm cable triceps extension,single arm cable tricep extension,86.11,0.571,True,True,difuso,True
+1376,cable standing one leg calf raise,cable standing one leg calf raise,Standing barbell calf raise,standing barbell calf raise,76.67,0.429,True,False,sin_match,False
+0232,cable standing pulldown (with rope),cable standing pulldown with rope,30 Back Standing Low Cable Rope Row,standing low cable rope row,76.67,0.429,False,True,sin_match,False
+0233,cable standing rear delt row (with rope),cable standing rear delt row with rope,Standing cable rear delt row,standing cable rear delt row,84.85,0.714,True,True,sin_match,False
+1727,cable standing reverse grip one arm overhead tricep extension,cable standing reverse grip one arm overhead tricep extension,Standing barbell overhead triceps extension,standing barbell overhead tricep extension,75.73,0.4,True,False,sin_match,False
+0234,cable standing row (v-bar),cable standing row v bar,30 Back Standing Low Cable Bar Row,standing low cable bar row,88.0,0.667,True,True,difuso,True
+0235,cable standing shoulder external rotation,cable standing shoulder external rotation,Dumbbell external shoulder rotation,dumbbell external shoulder rotation,76.32,0.5,True,False,sin_match,False
+0236,cable standing twist row (v-bar),cable standing twist row v bar,Standing cable twist,standing cable twist,80.0,0.5,False,True,sin_match,False
+1269,cable standing up straight crossovers,cable standing up straight crossover,30 Arms Squatting Cable Straight-Bar Curl,squatting cable straight bar curl,66.67,0.25,False,True,sin_match,False
+0238,cable straight arm pulldown,cable straight arm pulldown,Straight-Arm Pulldown,straight arm pulldown,87.5,0.75,True,True,difuso,True
+0237,cable straight arm pulldown (with rope),cable straight arm pulldown with rope,UP Cable Curl With Straight Bar,cable curl with straight bar,76.92,0.375,False,True,sin_match,False
+0239,cable straight back seated row,cable straight back seated row,Single-arm cable seated row,single arm cable seated row,77.19,0.429,True,True,sin_match,False
+0240,cable supine reverse fly,cable supine reverse fly,30 Shoulders High Cable Reverse Fly,high cable reverse fly,73.91,0.6,True,True,sin_match,False
+2464,cable thibaudeau kayak row,cable thibaudeau kayak row,High-cable standing row,high cable standing row,57.14,0.333,True,True,sin_match,False
+0241,cable triceps pushdown (v-bar),cable tricep pushdown v bar,Cable V-bar push-down,cable v bar push down,75.0,0.667,True,True,sin_match,False
+2405,cable triceps pushdown (v-bar) (with arm blaster),cable tricep pushdown v bar with arm blaster,Close-Grip EZ-Bar Curl with Band,close grip ez bar curl with band,57.89,0.154,False,False,sin_match,False
+0242,cable tuck reverse crunch,cable tuck reverse crunch,Cable reverse crunch,cable reverse crunch,88.89,0.75,True,True,difuso,True
+0243,cable twist,cable twist,Cable Wrist Curl,cable wrist curl,74.07,0.25,False,True,sin_match,False
+0862,cable twist (up-down),cable twist up down,Standing cable twist,standing cable twist,71.79,0.4,True,True,sin_match,False
+0244,cable twisting pull,cable twisting pull,Cable Wrist Curl,cable wrist curl,74.29,0.2,False,True,sin_match,False
+1645,cable two arm curl on incline bench,cable two arm curl on incline bench,Single-arm cable biceps curl,single arm cable bicep curl,70.97,0.333,True,True,sin_match,False
+1728,cable two arm tricep kickback,cable two arm tricep kickback,Tricep Dumbbell Kickback,tricep dumbbell kickback,71.7,0.333,True,False,sin_match,False
+0245,cable underhand pulldown,cable underhand pulldown,Overhead cable curl,overhead cable curl,65.12,0.2,False,True,sin_match,False
+1270,cable upper chest crossovers,cable upper chest crossover,Cable Crossover,cable crossover,71.43,0.5,True,True,sin_match,False
+1324,cable upper row,cable upper row,Cable cross-over,cable cross over,70.97,0.2,False,True,sin_match,False
+0246,cable upright row,cable upright row,Barbell upright row,barbell upright row,83.33,0.5,True,False,sin_match,False
+1325,cable wide grip rear pulldown behind neck,cable wide grip rear pulldown behind neck,30 Back Wide-Grip Behind-The-Head Pull-Down,wide grip behind the head pull down,68.42,0.4,True,True,sin_match,False
+0247,cable wrist curl,cable wrist curl,Cable Wrist Curl,cable wrist curl,100.0,1.0,True,True,exacto,True
+1407,calf push stretch with hands against wall,calf push stretch with hand against wall,Calf Stretch Elbows Against Wall,calf stretch elbow against wall,73.24,0.5,True,True,sin_match,False
+1377,calf stretch with hands against wall,calf stretch with hand against wall,Calf Stretch Elbows Against Wall,calf stretch elbow against wall,78.79,0.571,True,True,sin_match,False
+1378,calf stretch with rope,calf stretch with rope,Wall calf stretch,wall calf stretch,71.79,0.4,True,False,sin_match,False
+0248,cambered bar lying row,cambered bar lying row,Lying T-Bar Row,lying t bar row,70.27,0.6,True,False,sin_match,False
+2963,captains chair straight leg raise,captain chair straight leg raise,Captain's chair leg raise,captain s chair leg raise,87.72,0.667,True,True,difuso,True
+1548,chair leg extended stretch,chair leg extended stretch,Chair Leg Extended Stretch,chair leg extended stretch,100.0,1.0,True,True,exacto,True
+1271,chest and front of shoulder stretch,chest and front of shoulder stretch,Cross-body shoulder stretch,cross body shoulder stretch,70.97,0.25,False,True,sin_match,False
+0251,chest dip,chest dip,Chest dip,chest dip,100.0,1.0,True,True,exacto,True
+1430,chest dip (on dip-pull-up cage),chest dip on dip pull up cage,Kipping Clapping Pull-Up,kipping clapping pull up,60.38,0.25,False,True,sin_match,False
+2462,chest dip on straight bar,chest dip on straight bar,Straight Bar Bench Mid Rows,straight bar bench mid row,74.51,0.25,False,False,sin_match,False
+1272,chest stretch with exercise ball,chest stretch with exercise ball,Exercise ball chest stretch,exercise ball chest stretch,91.53,0.8,True,True,difuso,True
+3216,chest tap push-up (male),chest tap push up,Hand Stand Push-Up,hand stand push up,68.57,0.333,False,True,sin_match,False
+1326,chin-up,chin up,Chin-Up,chin up,100.0,1.0,True,True,exacto,True
+0253,chin-ups (narrow parallel grip),chin up narrow parallel grip,Neutral-grip pull-up,neutral grip pull up,58.33,0.286,True,True,sin_match,False
+0257,circles knee stretch,circle knee stretch,Knee Circles,knee circle,73.33,0.667,True,True,sin_match,False
+1273,clap push up,clap push up,Clapping Push-Up,clapping push up,85.71,1.0,True,True,difuso,True
+0258,clock push-up,clock push up,Clock push-up,clock push up,100.0,1.0,True,True,exacto,True
+1327,close grip chin-up,close grip chin up,Close-grip bench press,close grip bench press,75.0,0.333,False,False,sin_match,False
+0259,close-grip push-up,close grip push up,30 Arms Close-Grip Push-Up,close grip push up,100.0,1.0,True,True,exacto,True
+2398,close-grip push-up (on knees),close grip push up on knee,30 Arms Close-Grip Push-Up,close grip push up,81.82,0.667,True,True,sin_match,False
+0260,cocoons,cocoon,Cocoons,cocoon,100.0,1.0,True,True,exacto,True
+1468,crab twist toe touch,crab twist toe touch,Crab toe-touch,crab toe touch,82.35,0.75,True,True,sin_match,False
+0262,cross body crunch,cross body crunch,Cross-Body Crunch,cross body crunch,100.0,1.0,True,True,exacto,True
+0267,crunch (hands overhead),crunch hand overhead,Crunch - Hands Overhead,crunch hand overhead,100.0,1.0,True,True,exacto,True
+0271,crunch (on stability ball),crunch on exercise ball,Exercise ball crunch,exercise ball crunch,93.02,0.75,True,True,difuso,True
+0272,"crunch (on stability ball, arms straight)",crunch on exercise ball arm straight,Exercise ball crunch,exercise ball crunch,71.43,0.5,True,True,sin_match,False
+0274,crunch floor,crunch floor,Rope Crunch,rope crunch,69.57,0.333,True,False,sin_match,False
+3016,curl-up,curl up,Pullups,pull up,71.43,0.333,False,True,sin_match,False
+3769,curtsey squat,curtsey squat,FYR2 Squat Pulse,squat pulse,75.0,0.333,True,True,sin_match,False
+2331,cycle cross trainer,cycle cross trainer,HM Cross-Over Crunch,cross over crunch,61.11,0.2,,False,sin_match,False
+0276,dead bug,dead bug,HM Dead Bug,dead bug,100.0,1.0,True,True,exacto,True
+0277,decline crunch,decline crunch,Decline Crunch,decline crunch,100.0,1.0,True,True,exacto,True
+0279,decline push-up,decline push up,Decline Push-Up,decline push up,100.0,1.0,True,True,exacto,True
+0282,decline sit-up,decline sit up,Decline sit-up,decline sit up,100.0,1.0,True,True,exacto,True
+1274,deep push up,deep push up,Decline Push-Up,decline push up,81.48,0.5,True,False,sin_match,False
+0283,diamond push-up,diamond push up,Diamond push-up,diamond push up,100.0,1.0,False,True,exacto,True
+0284,donkey calf raise,donkey calf raise,Weighted donkey calf raise,weighted donkey calf raise,79.07,0.75,True,True,sin_match,False
+1275,drop push up,drop push up,Drop Push,drop push,85.71,0.667,True,True,difuso,True
+0285,dumbbell alternate biceps curl,dumbbell alternate bicep curl,Dumbbell Alternate Bicep Curl,dumbbell alternate bicep curl,100.0,1.0,True,True,exacto,True
+2403,dumbbell alternate biceps curl (with arm blaster),dumbbell alternate bicep curl with arm blaster,Dumbbell Alternate Bicep Curl,dumbbell alternate bicep curl,77.33,0.571,True,True,sin_match,False
+1646,dumbbell alternate hammer preacher curl,dumbbell alternate hammer preacher curl,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,85.29,0.8,True,True,difuso,True
+1647,dumbbell alternate preacher curl,dumbbell alternate preacher curl,Alternate Incline Dumbbell Curl,alternate incline dumbbell curl,82.54,0.6,True,True,sin_match,False
+1648,dumbbell alternate seated hammer curl,dumbbell alternate seated hammer curl,Alternate Incline Dumbbell Curl,alternate incline dumbbell curl,73.53,0.5,True,True,sin_match,False
+0286,dumbbell alternate side press,dumbbell alternate side press,FYR Single-Arm Dumbbell Press,single arm dumbbell press,77.78,0.333,True,True,sin_match,False
+1649,dumbbell alternating bicep curl with leg raised on exercise ball,dumbbell alternating bicep curl with leg raised on exercise ball,HM Alternating Reverse Lunge With Biceps Curl,alternating reverse lunge with bicep curl,70.48,0.333,True,True,sin_match,False
+1650,dumbbell alternating seated bicep curl on exercise ball,dumbbell alternating seated bicep curl on exercise ball,Alternating incline dumbbell biceps curl,alternating incline dumbbell bicep curl,76.6,0.444,True,True,sin_match,False
+2137,dumbbell arnold press,dumbbell arnold press,FYR Dumbbell Arnold Press,dumbbell arnold press,100.0,1.0,True,True,exacto,True
+0287,dumbbell arnold press v. 2,dumbbell arnold press,FYR Dumbbell Arnold Press,dumbbell arnold press,100.0,1.0,True,True,exacto,True
+0288,dumbbell around pullover,dumbbell around pullover,FYR Dumbbell Arnold Press,dumbbell arnold press,71.11,0.2,False,True,sin_match,False
+0289,dumbbell bench press,dumbbell bench press,Dumbbell Bench Press,dumbbell bench press,100.0,1.0,True,True,exacto,True
+0290,dumbbell bench seated press,dumbbell bench seated press,Seated Dumbbell Press,seated dumbbell press,87.5,0.75,True,True,difuso,True
+0291,dumbbell bench squat,dumbbell bench squat,Dumbbell Squat To A Bench,dumbbell squat to a bench,88.89,0.6,True,True,difuso,True
+0293,dumbbell bent over row,dumbbell bent over row,Dumbbell bent-over row,dumbbell bent over row,100.0,1.0,True,True,exacto,True
+1651,dumbbell bicep curl lunge with bowling motion,dumbbell bicep curl lunge with bowling motion,Dumbbell lunge with biceps curl,dumbbell lunge with bicep curl,80.0,0.714,False,True,sin_match,False
+1652,dumbbell bicep curl on exercise ball with leg raised,dumbbell bicep curl on exercise ball with leg raised,Dumbbell lunge with biceps curl,dumbbell lunge with bicep curl,68.29,0.4,False,True,sin_match,False
+1653,dumbbell bicep curl with stork stance,dumbbell bicep curl with stork stance,Dumbbell lunge with biceps curl,dumbbell lunge with bicep curl,80.6,0.571,False,True,sin_match,False
+0294,dumbbell biceps curl,dumbbell bicep curl,Dumbbell Bicep Curl,dumbbell bicep curl,100.0,1.0,True,True,exacto,True
+2401,dumbbell biceps curl (with arm blaster),dumbbell bicep curl with arm blaster,Double Arm Cable Biceps Curl,double arm cable bicep curl,73.02,0.375,True,False,sin_match,False
+1654,dumbbell biceps curl reverse,dumbbell bicep curl reverse,FYR2 Seesaw Dumbbell Biceps Curl,seesaw dumbbell bicep curl,86.79,0.6,True,True,difuso,True
+1655,dumbbell biceps curl squat,dumbbell bicep curl squat,Seated dumbbell biceps curl,seated dumbbell bicep curl,90.2,0.6,True,True,difuso,True
+1656,dumbbell biceps curl v sit on bosu ball,dumbbell bicep curl v sit on bosu ball,Dumbbell lunge with biceps curl,dumbbell lunge with bicep curl,70.59,0.3,False,True,sin_match,False
+1201,dumbbell burpee,dumbbell burpee,MetaBurn Dumbbell Burpee,dumbbell burpee,100.0,1.0,,True,exacto,True
+0295,dumbbell clean,dumbbell clean,FYR Dumbbell Curl,dumbbell curl,81.48,0.333,False,True,sin_match,False
+1731,dumbbell close grip press,dumbbell close grip press,Total Fitness Close-Grip Dumbbell Press,close grip dumbbell press,100.0,1.0,True,True,exacto,True
+0296,dumbbell close-grip press,dumbbell close grip press,Total Fitness Close-Grip Dumbbell Press,close grip dumbbell press,100.0,1.0,True,True,exacto,True
+0297,dumbbell concentration curl,dumbbell concentration curl,30 Arms Seated Dumbbell Concentration Curl,seated dumbbell concentration curl,88.52,0.75,True,True,difuso,True
+3635,dumbbell contralateral forward lunge,dumbbell contralateral forward lunge,Barbell forward lunge,barbell forward lunge,70.18,0.4,True,False,sin_match,False
+0298,dumbbell cross body hammer curl,dumbbell cross body hammer curl,Cross-body hammer curl,cross body hammer curl,83.02,0.8,True,True,sin_match,False
+1657,dumbbell cross body hammer curl v. 2,dumbbell cross body hammer curl,Cross-body hammer curl,cross body hammer curl,83.02,0.8,True,True,sin_match,False
+0299,dumbbell cuban press,dumbbell cuban press,Dumbbell Bench Press,dumbbell bench press,85.0,0.5,False,True,sin_match,False
+2136,dumbbell cuban press v. 2,dumbbell cuban press,Dumbbell Bench Press,dumbbell bench press,85.0,0.5,False,True,sin_match,False
+0300,dumbbell deadlift,dumbbell deadlift,Dumbbell deadlift,dumbbell deadlift,100.0,1.0,True,True,exacto,True
+0301,dumbbell decline bench press,dumbbell decline bench press,Decline dumbbell bench press,decline dumbbell bench press,100.0,1.0,True,True,exacto,True
+0302,dumbbell decline fly,dumbbell decline fly,Decline Dumbbell Flyes,decline dumbbell flye,97.56,1.0,True,True,difuso,True
+0303,dumbbell decline hammer press,dumbbell decline hammer press,Decline dumbbell fly and press,decline dumbbell fly and press,77.97,0.5,True,True,sin_match,False
+1276,dumbbell decline one arm fly,dumbbell decline one arm fly,Decline Dumbbell Flyes,decline dumbbell flye,85.71,0.6,True,True,difuso,True
+1617,dumbbell decline one arm hammer press,dumbbell decline one arm hammer press,Decline dumbbell fly and press,decline dumbbell fly and press,74.63,0.375,False,True,sin_match,False
+0305,dumbbell decline shrug,dumbbell decline shrug,Decline Dumbbell Flyes,decline dumbbell flye,79.07,0.5,False,True,sin_match,False
+0304,dumbbell decline shrug v. 2,dumbbell decline shrug,Decline Dumbbell Flyes,decline dumbbell flye,79.07,0.5,False,True,sin_match,False
+0306,dumbbell decline triceps extension,dumbbell decline tricep extension,Decline Dumbbell Triceps Extension,decline dumbbell tricep extension,100.0,1.0,True,True,exacto,True
+0307,dumbbell decline twist fly,dumbbell decline twist fly,Decline Dumbbell Flyes,decline dumbbell flye,85.11,0.75,True,True,difuso,True
+1437,dumbbell finger curls,dumbbell finger curl,TBS Incline Dumbbell Curl,incline dumbbell curl,82.93,0.5,False,True,sin_match,False
+0308,dumbbell fly,dumbbell fly,30 Chest Dumbbell Fly,dumbbell fly,100.0,1.0,True,True,exacto,True
+1277,dumbbell fly on exercise ball,dumbbell fly on exercise ball,Exercise ball rear delt fly,exercise ball rear delt fly,78.57,0.429,False,False,sin_match,False
+1732,dumbbell forward lunge triceps extension,dumbbell forward lunge tricep extension,Standing Dumbbell Triceps Extension,standing dumbbell tricep extension,82.19,0.5,True,True,sin_match,False
+0310,dumbbell front raise,dumbbell front raise,Dumbbell front raise,dumbbell front raise,100.0,1.0,True,True,exacto,True
+0309,dumbbell front raise v. 2,dumbbell front raise,Dumbbell front raise,dumbbell front raise,100.0,1.0,True,True,exacto,True
+0311,dumbbell full can lateral raise,dumbbell full can lateral raise,Dumbbell lateral raise,dumbbell lateral raise,83.02,0.6,True,True,sin_match,False
+1760,dumbbell goblet squat,dumbbell goblet squat,Dumbbell Goblet Squat,dumbbell goblet squat,100.0,1.0,True,True,exacto,True
+0313,dumbbell hammer curl,dumbbell hammer curl,FYR Dumbbell Hammer Curl,dumbbell hammer curl,100.0,1.0,True,True,exacto,True
+1659,dumbbell hammer curl on exercise ball,dumbbell hammer curl on exercise ball,Dumbbell Hammer Curl - Gethin Variation,dumbbell hammer curl gethin variation,70.27,0.375,True,True,sin_match,False
+0312,dumbbell hammer curl v. 2,dumbbell hammer curl,FYR Dumbbell Hammer Curl,dumbbell hammer curl,100.0,1.0,True,True,exacto,True
+2402,dumbbell hammer curls (with arm blaster),dumbbell hammer curl with arm blaster,FYR Dumbbell Hammer Curl,dumbbell hammer curl,70.18,0.5,True,True,sin_match,False
+1664,dumbbell high curl,dumbbell high curl,FYR Dumbbell Curl,dumbbell curl,83.87,0.667,True,True,sin_match,False
+3545,dumbbell incline alternate press,dumbbell incline alternate press,Incline dumbbell bench press,incline dumbbell bench press,83.33,0.6,True,True,sin_match,False
+0314,dumbbell incline bench press,dumbbell incline bench press,Incline dumbbell bench press,incline dumbbell bench press,100.0,1.0,True,True,exacto,True
+0315,dumbbell incline biceps curl,dumbbell incline bicep curl,Incline dumbbell biceps curl,incline dumbbell bicep curl,100.0,1.0,True,False,exacto,True
+0316,dumbbell incline breeding,dumbbell incline breeding,TBS Incline Dumbbell Curl,incline dumbbell curl,78.26,0.5,False,True,sin_match,False
+0318,dumbbell incline curl,dumbbell incline curl,TBS Incline Dumbbell Curl,incline dumbbell curl,100.0,1.0,True,True,exacto,True
+0317,dumbbell incline curl v. 2,dumbbell incline curl,TBS Incline Dumbbell Curl,incline dumbbell curl,100.0,1.0,True,True,exacto,True
+0319,dumbbell incline fly,dumbbell incline fly,UP Incline Dumbbell Fly,incline dumbbell fly,100.0,1.0,True,True,exacto,True
+1278,dumbbell incline fly on exercise ball,dumbbell incline fly on exercise ball,Exercise ball rear delt fly,exercise ball rear delt fly,71.88,0.375,False,False,sin_match,False
+0320,dumbbell incline hammer curl,dumbbell incline hammer curl,Flexor Incline Dumbbell Curls,flexor incline dumbbell curl,85.71,0.6,True,True,difuso,True
+0321,dumbbell incline hammer press,dumbbell incline hammer press,TBS Dumbbell Incline Press,dumbbell incline press,86.27,0.75,True,True,difuso,True
+1618,dumbbell incline hammer press on exercise ball,dumbbell incline hammer press on exercise ball,Hammer Grip Incline DB Bench Press,hammer grip incline db bench press,70.0,0.3,False,True,sin_match,False
+0322,dumbbell incline inner biceps curl,dumbbell incline inner bicep curl,Incline dumbbell biceps curl,incline dumbbell bicep curl,90.0,0.8,True,False,sin_match,False
+1279,dumbbell incline one arm fly,dumbbell incline one arm fly,UP Incline Dumbbell Fly,incline dumbbell fly,83.33,0.6,True,True,sin_match,False
+1280,dumbbell incline one arm fly on exercise ball,dumbbell incline one arm fly on exercise ball,Incline dumbbell fly and press,incline dumbbell fly and press,64.0,0.3,True,True,sin_match,False
+1619,dumbbell incline one arm hammer press,dumbbell incline one arm hammer press,Incline dumbbell fly and press,incline dumbbell fly and press,74.63,0.375,False,True,sin_match,False
+1620,dumbbell incline one arm hammer press on exercise ball,dumbbell incline one arm hammer press on exercise ball,Hammer Grip Incline DB Bench Press,hammer grip incline db bench press,63.64,0.25,False,True,sin_match,False
+0323,dumbbell incline one arm lateral raise,dumbbell incline one arm lateral raise,Dumbbell lateral raise,dumbbell lateral raise,73.33,0.5,True,True,sin_match,False
+1281,dumbbell incline one arm press,dumbbell incline one arm press,TBS Dumbbell Incline Press,dumbbell incline press,84.62,0.6,True,True,sin_match,False
+1282,dumbbell incline one arm press on exercise ball,dumbbell incline one arm press on exercise ball,One Arm Pronated Dumbbell Triceps Extension,one arm pronated dumbbell tricep extension,65.17,0.273,False,True,sin_match,False
+0324,dumbbell incline palm-in press,dumbbell incline palm in press,TBS Dumbbell Incline Press,dumbbell incline press,84.62,0.6,True,True,sin_match,False
+1283,dumbbell incline press on exercise ball,dumbbell incline press on exercise ball,Incline dumbbell fly and press,incline dumbbell fly and press,72.46,0.375,True,True,sin_match,False
+0325,dumbbell incline raise,dumbbell incline raise,Incline Dumbbell Y Raise,incline dumbbell y raise,95.65,0.75,True,True,difuso,True
+0326,dumbbell incline rear lateral raise,dumbbell incline rear lateral raise,Dumbbell Lying Rear Lateral Raise,dumbbell lying rear lateral raise,79.41,0.667,True,True,sin_match,False
+0327,dumbbell incline row,dumbbell incline row,Incline dumbbell row,incline dumbbell row,100.0,1.0,True,True,exacto,True
+0328,dumbbell incline shoulder raise,dumbbell incline shoulder raise,Dumbbell Incline Shoulder Raise,dumbbell incline shoulder raise,100.0,1.0,True,True,exacto,True
+0329,dumbbell incline shrug,dumbbell incline shrug,Incline dumbbell row,incline dumbbell row,85.71,0.5,True,True,sin_match,False
+3542,dumbbell incline t-raise,dumbbell incline t raise,Incline Dumbbell Y Raise,incline dumbbell y raise,95.83,0.6,True,True,difuso,True
+0330,dumbbell incline triceps extension,dumbbell incline tricep extension,30 Arms Incline Dumbbell Triceps Extension,incline dumbbell tricep extension,100.0,1.0,False,True,exacto,True
+0331,dumbbell incline twisted flyes,dumbbell incline twisted flye,Incline Dumbbell Flyes - With A Twist,incline dumbbell flye with a twist,85.71,0.667,True,True,difuso,True
+1733,dumbbell incline two arm extension,dumbbell incline two arm extension,30 Arms Incline Dumbbell Triceps Extension,incline dumbbell tricep extension,83.58,0.5,False,True,sin_match,False
+3541,dumbbell incline y-raise,dumbbell incline y raise,Incline Dumbbell Y Raise,incline dumbbell y raise,100.0,1.0,True,True,exacto,True
+0332,dumbbell iron cross,dumbbell iron cross,Dumbbell V-Sit Cross Jab,dumbbell v sit cross jab,74.42,0.333,False,True,sin_match,False
+0333,dumbbell kickback,dumbbell kickback,Tricep Dumbbell Kickback,tricep dumbbell kickback,82.93,0.667,True,True,sin_match,False
+1734,dumbbell kickbacks on exercise ball,dumbbell kickback on exercise ball,Dumbbell walking calf raise,dumbbell walking calf raise,65.57,0.125,False,True,sin_match,False
+1660,dumbbell kneeling bicep curl exercise ball,dumbbell kneeling bicep curl exercise ball,Incline dumbbell biceps curl,incline dumbbell bicep curl,72.46,0.429,True,False,sin_match,False
+0334,dumbbell lateral raise,dumbbell lateral raise,Dumbbell lateral raise,dumbbell lateral raise,100.0,1.0,True,True,exacto,True
+0335,dumbbell lateral to front raise,dumbbell lateral to front raise,Dumbbell front raise to lateral raise,dumbbell front raise to lateral raise,91.18,1.0,True,True,difuso,True
+0336,dumbbell lunge,dumbbell lunge,Dumbbell Lunges,dumbbell lunge,100.0,1.0,True,True,exacto,True
+1658,dumbbell lunge with bicep curl,dumbbell lunge with bicep curl,Dumbbell lunge with biceps curl,dumbbell lunge with bicep curl,100.0,1.0,False,True,exacto,True
+0337,dumbbell lying extension (across face),dumbbell lying extension across face,Single-arm dumbbell triceps extension,single arm dumbbell tricep extension,69.44,0.25,True,True,sin_match,False
+1729,dumbbell lying alternate extension,dumbbell lying alternate extension,Alternate Incline Dumbbell Curl,alternate incline dumbbell curl,73.85,0.333,False,True,sin_match,False
+0338,dumbbell lying elbow press,dumbbell lying elbow press,TBS Dumbbell Incline Press,dumbbell incline press,75.0,0.4,False,True,sin_match,False
+0863,dumbbell lying external shoulder rotation,dumbbell lying external shoulder rotation,Dumbbell external shoulder rotation,dumbbell external shoulder rotation,92.11,0.8,True,True,difuso,True
+0339,dumbbell lying femoral,dumbbell lying femoral,UP Incline Dumbbell Fly,incline dumbbell fly,71.43,0.2,False,True,sin_match,False
+0340,dumbbell lying hammer press,dumbbell lying hammer press,TBS Dumbbell Incline Press,dumbbell incline press,73.47,0.4,True,True,sin_match,False
+2470,dumbbell lying on floor rear delt raise,dumbbell lying on floor rear delt raise,Dumbbell Lying Rear Lateral Raise,dumbbell lying rear lateral raise,77.78,0.5,True,True,sin_match,False
+0341,dumbbell lying one arm deltoid rear,dumbbell lying one arm deltoid rear,Bent-over dumbbell rear delt fly,bent over dumbbell rear delt fly,74.63,0.333,False,True,sin_match,False
+0343,dumbbell lying one arm press,dumbbell lying one arm press,Incline dumbbell fly and press,incline dumbbell fly and press,79.31,0.25,True,True,sin_match,False
+0342,dumbbell lying one arm press v. 2,dumbbell lying one arm press,Incline dumbbell fly and press,incline dumbbell fly and press,79.31,0.25,True,True,sin_match,False
+0344,dumbbell lying one arm pronated triceps extension,dumbbell lying one arm pronated tricep extension,One Arm Pronated Dumbbell Triceps Extension,one arm pronated dumbbell tricep extension,93.33,0.857,True,True,difuso,True
+0345,dumbbell lying one arm rear lateral raise,dumbbell lying one arm rear lateral raise,Dumbbell Lying Rear Lateral Raise,dumbbell lying rear lateral raise,89.19,0.714,True,True,difuso,True
+0346,dumbbell lying one arm supinated triceps extension,dumbbell lying one arm supinated tricep extension,One Arm Supinated Dumbbell Triceps Extension,one arm supinated dumbbell tricep extension,93.48,0.857,True,True,difuso,True
+0347,dumbbell lying pronation,dumbbell lying pronation,MetaBurn Plank With Dumbbell Rotation,plank with dumbbell rotation,73.08,0.167,False,True,sin_match,False
+2705,dumbbell lying pronation on floor,dumbbell lying pronation on floor,Dumbbell Floor Press - Gethin Variation,dumbbell floor press gethin variation,71.43,0.25,False,True,sin_match,False
+1284,dumbbell lying pullover on exercise ball,dumbbell lying pullover on exercise ball,Exercise Ball Pull-In,exercise ball pull in,68.85,0.429,False,False,sin_match,False
+1328,dumbbell lying rear delt row,dumbbell lying rear delt row,Bent-over dumbbell rear delt row,bent over dumbbell rear delt row,76.67,0.571,True,True,sin_match,False
+0348,dumbbell lying rear lateral raise,dumbbell lying rear lateral raise,Dumbbell Lying Rear Lateral Raise,dumbbell lying rear lateral raise,100.0,1.0,True,True,exacto,True
+1735,dumbbell lying single extension,dumbbell lying single extension,FYR2 Single-Dumbbell Triceps Extension,single dumbbell tricep extension,79.37,0.6,True,True,sin_match,False
+0349,dumbbell lying supination,dumbbell lying supination,Lying Supine Dumbbell Curl,lying supine dumbbell curl,78.43,0.4,False,True,sin_match,False
+2706,dumbbell lying supination on floor,dumbbell lying supination on floor,Dumbbell Floor Press - Gethin Variation,dumbbell floor press gethin variation,70.42,0.25,False,True,sin_match,False
+1661,dumbbell lying supine biceps curl,dumbbell lying supine bicep curl,Lying Supine Dumbbell Curl,lying supine dumbbell curl,89.66,0.8,True,True,difuso,True
+0350,dumbbell lying supine curl,dumbbell lying supine curl,Lying Supine Dumbbell Curl,lying supine dumbbell curl,100.0,1.0,True,True,exacto,True
+0351,dumbbell lying triceps extension,dumbbell lying tricep extension,FYR2 Single-Dumbbell Triceps Extension,single dumbbell tricep extension,92.06,0.6,True,True,difuso,True
+1662,dumbbell lying wide curl,dumbbell lying wide curl,Lying Supine Dumbbell Curl,lying supine dumbbell curl,88.0,0.6,True,True,difuso,True
+0352,dumbbell neutral grip bench press,dumbbell neutral grip bench press,Neutral-grip dumbbell bench press,neutral grip dumbbell bench press,100.0,1.0,False,True,exacto,True
+1285,dumbbell one arm bench fly,dumbbell one arm bench fly,One-Arm Flat Bench Dumbbell Flye,one arm flat bench dumbbell flye,89.66,0.833,True,True,difuso,True
+0292,dumbbell one arm bent-over row,dumbbell one arm bent over row,Dumbbell bent-over row,dumbbell bent over row,84.62,0.667,True,True,sin_match,False
+1286,dumbbell one arm chest fly on exercise ball,dumbbell one arm chest fly on exercise ball,One-Arm Flat Bench Dumbbell Flye,one arm flat bench dumbbell flye,66.67,0.4,True,True,sin_match,False
+0353,dumbbell one arm concentration curl (on stability ball),dumbbell one arm concentration curl on exercise ball,30 Arms Seated Dumbbell Concentration Curl,seated dumbbell concentration curl,72.09,0.333,True,True,sin_match,False
+1287,dumbbell one arm decline chest press,dumbbell one arm decline chest press,Decline dumbbell bench press,decline dumbbell bench press,78.12,0.429,True,True,sin_match,False
+1288,dumbbell one arm fly on exercise ball,dumbbell one arm fly on exercise ball,Exercise ball rear delt fly,exercise ball rear delt fly,71.88,0.333,False,False,sin_match,False
+1736,dumbbell one arm french press on exercise ball,dumbbell one arm french press on exercise ball,One Arm Pronated Dumbbell Triceps Extension,one arm pronated dumbbell tricep extension,63.64,0.273,True,True,sin_match,False
+1663,dumbbell one arm hammer preacher curl,dumbbell one arm hammer preacher curl,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,87.88,0.667,True,True,difuso,True
+1621,dumbbell one arm hammer press on exercise ball,dumbbell one arm hammer press on exercise ball,One Arm Pronated Dumbbell Triceps Extension,one arm pronated dumbbell tricep extension,61.36,0.273,True,True,sin_match,False
+1289,dumbbell one arm incline chest press,dumbbell one arm incline chest press,Incline dumbbell bench press,incline dumbbell bench press,78.12,0.429,True,True,sin_match,False
+0354,dumbbell one arm kickback,dumbbell one arm kickback,Tricep Dumbbell Kickback,tricep dumbbell kickback,77.55,0.4,True,True,sin_match,False
+0355,dumbbell one arm lateral raise,dumbbell one arm lateral raise,Dumbbell lateral raise,dumbbell lateral raise,84.62,0.6,True,True,sin_match,False
+0356,dumbbell one arm lateral raise with support,dumbbell one arm lateral raise with support,Seated dumbbell lateral raise,seated dumbbell lateral raise,69.44,0.375,True,True,sin_match,False
+1290,dumbbell one arm press on exercise ball,dumbbell one arm press on exercise ball,Single-arm dumbbell triceps extension,single arm dumbbell tricep extension,66.67,0.2,False,True,sin_match,False
+1665,dumbbell one arm prone curl,dumbbell one arm prone curl,One-Arm Dumbbell Row,one arm dumbbell row,80.85,0.5,False,True,sin_match,False
+1666,dumbbell one arm prone hammer curl,dumbbell one arm prone hammer curl,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,76.19,0.429,True,True,sin_match,False
+1291,dumbbell one arm pullover on exercise ball,dumbbell one arm pullover on exercise ball,One Arm Pronated Dumbbell Triceps Extension,one arm pronated dumbbell tricep extension,66.67,0.3,False,True,sin_match,False
+0358,dumbbell one arm reverse wrist curl,dumbbell one arm reverse wrist curl,Seated One-Arm Dumbbell Palms-Up Wrist Curl,seated one arm dumbbell palm up wrist curl,77.92,0.556,True,True,sin_match,False
+0359,dumbbell one arm reverse fly (with support),dumbbell one arm reverse fly with support,30 Shoulders Bent-Over Dumbbell Reverse Fly,bent over dumbbell reverse fly,67.61,0.333,True,True,sin_match,False
+1622,dumbbell one arm reverse grip press,dumbbell one arm reverse grip press,Reverse-grip incline dumbbell bench press,reverse grip incline dumbbell bench press,81.58,0.5,True,True,sin_match,False
+1414,dumbbell one arm reverse preacher curl,dumbbell one arm reverse preacher curl,Single-arm dumbbell preacher curl,single arm dumbbell preacher curl,81.69,0.571,True,True,sin_match,False
+1667,dumbbell one arm reverse spider curl,dumbbell one arm reverse spider curl,Single-arm dumbbell preacher curl,single arm dumbbell preacher curl,75.36,0.375,True,True,sin_match,False
+1668,dumbbell one arm seated bicep curl on exercise ball,dumbbell one arm seated bicep curl on exercise ball,Seated Dumbbell Inner Biceps Curl,seated dumbbell inner bicep curl,74.7,0.4,True,True,sin_match,False
+1669,dumbbell one arm seated hammer curl,dumbbell one arm seated hammer curl,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,75.0,0.429,True,True,sin_match,False
+1415,dumbbell one arm seated neutral wrist curl,dumbbell one arm seated neutral wrist curl,Seated One-Arm Dumbbell Palms-Up Wrist Curl,seated one arm dumbbell palm up wrist curl,83.33,0.667,True,True,sin_match,False
+0361,dumbbell one arm shoulder press,dumbbell one arm shoulder press,HM Dumbbell Shoulder Press,dumbbell shoulder press,85.19,0.6,True,True,difuso,True
+0360,dumbbell one arm shoulder press v. 2,dumbbell one arm shoulder press,HM Dumbbell Shoulder Press,dumbbell shoulder press,85.19,0.6,True,True,difuso,True
+3888,dumbbell one arm snatch,dumbbell one arm snatch,Single-Arm Dumbbell Snatch,single arm dumbbell snatch,89.8,0.6,True,True,difuso,True
+1670,dumbbell one arm standing curl,dumbbell one arm standing curl,Standing Dumbbell Reverse Curl,standing dumbbell reverse curl,80.0,0.5,True,True,sin_match,False
+1671,dumbbell one arm standing hammer curl,dumbbell one arm standing hammer curl,30 Arms Standing Dumbbell Hammer Curl 21s,standing dumbbell hammer curl 21s,85.71,0.571,True,True,difuso,True
+0362,dumbbell one arm triceps extension (on bench),dumbbell one arm tricep extension on bench,One Arm Pronated Dumbbell Triceps Extension,one arm pronated dumbbell tricep extension,85.71,0.625,True,True,difuso,True
+0363,dumbbell one arm upright row,dumbbell one arm upright row,One-Arm Dumbbell Row,one arm dumbbell row,83.33,0.8,False,True,sin_match,False
+0364,dumbbell one arm wrist curl,dumbbell one arm wrist curl,Calf Raise On A Dumbbell,calf raise on a dumbbell,78.43,0.111,False,True,sin_match,False
+1672,dumbbell one arm zottman preacher curl,dumbbell one arm zottman preacher curl,Single-arm dumbbell preacher curl,single arm dumbbell preacher curl,78.87,0.571,True,True,sin_match,False
+1292,dumbbell one leg fly on exercise ball,dumbbell one leg fly on exercise ball,Exercise ball rear delt fly,exercise ball rear delt fly,71.88,0.333,False,False,sin_match,False
+0365,dumbbell over bench neutral wrist curl,dumbbell over bench neutral wrist curl,Palms-Up Dumbbell Wrist Curl Over A Bench,palm up dumbbell wrist curl over a bench,79.49,0.556,True,True,sin_match,False
+0366,dumbbell over bench one arm neutral wrist curl,dumbbell over bench one arm neutral wrist curl,Palms-Up Dumbbell Wrist Curl Over A Bench,palm up dumbbell wrist curl over a bench,76.74,0.455,True,True,sin_match,False
+1441,dumbbell over bench one arm reverse wrist curl,dumbbell over bench one arm reverse wrist curl,Palms-Up Dumbbell Wrist Curl Over A Bench,palm up dumbbell wrist curl over a bench,76.74,0.455,True,True,sin_match,False
+0367,dumbbell over bench one arm wrist curl,dumbbell over bench one arm wrist curl,Palms-Up Dumbbell Wrist Curl Over A Bench,palm up dumbbell wrist curl over a bench,82.05,0.5,True,True,sin_match,False
+0368,dumbbell over bench revers wrist curl,dumbbell over bench rever wrist curl,Palms-Up Dumbbell Wrist Curl Over A Bench,palm up dumbbell wrist curl over a bench,81.58,0.556,True,True,sin_match,False
+0369,dumbbell over bench wrist curl,dumbbell over bench wrist curl,Palms-Up Dumbbell Wrist Curl Over A Bench,palm up dumbbell wrist curl over a bench,85.71,0.625,True,True,difuso,True
+1329,dumbbell palm rotational bent over row,dumbbell palm rotational bent over row,Bent Over Two-Dumbbell Row With Palms In,bent over two dumbbell row with palm in,77.92,0.556,True,True,sin_match,False
+1623,dumbbell palms in incline bench press,dumbbell palm in incline bench press,Incline dumbbell bench press,incline dumbbell bench press,87.5,0.667,False,True,sin_match,False
+0370,dumbbell peacher hammer curl,dumbbell peacher hammer curl,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,98.25,1.0,True,True,difuso,True
+0371,dumbbell plyo squat,dumbbell plyo squat,Dumbbell split squat,dumbbell split squat,87.18,0.5,True,True,sin_match,False
+0372,dumbbell preacher curl,dumbbell preacher curl,Dumbbell preacher curl,dumbbell preacher curl,100.0,1.0,True,True,exacto,True
+1673,dumbbell preacher curl over exercise ball,dumbbell preacher curl over exercise ball,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,71.43,0.429,True,True,sin_match,False
+1293,dumbbell press on exercise ball,dumbbell press on exercise ball,Exercise ball rear delt fly,exercise ball rear delt fly,72.41,0.25,False,False,sin_match,False
+0373,dumbbell pronate-grip triceps extension,dumbbell pronate grip tricep extension,Dumbbell Tricep Extension -Pronated Grip,dumbbell tricep extension pronated grip,98.7,1.0,True,True,difuso,True
+0374,dumbbell prone incline curl,dumbbell prone incline curl,TBS Incline Dumbbell Curl,incline dumbbell curl,87.5,0.75,True,True,difuso,True
+1674,dumbbell prone incline hammer curl,dumbbell prone incline hammer curl,Flexor Incline Dumbbell Curls,flexor incline dumbbell curl,77.42,0.5,True,True,sin_match,False
+0375,dumbbell pullover,dumbbell pullover,Dumbbell pull-over,dumbbell pull over,74.29,0.667,False,True,sin_match,False
+1294,dumbbell pullover hip extension on exercise ball,dumbbell pullover hip extension on exercise ball,One Arm Pronated Dumbbell Triceps Extension,one arm pronated dumbbell tricep extension,62.22,0.182,False,True,sin_match,False
+1295,dumbbell pullover on exercise ball,dumbbell pullover on exercise ball,Exercise Ball Pull-In,exercise ball pull in,72.73,0.5,False,False,sin_match,False
+1700,dumbbell push press,dumbbell push press,HM Dumbbell Shoulder Press,dumbbell shoulder press,80.95,0.5,True,True,sin_match,False
+0376,dumbbell raise,dumbbell raise,Dumbbell Raise,dumbbell raise,100.0,1.0,True,True,exacto,True
+2292,dumbbell rear delt raise,dumbbell rear delt raise,Head-on-bench dumbbell rear delt raise,head on bench dumbbell rear delt raise,77.42,0.571,True,True,sin_match,False
+0377,dumbbell rear delt row_shoulder,dumbbell rear delt row shoulder,HM Dumbbell Shoulder Press,dumbbell shoulder press,74.07,0.333,True,True,sin_match,False
+0378,dumbbell rear fly,dumbbell rear fly,Dumbbell Flyes,dumbbell flye,86.67,0.667,False,True,sin_match,False
+0380,dumbbell rear lateral raise,dumbbell rear lateral raise,Dumbbell Lying Rear Lateral Raise,dumbbell lying rear lateral raise,90.0,0.8,True,True,difuso,True
+0379,dumbbell rear lateral raise (support head),dumbbell rear lateral raise support head,Seated dumbbell lateral raise,seated dumbbell lateral raise,75.36,0.429,True,True,sin_match,False
+0381,dumbbell rear lunge,dumbbell reverse lunge,Dumbbell reverse lunge,dumbbell reverse lunge,100.0,1.0,True,True,exacto,True
+0382,dumbbell revers grip biceps curl,dumbbell rever grip bicep curl,Reverse-grip dumbbell curl,reverse grip dumbbell curl,85.71,0.8,True,True,difuso,True
+1624,dumbbell reverse bench press,dumbbell reverse bench press,Dumbbell Bench Press,dumbbell bench press,83.33,0.75,True,True,sin_match,False
+0383,dumbbell reverse fly,dumbbell reverse fly,Dumbbell reverse lunge,dumbbell reverse lunge,85.71,0.5,False,True,sin_match,False
+1330,dumbbell reverse grip incline bench one arm row,dumbbell reverse grip incline bench one arm row,Reverse-grip incline dumbbell bench press,reverse grip incline dumbbell bench press,84.09,0.556,False,True,sin_match,False
+1331,dumbbell reverse grip incline bench two arm row,dumbbell reverse grip incline bench two arm row,Reverse-grip incline dumbbell bench press,reverse grip incline dumbbell bench press,79.55,0.556,False,True,sin_match,False
+2327,dumbbell reverse grip row (female),dumbbell reverse grip row,Reverse-grip dumbbell curl,reverse grip dumbbell curl,82.35,0.6,False,True,sin_match,False
+0384,dumbbell reverse preacher curl,dumbbell reverse preacher curl,Dumbbell preacher curl,dumbbell preacher curl,84.62,0.75,True,True,sin_match,False
+1675,dumbbell reverse spider curl,dumbbell reverse spider curl,Standing Dumbbell Reverse Curl,standing dumbbell reverse curl,82.76,0.6,True,True,sin_match,False
+0385,dumbbell reverse wrist curl,dumbbell reverse wrist curl,Standing Dumbbell Reverse Curl,standing dumbbell reverse curl,84.21,0.6,False,True,sin_match,False
+1459,dumbbell romanian deadlift,dumbbell romanian deadlift,TBS Dumbbell Romanian Deadlift,dumbbell romanian deadlift,100.0,1.0,True,True,exacto,True
+0386,dumbbell rotation reverse fly,dumbbell rotation reverse fly,Reverse Lunge Rotation,reverse lunge rotation,74.51,0.4,False,False,sin_match,False
+2397,dumbbell scott press,dumbbell scott press,Seated Dumbbell Press,seated dumbbell press,82.93,0.5,True,True,sin_match,False
+0387,dumbbell seated alternate front raise,dumbbell seated alternate front raise,30 Shoulders Seated Dumbbell Front Raise,seated dumbbell front raise,84.38,0.8,True,True,sin_match,False
+1676,dumbbell seated alternate hammer curl on exercise ball,dumbbell seated alternate hammer curl on exercise ball,Alternate Incline Dumbbell Curl,alternate incline dumbbell curl,65.88,0.333,True,True,sin_match,False
+0388,dumbbell seated alternate press,dumbbell seated alternate press,Seated Dumbbell Press,seated dumbbell press,80.77,0.75,True,True,sin_match,False
+3546,dumbbell seated alternate shoulder,dumbbell seated alternate shoulder,Seated dumbbell shoulder press,seated dumbbell shoulder press,75.0,0.6,True,True,sin_match,False
+0389,dumbbell seated bench extension,dumbbell seated bench extension,Decline Dumbbell Triceps Extension,decline dumbbell tricep extension,75.0,0.333,True,True,sin_match,False
+2317,dumbbell seated bent arm lateral raise,dumbbell seated bent arm lateral raise,Seated dumbbell lateral raise,seated dumbbell lateral raise,86.57,0.667,True,True,difuso,True
+1730,dumbbell seated bent over alternate kickback,dumbbell seated bent over alternate kickback,RG Alternating Seated Dumbbell Lateral Raise,alternating seated dumbbell lateral raise,68.24,0.222,False,True,sin_match,False
+1737,dumbbell seated bent over triceps extension,dumbbell seated bent over tricep extension,Seated Bent-Over Two-Arm Dumbbell Triceps Extension,seated bent over two arm dumbbell tricep extension,91.3,0.75,True,True,difuso,True
+1677,dumbbell seated bicep curl,dumbbell seated bicep curl,Seated dumbbell biceps curl,seated dumbbell bicep curl,100.0,1.0,True,True,exacto,True
+0390,dumbbell seated biceps curl (on stability ball),dumbbell seated bicep curl on exercise ball,Seated Dumbbell Inner Biceps Curl,seated dumbbell inner bicep curl,77.33,0.5,True,True,sin_match,False
+3547,dumbbell seated biceps curl to shoulder press,dumbbell seated bicep curl to shoulder press,Seated dumbbell shoulder press,seated dumbbell shoulder press,81.08,0.571,False,True,sin_match,False
+1379,dumbbell seated calf raise,dumbbell seated calf raise,Standing Dumbbell Calf Raise,standing dumbbell calf raise,85.19,0.6,True,True,difuso,True
+0391,dumbbell seated curl,dumbbell seated curl,Seated dumbbell biceps curl,seated dumbbell bicep curl,86.96,0.75,True,True,difuso,True
+0392,dumbbell seated front raise,dumbbell seated front raise,30 Shoulders Seated Dumbbell Front Raise,seated dumbbell front raise,100.0,1.0,True,True,exacto,True
+1678,dumbbell seated hammer curl,dumbbell seated hammer curl,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,85.71,0.6,True,True,difuso,True
+0393,dumbbell seated inner biceps curl,dumbbell seated inner bicep curl,Seated Dumbbell Inner Biceps Curl,seated dumbbell inner bicep curl,100.0,1.0,True,True,exacto,True
+0394,dumbbell seated kickback,dumbbell seated kickback,Tricep Dumbbell Kickback,tricep dumbbell kickback,83.33,0.5,True,True,sin_match,False
+0396,dumbbell seated lateral raise,dumbbell seated lateral raise,Seated dumbbell lateral raise,seated dumbbell lateral raise,100.0,1.0,True,True,exacto,True
+0395,dumbbell seated lateral raise v. 2,dumbbell seated lateral raise,Seated dumbbell lateral raise,seated dumbbell lateral raise,100.0,1.0,True,True,exacto,True
+0397,dumbbell seated neutral wrist curl,dumbbell seated neutral wrist curl,Seated Dumbbell Palms-Up Wrist Curl,seated dumbbell palm up wrist curl,85.29,0.571,True,True,difuso,True
+1679,dumbbell seated one arm bicep curl on exercise ball with leg raised,dumbbell seated one arm bicep curl on exercise ball with leg raised,Seated Dumbbell Inner Biceps Curl,seated dumbbell inner bicep curl,64.65,0.308,True,True,sin_match,False
+0398,dumbbell seated one arm kickback,dumbbell seated one arm kickback,Tricep Dumbbell Kickback,tricep dumbbell kickback,71.43,0.333,True,True,sin_match,False
+0399,dumbbell seated one arm rotate,dumbbell seated one arm rotate,30 Shoulders Seated Dumbbell Front Raise,seated dumbbell front raise,77.19,0.286,False,True,sin_match,False
+0400,dumbbell seated one leg calf raise,dumbbell seated one leg calf raise,30 Shoulders Seated Dumbbell Front Raise,seated dumbbell front raise,78.69,0.429,False,True,sin_match,False
+1380,dumbbell seated one leg calf raise - hammer grip,dumbbell seated one leg calf raise hammer grip,Seated dumbbell lateral raise,seated dumbbell lateral raise,69.33,0.333,False,True,sin_match,False
+1381,dumbbell seated one leg calf raise - palm up,dumbbell seated one leg calf raise palm up,Seated dumbbell lateral raise,seated dumbbell lateral raise,73.24,0.333,False,True,sin_match,False
+0401,dumbbell seated palms up wrist curl,dumbbell seated palm up wrist curl,Seated Dumbbell Palms-Up Wrist Curl,seated dumbbell palm up wrist curl,100.0,1.0,True,True,exacto,True
+0402,dumbbell seated preacher curl,dumbbell seated preacher curl,Dumbbell preacher curl,dumbbell preacher curl,86.27,0.75,True,True,difuso,True
+0403,dumbbell seated revers grip concentration curl,dumbbell seated rever grip concentration curl,30 Arms Seated Dumbbell Concentration Curl,seated dumbbell concentration curl,86.08,0.667,True,True,difuso,True
+1738,dumbbell seated reverse grip one arm overhead tricep extension,dumbbell seated reverse grip one arm overhead tricep extension,Seated Bent-Over One-Arm Dumbbell Triceps Extension,seated bent over one arm dumbbell tricep extension,80.36,0.7,True,True,sin_match,False
+0405,dumbbell seated shoulder press,dumbbell seated shoulder press,Seated dumbbell shoulder press,seated dumbbell shoulder press,100.0,1.0,True,True,exacto,True
+0404,dumbbell seated shoulder press (parallel grip),dumbbell seated shoulder press parallel grip,Seated dumbbell shoulder press,seated dumbbell shoulder press,81.08,0.667,True,True,sin_match,False
+2188,dumbbell seated triceps extension,dumbbell seated tricep extension,Standing Dumbbell Triceps Extension,standing dumbbell tricep extension,87.88,0.6,True,True,difuso,True
+0406,dumbbell shrug,dumbbell shrug,King Maker Dumbbell Shrug,dumbbell shrug,100.0,1.0,True,True,exacto,True
+0407,dumbbell side bend,dumbbell side bend,Dumbbell side bend,dumbbell side bend,100.0,1.0,True,True,exacto,True
+0408,dumbbell side lying one hand raise,dumbbell side lying one hand raise,Dumbbell Incline Shoulder Raise,dumbbell incline shoulder raise,73.85,0.25,True,True,sin_match,False
+3664,dumbbell side plank with rear fly,dumbbell side plank with rear fly,Side plank with dumbbell external rotation,side plank with dumbbell external rotation,77.33,0.5,False,True,sin_match,False
+3548,dumbbell single arm overhead carry,dumbbell single arm overhead carry,Single-arm dumbbell racked carry,single arm dumbbell racked carry,87.88,0.667,True,True,difuso,True
+0409,dumbbell single leg calf raise,dumbbell single leg calf raise,Single-leg standing dumbbell calf raise,single leg standing dumbbell calf raise,86.96,0.833,True,True,difuso,True
+1757,dumbbell single leg deadlift,dumbbell single leg deadlift,Single-leg dumbbell Romanian deadlift,single leg dumbbell romanian deadlift,86.15,0.8,True,True,difuso,True
+2805,dumbbell single leg deadlift with stepbox support,dumbbell single leg deadlift with stepbox support,Stiff-Legged Dumbbell Deadlift,stiff legged dumbbell deadlift,68.35,0.375,True,True,sin_match,False
+0410,dumbbell single leg split squat,dumbbell single leg split squat,Dumbbell split squat,dumbbell split squat,78.43,0.6,True,True,sin_match,False
+0411,dumbbell single leg squat,dumbbell single leg squat,Single-leg depth squat,single leg depth squat,80.85,0.6,True,False,sin_match,False
+0413,dumbbell squat,dumbbell squat,Dumbbell squat,dumbbell squat,100.0,1.0,True,True,exacto,True
+3560,dumbbell standing alternate hammer curl and press,dumbbell standing alternate hammer curl and press,30 Arms Standing Alternating Hammer Curl,standing alternating hammer curl,74.07,0.375,True,True,sin_match,False
+0414,dumbbell standing alternate overhead press,dumbbell standing alternate overhead press,FYR2 Single-Dumbbell Overhead Press,single dumbbell overhead press,77.78,0.5,True,True,sin_match,False
+0415,dumbbell standing alternate raise,dumbbell standing alternate raise,Standing Dumbbell Calf Raise,standing dumbbell calf raise,85.25,0.6,False,True,sin_match,False
+1739,dumbbell standing alternating tricep kickback,dumbbell standing alternating tricep kickback,Tricep Dumbbell Kickback,tricep dumbbell kickback,69.57,0.6,True,True,sin_match,False
+2143,dumbbell standing around world,dumbbell standing around world,Dumbbell Fix Standing Dumbbell Arnold Press,standing dumbbell arnold press,73.33,0.333,True,True,sin_match,False
+1740,dumbbell standing bent over one arm triceps extension,dumbbell standing bent over one arm tricep extension,Standing Bent-Over One-Arm Dumbbell Triceps Extension,standing bent over one arm dumbbell tricep extension,100.0,1.0,True,True,exacto,True
+1741,dumbbell standing bent over two arm triceps extension,dumbbell standing bent over two arm tricep extension,Standing Bent-Over One-Arm Dumbbell Triceps Extension,standing bent over one arm dumbbell tricep extension,92.31,0.778,True,True,difuso,True
+0416,dumbbell standing biceps curl,dumbbell standing bicep curl,FYR2 Single-Dumbbell Biceps Curl,single dumbbell bicep curl,88.89,0.6,True,True,difuso,True
+0417,dumbbell standing calf raise,dumbbell standing calf raise,Standing Dumbbell Calf Raise,standing dumbbell calf raise,100.0,1.0,True,True,exacto,True
+0418,dumbbell standing concentration curl,dumbbell standing concentration curl,30 Arms Seated Dumbbell Concentration Curl,seated dumbbell concentration curl,88.57,0.6,True,True,difuso,True
+0419,dumbbell standing front raise above head,dumbbell standing front raise above head,Single-dumbbell front raise,single dumbbell front raise,74.63,0.429,True,True,sin_match,False
+2321,dumbbell standing inner biceps curl v. 2,dumbbell standing inner bicep curl,Seated Dumbbell Inner Biceps Curl,seated dumbbell inner bicep curl,87.88,0.667,True,True,difuso,True
+0420,dumbbell standing kickback,dumbbell standing kickback,Tricep Dumbbell Kickback,tricep dumbbell kickback,80.0,0.5,True,True,sin_match,False
+0421,dumbbell standing one arm concentration curl,dumbbell standing one arm concentration curl,30 Arms Seated Dumbbell Concentration Curl,seated dumbbell concentration curl,79.49,0.429,True,True,sin_match,False
+0422,dumbbell standing one arm curl (over incline bench),dumbbell standing one arm curl over incline bench,Standing Bent-Over One-Arm Dumbbell Triceps Extension,standing bent over one arm dumbbell tricep extension,75.25,0.455,False,True,sin_match,False
+1680,dumbbell standing one arm curl over incline bench,dumbbell standing one arm curl over incline bench,Standing Bent-Over One-Arm Dumbbell Triceps Extension,standing bent over one arm dumbbell tricep extension,75.25,0.455,False,True,sin_match,False
+0423,dumbbell standing one arm extension,dumbbell standing one arm extension,Standing Bent-Over One-Arm Dumbbell Triceps Extension,standing bent over one arm dumbbell tricep extension,80.46,0.625,True,True,sin_match,False
+0424,dumbbell standing one arm palm in press,dumbbell standing one arm palm in press,Single-arm palm-in dumbbell shoulder press,single arm palm in dumbbell shoulder press,79.01,0.556,True,True,sin_match,False
+0425,dumbbell standing one arm reverse curl,dumbbell standing one arm reverse curl,Standing Dumbbell Reverse Curl,standing dumbbell reverse curl,88.24,0.667,True,True,difuso,True
+0426,dumbbell standing overhead press,dumbbell standing overhead press,FYR2 Single-Dumbbell Overhead Press,single dumbbell overhead press,90.32,0.6,True,True,difuso,True
+0427,dumbbell standing palms in press,dumbbell standing palm in press,Single-arm palm-in dumbbell shoulder press,single arm palm in dumbbell shoulder press,76.71,0.5,True,True,sin_match,False
+0428,dumbbell standing preacher curl,dumbbell standing preacher curl,Standing Dumbbell Reverse Curl,standing dumbbell reverse curl,88.52,0.6,True,True,difuso,True
+0429,dumbbell standing reverse curl,dumbbell standing reverse curl,Standing Dumbbell Reverse Curl,standing dumbbell reverse curl,100.0,1.0,True,True,exacto,True
+0430,dumbbell standing triceps extension,dumbbell standing tricep extension,Standing Dumbbell Triceps Extension,standing dumbbell tricep extension,100.0,1.0,True,True,exacto,True
+2293,dumbbell standing zottman preacher curl,dumbbell standing zottman preacher curl,Standing Dumbbell Reverse Curl,standing dumbbell reverse curl,78.26,0.5,True,True,sin_match,False
+1684,dumbbell step up single leg balance with bicep curl,dumbbell step up single leg balance with bicep curl,Dumbbell lunge with biceps curl,dumbbell lunge with bicep curl,71.6,0.4,False,True,sin_match,False
+0431,dumbbell step-up,dumbbell step up,Dumbbell step-up,dumbbell step up,100.0,1.0,True,True,exacto,True
+2796,dumbbell step-up lunge,dumbbell step up lunge,Dumbbell step-up,dumbbell step up,84.21,0.75,True,True,sin_match,False
+2812,dumbbell step-up split squat,dumbbell step up split squat,Dumbbell split squat,dumbbell split squat,83.33,0.6,True,True,sin_match,False
+0432,dumbbell stiff leg deadlift,dumbbell stiff leg deadlift,Stiff-Legged Dumbbell Deadlift,stiff legged dumbbell deadlift,94.74,1.0,True,True,difuso,True
+0433,dumbbell straight arm pullover,dumbbell straight arm pullover,Straight-arm dumbbell pull-over,straight arm dumbbell pull over,85.25,0.8,True,True,difuso,True
+0434,dumbbell straight leg deadlift,dumbbell straight leg deadlift,Stiff-Legged Dumbbell Deadlift,stiff legged dumbbell deadlift,83.33,0.6,True,True,sin_match,False
+2808,dumbbell sumo pull through,dumbbell sumo pull through,Holman Squat Pull-Through Jump,squat pull through jump,73.47,0.333,True,False,sin_match,False
+2803,dumbbell supported squat,dumbbell supported squat,Dumbbell sumo squat,dumbbell sumo squat,83.72,0.5,True,True,sin_match,False
+0436,dumbbell tate press,dumbbell tate press,Seated Dumbbell Press,seated dumbbell press,90.0,0.5,False,True,sin_match,False
+1742,dumbbell tricep kickback with stork stance,dumbbell tricep kickback with stork stance,Tricep Dumbbell Kickback,tricep dumbbell kickback,72.73,0.5,True,True,sin_match,False
+1743,dumbbell twisting bench press,dumbbell twisting bench press,Dumbbell Bench Press,dumbbell bench press,81.63,0.75,False,True,sin_match,False
+0437,dumbbell upright row,dumbbell upright row,Barbell upright row,barbell upright row,87.18,0.5,True,False,sin_match,False
+1765,dumbbell upright row (back pov),dumbbell upright row,Barbell upright row,barbell upright row,87.18,0.5,True,False,sin_match,False
+0864,dumbbell upright shoulder external rotation,dumbbell upright shoulder external rotation,Dumbbell external shoulder rotation,dumbbell external shoulder rotation,89.74,0.8,True,True,difuso,True
+5201,dumbbell waiter biceps curl,dumbbell waiter bicep curl,Seated dumbbell biceps curl,seated dumbbell bicep curl,88.46,0.6,True,True,difuso,True
+0438,dumbbell w-press,dumbbell w press,Seated Dumbbell Press,seated dumbbell press,81.08,0.5,True,True,sin_match,False
+0439,dumbbell zottman curl,dumbbell zottman curl,FYR Dumbbell Curl,dumbbell curl,76.47,0.667,True,True,sin_match,False
+2294,dumbbell zottman preacher curl,dumbbell zottman preacher curl,Dumbbell preacher curl,dumbbell preacher curl,84.62,0.75,True,True,sin_match,False
+2189,dumbbells seated triceps extension,dumbbell seated tricep extension,Standing Dumbbell Triceps Extension,standing dumbbell tricep extension,87.88,0.6,True,True,difuso,True
+1167,dynamic chest stretch (male),dynamic chest stretch,Dynamic Back Stretch,dynamic back stretch,82.93,0.5,False,True,sin_match,False
+3287,elbow dips,elbow dip,HM Hi-Low,hi low,66.67,0.0,False,True,sin_match,False
+1772,elbow lift - reverse push-up,elbow lift reverse push up,Reverse-grip hands-elevated push-up,reverse grip hand elevated push up,66.67,0.375,False,True,sin_match,False
+0443,elbow-to-knee,elbow to knee,Elbow-to-knee crunch,elbow to knee crunch,78.79,0.75,True,True,sin_match,False
+3292,elevator,elevator,Elevated Cable Rows,elevated cable row,53.85,0.0,True,False,sin_match,False
+1332,exercise ball alternating arm ups,exercise ball alternating arm ups,Holman Alternating Slow L-Raise,alternating slow l raise,70.18,0.125,False,True,sin_match,False
+1333,exercise ball back extension with arms extended,exercise ball back extension with arm extended,Exercise ball weighted hyperextension,exercise ball weighted hyperextension,67.47,0.222,True,True,sin_match,False
+1334,exercise ball back extension with hands behind head,exercise ball back extension with hand behind head,Push-Ups With Feet On An Exercise Ball,push up with feet on an exercise ball,64.37,0.231,False,True,sin_match,False
+1335,exercise ball back extension with knees off ground,exercise ball back extension with knee off ground,Push-Ups With Feet On An Exercise Ball,push up with feet on an exercise ball,65.12,0.231,False,True,sin_match,False
+1336,exercise ball back extension with rotation,exercise ball back extension with rotation,Exercise ball torso rotation,exercise ball torso rotation,68.57,0.429,True,True,sin_match,False
+1744,exercise ball dip,exercise ball dip,Exercise ball bird dog,exercise ball bird dog,76.92,0.4,False,True,sin_match,False
+1559,exercise ball hip flexor stretch,exercise ball hip flexor stretch,Exercise ball hip thrust,exercise ball hip thrust,75.0,0.5,True,True,sin_match,False
+1338,exercise ball hug,exercise ball hug,Exercise ball V-up,exercise ball v up,85.71,0.4,True,True,sin_match,False
+1339,exercise ball lat stretch,exercise ball lat stretch,Exercise ball chest stretch,exercise ball chest stretch,80.77,0.6,False,True,sin_match,False
+1341,exercise ball lower back stretch (pyramid),exercise ball lower back stretch pyramid,Chair Lower Back Stretch,chair lower back stretch,65.62,0.429,True,True,sin_match,False
+1342,exercise ball lying side lat stretch,exercise ball lying side lat stretch,Side Lying Groin Stretch,side lying groin stretch,70.0,0.429,False,True,sin_match,False
+1382,exercise ball on the wall calf raise,exercise ball on the wall calf raise,Exercise ball knee roll-in,exercise ball knee roll in,67.74,0.2,False,False,sin_match,False
+3241,exercise ball on the wall calf raise (tennis ball between ankles),exercise ball on the wall calf raise tenni ball between ankle,Isometric Neck Exercise - Front And Back,isometric neck exercise front and back,52.53,0.067,False,False,sin_match,False
+3240,exercise ball on the wall calf raise (tennis ball between knees),exercise ball on the wall calf raise tenni ball between knee,Push-Ups With Feet On An Exercise Ball,push up with feet on an exercise ball,55.67,0.2,False,False,sin_match,False
+1416,exercise ball one leg prone lower body rotation,exercise ball one leg prone lower body rotation,Exercise Ball Knee Tuck - Gethin Varation,exercise ball knee tuck gethin varation,62.79,0.167,False,True,sin_match,False
+1417,exercise ball one legged diagonal kick hamstring curl,exercise ball one legged diagonal kick hamstring curl,Hanging exercise ball leg raise,hanging exercise ball leg raise,59.52,0.3,False,True,sin_match,False
+1296,exercise ball pike push up,exercise ball pike push up,Exercise ball pike,exercise ball pike,81.82,0.6,False,True,sin_match,False
+1343,exercise ball prone leg raise,exercise ball prone leg raise,Hanging exercise ball leg raise,hanging exercise ball leg raise,76.67,0.667,True,True,sin_match,False
+1560,exercise ball seated hamstring stretch,exercise ball seated hamstring stretch,Seated Hamstring and Calf Stretch,seated hamstring and calf stretch,78.87,0.429,True,True,sin_match,False
+1745,exercise ball seated triceps stretch,exercise ball seated tricep stretch,Exercise ball chest stretch,exercise ball chest stretch,67.74,0.5,False,True,sin_match,False
+1746,exercise ball supine triceps extension,exercise ball supine tricep extension,Single-arm cable triceps extension,single arm cable tricep extension,74.29,0.25,True,False,sin_match,False
+1747,ez bar french press on exercise ball,ez bar french press on exercise ball,Exercise ball torso rotation,exercise ball torso rotation,62.5,0.222,False,False,sin_match,False
+3010,ez bar lying bent arms pullover,ez bar lying bent arm pullover,Bent-arm barbell pull-over,bent arm barbell pull over,67.86,0.571,True,True,sin_match,False
+1748,ez bar lying close grip triceps extension behind head,ez bar lying close grip tricep extension behind head,Standing barbell overhead triceps extension,standing barbell overhead tricep extension,72.34,0.273,True,True,sin_match,False
+1344,ez bar reverse grip bent over row,ez bar reverse grip bent over row,Reverse-grip bent-over row,reverse grip bent over row,88.14,0.714,True,True,difuso,True
+1682,ez bar seated close grip concentration curl,ez bar seated close grip concentration curl,Seated Close-Grip Concentration Barbell Curl,seated close grip concentration barbell curl,91.95,0.857,True,True,difuso,True
+1749,ez bar standing french press,ez bar standing french press,30 Shoulders Standing Barbell Press,standing barbell press,76.0,0.6,False,True,sin_match,False
+0445,ez barbell anti gravity press,ez bar anti gravity press,Incline anti-gravity shoulder press,incline anti gravity shoulder press,60.0,0.429,True,True,sin_match,False
+1627,ez barbell close grip preacher curl,ez bar close grip preacher curl,Close-grip EZ-bar curl,close grip ez bar curl,83.02,0.833,True,True,sin_match,False
+0446,ez barbell close-grip curl,ez bar close grip curl,Close-grip EZ-bar curl,close grip ez bar curl,100.0,1.0,True,True,exacto,True
+0447,ez barbell curl,ez bar curl,EZ-Bar Curl,ez bar curl,100.0,1.0,True,True,exacto,True
+0448,ez barbell decline close grip face press,ez bar decline close grip face press,Close-grip EZ-bar bench press,close grip ez bar bench press,70.77,0.625,False,True,sin_match,False
+2186,ez barbell decline triceps extension,ez bar decline tricep extension,Single-arm cable triceps extension,single arm cable tricep extension,78.12,0.25,True,False,sin_match,False
+0449,ez barbell incline triceps extension,ez bar incline tricep extension,Single-arm incline triceps extension,single arm incline tricep extension,81.82,0.429,True,False,sin_match,False
+0450,ez barbell jm bench press,ez bar jm bench press,Close-grip EZ-bar bench press,close grip ez bar bench press,76.0,0.571,False,True,sin_match,False
+0451,ez barbell reverse grip curl,ez bar reverse grip curl,Reverse-grip EZ-bar curl,reverse grip ez bar curl,100.0,1.0,True,True,exacto,True
+0452,ez barbell reverse grip preacher curl,ez bar reverse grip preacher curl,Reverse-grip EZ-bar curl,reverse grip ez bar curl,84.21,0.833,True,True,sin_match,False
+1458,ez barbell seated curls,ez bar seated curl,Seated Barbell Curl,seated barbell curl,81.08,0.75,True,True,sin_match,False
+0453,ez barbell seated triceps extension,ez bar seated tricep extension,Band overhead triceps extension,band overhead tricep extension,80.0,0.286,True,False,sin_match,False
+0454,ez barbell spider curl,ez bar spider curl,EZ-bar spider curl,ez bar spider curl,100.0,1.0,True,True,exacto,True
+1628,ez barbell spider curl,ez bar spider curl,EZ-bar spider curl,ez bar spider curl,100.0,1.0,True,True,exacto,True
+2404,ez-bar biceps curl (with arm blaster),ez bar bicep curl with arm blaster,Close-Grip EZ-Bar Curl with Band,close grip ez bar curl with band,69.7,0.4,True,True,sin_match,False
+2432,ez-bar close-grip bench press,ez bar close grip bench press,Close-grip EZ-bar bench press,close grip ez bar bench press,100.0,1.0,False,True,exacto,True
+2741,ez-barbell standing wide grip biceps curl,ez bar standing wide grip bicep curl,Standing band biceps curl,standing band bicep curl,73.33,0.375,True,True,sin_match,False
+2133,farmers walk,farmer walk,Monster Walk,monster walk,69.57,0.333,True,False,sin_match,False
+0455,finger curls,finger curl,Seated finger curl,seated finger curl,75.86,0.667,True,True,sin_match,False
+3303,flag,flag,HM Fragon,fragon,60.0,0.0,False,True,sin_match,False
+0456,flexion leg sit up (bent knee),flexion leg sit up bent knee,Decline plate sit-up,decline plate sit up,62.5,0.25,True,False,sin_match,False
+0457,flexion leg sit up (straight arm),flexion leg sit up straight arm,30 Shoulders Incline Face-Up Straight-Bar Front Raise,incline face up straight bar front raise,67.61,0.182,False,False,sin_match,False
+0458,floor fly (with barbell),floor fly with barbell,Barbell floor wiper,barbell floor wiper,78.05,0.4,False,False,sin_match,False
+0459,flutter kicks,flutter kick,Flutter kick,flutter kick,100.0,1.0,False,True,exacto,True
+1472,forward jump,forward jump,Broad jump,broad jump,72.73,0.333,True,True,sin_match,False
+3470,forward lunge (male),forward lunge,Forward lunge,forward lunge,100.0,1.0,True,True,exacto,True
+3194,frankenstein squat,frankenstein squat,Frankenstein Squat,frankenstein squat,100.0,1.0,True,True,exacto,True
+2429,frog crunch,frog crunch,Rope Crunch,rope crunch,81.82,0.333,True,False,sin_match,False
+3301,frog planche,frog planche,HM Bird-Dog Plank,bird dog plank,61.54,0.0,True,True,sin_match,False
+3296,front lever,front lever,FYR Front Step,front step,66.67,0.333,True,True,sin_match,False
+3295,front lever reps,front lever rep,Front Plate Raise,front plate raise,68.75,0.2,True,True,sin_match,False
+0464,front plank with twist,front plank with twist,Holman Elbow Plank with Step-Out,elbow plank with step out,68.09,0.286,True,True,sin_match,False
+3315,full maltese,full maltese,Dumbbell Fix Full Man Maker,full man maker,61.54,0.25,True,False,sin_match,False
+3299,full planche,full planche,Preacher Curl,preacher curl,64.0,0.0,False,False,sin_match,False
+3327,full planche push-up,full planche push up,FYR Push-Up Plank Hold,push up plank hold,73.68,0.333,False,True,sin_match,False
+0466,gironda sternum chin,gironda sternum chin,Gironda Sternum Chins,gironda sternum chin,100.0,1.0,True,True,exacto,True
+3561,glute bridge march,glute bridge march,Glute bridge,glute bridge,80.0,0.667,True,True,sin_match,False
+3523,glute bridge two legs on bench (male),glute bridge two leg on bench,Single-leg glute bridge,single leg glute bridge,69.23,0.429,True,True,sin_match,False
+3193,glute-ham raise,glute ham raise,Glute Ham Raise,glute ham raise,100.0,1.0,True,False,exacto,True
+0467,gorilla chin,gorilla chin,Gorilla Chin/Crunch,gorilla chin crunch,77.42,0.667,True,True,sin_match,False
+0469,groin crunch,groin crunch,Rope Crunch,rope crunch,78.26,0.333,True,False,sin_match,False
+1383,hack calf raise,hack calf raise,Hack squat calf raise,hack squat calf raise,83.33,0.75,True,True,sin_match,False
+1384,hack one leg calf raise,hack one leg calf raise,Leg press calf raise,leg press calf raise,74.42,0.5,True,True,sin_match,False
+3221,half knee bends (male),half knee bend,Hollow-body knee tuck,hollow body knee tuck,57.14,0.167,,True,sin_match,False
+3202,half sit-up (male),half sit up,HM Half-Up,half up,77.78,0.667,True,True,sin_match,False
+1511,hamstring stretch,hamstring stretch,Leg-Up Hamstring Stretch,leg up hamstring stretch,82.93,0.5,True,True,sin_match,False
+2139,hands bike,hand bike,Holman Seated Pike,seated pike,60.0,0.0,False,False,sin_match,False
+3218,hands clasped circular toe touch (male),hand clasped circular toe touch,Crab toe-touch,crab toe touch,57.78,0.333,False,True,sin_match,False
+3215,hands reversed clasped circular toe touch (male),hand reversed clasped circular toe touch,Holman Forward Lunge to Reverse Lunge,forward lunge to reverse lunge,54.29,0.111,True,True,sin_match,False
+3302,handstand,handstand,Handstand push-up,handstand push up,69.23,0.333,False,True,sin_match,False
+0471,handstand push-up,handstand push up,Handstand push-up,handstand push up,100.0,1.0,False,True,exacto,True
+1764,hanging leg hip raise,hanging leg hip raise,Hanging leg raise,hanging leg raise,89.47,0.75,True,True,difuso,True
+0472,hanging leg raise,hanging leg raise,Hanging leg raise,hanging leg raise,100.0,1.0,True,True,exacto,True
+1761,hanging oblique knee raise,hanging oblique knee raise,Hanging Oblique Knee Raise,hanging oblique knee raise,100.0,1.0,True,True,exacto,True
+0473,hanging pike,hanging pike,Hanging leg raise,hanging leg raise,68.97,0.25,True,True,sin_match,False
+0474,hanging straight leg hip raise,hanging straight leg hip raise,Straight-Legged Hip Raise,straight legged hip raise,80.0,0.8,True,True,sin_match,False
+0475,hanging straight leg raise,hanging straight leg raise,Straight-Legged Hip Raise,straight legged hip raise,82.35,0.6,True,True,sin_match,False
+0476,hanging straight twisting leg hip raise,hanging straight twisting leg hip raise,Straight-Legged Hip Raise,straight legged hip raise,68.75,0.667,True,True,sin_match,False
+3636,high knee against wall,high knee against wall,One Arm Against Wall,one arm against wall,76.19,0.333,,True,sin_match,False
+0484,hip raise (bent knee),hip raise bent knee,Alternating High Knee Raise,alternating high knee raise,73.91,0.333,True,True,sin_match,False
+1418,hug keens to chest,hug keen to chest,Hug Knees To Chest,hug knee to chest,94.12,0.6,True,True,difuso,True
+3234,hyght dumbbell fly,hyght dumbbell fly,30 Chest Dumbbell Fly,dumbbell fly,80.0,0.667,True,True,sin_match,False
+0489,hyperextension,hyperextension,30 Back Plate Hyperextension,plate hyperextension,82.35,0.5,False,True,sin_match,False
+0488,hyperextension (on bench),hyperextension on bench,Hyperextension - Gethin Variation,hyperextension gethin variation,74.07,0.2,True,True,sin_match,False
+3289,impossible dips,impossible dip,HM Side-Bend Pose,side bend pose,57.14,0.0,False,True,sin_match,False
+1471,inchworm,inchworm,Inchworm,inchworm,100.0,1.0,False,True,exacto,True
+3698,inchworm v. 2,inchworm,Inchworm,inchworm,100.0,1.0,False,True,exacto,True
+0490,incline close-grip push-up,incline close grip push up,30 Arms Close-Grip Push-Up,close grip push up,81.82,0.8,True,True,sin_match,False
+0491,incline leg hip raise (leg straight),incline leg hip raise leg straight,Straight-Legged Hip Raise,straight legged hip raise,77.97,0.8,True,True,sin_match,False
+0492,incline push up depth jump,incline push up depth jump,Incline Push-Up Depth Jump,incline push up depth jump,100.0,1.0,True,True,exacto,True
+0493,incline push-up,incline push up,Incline Push-Up,incline push up,100.0,1.0,True,True,exacto,True
+3785,incline push-up (on box),incline push up on box,HM Incline Push-Up On Chair,incline push up on chair,82.61,0.667,True,True,sin_match,False
+0494,incline reverse grip push-up,incline reverse grip push up,30 Back Reverse-Grip Pull-Up,reverse grip pull up,75.0,0.5,False,True,sin_match,False
+3011,incline scapula push up,incline scapula push up,Incline Push-Up,incline push up,78.95,0.75,True,True,sin_match,False
+0495,incline twisting sit-up,incline twisting sit up,Decline sit-up twist,decline sit up twist,83.72,0.6,True,True,sin_match,False
+1564,intermediate hip flexor and quad stretch,intermediate hip flexor and quad stretch,Intermediate Hip Flexor and Quad Stretch,intermediate hip flexor and quad stretch,100.0,1.0,True,True,exacto,True
+0496,inverse leg curl (bench support),inverse leg curl bench support,Palms-up wrist curl over bench,palm up wrist curl over bench,71.19,0.222,False,False,sin_match,False
+2400,inverse leg curl (on pull-up cable machine),inverse leg curl on pull up cable machine,Machine-assisted pull-up,machine assisted pull up,61.54,0.333,False,False,sin_match,False
+0499,inverted row,inverted row,UNS Inverted row,inverted row,100.0,1.0,False,True,exacto,True
+2300,inverted row bent knees,inverted row bent knee,MetaBurn Bent-Over Renegade Row,bent over renegade row,72.73,0.333,True,False,sin_match,False
+2298,inverted row on bench,inverted row on bench,UNS Inverted row,inverted row,72.73,0.5,False,True,sin_match,False
+0497,inverted row v. 2,inverted row,UNS Inverted row,inverted row,100.0,1.0,False,True,exacto,True
+0498,inverted row with straps,inverted row with strap,Inverted Row with Straps,inverted row with strap,100.0,1.0,True,True,exacto,True
+1419,iron cross stretch,iron cross stretch,Iron cross stretch,iron cross stretch,100.0,1.0,False,True,exacto,True
+1297,isometric chest squeeze,isometric chest squeeze,Isometric Chest Squeezes,isometric chest squeeze,100.0,1.0,True,True,exacto,True
+0500,isometric wipers,isometric wiper,Isometric Wipers,isometric wiper,100.0,1.0,True,True,exacto,True
+0501,jack burpee,jack burpee,Burpee tuck jump,burpee tuck jump,74.07,0.25,,True,sin_match,False
+3224,jack jump (male),jack jump,Jumping Jack,jumping jack,85.71,1.0,,True,difuso,True
+0507,jackknife sit-up,jackknife sit up,Side Jackknife,side jackknife,80.0,0.25,True,True,sin_match,False
+0508,janda sit-up,janda sit up,Janda Sit-Up,janda sit up,100.0,1.0,True,True,exacto,True
+2612,jump rope,jump rope,FYR Rope Jumping,rope jumping,85.71,1.0,,True,difuso,True
+0514,jump squat,jump squat,Jump Squat,jump squat,100.0,1.0,True,True,exacto,True
+0513,jump squat v. 2,jump squat,Jump Squat,jump squat,100.0,1.0,True,True,exacto,True
+0517,kettlebell advanced windmill,kettlebell advanced windmill,Advanced Kettlebell Windmill,advanced kettlebell windmill,100.0,1.0,True,True,exacto,True
+0518,kettlebell alternating hang clean,kettlebell alternating hang clean,Double Kettlebell Alternating Hang Clean,double kettlebell alternating hang clean,90.41,0.8,False,True,sin_match,False
+0520,kettlebell alternating press,kettlebell alternating press,Alternating Kettlebell Press,alternating kettlebell press,100.0,1.0,True,True,exacto,True
+0519,kettlebell alternating press on floor,kettlebell alternating press on floor,Kettlebell alternating floor press,kettlebell alternating floor press,95.77,0.8,True,True,difuso,True
+0521,kettlebell alternating renegade row,kettlebell alternating renegade row,Kettlebell alternating renegade row,kettlebell alternating renegade row,100.0,1.0,True,True,exacto,True
+0522,kettlebell alternating row,kettlebell alternating row,Alternating Kettlebell Row,alternating kettlebell row,100.0,1.0,True,True,exacto,True
+0523,kettlebell arnold press,kettlebell arnold press,Kettlebell Arnold Press,kettlebell arnold press,100.0,1.0,True,True,exacto,True
+0524,kettlebell bent press,kettlebell bent press,HM Kettlebell Z-Press,kettlebell z press,82.05,0.5,False,True,sin_match,False
+0525,kettlebell bottoms up clean from the hang position,kettlebell bottom up clean from the hang position,Bottoms-Up Clean From The Hang Position,bottom up clean from the hang position,87.36,0.875,True,True,difuso,True
+0526,kettlebell double alternating hang clean,kettlebell double alternating hang clean,Double Kettlebell Alternating Hang Clean,double kettlebell alternating hang clean,100.0,1.0,False,True,exacto,True
+0527,kettlebell double jerk,kettlebell double jerk,Double Kettlebell Jerk,double kettlebell jerk,100.0,1.0,True,True,exacto,True
+0528,kettlebell double push press,kettlebell double push press,Double Kettlebell Push Press,double kettlebell push press,100.0,1.0,True,True,exacto,True
+0529,kettlebell double snatch,kettlebell double snatch,Double Kettlebell Snatch,double kettlebell snatch,100.0,1.0,True,True,exacto,True
+0530,kettlebell double windmill,kettlebell double windmill,Double-kettlebell windmill,double kettlebell windmill,100.0,1.0,False,True,exacto,True
+0531,kettlebell extended range one arm press on floor,kettlebell extended range one arm press on floor,Extended Range One-Arm Kettlebell Floor Press,extended range one arm kettlebell floor press,96.77,0.875,True,True,difuso,True
+0532,kettlebell figure 8,kettlebell figure 8,Kettlebell fire feet,kettlebell fire feet,82.05,0.2,False,True,sin_match,False
+0533,kettlebell front squat,kettlebell front squat,Double-kettlebell front squat,double kettlebell front squat,86.27,0.75,True,True,difuso,True
+0534,kettlebell goblet squat,kettlebell goblet squat,FYR2 Kettlebell Goblet Squat,kettlebell goblet squat,100.0,1.0,True,True,exacto,True
+0535,kettlebell hang clean,kettlebell hang clean,Kettlebell Hang Clean,kettlebell hang clean,100.0,1.0,True,True,exacto,True
+0536,kettlebell lunge pass through,kettlebell lunge pass through,Kettlebell pass-through lunge,kettlebell pass through lunge,100.0,1.0,True,True,exacto,True
+0537,kettlebell one arm clean and jerk,kettlebell one arm clean and jerk,Single-arm kettlebell clean and jerk,single arm kettlebell clean and jerk,92.75,0.714,True,True,difuso,True
+1298,kettlebell one arm floor press,kettlebell one arm floor press,One-Arm Kettlebell Floor Press,one arm kettlebell floor press,100.0,1.0,True,True,exacto,True
+0538,kettlebell one arm jerk,kettlebell one arm jerk,One-Arm Kettlebell Jerk,one arm kettlebell jerk,100.0,1.0,True,True,exacto,True
+0539,kettlebell one arm military press to the side,kettlebell one arm military press to the side,One-Arm Kettlebell Military Press To The Side,one arm kettlebell military press to the side,100.0,1.0,True,True,exacto,True
+0540,kettlebell one arm push press,kettlebell one arm push press,One-Arm Kettlebell Para Press,one arm kettlebell para press,82.76,0.667,True,True,sin_match,False
+0541,kettlebell one arm row,kettlebell one arm row,Two-Arm Kettlebell Row,two arm kettlebell row,81.82,0.6,True,True,sin_match,False
+0542,kettlebell one arm snatch,kettlebell one arm snatch,Single-arm kettlebell snatch,single arm kettlebell snatch,90.57,0.6,True,True,difuso,True
+0543,kettlebell pirate supper legs,kettlebell pirate supper leg,Kettlebell pirate ship,kettlebell pirate ship,80.0,0.4,True,True,sin_match,False
+0544,kettlebell pistol squat,kettlebell pistol squat,Kettlebell Pistol Squat,kettlebell pistol squat,100.0,1.0,True,True,exacto,True
+0545,kettlebell plyo push-up,kettlebell plyo push up,Kettlebell plyo push-up,kettlebell plyo push up,100.0,1.0,True,True,exacto,True
+0546,kettlebell seated press,kettlebell seated press,Kettlebell Seated Press,kettlebell seated press,100.0,1.0,True,True,exacto,True
+1438,kettlebell seated two arm military press,kettlebell seated two arm military press,Two-Arm Kettlebell Military Press,two arm kettlebell military press,90.41,0.833,True,True,difuso,True
+0547,kettlebell seesaw press,kettlebell seesaw press,Kettlebell Seated Press,kettlebell seated press,86.96,0.5,True,True,sin_match,False
+0548,kettlebell sumo high pull,kettlebell sumo high pull,FYR2 Kettlebell Swing High Pull,kettlebell swing high pull,86.27,0.6,True,True,difuso,True
+0549,kettlebell swing,kettlebell swing,Kettlebell swing,kettlebell swing,100.0,1.0,False,True,exacto,True
+0550,kettlebell thruster,kettlebell thruster,Kettlebell thruster,kettlebell thruster,100.0,1.0,False,True,exacto,True
+0551,kettlebell turkish get up (squat style),kettlebell turkish get up squat style,Taylor Kettlebell Goblet Squat,taylor kettlebell goblet squat,74.63,0.25,True,True,sin_match,False
+0552,kettlebell two arm clean,kettlebell two arm clean,Two-Arm Kettlebell Clean,two arm kettlebell clean,100.0,1.0,True,True,exacto,True
+0553,kettlebell two arm military press,kettlebell two arm military press,Two-Arm Kettlebell Military Press,two arm kettlebell military press,100.0,1.0,True,True,exacto,True
+1345,kettlebell two arm row,kettlebell two arm row,Two-Arm Kettlebell Row,two arm kettlebell row,100.0,1.0,True,True,exacto,True
+0554,kettlebell windmill,kettlebell windmill,Kettlebell Windmill,kettlebell windmill,100.0,1.0,True,True,exacto,True
+0555,kick out sit,kick out sit,HM Kick-Out,kick out,80.0,0.667,True,True,sin_match,False
+0558,kipping muscle up,kipping muscle up,Kipping Muscle Up,kipping muscle up,100.0,1.0,True,True,exacto,True
+3640,knee touch crunch,knee touch crunch,Knees tucked crunch,knee tucked crunch,85.71,0.5,True,True,sin_match,False
+1420,kneeling jump squat,kneeling jump squat,Kneeling Jump Squat,kneeling jump squat,100.0,1.0,True,True,exacto,True
+1346,kneeling lat stretch,kneeling lat stretch,Kneeling Forearm Stretch,kneeling forearm stretch,72.73,0.5,False,True,sin_match,False
+3239,kneeling plank tap shoulder (male),kneeling plank tap shoulder,Holman Hovering Plank with Shoulder Tap,hovering plank with shoulder tap,77.97,0.5,True,True,sin_match,False
+3211,kneeling push-up (male),kneeling push up,Incline Push-Up,incline push up,77.42,0.5,True,True,sin_match,False
+3288,korean dips,korean dip,Ring dip,ring dip,66.67,0.333,False,True,sin_match,False
+3418,l-pull-up,l pull up,Pullups,pull up,87.5,0.667,True,True,difuso,True
+3419,l-sit on floor,l sit on floor,Leg-Over Floor Press,leg over floor press,64.71,0.143,False,False,sin_match,False
+0562,landmine 180,landmine 180,30 Landmine Twist,30 landmine twist,68.97,0.25,True,False,sin_match,False
+3237,landmine lateral raise,landmine lateral raise,Band lateral raise,band lateral raise,85.0,0.5,True,False,sin_match,False
+3300,lean planche,lean planche,Hang Clean,hang clean,63.64,0.333,False,False,sin_match,False
+2271,left hook. boxing,left hook boxing,Shadow boxing,shadow boxing,62.07,0.25,True,True,sin_match,False
+0570,leg pull in flat bench,leg pull in flat bench,Flat Bench Lying Leg Raise,flat bench lying leg raise,66.67,0.429,True,True,sin_match,False
+1576,leg up hamstring stretch,leg up hamstring stretch,Leg-Up Hamstring Stretch,leg up hamstring stretch,100.0,1.0,True,True,exacto,True
+2287,lever alternate leg press,lever alternate leg press,Alternating Kettlebell Press,alternating kettlebell press,71.7,0.167,False,False,sin_match,False
+0571,lever alternating narrow grip seated row,lever alternating narrow grip seated row,Seated alternating biceps curl,seated alternating bicep curl,66.67,0.25,False,False,sin_match,False
+0572,lever assisted chin-up,lever assisted chin up,Assisted Chin-Up,assisted chin up,84.21,0.75,True,False,sin_match,False
+0573,lever back extension,lever back extension,Seated Back Extension,seated back extension,82.93,0.5,True,True,sin_match,False
+0574,lever bent over row,lever bent over row,Heavy band bent-over row,heavy band bent over row,74.42,0.5,True,False,sin_match,False
+3200,lever bent-over row with v-bar,lever bent over row with v bar,Heavy band bent-over row,heavy band bent over row,70.37,0.333,True,False,sin_match,False
+0575,lever bicep curl,lever bicep curl,FYR2 Pulse Biceps Curl,pulse bicep curl,81.25,0.5,True,False,sin_match,False
+2289,lever calf press,lever calf press,Leverage Chest Press,lever chest press,78.79,0.5,False,True,sin_match,False
+0577,lever chest press,lever chest press,Leverage Chest Press,lever chest press,100.0,1.0,True,True,exacto,True
+0576,lever chest press,lever chest press,Leverage Chest Press,lever chest press,100.0,1.0,True,True,exacto,True
+0578,lever deadlift,lever deadlift,Leverage Deadlift,lever deadlift,100.0,1.0,True,True,exacto,True
+1300,lever decline chest press,lever decline chest press,Leverage Decline Chest Press,lever decline chest press,100.0,1.0,True,True,exacto,True
+1253,lever donkey calf raise,lever donkey calf raise,Weighted donkey calf raise,weighted donkey calf raise,69.39,0.6,True,False,sin_match,False
+0579,lever front pulldown,lever front pulldown,Close-Grip Front Lat Pulldown,close grip front lat pulldown,65.31,0.333,True,False,sin_match,False
+0580,lever gripless shrug,lever gripless shrug,Leverage Shrug,lever shrug,70.97,0.667,True,True,sin_match,False
+1439,lever gripless shrug v. 2,lever gripless shrug,Leverage Shrug,lever shrug,70.97,0.667,True,True,sin_match,False
+2288,lever gripper hands,lever gripper hand,Leverage Deadlift,lever deadlift,56.25,0.25,False,True,sin_match,False
+1615,lever hammer grip preacher curl,lever hammer grip preacher curl,Preacher Hammer Dumbbell Curl,preacher hammer dumbbell curl,70.0,0.5,True,False,sin_match,False
+0581,lever high row,lever high row,Leverage High Row,lever high row,100.0,1.0,True,True,exacto,True
+2286,lever hip extension v. 2,lever hip extension,Leg Extensions,leg extension,75.0,0.25,True,True,sin_match,False
+2611,lever horizontal one leg press,lever horizontal one leg press,Leg-Over Floor Press,leg over floor press,64.0,0.286,False,False,sin_match,False
+1299,lever incline chest press,lever incline chest press,Leverage Incline Chest Press,lever incline chest press,100.0,1.0,True,True,exacto,True
+1479,lever incline chest press v. 2,lever incline chest press,Leverage Incline Chest Press,lever incline chest press,100.0,1.0,True,True,exacto,True
+0582,lever kneeling leg curl,lever kneeling leg curl,Single-leg lying leg curl,single leg lying leg curl,62.5,0.333,True,True,sin_match,False
+0583,lever kneeling twist,lever kneeling twist,Holman Weighted Kneeling Lift,weighted kneeling lift,66.67,0.2,True,False,sin_match,False
+0584,lever lateral raise,lever lateral raise,Plate lateral raise,plate lateral raise,84.21,0.5,True,False,sin_match,False
+0585,lever leg extension,lever leg extension,Leg Extensions,leg extension,81.25,0.667,True,True,sin_match,False
+0586,lever lying leg curl,lever lying leg curl,Lying Leg Curls,lying leg curl,82.35,0.75,True,True,sin_match,False
+3195,lever lying two-one leg curl,lever lying two one leg curl,Single-leg lying leg curl,single leg lying leg curl,75.47,0.429,True,True,sin_match,False
+0587,lever military press,lever military press,Military press,military press,82.35,0.667,True,False,sin_match,False
+0588,lever narrow grip seated row,lever narrow grip seated row,Yates Row Reverse Grip,yate row reverse grip,69.39,0.286,True,False,sin_match,False
+0589,lever one arm bent over row,lever one arm bent over row,Heavy band bent-over row,heavy band bent over row,70.59,0.375,True,False,sin_match,False
+1356,lever one arm lateral high row,lever one arm lateral high row,One-Arm Long Bar Row,one arm long bar row,64.0,0.375,True,False,sin_match,False
+1347,lever one arm lateral wide pulldown,lever one arm lateral wide pulldown,Single-arm lateral raise,single arm lateral raise,57.63,0.25,False,False,sin_match,False
+0590,lever one arm shoulder press,lever one arm shoulder press,Cable Shoulder Press,cable shoulder press,75.0,0.333,True,False,sin_match,False
+0591,lever overhand triceps dip,lever overhand tricep dip,Overhead Triceps,overhead tricep,70.0,0.5,True,False,sin_match,False
+0592,lever preacher curl,lever preacher curl,Preacher Curl,preacher curl,81.25,0.667,True,False,sin_match,False
+1614,lever preacher curl v. 2,lever preacher curl,Preacher Curl,preacher curl,81.25,0.667,True,False,sin_match,False
+2285,lever pullover,lever pullover,PJR Pull-Over,pull over,69.57,0.333,False,False,sin_match,False
+2736,lever reverse grip lateral pulldown,lever reverse grip lateral pulldown,Reverse-grip lat pull-down,reverse grip lat pull down,68.85,0.667,True,True,sin_match,False
+1616,lever reverse grip preacher curl,lever reverse grip preacher curl,Reverse Barbell Preacher Curls,reverse barbell preacher curl,72.13,0.5,True,False,sin_match,False
+1348,lever reverse grip vertical row,lever reverse grip vertical row,Reverse-grip bent-over row,reverse grip bent over row,70.18,0.429,True,False,sin_match,False
+0593,lever reverse hyperextension,lever reverse hyperextension,Reverse Hyperextension,reverse hyperextension,88.0,0.667,True,True,difuso,True
+1349,lever reverse t-bar row,lever reverse t bar row,Reverse Barbell Row,reverse barbell row,76.19,0.6,True,False,sin_match,False
+2315,lever rotary calf,lever rotary calf,Elevated Cable Rows,elevated cable row,62.86,0.0,False,False,sin_match,False
+2335,lever seated calf press,lever seated calf press,Seated Leg Press,seated leg press,76.92,0.4,False,True,sin_match,False
+0594,lever seated calf raise,lever seated calf raise,Seated Calf Raise,seated calf raise,85.0,0.75,True,True,difuso,True
+1452,lever seated crunch,lever seated crunch,Reverse crunch,reverse crunch,78.79,0.25,True,False,sin_match,False
+0595,lever seated crunch (chest pad),lever seated crunch chest pad,Cable Seated Crunch,cable seated crunch,66.67,0.333,True,False,sin_match,False
+3760,lever seated crunch v. 2,lever seated crunch,Reverse crunch,reverse crunch,78.79,0.25,True,False,sin_match,False
+1451,lever seated dip,lever seated dip,Holman Seated Pike,seated pike,66.67,0.25,False,False,sin_match,False
+0596,lever seated fly,lever seated fly,Sled Reverse Flye,sled reverse flye,72.73,0.2,False,False,sin_match,False
+3759,lever seated good morning,lever seated good morning,Seated Good Mornings,seated good morning,86.36,0.75,True,False,sin_match,False
+0597,lever seated hip abduction,lever seated hip abduction,Holman Seated Killer Abs,seated killer abs,65.12,0.167,False,False,sin_match,False
+0598,lever seated hip adduction,lever seated hip adduction,Holman Seated Killer Abs,seated killer abs,60.47,0.167,False,False,sin_match,False
+0599,lever seated leg curl,lever seated leg curl,Seated Leg Curl,seated leg curl,83.33,0.75,True,True,sin_match,False
+0600,lever seated leg raise crunch,lever seated leg raise crunch,Cable Seated Lateral Raise,cable seated lateral raise,72.73,0.286,False,False,sin_match,False
+0602,lever seated reverse fly,lever seated reverse fly,Sled Reverse Flye,sled reverse flye,78.05,0.4,True,False,sin_match,False
+0601,lever seated reverse fly (parallel grip),lever seated reverse fly parallel grip,FYR2 Kettlebell Reverse Lunge Switch Grip,kettlebell reverse lunge switch grip,59.46,0.222,False,False,sin_match,False
+1350,lever seated row,lever seated row,Seated Cable Rows,seated cable row,81.25,0.5,True,False,sin_match,False
+1385,lever seated squat calf raise on leg press machine,lever seated squat calf raise on leg press machine,Calf Press On The Leg Press Machine,calf press on the leg press machine,72.94,0.5,True,True,sin_match,False
+0603,lever shoulder press,lever shoulder press,Cable Shoulder Press,cable shoulder press,85.0,0.5,True,False,sin_match,False
+0869,lever shoulder press v. 2,lever shoulder press,Cable Shoulder Press,cable shoulder press,85.0,0.5,True,False,sin_match,False
+2318,lever shoulder press v. 3,lever shoulder press,Cable Shoulder Press,cable shoulder press,85.0,0.5,True,False,sin_match,False
+0604,lever shrug,lever shrug,Leverage Shrug,lever shrug,100.0,1.0,True,True,exacto,True
+0605,lever standing calf raise,lever standing calf raise,Standing Calf Raises,standing calf raise,86.36,0.75,True,True,difuso,True
+3758,lever standing chest press,lever standing chest press,Leverage Chest Press,lever chest press,79.07,0.75,True,True,sin_match,False
+0606,lever t bar row,lever t bar row,T-Bar Row,t bar row,75.0,0.75,True,False,sin_match,False
+1351,lever t-bar reverse grip row,lever t bar reverse grip row,Reverse-grip bent-over row,reverse grip bent over row,81.48,0.375,True,False,sin_match,False
+0607,lever triceps extension,lever tricep extension,Machine Triceps Extension,machine tricep extension,78.26,0.5,True,True,sin_match,False
+1313,lever unilateral row,lever unilateral row,Lateral cone hop,lateral cone hop,61.11,0.0,False,False,sin_match,False
+0609,london bridge,london bridge,Side Bridge,side bridge,66.67,0.333,False,False,sin_match,False
+3013,low glute bridge on floor,low glute bridge on floor,Single-leg glute bridge,single leg glute bridge,66.67,0.286,True,True,sin_match,False
+1352,lower back curl,lower back curl,Lower Back Curl,lower back curl,100.0,1.0,True,True,exacto,True
+3582,lunge with jump,lunge with jump,Jump Lunge,jump lunge,80.0,0.667,False,True,sin_match,False
+1688,lunge with twist,lunge with twist,Walking lunge with twist,walking lunge with twist,80.0,0.75,False,True,sin_match,False
+0613,lying (side) quads stretch,lying side quad stretch,On Your Side Quad Stretch,on your side quad stretch,79.17,0.5,True,True,sin_match,False
+2312,lying elbow to knee,lying elbow to knee,Holman Towel Elbow Plank Pike,towel elbow plank pike,68.29,0.143,True,True,sin_match,False
+0620,lying leg raise flat bench,lying leg raise flat bench,Flat Bench Lying Leg Raise,flat bench lying leg raise,100.0,1.0,True,True,exacto,True
+0865,lying leg-hip raise,lying leg hip raise,Flat Bench Lying Leg Raise,flat bench lying leg raise,75.56,0.5,True,True,sin_match,False
+1301,machine inner chest press,machine inner chest press,30 Chest Machine Incline Chest Press,machine incline chest press,92.31,0.6,True,True,difuso,True
+0624,march sit (wall),march sit wall,Wall sit,wall sit,72.73,0.667,True,True,sin_match,False
+1353,medicine ball catch and overhead throw,medicine ball catch and overhead throw,ACFT Medicine ball overhead power throw,medicine ball overhead power throw,77.78,0.571,True,True,sin_match,False
+1302,medicine ball chest pass,medicine ball chest pass,Medicine Ball Chest Pass,medicine ball chest pass,100.0,1.0,True,True,exacto,True
+1303,medicine ball chest push from 3 point stance,medicine ball chest push from 3 point stance,Chest Push from 3 point stance,chest push from 3 point stance,81.08,0.75,True,True,sin_match,False
+1304,medicine ball chest push multiple response,medicine ball chest push multiple response,Chest Push (multiple response),chest push multiple response,80.0,0.667,True,True,sin_match,False
+1305,medicine ball chest push single response,medicine ball chest push single response,Chest Push (single response),chest push single response,78.79,0.667,True,True,sin_match,False
+1312,medicine ball chest push with run release,medicine ball chest push with run release,Chest Push with Run Release,chest push with run release,79.41,0.714,True,True,sin_match,False
+1701,medicine ball close grip push up,medicine ball close grip push up,Medicine ball push-up,medicine ball push up,79.25,0.667,False,True,sin_match,False
+1354,medicine ball overhead slam,medicine ball overhead slam,FYR2 Bent-Over Medicine Ball Slam,bent over medicine ball slam,83.64,0.8,True,True,sin_match,False
+1750,medicine ball supine chest throw,medicine ball supine chest throw,Medicine ball scoop throw,medicine ball scoop throw,77.19,0.5,False,True,sin_match,False
+0627,mixed grip chin-up,mixed grip chin up,Mixed Grip Chin,mixed grip chin,90.91,0.75,True,True,difuso,True
+3217,modified hindu push-up (male),modified hindu push up,UNS Banded Push-Up,banded push up,66.67,0.4,True,False,sin_match,False
+1421,modified push up to lower arms,modified push up to lower arm,Medicine ball push-up,medicine ball push up,64.0,0.25,False,False,sin_match,False
+0628,monster walk,monster walk,Monster Walk,monster walk,100.0,1.0,True,True,exacto,True
+0630,mountain climber,mountain climber,Mountain climber,mountain climber,100.0,1.0,,True,exacto,True
+0631,muscle up,muscle up,Muscle Up,muscle up,100.0,1.0,True,True,exacto,True
+1401,muscle-up (on vertical bar),muscle up on vertical bar,Cable V-bar push-down,cable v bar push down,60.87,0.111,False,False,sin_match,False
+2328,narrow push-up on exercise ball,narrow push up on exercise ball,Push-Ups With Feet On An Exercise Ball,push up with feet on an exercise ball,73.53,0.556,False,True,sin_match,False
+1403,neck side stretch,neck side stretch,Side Neck Stretch,side neck stretch,100.0,1.0,True,True,exacto,True
+0634,negative crunch,negative crunch,MetaBurn Swivel Crunch,swivel crunch,71.43,0.333,True,True,sin_match,False
+1495,oblique crunch v. 2,oblique crunch,MetaBurn Oblique Roll Crunch,oblique roll crunch,84.85,0.667,True,True,sin_match,False
+0635,oblique crunches floor,oblique crunche floor,Lying oblique crunch,lying oblique crunch,78.05,0.5,True,True,sin_match,False
+0636,olympic barbell hammer curl,olympic barbell hammer curl,Cable rope hammer curl,cable rope hammer curl,73.47,0.333,True,False,sin_match,False
+0637,olympic barbell triceps extension,olympic barbell tricep extension,Lying cable triceps extension,lying cable tricep extension,80.0,0.333,True,False,sin_match,False
+1355,one arm against wall,one arm against wall,One Arm Against Wall,one arm against wall,100.0,1.0,True,True,exacto,True
+0638,one arm chin-up,one arm chin up,One Arm Chin-Up,one arm chin up,100.0,1.0,True,True,exacto,True
+0639,one arm dip,one arm dip,One Arm Chin-Up,one arm chin up,69.23,0.4,False,True,sin_match,False
+0640,one arm slam (with medicine ball),one arm slam with medicine ball,Medicine ball slam,medicine ball slam,73.47,0.5,False,True,sin_match,False
+1773,one arm towel row,one arm towel row,T-Bar Row with Handle,t bar row with handle,63.16,0.125,True,True,sin_match,False
+1386,one leg donkey calf raise,one leg donkey calf raise,Leg press calf raise,leg press calf raise,71.11,0.5,True,False,sin_match,False
+1387,one leg floor calf raise,one leg floor calf raise,Leg press calf raise,leg press calf raise,72.73,0.5,True,False,sin_match,False
+1476,one leg squat,one leg squat,Alien Squat,alien squat,75.0,0.25,True,True,sin_match,False
+0641,otis up,oti up,Otis-Up,oti up,100.0,1.0,True,True,exacto,True
+0642,outside leg kick push-up,outside leg kick push up,Close push-up,close push up,70.27,0.333,False,True,sin_match,False
+0643,overhead triceps stretch,overhead tricep stretch,Overhead Stretch,overhead stretch,82.05,0.667,False,True,sin_match,False
+3147,pelvic tilt,pelvic tilt,Standing Pelvic Tilt,standing pelvic tilt,70.97,0.667,False,True,sin_match,False
+1422,pelvic tilt into bridge,pelvic tilt into bridge,Pelvic Tilt Into Bridge,pelvic tilt into bridge,100.0,1.0,True,True,exacto,True
+1388,peroneals stretch,peroneal stretch,Peroneals Stretch,peroneal stretch,100.0,1.0,True,False,exacto,True
+3662,pike-to-cobra push-up,pike to cobra push up,MetaBurn Pike Push-Up,pike push up,72.73,0.6,False,True,sin_match,False
+1306,plyo push up,plyo push up,Plyo push-up,plyo push up,100.0,1.0,True,True,exacto,True
+1687,posterior step to overhead reach,posterior step to overhead reach,Overhead Triceps,overhead tricep,63.83,0.167,False,True,sin_match,False
+1389,posterior tibialis stretch,posterior tibiali stretch,Posterior Tibialis Stretch,posterior tibiali stretch,100.0,1.0,True,False,exacto,True
+3119,potty squat,potty squat,Pop squat,pop squat,80.0,0.333,False,True,sin_match,False
+3132,potty squat with support,potty squat with support,MetaBurn Sit-Up With Rotation,sit up with rotation,63.64,0.143,False,True,sin_match,False
+0648,power clean,power clean,Power clean,power clean,100.0,1.0,True,True,exacto,True
+3665,power point plank,power point plank,MetaBurn Plank Wiper,plank wiper,71.43,0.25,True,True,sin_match,False
+3203,prisoner half sit-up (male),prisoner half sit up,HM Prison Sit-Up,prison sit up,78.79,0.75,True,True,sin_match,False
+1707,prone twist on stability ball,prone twist on exercise ball,Exercise ball hip thrust,exercise ball hip thrust,73.08,0.286,False,True,sin_match,False
+0651,pull up (neutral grip),pull up neutral grip,Neutral-grip pull-up,neutral grip pull up,100.0,1.0,True,True,exacto,True
+0650,pull-in (on stability ball),pull in on exercise ball,Exercise Ball Pull-In,exercise ball pull in,93.33,0.8,True,True,difuso,True
+0652,pull-up,pull up,Pullups,pull up,100.0,1.0,True,True,exacto,True
+1689,push and pull bodyweight,push and pull bodyweight,Bodyweight Flyes,bodyweight flye,61.54,0.2,True,False,sin_match,False
+3638,push to run,push to run,Pushups,push up,66.67,0.25,,True,sin_match,False
+1307,push up on bosu ball,push up on bosu ball,Bosu Ball Push-Up,bosu ball push up,91.89,0.8,True,True,difuso,True
+0662,push-up,push up,Pushups,push up,100.0,1.0,True,True,exacto,True
+0653,push-up (bosu ball),push up bosu ball,Bosu Ball Push-Up,bosu ball push up,100.0,1.0,True,True,exacto,True
+0655,push-up (on stability ball),push up on exercise ball,Exercise Ball Pull-In,exercise ball pull in,80.0,0.286,False,True,sin_match,False
+0656,push-up (on stability ball),push up on exercise ball,Exercise Ball Pull-In,exercise ball pull in,80.0,0.286,False,True,sin_match,False
+0659,push-up (wall),push up wall,Push-Up Wide,push up wide,75.0,0.5,True,True,sin_match,False
+0658,push-up (wall) v. 2,push up wall,Push-Up Wide,push up wide,75.0,0.5,True,True,sin_match,False
+0660,push-up close-grip off dumbbell,push up close grip off dumbbell,Total Fitness Close-Grip Dumbbell Press,close grip dumbbell press,78.57,0.429,True,True,sin_match,False
+0661,push-up inside leg kick,push up inside leg kick,Incline Push-Up,incline push up,68.42,0.333,False,True,sin_match,False
+0663,push-up medicine ball,push up medicine ball,Medicine ball push-up,medicine ball push up,100.0,1.0,True,True,exacto,True
+1467,push-up on lower arms,push up on lower arm,One-Arm Push-Up,one arm push up,80.0,0.5,False,True,sin_match,False
+3145,push-up plus,push up plu,Plyo push-up,plyo push up,86.96,0.5,True,True,sin_match,False
+0664,push-up to side plank,push up to side plank,Push Up to Side Plank,push up to side plank,100.0,1.0,False,True,exacto,True
+3533,quads,quad,UP Squat,squat,66.67,0.0,True,False,sin_match,False
+3201,quarter sit-up,quarter sit up,Partner target sit-up,partner target sit up,68.57,0.4,True,True,sin_match,False
+3552,quick feet v. 2,quick feet,Quick Leap,quick leap,70.0,0.333,True,True,sin_match,False
+0666,raise single arm push-up,raise single arm push up,Single-Arm Push-Up,single arm push up,85.71,0.8,True,True,difuso,True
+0668,rear decline bridge,rear decline bridge,Neck Bridge Prone,neck bridge prone,66.67,0.2,False,True,sin_match,False
+0669,rear deltoid stretch,rear deltoid stretch,Overhead Stretch,overhead stretch,66.67,0.25,False,True,sin_match,False
+0670,rear pull-up,rear pull up,Pullups,pull up,73.68,0.667,True,True,sin_match,False
+1582,reclining big toe pose with rope,reclining big toe pose with rope,Holman Renegade Row with Opposite Foot Step-Out,renegade row with opposite foot step out,58.33,0.083,False,False,sin_match,False
+3236,resistance band hip thrusts on knees (female),resistance band hip thrust on knee,Hanging knee raise with manual resistance,hanging knee raise with manual resistance,64.0,0.2,False,False,sin_match,False
+3007,resistance band leg extension,resistance band leg extension,Holman Boat Press with Leg Extension,boat press with leg extension,75.86,0.286,False,False,sin_match,False
+3123,resistance band seated biceps curl,resistance band seated bicep curl,Standing band biceps curl,standing band bicep curl,73.68,0.5,True,False,sin_match,False
+3124,resistance band seated chest press,resistance band seated chest press,Seated Head Harness Neck Resistance,seated head harness neck resistance,72.46,0.25,False,False,sin_match,False
+3006,resistance band seated hip abduction,resistance band seated hip abduction,Seated Head Harness Neck Resistance,seated head harness neck resistance,67.61,0.25,False,False,sin_match,False
+3122,resistance band seated shoulder press,resistance band seated shoulder press,30 Shoulders Seated Banded Barbell Shoulder Press,seated banded barbell shoulder press,76.71,0.667,True,True,sin_match,False
+3144,resistance band seated straight back row,resistance band seated straight back row,Straight Bar Bench Mid Rows,straight bar bench mid row,60.61,0.222,True,False,sin_match,False
+0872,reverse crunch,reverse crunch,Reverse crunch,reverse crunch,100.0,1.0,True,True,exacto,True
+0672,reverse dip,reverse dip,Reverse Burpee,reverse burpee,72.0,0.333,False,True,sin_match,False
+0673,reverse grip machine lat pulldown,reverse grip machine lat pulldown,Reverse-grip lat pull-down,reverse grip lat pull down,71.19,0.667,True,True,sin_match,False
+0674,reverse grip pull-up,reverse grip pull up,30 Back Reverse-Grip Pull-Up,reverse grip pull up,100.0,1.0,True,True,exacto,True
+0675,reverse hyper extension (on stability ball),reverse hyper extension on exercise ball,Exercise ball weighted hyperextension,exercise ball weighted hyperextension,67.53,0.429,True,True,sin_match,False
+1423,reverse hyper on flat bench,reverse hyper on flat bench,FYR2 Bent-Over Reverse Fly,bent over reverse fly,70.83,0.125,False,False,sin_match,False
+3663,reverse plank with leg lift,reverse plank with leg lift,HM Reverse Lunge with Kick,reverse lunge with kick,68.0,0.286,False,True,sin_match,False
+0677,ring dips,ring dip,Ring dip,ring dip,100.0,1.0,True,True,exacto,True
+2571,rocking frog stretch,rocking frog stretch,UNS Rocking Adductor Stretch,rocking adductor stretch,77.27,0.5,False,True,sin_match,False
+0678,rocky pull-up pulldown,rocky pull up pulldown,Rocky Pull-Ups/Pulldowns,rocky pull up pulldown,100.0,1.0,True,True,exacto,True
+2208,roller back stretch,roller back stretch,Chair Lower Back Stretch,chair lower back stretch,79.07,0.4,False,True,sin_match,False
+2204,roller body saw,roller body saw,Ab Roller,ab roller,66.67,0.25,True,True,sin_match,False
+2205,roller hip lat stretch,roller hip lat stretch,HM Shoulder Stretch,shoulder stretch,68.42,0.2,False,False,sin_match,False
+2202,roller hip stretch,roller hip stretch,HM Shoulder Stretch,shoulder stretch,76.47,0.25,False,False,sin_match,False
+2206,roller reverse crunch,roller reverse crunch,Reverse crunch,reverse crunch,80.0,0.667,True,False,sin_match,False
+2203,roller seated shoulder flexor depresor retractor,roller seated shoulder flexor depresor retractor,30 Shoulders Seated Banded Barbell Shoulder Press,seated banded barbell shoulder press,57.14,0.222,False,False,sin_match,False
+2209,roller seated single leg shoulder flexor depresor retractor,roller seated single leg shoulder flexor depresor retractor,Single-arm half-kneeling shoulder press,single arm half kneeling shoulder press,53.06,0.167,False,False,sin_match,False
+2207,roller side lat stretch,roller side lat stretch,Side Neck Stretch,side neck stretch,70.0,0.4,False,False,sin_match,False
+0680,rope climb,rope climb,Rope climb,rope climb,100.0,1.0,True,False,exacto,True
+0685,run,run,Crunch,crunch,66.67,0.0,,False,sin_match,False
+0684,run (equipment),run equipment,Bench crunch,bench crunch,48.0,0.0,,True,sin_match,False
+1585,runners stretch,runner stretch,Runner's Stretch,runner s stretch,93.33,0.667,True,True,difuso,True
+0687,russian twist,russian twist,Russian twist,russian twist,100.0,1.0,True,True,exacto,True
+3012,scapula dips,scapula dip,Scapular Rows,scapular row,69.57,0.333,True,False,sin_match,False
+3021,scapula push-up,scapula push up,Scapular push-up,scapular push up,96.77,1.0,True,True,difuso,True
+0688,scapular pull-up,scapular pull up,Scapular Pull-Up,scapular pull up,100.0,1.0,True,True,exacto,True
+3219,scissor jumps (male),scissor jump,Scissors Jump,scissor jump,100.0,1.0,,True,exacto,True
+1390,seated calf stretch (male),seated calf stretch,Seated Calf Stretch,seated calf stretch,100.0,1.0,True,True,exacto,True
+1424,seated glute stretch,seated glute stretch,Seated Glute Stretch,seated glute stretch,100.0,1.0,True,True,exacto,True
+0689,seated leg raise,seated leg raise,Seated Calf Raise,seated calf raise,84.85,0.5,False,False,sin_match,False
+0690,seated lower back stretch,seated lower back stretch,Seated Calf Stretch,seated calf stretch,77.27,0.4,False,True,sin_match,False
+2567,seated piriformis stretch,seated piriformi stretch,Seated Calf Stretch,seated calf stretch,74.42,0.5,False,True,sin_match,False
+0691,seated side crunch (wall),seated side crunch wall,HM Left Side Crunch,left side crunch,71.79,0.4,True,True,sin_match,False
+1587,seated wide angle pose sequence,seated wide angle pose sequence,Seated cable shoulder press,seated cable shoulder press,62.07,0.125,False,False,sin_match,False
+0697,self assisted inverse leg curl,self assisted inverse leg curl,Assisted Single-Arm Pull-Up,assisted single arm pull up,59.65,0.111,False,True,sin_match,False
+1766,self assisted inverse leg curl,self assisted inverse leg curl,Assisted Single-Arm Pull-Up,assisted single arm pull up,59.65,0.111,False,True,sin_match,False
+0696,self assisted inverse leg curl (on floor),self assisted inverse leg curl on floor,Assisted Single-Arm Pull-Up,assisted single arm pull up,54.55,0.091,False,True,sin_match,False
+3222,semi squat jump (male),semi squat jump,Jump Squat,jump squat,80.0,0.667,,True,sin_match,False
+3656,short stride run,short stride run,Slide Jump Shot,slide jump shot,70.97,0.2,,True,sin_match,False
+1763,shoulder grip pull-up,shoulder grip pull up,30 Back Reverse-Grip Pull-Up,reverse grip pull up,73.17,0.6,True,True,sin_match,False
+3699,shoulder tap,shoulder tap,Shoulder tap,shoulder tap,100.0,1.0,True,True,exacto,True
+0699,shoulder tap push-up,shoulder tap push up,Shoulder tap,shoulder tap,75.0,0.5,False,True,sin_match,False
+1774,side bridge hip abduction,side bridge hip abduction,Band Hip Adductions,band hip adduction,69.77,0.4,True,False,sin_match,False
+0705,side bridge v. 2,side bridge,Side Bridge,side bridge,100.0,1.0,True,True,exacto,True
+0709,side hip (on parallel bars),side hip on parallel bar,Parallel Bar Dip,parallel bar dip,75.0,0.333,False,True,sin_match,False
+0710,side hip abduction,side hip abduction,Band Hip Adductions,band hip adduction,66.67,0.5,True,False,sin_match,False
+1358,side lying floor stretch,side lying floor stretch,Side-Lying Floor Stretch,side lying floor stretch,100.0,1.0,True,True,exacto,True
+3667,side lying hip adduction (male),side lying hip adduction,Side-lying leg adduction scissor,side lying leg adduction scissor,75.0,0.5,True,True,sin_match,False
+1775,side plank hip adduction,side plank hip adduction,Side plank hip dip,side plank hip dip,80.95,0.6,False,True,sin_match,False
+0716,side push neck stretch,side push neck stretch,Side Neck Stretch,side neck stretch,87.18,0.75,True,True,difuso,True
+0717,side push-up,side push up,MetaBurn Spiderman Push-Up,spiderman push up,82.76,0.5,False,True,sin_match,False
+0721,side wrist pull stretch,side wrist pull stretch,Side Wrist Pull,side wrist pull,78.95,0.75,False,True,sin_match,False
+0720,side-to-side chin,side to side chin,Side To Side Chins,side to side chin,100.0,1.0,True,True,exacto,True
+3213,side-to-side toe touch (male),side to side toe touch,Holman Side-to-Side Twist,side to side twist,75.0,0.75,True,True,sin_match,False
+0725,single arm push-up,single arm push up,Single-Arm Push-Up,single arm push up,100.0,1.0,True,True,exacto,True
+3645,single leg bridge with outstretched leg,single leg bridge with outstretched leg,Single-leg glute bridge,single leg glute bridge,64.52,0.5,True,True,sin_match,False
+0727,single leg calf raise (on a dumbbell),single leg calf raise on a dumbbell,Calf Raise On A Dumbbell,calf raise on a dumbbell,81.36,0.714,True,True,sin_match,False
+0730,single leg platform slide,single leg platform slide,Holman Pilates Single-Leg Stretch,pilate single leg stretch,72.0,0.333,True,True,sin_match,False
+1759,single leg squat (pistol) male,single leg squat pistol,Single-leg depth squat,single leg depth squat,75.56,0.6,True,False,sin_match,False
+1489,sissy squat,sissy squat,Sissy squat,sissy squat,100.0,1.0,True,True,exacto,True
+0735,sit-up v. 2,sit up,Sit-up,sit up,100.0,1.0,True,True,exacto,True
+3679,sit-up with arms on chest,sit up with arm on chest,MetaBurn Sit-Up With Rotation,sit up with rotation,72.73,0.429,True,True,sin_match,False
+3361,skater hops,skater hop,Lateral hop,lateral hop,76.19,0.333,,True,sin_match,False
+2142,ski ergometer,ski ergometer,Partner farmer's walk,partner farmer s walk,52.94,0.0,False,False,sin_match,False
+3671,ski step,ski step,Skip,skip,66.67,0.5,,True,sin_match,False
+3304,skin the cat,skin the cat,Skin The Cat To Push-Up,skin the cat to push up,68.57,0.5,False,True,sin_match,False
+1425,sled 45 degrees one leg press,sled 45 degree one leg press,30 Chest 30-Degree Incline Smith Machine Press,30 degree incline smith press,66.67,0.222,False,True,sin_match,False
+0738,sled 45в° calf press,sled 45 calf press,Calf Press,calf press,71.43,0.5,True,True,sin_match,False
+0739,sled 45в° leg press,sled 45 leg press,Single-Leg Press,single leg press,78.79,0.4,True,True,sin_match,False
+1464,sled 45в° leg press (back pov),sled 45 leg press,Single-Leg Press,single leg press,78.79,0.4,True,True,sin_match,False
+1463,sled 45° leg press (side pov),sled 45 leg press,Single-Leg Press,single leg press,78.79,0.4,True,True,sin_match,False
+0740,sled 45в° leg wide press,sled 45 leg wide press,Single-Leg Press,single leg press,68.42,0.333,True,True,sin_match,False
+1391,sled calf press on leg press,sled calf press on leg press,Calf Press On The Leg Press Machine,calf press on the leg press machine,79.37,0.833,True,True,sin_match,False
+0741,sled closer hack squat,sled closer hack squat,Hack squat calf raise,hack squat calf raise,74.42,0.333,False,True,sin_match,False
+0742,sled forward angled calf raise,sled forward angled calf raise,Single-arm cable front raise,single arm cable front raise,62.07,0.111,False,False,sin_match,False
+0743,sled hack squat,sled hack squat,Hack Squat,hack squat,80.0,0.667,True,False,sin_match,False
+2334,sled lying calf press,sled lying calf press,Leg press calf raise,leg press calf raise,78.05,0.333,True,True,sin_match,False
+0744,sled lying squat,sled lying squat,Lying Machine Squat,lying machine squat,74.29,0.5,True,True,sin_match,False
+1392,sled one leg calf press on leg press,sled one leg calf press on leg press,Calf Press On The Leg Press Machine,calf press on the leg press machine,76.06,0.714,True,True,sin_match,False
+1496,sledge hammer,sledge hammer,Seated hammer curl,seated hammer curl,64.52,0.25,False,False,sin_match,False
+0746,smith back shrug,smith back shrug,Smith machine shrug,smith shrug,81.48,0.667,True,True,sin_match,False
+0747,smith behind neck press,smith behind neck press,Smith machine behind-the-neck press,smith behind the neck press,92.0,0.8,True,True,difuso,True
+0748,smith bench press,smith bench press,Smith machine bench press,smith bench press,100.0,1.0,True,True,exacto,True
+0749,smith bent knee good morning,smith bent knee good morning,Stiff Leg Barbell Good Morning,stiff leg barbell good morning,68.97,0.25,True,True,sin_match,False
+1359,smith bent over row,smith bent over row,Smith machine bent-over row,smith bent over row,100.0,1.0,True,True,exacto,True
+0750,smith chair squat,smith chair squat,Smith machine back squat,smith back squat,78.79,0.5,True,True,sin_match,False
+0751,smith close-grip bench press,smith close grip bench press,Smith Machine Close-Grip Bench Press,smith close grip bench press,100.0,1.0,False,True,exacto,True
+0752,smith deadlift,smith deadlift,Snatch Deadlift,snatch deadlift,82.76,0.333,True,True,sin_match,False
+0753,smith decline bench press,smith decline bench press,Smith machine decline bench press,smith decline bench press,100.0,1.0,True,True,exacto,True
+0754,smith decline reverse-grip press,smith decline reverse grip press,Reverse-grip bench press,reverse grip bench press,75.0,0.5,False,True,sin_match,False
+1433,smith front squat (clean grip),smith front squat clean grip,Front Squat (Clean Grip),front squat clean grip,88.0,0.8,True,True,difuso,True
+3281,smith full squat,smith full squat,30 Legs Smith Machine Squat,smith squat,81.48,0.667,True,True,sin_match,False
+0755,smith hack squat,smith hack squat,Smith machine back squat,smith back squat,93.75,0.5,True,True,sin_match,False
+0756,smith hip raise,smith hip raise,Smith Machine Calf Raise,smith calf raise,77.42,0.5,False,True,sin_match,False
+0757,smith incline bench press,smith incline bench press,Smith Machine Incline Bench Press,smith incline bench press,100.0,1.0,True,True,exacto,True
+0758,smith incline reverse-grip press,smith incline reverse grip press,30 Chest 30-Degree Incline Smith Machine Press,30 degree incline smith press,72.13,0.429,True,True,sin_match,False
+0759,smith incline shoulder raises,smith incline shoulder raise,Smith Incline Shoulder Raise,smith incline shoulder raise,100.0,1.0,True,True,exacto,True
+0760,smith leg press,smith leg press,Smith machine leg press,smith leg press,100.0,1.0,True,True,exacto,True
+1434,smith low bar squat,smith low bar squat,Smith machine box squat,smith box squat,82.35,0.4,True,True,sin_match,False
+1683,smith machine bicep curl,smith bicep curl,30 Arms Seated Biceps Curl,seated bicep curl,78.79,0.5,True,False,sin_match,False
+1625,smith machine decline close grip bench press,smith decline close grip bench press,Smith Machine Close-Grip Bench Press,smith close grip bench press,87.5,0.833,False,True,sin_match,False
+1752,smith machine incline tricep extension,smith incline tricep extension,Single-arm incline triceps extension,single arm incline tricep extension,83.08,0.5,True,False,sin_match,False
+1626,smith machine reverse decline close grip bench press,smith reverse decline close grip bench press,Smith Machine Close-Grip Bench Press,smith close grip bench press,77.78,0.714,True,True,sin_match,False
+0761,smith narrow row,smith narrow row,Smith machine inverted row,smith inverted row,70.59,0.5,True,False,sin_match,False
+1360,smith one arm row,smith one arm row,Smith machine bent-over row,smith bent over row,72.22,0.333,True,True,sin_match,False
+1393,smith one leg floor calf raise,smith one leg floor calf raise,Smith Machine Calf Raise,smith calf raise,69.57,0.5,True,True,sin_match,False
+0762,smith rear delt row,smith rear delt row,Smith machine bent-over row,smith bent over row,78.95,0.333,False,True,sin_match,False
+0763,smith reverse calf raises,smith reverse calf raise,Smith Machine Reverse Calf Raises,smith reverse calf raise,100.0,1.0,True,True,exacto,True
+1394,smith reverse calf raises,smith reverse calf raise,Smith Machine Reverse Calf Raises,smith reverse calf raise,100.0,1.0,True,True,exacto,True
+1361,smith reverse grip bent over row,smith reverse grip bent over row,Reverse-grip bent-over row,reverse grip bent over row,89.66,0.833,True,True,difuso,True
+0764,smith reverse-grip press,smith reverse grip press,Reverse-grip bench press,reverse grip bench press,75.0,0.6,False,True,sin_match,False
+1395,smith seated one leg calf raise,smith seated one leg calf raise,Single-leg machine seated calf raise,single leg machine seated calf raise,80.6,0.5,True,False,sin_match,False
+0765,smith seated shoulder press,smith seated shoulder press,Smith machine shoulder press,smith shoulder press,85.11,0.75,True,True,difuso,True
+1426,smith seated wrist curl,smith seated wrist curl,Seated palms-up wrist curl,seated palm up wrist curl,75.0,0.5,True,True,sin_match,False
+0766,smith shoulder press,smith shoulder press,Smith machine shoulder press,smith shoulder press,100.0,1.0,True,True,exacto,True
+0767,smith shrug,smith shrug,Smith machine shrug,smith shrug,100.0,1.0,True,True,exacto,True
+0768,smith single leg split squat,smith single leg split squat,30 Legs Smith Machine Split Squat,smith split squat,75.56,0.6,True,True,sin_match,False
+0769,smith sprint lunge,smith sprint lunge,Smith machine lunge sprint,smith lunge sprint,100.0,1.0,True,True,exacto,True
+0770,smith squat,smith squat,30 Legs Smith Machine Squat,smith squat,100.0,1.0,True,True,exacto,True
+0771,smith standing back wrist curl,smith standing back wrist curl,Standing behind-the-back wrist curl,standing behind the back wrist curl,73.85,0.571,True,True,sin_match,False
+0772,smith standing behind head military press,smith standing behind head military press,30 Shoulders Smith Machine Behind-The-Head Press,smith behind the head press,73.53,0.571,True,True,sin_match,False
+0773,smith standing leg calf raise,smith standing leg calf raise,Smith machine standing calf raise,smith standing calf raise,92.59,0.8,True,True,difuso,True
+0774,smith standing military press,smith standing military press,Smith machine standing calf raise,smith standing calf raise,70.37,0.333,False,True,sin_match,False
+3142,smith sumo squat,smith sumo squat,30 Legs Smith Machine Squat,smith squat,81.48,0.667,True,True,sin_match,False
+1396,smith toe raise,smith toe raise,Smith Machine Calf Raise,smith calf raise,70.97,0.5,True,True,sin_match,False
+0775,smith upright row,smith upright row,Smith machine upright row,smith upright row,100.0,1.0,False,True,exacto,True
+1308,smith wide grip bench press,smith wide grip bench press,Wide-grip bench press,wide grip bench press,87.5,0.8,True,True,difuso,True
+1309,smith wide grip decline bench press,smith wide grip decline bench press,Smith machine decline bench press,smith decline bench press,83.33,0.667,True,True,sin_match,False
+0776,snatch pull,snatch pull,Snatch Pull,snatch pull,100.0,1.0,True,True,exacto,True
+0777,spell caster,spell caster,Dumbbell spell caster,dumbbell spell caster,72.73,0.667,True,True,sin_match,False
+1362,sphinx,sphinx,Sphinx push-up,sphinx push up,60.0,0.333,False,True,sin_match,False
+0778,spider crawl push up,spider crawl push up,MetaBurn Spiderman Push-Up,spiderman push up,75.68,0.75,False,True,sin_match,False
+1363,spine stretch,spine stretch,Spinal Stretch,spinal stretch,88.89,0.333,False,True,sin_match,False
+2329,spine twist,spine twist,HM Spine Twist,spine twist,100.0,1.0,False,True,exacto,True
+2368,split squats,split squat,Sit Squats,sit squat,90.0,0.333,True,True,sin_match,False
+0786,squat jerk,squat jerk,Squat Jerk,squat jerk,100.0,1.0,True,True,exacto,True
+1705,squat on bosu ball,squat on bosu ball,Bosu Ball Squat,bosu ball squat,90.91,0.75,True,True,difuso,True
+1685,squat to overhead reach,squat to overhead reach,Holman Squat Jump to Overhead Press,squat jump to overhead press,78.43,0.5,True,True,sin_match,False
+1686,squat to overhead reach with twist,squat to overhead reach with twist,Holman Squat Thrust Overhead Press,squat thrust overhead press,68.85,0.25,True,False,sin_match,False
+2297,stability ball crunch (full range hands behind head),exercise ball crunch full range hand behind head,Exercise Ball Cable Crunch - Gethin Variation,exercise ball cable crunch gethin variation,68.13,0.273,True,False,sin_match,False
+3291,stalder press,stalder press,Tate Press,tate press,78.26,0.333,True,False,sin_match,False
+3669,standing archer,standing archer,Standing EZ-bar curl,standing ez bar curl,74.29,0.2,False,False,sin_match,False
+0788,standing behind neck press,standing behind neck press,Standing Barbell Press Behind Neck,standing barbell press behind neck,86.67,0.8,True,True,difuso,True
+1490,standing calf raise (on a staircase),standing calf raise on a staircase,Smith machine standing calf raise,smith standing calf raise,74.58,0.429,True,False,sin_match,False
+1397,standing calves,standing calve,Standing Calf Raises,standing calf raise,78.79,0.25,True,False,sin_match,False
+1398,standing calves calf stretch,standing calve calf stretch,Total Fitness Standing Lat Stretch,standing lat stretch,80.85,0.4,False,True,sin_match,False
+1599,standing hamstring and calf stretch with strap,standing hamstring and calf stretch with strap,Standing Hamstring and Calf Stretch,standing hamstring and calf stretch,86.42,0.714,True,False,sin_match,False
+0794,standing lateral stretch,standing lateral stretch,Total Fitness Standing Lat Stretch,standing lat stretch,90.91,1.0,True,True,difuso,True
+1364,standing pelvic tilt,standing pelvic tilt,Standing Pelvic Tilt,standing pelvic tilt,100.0,1.0,True,True,exacto,True
+0795,standing single leg curl,standing single leg curl,Standing Leg Curl,standing leg curl,82.93,0.75,True,False,sin_match,False
+0796,standing wheel rollerout,standing wheel rollerout,Standing Leg Curl,standing leg curl,63.41,0.2,False,False,sin_match,False
+3223,star jump (male),star jump,Star Jump,star jump,100.0,1.0,,True,exacto,True
+2138,stationary bike run v. 3,stationary bike run,Stationary bike,stationary bike,88.24,0.667,,True,difuso,True
+0798,stationary bike walk,stationary bike walk,Stationary bike,stationary bike,85.71,0.667,,True,difuso,True
+3314,straddle maltese,straddle maltese,Single-Leg Stride Jump,single leg stride jump,57.89,0.0,False,True,sin_match,False
+3298,straddle planche,straddle planche,Side plank,side plank,61.54,0.0,True,True,sin_match,False
+1427,straight leg outer hip abductor,straight leg outer hip abductor,Cable straight-bar biceps curl,cable straight bar bicep curl,66.67,0.111,False,False,sin_match,False
+0803,superman push-up,superman push up,Superman Push-Up,superman push up,100.0,1.0,True,True,exacto,True
+0805,suspended abdominal fallout,suspended abdominal fallout,Suspended ab fall-out,suspended ab fall out,83.33,0.4,True,True,sin_match,False
+0806,suspended push-up,suspended push up,Suspended push-up,suspended push up,100.0,1.0,True,True,exacto,True
+0807,suspended reverse crunch,suspended reverse crunch,Suspended Reverse Crunch,suspended reverse crunch,100.0,1.0,True,True,exacto,True
+0808,suspended row,suspended row,Suspended row,suspended row,100.0,1.0,True,True,exacto,True
+0809,suspended split squat,suspended split squat,Suspended split squat,suspended split squat,100.0,1.0,True,True,exacto,True
+3433,swimmer kicks v. 2 (male),swimmer kick,MetaBurn Swimmer,swimmer,73.68,0.5,True,True,sin_match,False
+3318,swing 360,swing 360,Swimming,swimming,58.82,0.0,,True,sin_match,False
+1753,three bench dip,three bench dip,Bench dip,bench dip,75.0,0.667,True,True,sin_match,False
+2459,tire flip,tire flip,Tire flip,tire flip,100.0,1.0,True,True,exacto,True
+0811,trap bar deadlift,trap bar deadlift,Hex-bar deadlift,hex bar deadlift,78.79,0.5,True,True,sin_match,False
+0814,triceps dip,tricep dip,Triceps dip,tricep dip,100.0,1.0,True,True,exacto,True
+0812,triceps dip (bench leg),tricep dip bench leg,Weighted bench dip,weighted bench dip,73.68,0.4,True,True,sin_match,False
+0813,triceps dip (between benches),tricep dip between benche,Holman Chair Triceps Dip,chair tricep dip,63.41,0.4,True,True,sin_match,False
+0815,triceps dips floor,tricep dip floor,Triceps dip,tricep dip,76.92,0.667,True,True,sin_match,False
+0816,triceps press,tricep press,Triceps Pressdown,tricep pressdown,85.71,1.0,True,False,sin_match,False
+0817,triceps stretch,tricep stretch,Triceps Stretch,tricep stretch,100.0,1.0,True,True,exacto,True
+0871,tuck crunch,tuck crunch,Knees tucked crunch,knee tucked crunch,75.86,0.667,True,True,sin_match,False
+0818,twin handle parallel grip lat pulldown,twin handle parallel grip lat pulldown,Neutral-grip pull-up,neutral grip pull up,58.62,0.25,True,False,sin_match,False
+1466,twist hip lift,twist hip lift,Hip Lift with Band,hip lift with band,75.0,0.4,True,False,sin_match,False
+2802,twisted leg raise,twisted leg raise,Side Leg Raises,side leg raise,77.42,0.5,False,True,sin_match,False
+2801,twisted leg raise (female),twisted leg raise,Side Leg Raises,side leg raise,77.42,0.5,False,True,sin_match,False
+3231,two toe touch (male),two toe touch,Toe-touch,toe touch,81.82,0.667,True,True,sin_match,False
+1365,upper back stretch,upper back stretch,Upper Back Stretch,upper back stretch,100.0,1.0,True,True,exacto,True
+1366,upward facing dog,upward facing dog,HM Upward-Facing Dog Pose,upward facing dog pose,87.18,0.75,True,True,difuso,True
+3420,v-sit on floor,v sit on floor,Long sit-up,long sit up,64.0,0.167,True,True,sin_match,False
+0826,vertical leg raise (on parallel bars),vertical leg raise on parallel bar,Parallel bars leg raise,parallel bar leg raise,78.57,0.667,True,True,sin_match,False
+2141,walk elliptical cross trainer,walk elliptical cross trainer,Elliptical trainer,elliptical trainer,76.6,0.5,,True,sin_match,False
+3655,walking high knees lunge,walking high knee lunge,Walking High Knees,walking high knee,85.0,0.75,,True,difuso,True
+1460,walking lunge,walking lunge,Walking lunge,walking lunge,100.0,1.0,True,True,exacto,True
+3666,walking on incline treadmill,walking on incline treadmill,Treadmill walking,treadmill walking,75.56,0.5,,False,sin_match,False
+2311,walking on stepmill,walking on stepmill,Treadmill walking,treadmill walking,77.78,0.25,,False,sin_match,False
+0830,weighted bench dip,weighted bench dip,Weighted bench dip,weighted bench dip,100.0,1.0,True,True,exacto,True
+2987,weighted close grip chin-up on dip cage,weighted close grip chin up on dip cage,30 Back Close-Grip Seated Cable Row,close grip seated cable row,63.64,0.182,True,False,sin_match,False
+3643,weighted cossack squats (male),weighted cossack squat,Weighted sissy squat,weighted sissy squat,80.95,0.5,True,True,sin_match,False
+0832,weighted crunch,weighted crunch,Weighted Crunches,weighted crunche,96.77,1.0,True,True,difuso,True
+3670,weighted decline sit-up,weighted decline sit up,Weighted sit-up,weighted sit up,78.95,0.75,True,True,sin_match,False
+0833,weighted donkey calf raise,weighted donkey calf raise,Weighted donkey calf raise,weighted donkey calf raise,100.0,1.0,True,True,exacto,True
+1310,weighted drop push up,weighted drop push up,Weighted Push-Up,weighted push up,86.49,0.75,True,True,difuso,True
+2135,weighted front plank,weighted front plank,Holman Weighted Cross Punch,weighted cross punch,70.0,0.2,True,True,sin_match,False
+0834,weighted front raise,weighted front raise,Weighted donkey calf raise,weighted donkey calf raise,78.26,0.4,False,True,sin_match,False
+0866,weighted hanging leg-hip raise,weighted hanging leg hip raise,Hanging leg raise,hanging leg raise,72.34,0.6,True,True,sin_match,False
+0835,weighted hyperextension (on stability ball),weighted hyperextension on exercise ball,Exercise ball weighted hyperextension,exercise ball weighted hyperextension,96.1,0.8,True,False,sin_match,False
+3641,weighted kneeling step with swing,weighted kneeling step with swing,Holman Weighted Kneeling Lift,weighted kneeling lift,69.09,0.333,False,True,sin_match,False
+3644,weighted lunge with swing,weighted lunge with swing,Weighted Sit-Ups - With Bands,weighted sit up with band,72.0,0.286,False,True,sin_match,False
+3286,weighted muscle up,weighted muscle up,Weighted Push-Up,weighted push up,82.35,0.5,False,True,sin_match,False
+3312,weighted muscle up (on bar),weighted muscle up on bar,Weighted Push-Up,weighted push up,68.29,0.333,False,True,sin_match,False
+3290,weighted one hand pull up,weighted one hand pull up,Holman Hips-Up Weighted Pull-Over,hip up weighted pull over,84.0,0.429,False,True,sin_match,False
+0840,weighted overhead crunch (on stability ball),weighted overhead crunch on exercise ball,Exercise ball weighted hyperextension,exercise ball weighted hyperextension,66.67,0.429,False,False,sin_match,False
+0841,weighted pull-up,weighted pull up,Weighted pull-up,weighted pull up,100.0,1.0,True,True,exacto,True
+0844,weighted round arm,weighted round arm,Weighted Crunches,weighted crunche,70.59,0.25,False,True,sin_match,False
+0846,weighted russian twist,weighted russian twist,Russian twist,russian twist,74.29,0.667,True,True,sin_match,False
+0845,weighted russian twist (legs up),weighted russian twist leg up,Holman Weighted Seated Killer Abs to Russian Twist,weighted seated killer abs to russian twist,69.44,0.333,True,True,sin_match,False
+2371,weighted russian twist v. 2,weighted russian twist,Russian twist,russian twist,74.29,0.667,True,True,sin_match,False
+0847,weighted seated bicep curl (on stability ball),weighted seated bicep curl on exercise ball,Exercise ball weighted hyperextension,exercise ball weighted hyperextension,65.0,0.375,False,False,sin_match,False
+0849,weighted seated twist (on stability ball),weighted seated twist on exercise ball,Exercise ball weighted hyperextension,exercise ball weighted hyperextension,72.0,0.429,False,False,sin_match,False
+0850,weighted side bend (on stability ball),weighted side bend on exercise ball,Weighted Ball Side Bend,weighted ball side bend,79.31,0.667,True,False,sin_match,False
+0851,weighted sissy squat,weighted sissy squat,Weighted sissy squat,weighted sissy squat,100.0,1.0,True,True,exacto,True
+0852,weighted squat,weighted squat,Weighted Squat,weighted squat,100.0,1.0,True,True,exacto,True
+0853,weighted standing curl,weighted standing curl,Standing cable twist,standing cable twist,71.43,0.2,False,False,sin_match,False
+0854,weighted standing hand squeeze,weighted standing hand squeeze,Standing Olympic Plate Hand Squeeze,standing olympic plate hand squeeze,64.62,0.5,True,True,sin_match,False
+3313,weighted straight bar dip,weighted straight bar dip,Holman Straight Plank Weighted Hand Hill Climber,straight plank weighted hand hill climber,72.73,0.25,False,True,sin_match,False
+3642,weighted stretch lunge,weighted stretch lunge,Walking Glute Stretch,walking glute stretch,69.77,0.2,True,True,sin_match,False
+0856,weighted svend press,weighted svend press,Svend press,svend press,70.97,0.667,True,True,sin_match,False
+1754,weighted three bench dips,weighted three bench dip,Weighted bench dip,weighted bench dip,85.71,0.75,True,True,difuso,True
+1755,weighted tricep dips,weighted tricep dip,30 Arms Weighted Triceps Dip,weighted tricep dip,100.0,1.0,True,True,exacto,True
+1767,weighted triceps dip on high parallel bars,weighted tricep dip on high parallel bar,Holman Weighted Burpee to Triceps Press,weighted burpee to tricep press,64.79,0.2,False,True,sin_match,False
+0857,wheel rollerout,wheel rollerout,Ab wheel roll-out,ab wheel roll out,62.5,0.5,True,True,sin_match,False
+3637,wheel run,wheel run,MetaBurn Swivel Crunch,swivel crunch,63.64,0.0,,True,sin_match,False
+1429,wide grip pull-up,wide grip pull up,Wide-Grip Rear Pull-Up,wide grip rear pull up,87.18,0.8,True,True,difuso,True
+1367,wide grip rear pull-up,wide grip rear pull up,Wide-Grip Rear Pull-Up,wide grip rear pull up,100.0,1.0,True,True,exacto,True
+1311,wide hand push up,wide hand push up,Push-Up Wide,push up wide,82.76,0.75,True,True,sin_match,False
+2363,wide-grip chest dip on high parallel bars,wide grip chest dip on high parallel bar,Lying Close-Grip Bar Curl On High Pulley,lying close grip bar curl on high pulley,62.5,0.333,False,False,sin_match,False
+0858,wind sprints,wind sprint,Holman Stair Sprint,stair sprint,69.57,0.333,False,True,sin_match,False
+1604,world greatest stretch,world greatest stretch,World's greatest stretch,world s greatest stretch,95.65,0.75,True,True,difuso,True
+1428,wrist circles,wrist circle,Wrist Circles,wrist circle,100.0,1.0,True,True,exacto,True
+0859,wrist rollerer,wrist rollerer,Wrist Roller,wrist roller,92.31,1.0,True,True,difuso,True

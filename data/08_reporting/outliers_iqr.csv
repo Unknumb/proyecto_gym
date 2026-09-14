@@ -1,0 +1,11 @@
+variable,Q1,mediana,Q3,IQR,limite_inferior,limite_superior,n_outliers,pct_outliers,n_outliers_inferiores,n_outliers_superiores
+n_pasos,5.0,6.0,6.0,1.0,3.5,7.5,92,6.95,0,92
+n_palabras,75.0,86.0,98.0,23.0,40.5,132.5,26,1.96,1,25
+n_caracteres,442.0,503.5,576.0,134.0,241.0,777.0,26,1.96,2,24
+palabras_por_paso,13.8,15.0,16.5,2.7,9.75,20.55,20,1.51,5,15
+n_palabras_paso_max,20.0,22.0,24.0,4.0,14.0,30.0,43,3.25,9,34
+n_palabras_nombre,3.0,4.0,5.0,2.0,0.0,8.0,16,1.21,0,16
+n_musculos_secundarios,1.0,2.0,2.0,1.0,-0.5,3.5,32,2.42,0,32
+n_musculos_total,2.0,3.0,3.0,1.0,0.5,4.5,32,2.42,0,32
+frecuencia_equipamiento,81.0,157.0,294.0,213.0,-238.5,613.5,0,0.0,0,0
+frecuencia_musculo_primario,88.0,143.0,151.0,63.0,-6.5,245.5,0,0.0,0,0

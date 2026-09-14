@@ -1,0 +1,108 @@
+# =============================================================================
+# Catálogo de datos — Gym Exercises EDA
+# =============================================================================
+
+# ── Capa 01: Raw ─────────────────────────────────────────────────────────────
+raw_exercises_data:
+  type: pandas.JSONDataset
+  filepath: data/01_raw/exercises.json
+  load_args:
+    # Sin esto, pandas infiere `id` y `media_id` como enteros y destruye los
+    # ceros a la izquierda ("0001" -> 1), rompiendo la llave hacia `gif_url`
+    # y `media_id`. La corrupción ocurre en la carga, antes de cualquier
+    # transformación, así que se corrige en el origen.
+    dtype:
+      id: str
+      media_id: str
+
+# ── Capa 02: Intermediate ────────────────────────────────────────────────────
+intermediate_exercises_clean:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/exercises_clean.parquet
+
+# ── Capa 08: Reporting ───────────────────────────────────────────────────────
+eda_summary_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/eda_summary.csv
+
+distribution_metrics:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/distribution_metrics.csv
+
+# ── IE3: Tabla analítica y salidas del EDA diagnóstico ───────────────────────
+# Se usa Parquet (columnar binario) en la capa intermedia para mantener el
+# footprint bajo y preservar los dtypes, según la restricción FinOps.
+intermediate_exercise_features:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/exercise_features.parquet
+
+outliers_iqr_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/outliers_iqr.csv
+
+shape_statistics_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/shape_statistics.csv
+
+correlation_matrix_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/correlation_matrix.csv
+
+# ── Auditoría de recursos cinemáticos ────────────────────────────────────────
+media_references_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/media_references_audit.csv
+
+# Producido por scripts/auditar_media_fisica.py (requiere red; se ejecuta aparte
+# para que el pipeline y el notebook sigan siendo reproducibles sin conexión).
+media_sample_audit:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/media_sample_audit.csv
+
+# ── Mapeo músculo → articulación (prerrequisito del grafo, README §6.2) ─────
+# Producido por scripts/construir_mapeo_articulaciones.py (requiere red para el
+# contraste de Wikipedia; ExRx.net se cura a mano, ver docstring del script).
+musculo_articulacion_manual:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/musculo_articulacion_manual.csv
+
+cobertura_articulaciones:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/cobertura_articulaciones.csv
+  save_args:
+    index: true
+
+# ── Enriquecimiento con megaGymDataset (Kaggle, CC0) — README §2.1 y §3.5 ────
+# Aporta nivel de dificultad, tipo y valoración, que el catálogo base no trae.
+raw_megagym_data:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/megaGymDataset.csv
+  load_args:
+    index_col: 0          # la primera columna es el índice exportado por pandas
+
+intermediate_megagym:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/megagym.parquet
+
+# Una fila por ejercicio: candidato, puntajes, coherencia y decisión. Se deja en
+# CSV para que el emparejamiento se pueda auditar a simple vista.
+megagym_match_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/megagym_match_audit.csv
+  load_args:
+    dtype:
+      id: str             # mismo defecto de §3.3: sin esto "0001" vuelve como 1
+
+primary_exercise_features_enriched:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/exercise_features_enriched.parquet
+
+# Muestra de pares nombre ↔ título revisada a mano (mismo / variante / distinto)
+# para estimar la precisión de cada método de emparejamiento. Es curación, no
+# salida del pipeline: por eso vive en 01_raw, igual que el mapeo articular.
+megagym_match_validacion:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/megagym_match_validacion_manual.csv
+  load_args:
+    dtype:
+      id: str
