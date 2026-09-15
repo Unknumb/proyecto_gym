@@ -48,6 +48,35 @@ encontrar sustitutos mecánicamente equivalentes.
 El tercer KPI **no se cumple con el catálogo actual**. Es un hallazgo del EDA, no un
 supuesto: ver §4.1.
 
+### 1.4 Metodología (CRISP-DM)
+
+El proyecto sigue **CRISP-DM** (*Cross-Industry Standard Process for Data Mining*), el
+estándar de facto para estructurar un proyecto de ciencia de datos en seis fases:
+
+| Fase | Objetivo | Estado en esta entrega |
+|---|---|---|
+| 1. Comprensión del negocio | Definir el problema, los objetivos y los KPIs de éxito | **Cerrada** — §1 |
+| 2. Comprensión de los datos | Relevar las fuentes, su estructura, calidad y limitaciones | **Cerrada** — §2, §4 |
+| 3. Preparación de los datos | Limpiar, transformar e integrar los datos para el modelamiento | **Cerrada** — §3 |
+| 4. Modelado | Entrenar y ajustar modelos predictivos | **Fuera de alcance** — ver advertencia inicial y §7 |
+| 5. Evaluación | Validar el modelo contra los KPIs de negocio | Fuera de alcance |
+| 6. Despliegue | Poner el modelo en producción y monitorearlo | Fuera de alcance |
+
+**Por qué no se salta a la fase 4.** La entrega respeta el orden secuencial de CRISP-DM
+a propósito: modelar antes de cerrar las fases 1–3 es el *"salto al vacío"* señalado en
+la advertencia de alcance (arriba). La auditoría de calidad de datos (§3.3, §3.5) y de
+los recursos cinemáticos (§4.4) encontró defectos —jerarquía muscular invertida,
+corrupción de la llave primaria, falsos positivos de emparejamiento, un corpus de vídeo
+no entrenable— que habrían invalidado cualquier modelo entrenado antes de detectarlos.
+CRISP-DM es iterativo, no lineal: los hallazgos de la fase 2 (§4) obligaron a repetir
+pasos de la fase 3 (§3.3, §3.5) antes de darla por cerrada, y la evaluación ética (§5) se
+trató como parte de la comprensión del negocio y de los datos, no como un paso posterior.
+
+El §5 (ética, sesgos y privacidad) y el §6 (limitaciones) atraviesan las tres fases
+cerradas en lugar de pertenecer a una sola: el sesgo de muestreo se detecta en la
+comprensión de los datos (§4) pero se declara y mitiga desde la comprensión del negocio
+(§1, §5.1). El §7 describe el diseño de las fases 4–6, sin ejecutarlas.
+
 ---
 
 ## 2. IE1 — Fuentes de datos y herramientas
@@ -974,3 +1003,37 @@ de `conf/base/`.
 | **Recursos cinemáticos** | Integridad referencial 100 %; pero 180×180 a 4 FPS, sin etiquetas: no entrenables |
 | **Riesgo ético principal** | Gini de equipamiento 0,737; 4 grupos musculares bajo el umbral de cobertura; la rehabilitación recibe dificultad curada en solo el 6,7 % de sus ejercicios |
 | **Estado CRISP-DM** | Fases 1–3 cerradas. **Sin modelado predictivo**, conforme al alcance de EV1 |
+
+---
+
+## 10. Próximos pasos (EV2)
+
+Prioridades para la siguiente evaluación, ordenadas por bloqueo: los puntos 1 y 2 son
+prerrequisito de cualquier trabajo posterior sobre articulaciones (incluido el grafo de
+conocimiento de §7); el punto 4 es barato de implementar y ya está diseñado, solo falta
+codificarlo; el punto 3 es una mejora de menor riesgo si sobra tiempo.
+
+1. **Validación clínica del mapeo músculo → articulación (bloqueante).** Ninguna de las
+   40 asignaciones de `musculo_articulacion_manual.csv` fue revisada por un profesional
+   de salud (§4.6 punto 4). Es el prerrequisito real para que el sistema pueda enmascarar
+   articulaciones lesionadas con alguna garantía de seguridad — sin esto, el resto del
+   recomendador no tiene base defendible.
+2. **Resolver las etiquetas compuestas del mapeo articular.** Decisión de arquitectura
+   pendiente desde §6.2: qué hacer con `back`, `chest`, `shoulders`, `core` (regiones que
+   agrupan varios músculos). Hoy se excluyen por defecto; falta decidir si eso se
+   mantiene o se hace *fan-out* a los sub-músculos, y con qué costo en precisión.
+3. **Regla de contención para el emparejamiento con megaGymDataset.** Mejora ya
+   identificada en §6 punto 6: aceptar un par cuando el título de megaGym está
+   *contenido* en el nombre del catálogo (con la misma coherencia de región/equipamiento
+   que exige la regla estricta) podría recuperar cobertura sobre el 31,9 % actual sin
+   reintroducir los falsos positivos de `WRatio` (§14). Requiere validarse con una
+   muestra nueva, revisada a mano, antes de adoptarla — mismo protocolo que en §14.2.
+4. **Implementar en código la mitigación de sesgo ya diseñada.** §5.1 define dos reglas
+   que hoy son solo texto: (a) cuota mínima de alternativas sin equipamiento en el
+   ranking, para que no colapse hacia gimnasio tradicional; (b) abstención explícita
+   cuando el músculo objetivo tenga menos de 10 ejercicios. La rehabilitación (9,1 % del
+   catálogo, 6,7 % con dificultad curada — §17) es el caso que más se beneficia de
+   codificar esto en vez de intentar conseguir más datos de esa categoría.
+5. **No adelantar todavía.** El grafo de conocimiento (Node2Vec/GCN) y el análisis
+   temporal de movimiento (§7) dependen de los puntos 1 y 2. Empezarlos antes de cerrar
+   la validación clínica arriesga construir sobre una base articular que puede cambiar.
