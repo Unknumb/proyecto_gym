@@ -40,7 +40,9 @@ fuentes las traen.
 
 ---
 
-## Fase 2 — Modelos supervisados: completar las etiquetas (IE6 · 30 %)
+## Fase 2 — Modelos supervisados: completar las etiquetas (IE6 · 30 %) ✅ (cerrada el 2026-09-22)
+
+Detalle en README §12 y `notebooks/02_modelado_supervisado.ipynb`.
 
 **Pregunta de negocio:** ¿se puede asignar mecánica (compuesto/aislado) y tipo de fuerza
 (empuje/tracción/estático) a todo el catálogo, para que el recomendador pueda sustituir
@@ -76,44 +78,51 @@ Por eso la dificultad se reemplaza por un **perfil de exigencia** de varias dime
 
 **Tareas**
 
-- [ ] Agregar `scikit-learn` (y opcionalmente `xgboost`) a `requirements.txt`.
-- [ ] Pipeline Kedro `modelado_supervisado` o `notebooks/02_modelado_supervisado.ipynb`.
-- [ ] **Datos de entrenamiento:** los 876 ejercicios de free-exercise-db
+- [x] Agregar `scikit-learn` (sin `xgboost`: Random Forest bastó) a `requirements.txt`.
+- [x] Pipeline Kedro `modelado_supervisado` o `notebooks/02_modelado_supervisado.ipynb`.
+- [x] **Datos de entrenamiento:** los 876 ejercicios de free-exercise-db
       (`data/02_intermediate/free_exercise_db.parquet`: 789 con `mecanica`, 846 con
       `fuerza`). Se usa esa tabla y no `ejercicios.parquet`, que solo conserva como
       nodo propio a los 549 sin par en el catálogo.
       **Datos a predecir:** los ejercicios sin etiqueta (catálogo y wger).
-- [ ] **Variables:**
-  - [ ] TF-IDF del nombre y de `instrucciones_en`.
-  - [ ] Músculos agonistas y sinergistas en *multi-hot* (vocabulario canónico).
-  - [ ] Articulaciones derivadas (`musculo_articulacion.csv`) y número de articulaciones
+- [x] **Variables:**
+  - [x] TF-IDF del nombre y de `instrucciones_en`.
+  - [x] Músculos agonistas y sinergistas en *multi-hot* (vocabulario canónico).
+  - [x] Articulaciones derivadas (`musculo_articulacion.csv`) y número de articulaciones
         implicadas. Es el indicador biomecánico directo de "compuesto".
-  - [ ] Familia de equipamiento (*one-hot*).
-- [ ] **Evitar fuga de información:** agrupar por `nombre_norm` o `grupo_variacion` al
+  - [x] Familia de equipamiento (*one-hot*).
+- [x] **Evitar fuga de información:** agrupar por `nombre_norm` o `grupo_variacion` al
       separar train/test (`GroupKFold`), para que variantes casi idénticas no queden a
       ambos lados.
-- [ ] **Tres objetivos:** `mecanica` (binario), `fuerza` (3 clases) y complejidad técnica
+- [x] **Tres objetivos:** `mecanica` (binario), `fuerza` (3 clases) y complejidad técnica
       (binario: `beginner` vs. `intermediate`/`expert`; *expert* solo tiene 57 casos).
-- [ ] **Reglas del perfil de exigencia** (impacto, estabilidad, carga graduable) con una
+- [x] **Reglas del perfil de exigencia** (impacto, estabilidad, carga graduable) con una
       muestra revisada a mano, porque se basan en palabras clave.
-- [ ] **Modelos a comparar (mínimo 2):**
-  - [ ] Regresión logística (base interpretable; coeficientes por variable).
-  - [ ] Random Forest o XGBoost (interacciones no lineales entre músculos y equipo).
-  - [ ] Ajuste de hiperparámetros con validación cruzada (`GridSearchCV` o
+- [x] **Modelos a comparar (mínimo 2):**
+  - [x] Regresión logística (base interpretable; coeficientes por variable).
+  - [x] Random Forest o XGBoost (interacciones no lineales entre músculos y equipo).
+  - [x] Ajuste de hiperparámetros con validación cruzada (`GridSearchCV` o
         `RandomizedSearchCV`), documentando el espacio de búsqueda.
-- [ ] **Métricas:** F1 macro (hay desbalance: `static` es 12 %), matriz de confusión,
+- [x] **Métricas:** F1 macro (hay desbalance: `static` es 12 %), matriz de confusión,
       *precision/recall* por clase, importancia de variables (coeficientes y
       *permutation importance*).
-- [ ] **Validación externa:** comparar la predicción con las etiquetas transferidas a los
+- [x] **Validación externa:** comparar la predicción con las etiquetas transferidas a los
       ejercicios del catálogo con par (`mecanica_origen == "free_exercise_db"`). Mide si
       el modelo generaliza al vocabulario y la redacción del catálogo.
-- [ ] **Regla de abstención:** etiquetar solo si la probabilidad supera un umbral
+- [x] **Regla de abstención:** etiquetar solo si la probabilidad supera un umbral
       elegido en validación; si no, dejar nulo. Es el criterio de README §5.3.
-- [ ] **KPI nuevo:** % del catálogo con mecánica y fuerza asignadas con confianza.
-- [ ] Guardar el mejor modelo en `models/` (joblib) y las predicciones en
+- [x] **KPI nuevo:** % del catálogo con mecánica y fuerza asignadas con confianza.
+- [x] Guardar el mejor modelo en `models/` (joblib) y las predicciones en
       `data/07_model_output/`.
-- [ ] Commit por parte: dependencias · código del modelo · modelo y predicciones ·
+- [x] Commit por parte: dependencias · código del modelo · modelo y predicciones ·
       notebook · README.
+
+**Pendiente del equipo:**
+
+- [ ] Revisar a mano una muestra de ~100 ejercicios del catálogo etiquetados por el modelo
+      (mecánica y fuerza) para medir el acierto real (README §12.5).
+- [ ] Curar la complejidad técnica de los ejercicios más usados del catálogo, empezando
+      por los de menor confianza.
 
 ---
 
