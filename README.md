@@ -881,9 +881,17 @@ pip install -r requirements.txt
 ### 8.2 Ejecución del pipeline
 
 ```bash
-kedro run                              # pipeline completo (12 nodos)
+kedro run                              # pipeline completo (20 nodos)
 kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
 kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
+kedro run --pipeline=integracion_fuentes  # 8 nodos: free-exercise-db + wger (EV2, §11; requiere los dos anteriores)
+```
+
+Las instantáneas de free-exercise-db y wger ya están versionadas en `data/01_raw/`.
+Para refrescarlas (requiere red; cambia los resultados, ver el manifiesto):
+
+```bash
+python scripts/descargar_fuentes_externas.py
 ```
 
 ### 8.3 Notebook de EDA
@@ -923,13 +931,28 @@ proyecto_ejercicios/
 │   │   ├── megaGymDataset.csv           # Fuente 2, Kaggle CC0 (§2.1)
 │   │   ├── musculo_articulacion_manual.csv   # Fuente 3: curación músculo → articulación (§6.2)
 │   │   ├── movimientos_articulares_wikipedia.csv  # Taxonomía de movimientos por articulación
-│   │   └── megagym_match_validacion_manual.csv    # Muestras revisadas del emparejamiento (§3.5)
+│   │   ├── megagym_match_validacion_manual.csv    # Muestras revisadas del emparejamiento (§3.5)
+│   │   ├── free_exercise_db.json        # Fuente 4, The Unlicense (§11)
+│   │   ├── wger_exercises.json          # Fuente 5, CC-BY-SA por ejercicio (§11)
+│   │   ├── fuentes_externas_manifest.json   # Commit y fecha de las dos instantáneas
+│   │   ├── articulaciones_canonicas.csv     # Ontología: músculo → articulación(es)
+│   │   ├── regiones_compuestas.csv          # Ontología: región → músculos componentes
+│   │   ├── vocabulario_muscular_externo.csv # Ontología: músculos de fuentes 4 y 5 → canónicos
+│   │   ├── equipamiento_canonico.csv        # Ontología: equipamiento → familia y contexto
+│   │   └── fuentes_match_validacion_manual.csv  # Muestras revisadas del emparejamiento (§11)
 │   ├── 02_intermediate/
 │   │   ├── exercises_clean.parquet  # Grano ejercicio × músculo secundario
 │   │   ├── exercise_features.parquet# Grano ejercicio (tabla analítica)
-│   │   └── megagym.parquet          # megaGymDataset limpio y deduplicado
+│   │   ├── megagym.parquet          # megaGymDataset limpio y deduplicado
+│   │   ├── catalogo_unificado.parquet   # Catálogo en el esquema común (§11)
+│   │   ├── free_exercise_db.parquet     # free-exercise-db en el esquema común
+│   │   ├── wger.parquet                 # wger en el esquema común, deduplicado
+│   │   └── vocabulario_muscular.csv     # (fuente, músculo de origen) → músculo canónico
 │   ├── 03_primary/
-│   │   └── exercise_features_enriched.parquet  # Tabla analítica + nivel, tipo, rating
+│   │   ├── exercise_features_enriched.parquet  # Tabla analítica + nivel, tipo, rating
+│   │   ├── ejercicios.parquet           # Nodos Ejercicio del grafo: 2.592 únicos, con etiquetas (§11)
+│   │   ├── ejercicio_musculo.parquet    # Aristas Ejercicio → Músculo (agonista / sinergista)
+│   │   └── musculo_articulacion.csv     # Aristas Músculo → Articulación (directas y por consenso)
 │   └── 08_reporting/
 │       ├── eda_summary.csv
 │       ├── distribution_metrics.csv
@@ -940,9 +963,13 @@ proyecto_ejercicios/
 │       ├── media_sample_audit.csv       # Caracterización física (muestra)
 │       ├── cobertura_articulaciones.csv # Ejercicios por articulación (notebook §12.2)
 │       ├── megagym_match_audit.csv      # Decisión de emparejamiento por ejercicio
+│       ├── match_free_exercise_db.csv   # Emparejamiento free-exercise-db → catálogo (§11)
+│       ├── match_wger.csv               # Emparejamiento wger → catálogo + free-exercise-db
+│       ├── integracion_fuentes_resumen.csv  # Cobertura de etiquetas por fuente y contexto
 │       └── figures/                 # Exportación PNG de los gráficos
 ├── scripts/
-│   ├── auditar_media_fisica.py      # Auditoría de GIF (única parte con red)
+│   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
+│   ├── descargar_fuentes_externas.py    # Instantáneas de free-exercise-db y wger (requiere red)
 │   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6.2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
@@ -957,8 +984,11 @@ proyecto_ejercicios/
 │       ├── data_understanding/
 │       │   ├── nodes.py             # 9 nodos puros y testeables
 │       │   └── pipeline.py          # Definición del DAG
-│       └── data_enrichment/
-│           ├── nodes.py             # 3 nodos: limpieza, emparejamiento auditado, unión
+│       ├── data_enrichment/
+│       │   ├── nodes.py             # 3 nodos: limpieza, emparejamiento auditado, unión
+│       │   └── pipeline.py
+│       └── integracion_fuentes/
+│           ├── nodes.py             # 8 nodos: ontología, esquema común, emparejamiento, consolidación
 │           └── pipeline.py
 ├── requirements.txt
 └── README.md
@@ -980,8 +1010,17 @@ proyecto_ejercicios/
 | `preparar_megagym` | `raw_megagym_data` | `intermediate_megagym` |
 | `emparejar_con_megagym` | `intermediate_exercise_features`, `intermediate_megagym`, `params:emparejamiento_megagym` | `megagym_match_report` |
 | `enrich_with_external_metadata` | `intermediate_exercise_features`, `intermediate_megagym`, `megagym_match_report` | `primary_exercise_features_enriched` |
+| `construir_ontologia_muscular` | `musculo_articulacion_manual`, `vocabulario_muscular_externo`, `articulaciones_canonicas`, `regiones_compuestas` | `vocabulario_muscular`, `primary_musculo_articulacion` |
+| `preparar_catalogo` | `raw_exercises_data`, `primary_exercise_features_enriched`, `vocabulario_muscular`, `equipamiento_canonico` | `intermediate_catalogo_unificado` |
+| `preparar_free_exercise_db` | `raw_free_exercise_db`, `vocabulario_muscular`, `equipamiento_canonico` | `intermediate_free_exercise_db` |
+| `preparar_wger` | `raw_wger`, `vocabulario_muscular`, `equipamiento_canonico` | `intermediate_wger` |
+| `emparejar_free_exercise_db` | esquemas comunes, ontología, `params:emparejamiento_fuentes` | `match_free_exercise_db_report` |
+| `emparejar_wger` | esquemas comunes, ontología, `params:emparejamiento_fuentes` | `match_wger_report` |
+| `consolidar_ejercicios` | esquemas comunes, reportes de emparejamiento | `primary_ejercicios`, `primary_ejercicio_musculo` |
+| `resumir_integracion` | `primary_ejercicios`, `primary_ejercicio_musculo`, `primary_musculo_articulacion` | `integracion_fuentes_resumen` |
 
-Los tres últimos forman el pipeline `data_enrichment`. El entorno `conf/databricks/` no
+`preparar_megagym`, `emparejar_con_megagym` y `enrich_with_external_metadata` forman el
+pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11). El entorno `conf/databricks/` no
 los reapunta todavía a Delta: con `--env=databricks` leen y escriben las rutas locales
 de `conf/base/`.
 
@@ -1018,7 +1057,8 @@ codificarlo; el punto 3 es una mejora de menor riesgo si sobra tiempo.
    de salud (§4.6 punto 4). Es el prerrequisito real para que el sistema pueda enmascarar
    articulaciones lesionadas con alguna garantía de seguridad — sin esto, el resto del
    recomendador no tiene base defendible.
-2. **Resolver las etiquetas compuestas del mapeo articular.** Decisión de arquitectura
+2. **Resolver las etiquetas compuestas del mapeo articular.** *(Resuelto en la EV2:
+   nodo de región con articulación solo por consenso, §11.2.)* Decisión de arquitectura
    pendiente desde §6.2: qué hacer con `back`, `chest`, `shoulders`, `core` (regiones que
    agrupan varios músculos). Hoy se excluyen por defecto; falta decidir si eso se
    mantiene o se hace *fan-out* a los sub-músculos, y con qué costo en precisión.
@@ -1037,3 +1077,145 @@ codificarlo; el punto 3 es una mejora de menor riesgo si sobra tiempo.
 5. **No adelantar todavía.** El grafo de conocimiento (Node2Vec/GCN) y el análisis
    temporal de movimiento (§7) dependen de los puntos 1 y 2. Empezarlos antes de cerrar
    la validación clínica arriesga construir sobre una base articular que puede cambiar.
+
+---
+
+## 11. EV2 — Fase 1: Integración de fuentes para el grafo biomecánico
+
+Pipeline `integracion_fuentes` (§8.5). Su objetivo es dejar lista la base del grafo de
+§7 y de los modelos supervisados de la EV2. Esa base tiene tres partes: nodos
+*Ejercicio* sin duplicados entre fuentes, un **vocabulario muscular único** y las
+etiquetas que el catálogo no trae.
+
+### 11.1 Fuentes incorporadas
+
+| # | Fuente | Aporta | Licencia |
+|---|---|---|---|
+| 4 | **free-exercise-db** ([`yuhonas/free-exercise-db`](https://github.com/yuhonas/free-exercise-db)), 876 ejercicios | `level` (100 %), `mechanic` compuesto/aislado (90 %), `force` empuje/tracción/estático (97 %), 123 estiramientos | *The Unlicense* (dominio público) |
+| 5 | **wger** ([API pública](https://wger.de/api/v2/exerciseinfo/)), 910 ejercicios | Músculos en nomenclatura anatómica, equipamiento, grupo de variación | **Por ejercicio**: CC-BY-SA 4 / 3 y CC0. Se conservan licencia y autor de cada ficha |
+
+Las dos se versionan como **instantáneas** en `data/01_raw/`. El commit exacto de
+free-exercise-db y la fecha de descarga de wger quedan en
+`fuentes_externas_manifest.json`. El script que las descarga es la única pieza con red;
+el pipeline corre sin conexión.
+
+> **Sobre CC-BY-SA.** *Share-alike* obliga a publicar lo que se derive de las fichas de
+> wger bajo la misma licencia y con atribución. Para un trabajo académico no es un
+> problema, pero la tabla `ejercicios.parquet` lleva `licencia` y `autor` por fila para
+> que cualquier uso posterior pueda filtrar lo que no sea MIT, Unlicense o CC0.
+
+### 11.2 Ontología común
+
+Cada fuente nombra los músculos a su manera (`lats` / `lats` / `Latissimus dorsi`). Si no
+se unifican, el grafo tendría tres nodos para el mismo músculo, y dos ejercicios
+equivalentes nunca compartirían vecindario. Todo se lleva al `musculo_normalizado` del
+mapeo de §6.2, mediante cuatro tablas curadas en `data/01_raw/`:
+
+| Tabla | Contenido |
+|---|---|
+| `articulaciones_canonicas.csv` | Articulación(es) de cada músculo. Es el diccionario que antes vivía dentro del notebook (§12.2), ahora como dato versionado |
+| `vocabulario_muscular_externo.csv` | 17 etiquetas de free-exercise-db y 15 de wger → músculo canónico |
+| `regiones_compuestas.csv` | Músculos que componen cada región (`back`, `chest`, `shoulders`, `core`, `neck`, `spine`) |
+| `equipamiento_canonico.csv` | Equipamiento de las tres fuentes → familia (peso libre, máquina, banda...) y contexto de §5.1 |
+
+**Decisión sobre las etiquetas compuestas (cierra el punto 2 de §10).** No se excluyen
+ni se reparten entre sus componentes. Cada región queda como **nodo propio**, unido a
+sus músculos por una relación *parte de*, y recibe arista hacia una articulación **solo
+si todos sus componentes la comparten**:
+
+| Región | Articulación por consenso |
+|---|---|
+| `chest`, `shoulders` | hombro |
+| `spine` | columna (lumbar). En el catálogo, las 19 fichas con *target* `spine` son extensiones de columna (*hyperextension*, *back extension*, *sphinx*, *pelvic tilt*): el agonista es el erector espinal |
+| `back`, `core`, `neck` | **ninguna**: sus componentes actúan sobre articulaciones distintas |
+
+Con esto el ejercicio sigue en el grafo, sin perder cobertura, y no se afirma una
+articulación que la fuente no afirma. Es el mismo criterio de §6.2, aplicado sin
+excluir datos. Las cinco etiquetas que no son músculos (`ankles`, `feet`, `hands`,
+`wrists`, `cardiovascular system`) se siguen excluyendo.
+
+### 11.3 Emparejamiento entre fuentes
+
+Prioridad: catálogo > free-exercise-db > wger. Un ejercicio externo que ya existe en una
+fuente de mayor prioridad no crea nodo nuevo: queda en `fuentes_vinculadas` del nodo al
+que se une y le transfiere sus etiquetas. La regla es la estricta de §3.5 (exacto, o
+`token_sort_ratio` ≥ 85 y solapamiento de tokens > 0,5), con dos cambios:
+
+1. **Coherencia por articulación.** Los agonistas de ambos ejercicios deben compartir al
+   menos una articulación, y la familia de equipamiento debe coincidir.
+2. **Veto por modificadores opuestos.** Un par difuso se rechaza si un nombre trae
+   *incline* y el otro *decline*, o *abduction*/*adduction*, *internal*/*external*,
+   *seated*/*standing*... También se rechaza si solo uno de los dos trae *rear* o
+   *reverse*, que cambian el músculo cargado. Sin este veto, el pipeline aceptaba
+   `Side Lying Hip Abduction` ↔ `side lying hip adduction`, **movimientos opuestos**.
+
+   Ese par destapó un defecto en `_tokens_equivalentes` (compartida con §3.5):
+   `abduction` y `adduction` se escriben casi igual (similitud 89) y se contaban como el
+   mismo token. Quedó corregido. **No cambia ningún par aceptado de megaGymDataset**:
+   solo baja el puntaje de dos candidatos que ya estaban rechazados.
+
+| Emparejamiento | Exactos | Difusos | Sin par (nodo nuevo) | Muestra revisada (n = 25) |
+|---|---|---|---|---|
+| free-exercise-db → catálogo | 174 | 153 | 549 | 15 *mismo*, 10 *variante*, 0 *distinto* |
+| wger → catálogo + free-exercise-db | 96 | 94 | 719 | 17 *mismo*, 7 *variante*, 1 *distinto* |
+
+El único *distinto* es `Dumbbell sumo deadlift` ↔ `dumbbell deadlift`: la postura sumo
+recluta más aductores. Las muestras están en
+`data/01_raw/fuentes_match_validacion_manual.csv`, con semilla 7. Como en §3.5, los
+veredictos los asignó un asistente de IA y **el equipo debe revisarlos** antes de la
+defensa.
+
+### 11.4 Resultado
+
+**2.592 ejercicios únicos**: 1.324 del catálogo, 549 nuevos de free-exercise-db y 719
+nuevos de wger. Generan 7.060 aristas ejercicio → músculo (2.729 agonistas y 4.331
+sinergistas) sobre 41 músculos o regiones. El 94,7 % de los ejercicios llega a al menos
+una articulación. Los 131 que no llegan son fichas de wger sin músculos (carrera,
+*burpees*, colgado en barra): entran al grafo solo por su equipamiento.
+
+| Indicador | EV1 (catálogo) | Tras la integración |
+|---|---|---|
+| Ejercicios de rehabilitación / movilidad¹ | 167 | **370** |
+| Ejercicios *expert* | 2 | **55** |
+| Catálogo con nivel | 24,7 % (megaGym curado) | 32,0 % |
+| Catálogo con mecánica / fuerza | 0 % | 23,1 % / 24,1 % |
+| Agonista `adductors` / `abductors` / `serratus anterior` | 6 / 5 / 5 | 19 / 12 / 21 |
+| Agonista `quadriceps` / `hamstrings` | 44 / 28 | 249 / 145 |
+
+¹ Contexto `rehabilitacion_funcional` (banda, balón, rodillo, asistido) o estiramiento.
+`es_estiramiento` se deriva de la categoría `stretching` en free-exercise-db y de la
+palabra *stretch* en el nombre en las otras dos fuentes.
+
+`levator scapulae` sigue en 2: ninguna fuente nueva lo trae como agonista, y la
+abstención de §5.1 sigue siendo necesaria para ese músculo. El ratio
+cuádriceps:isquiotibiales (1,7:1) tampoco mejora, así que el desbalance de §5.1 sigue
+vigente.
+
+### 11.5 Hallazgo: el nivel de dificultad no es una etiqueta objetiva
+
+En los 227 ejercicios del catálogo que tienen nivel curado en megaGymDataset **y** par en
+free-exercise-db, las dos fuentes coinciden en el **44,9 %**. El acuerdo esperado por
+azar es 45,4 %: **kappa de Cohen = −0,01**. Por ejemplo, 77 ejercicios que megaGymDataset
+marca *Intermediate* son *beginner* en free-exercise-db, y 33 están al revés.
+
+Consecuencias:
+
+1. `nivel` consolida las dos fuentes (prioridad free-exercise-db) y guarda `nivel_origen`
+   y `nivel_megagym` para que se pueda filtrar. **No debe mezclarse sin más como
+   variable objetivo.**
+2. Para completar etiquetas con modelos supervisados (Fase 2), los objetivos con
+   fundamento biomecánico son `mecanica` y `fuerza`. `nivel` solo tiene sentido
+   entrenado dentro de una única fuente y reportado como opinión de esa fuente.
+3. Refuerza §5.1: graduar la progresión de un usuario por "nivel" es inseguro mientras la
+   etiqueta dependa de quién la puso.
+
+### 11.6 Cambios respecto de la EV1 a tener en cuenta
+
+- El contexto de equipamiento se define ahora en `equipamiento_canonico.csv`. Cuatro
+  equipos que el notebook de la EV1 dejaba en *Cardio / otros* cambian de grupo:
+  `kettlebell` (41) y `rope` (10) pasan a *gimnasio*, y `resistance band` (7) y
+  `bosu ball` (3) pasan a *rehabilitación / funcional*. Por eso el catálogo tiene 130
+  ejercicios de rehabilitación / funcional en vez de 120. Las cifras de §5.1 se mantienen como
+  registro de la EV1.
+- Sin validación clínica (§6.4). La ontología amplía el mapeo curado pero no reemplaza
+  la revisión profesional.
