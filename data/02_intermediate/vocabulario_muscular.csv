@@ -1,0 +1,78 @@
+fuente,musculo_fuente,musculo,tipo
+catalogo,abdominals,abdominals,musculo
+catalogo,abductors,abductors,musculo
+catalogo,abs,abdominals,musculo
+catalogo,adductors,adductors,musculo
+catalogo,ankle stabilizers,ankle stabilizers,musculo
+catalogo,back,back,region
+catalogo,biceps,biceps,musculo
+catalogo,brachialis,brachialis,musculo
+catalogo,calves,calves,musculo
+catalogo,chest,chest,region
+catalogo,core,core,region
+catalogo,deltoids,deltoids,musculo
+catalogo,delts,deltoids,musculo
+catalogo,forearms,forearms,musculo
+catalogo,glutes,glutes,musculo
+catalogo,grip muscles,grip muscles,musculo
+catalogo,groin,groin,musculo
+catalogo,hamstrings,hamstrings,musculo
+catalogo,hip flexors,hip flexors,musculo
+catalogo,inner thighs,inner thighs,musculo
+catalogo,latissimus dorsi,latissimus dorsi,musculo
+catalogo,lats,latissimus dorsi,musculo
+catalogo,levator scapulae,levator scapulae,musculo
+catalogo,lower abs,lower abs,musculo
+catalogo,lower back,lower back,musculo
+catalogo,obliques,obliques,musculo
+catalogo,pectorals,pectorals,musculo
+catalogo,quadriceps,quadriceps,musculo
+catalogo,quads,quadriceps,musculo
+catalogo,rear deltoids,rear deltoids,musculo
+catalogo,rhomboids,rhomboids,musculo
+catalogo,rotator cuff,rotator cuff,musculo
+catalogo,serratus anterior,serratus anterior,musculo
+catalogo,shins,shins,musculo
+catalogo,shoulders,shoulders,region
+catalogo,soleus,soleus,musculo
+catalogo,spine,spine,region
+catalogo,sternocleidomastoid,sternocleidomastoid,musculo
+catalogo,trapezius,trapezius,musculo
+catalogo,traps,trapezius,musculo
+catalogo,triceps,triceps,musculo
+catalogo,upper back,upper back,musculo
+catalogo,upper chest,upper chest,musculo
+catalogo,wrist extensors,wrist extensors,musculo
+catalogo,wrist flexors,wrist flexors,musculo
+free_exercise_db,abdominals,abdominals,musculo
+free_exercise_db,abductors,abductors,musculo
+free_exercise_db,adductors,adductors,musculo
+free_exercise_db,biceps,biceps,musculo
+free_exercise_db,calves,calves,musculo
+free_exercise_db,chest,chest,region
+free_exercise_db,forearms,forearms,musculo
+free_exercise_db,glutes,glutes,musculo
+free_exercise_db,hamstrings,hamstrings,musculo
+free_exercise_db,lats,latissimus dorsi,musculo
+free_exercise_db,lower back,lower back,musculo
+free_exercise_db,middle back,upper back,musculo
+free_exercise_db,neck,neck,region
+free_exercise_db,quadriceps,quadriceps,musculo
+free_exercise_db,shoulders,shoulders,region
+free_exercise_db,traps,trapezius,musculo
+free_exercise_db,triceps,triceps,musculo
+wger,Anterior deltoid,deltoids,musculo
+wger,Biceps brachii,biceps,musculo
+wger,Biceps femoris,hamstrings,musculo
+wger,Brachialis,brachialis,musculo
+wger,Gastrocnemius,calves,musculo
+wger,Gluteus maximus,glutes,musculo
+wger,Latissimus dorsi,latissimus dorsi,musculo
+wger,Obliquus externus abdominis,obliques,musculo
+wger,Pectoralis major,pectorals,musculo
+wger,Quadriceps femoris,quadriceps,musculo
+wger,Rectus abdominis,abdominals,musculo
+wger,Serratus anterior,serratus anterior,musculo
+wger,Soleus,soleus,musculo
+wger,Trapezius,trapezius,musculo
+wger,Triceps brachii,triceps,musculo

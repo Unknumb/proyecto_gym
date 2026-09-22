@@ -1,0 +1,13 @@
+dimension,grupo,n_ejercicios,pct_con_articulacion,pct_con_nivel,pct_con_mecanica,pct_con_fuerza
+fuente,catalogo,1324.0,100.0,32.0,23.1,24.1
+fuente,free_exercise_db,549.0,98.9,100.0,87.4,95.4
+fuente,wger,719.0,81.8,0.0,0.0,0.0
+contexto,cardio_otros,328.0,84.1,44.2,30.8,40.9
+contexto,gimnasio,1400.0,98.9,42.1,35.7,35.9
+contexto,peso_corporal,664.0,90.2,26.1,19.7,22.1
+contexto,rehabilitacion_funcional,200.0,97.5,32.5,27.0,29.5
+contexto_catalogo,cardio_otros,7.0,100.0,28.6,14.3,14.3
+contexto_catalogo,gimnasio,862.0,100.0,34.5,25.1,25.8
+contexto_catalogo,peso_corporal,325.0,100.0,34.5,24.6,27.1
+contexto_catalogo,rehabilitacion_funcional,130.0,100.0,10.0,6.9,6.2
+total,total,2592.0,94.7,37.5,30.3,32.5

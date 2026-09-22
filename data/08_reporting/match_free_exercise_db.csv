@@ -1,0 +1,889 @@
+ejercicio_id,nombre,candidato_id,candidato_nombre,similitud,jaccard,region_coherente,equipo_coherente,metodo,aceptado
+free_exercise_db:3_4_Sit-Up,3/4 Sit-Up,catalogo:0001,3/4 sit-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:90_90_Hamstring,90/90 Hamstring,catalogo:1511,hamstring stretch,56.25,0.333,True,True,sin_match,False
+free_exercise_db:Ab_Crunch_Machine,Ab Crunch Machine,catalogo:0277,decline crunch,70.97,0.25,True,False,sin_match,False
+free_exercise_db:Ab_Roller,Ab Roller,catalogo:0084,barbell rollerout,69.23,0.333,True,True,sin_match,False
+free_exercise_db:Adductor,Adductor,catalogo:0168,cable hip adduction,51.85,0.0,True,False,sin_match,False
+free_exercise_db:Adductor_Groin,Adductor/Groin,catalogo:0469,groin crunch,61.54,0.333,False,True,sin_match,False
+free_exercise_db:Advanced_Kettlebell_Windmill,Advanced Kettlebell Windmill,catalogo:0517,kettlebell advanced windmill,100.0,1.0,True,True,difuso,True
+free_exercise_db:Air_Bike,Air Bike,catalogo:0003,air bike,100.0,1.0,True,True,exacto,True
+free_exercise_db:All_Fours_Quad_Stretch,All Fours Quad Stretch,catalogo:1512,all fours squad stretch,97.67,1.0,True,True,difuso,True
+free_exercise_db:Alternate_Hammer_Curl,Alternate Hammer Curl,catalogo:1648,dumbbell alternate seated hammer curl,72.41,0.6,True,True,sin_match,False
+free_exercise_db:Alternate_Heel_Touchers,Alternate Heel Touchers,catalogo:0006,alternate heel touchers,100.0,1.0,True,True,exacto,True
+free_exercise_db:Alternate_Incline_Dumbbell_Curl,Alternate Incline Dumbbell Curl,catalogo:1647,dumbbell alternate preacher curl,82.54,0.6,True,True,sin_match,False
+free_exercise_db:Alternate_Leg_Diagonal_Bound,Alternate Leg Diagonal Bound,catalogo:0968,band alternating biceps curl,58.18,0.0,False,True,sin_match,False
+free_exercise_db:Alternating_Cable_Shoulder_Press,Alternating Cable Shoulder Press,catalogo:0148,cable alternate shoulder press,93.55,0.6,True,True,difuso,True
+free_exercise_db:Alternating_Deltoid_Raise,Alternating Deltoid Raise,catalogo:0520,kettlebell alternating press,64.15,0.2,True,True,sin_match,False
+free_exercise_db:Alternating_Floor_Press,Alternating Floor Press,catalogo:0519,kettlebell alternating press on floor,76.67,0.6,True,True,sin_match,False
+free_exercise_db:Alternating_Hang_Clean,Alternating Hang Clean,catalogo:0518,kettlebell alternating hang clean,80.0,0.75,False,True,sin_match,False
+free_exercise_db:Alternating_Kettlebell_Press,Alternating Kettlebell Press,catalogo:0520,kettlebell alternating press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Alternating_Kettlebell_Row,Alternating Kettlebell Row,catalogo:0522,kettlebell alternating row,100.0,1.0,True,True,difuso,True
+free_exercise_db:Alternating_Renegade_Row,Alternating Renegade Row,catalogo:0521,kettlebell alternating renegade row,81.36,0.75,True,True,sin_match,False
+free_exercise_db:Ankle_Circles,Ankle Circles,catalogo:1368,ankle circles,100.0,1.0,True,True,exacto,True
+free_exercise_db:Ankle_On_The_Knee,Ankle On The Knee,catalogo:0102,barbell squat (on knees),63.16,0.333,False,True,sin_match,False
+free_exercise_db:Anterior_Tibialis-SMR,Anterior Tibialis-SMR,catalogo:1389,posterior tibialis stretch,75.56,0.2,True,True,sin_match,False
+free_exercise_db:Anti-Gravity_Press,Anti-Gravity Press,catalogo:0445,ez barbell anti gravity press,83.72,0.6,True,True,sin_match,False
+free_exercise_db:Arm_Circles,Arm Circles,catalogo:1368,ankle circles,72.73,0.333,False,True,sin_match,False
+free_exercise_db:Arnold_Dumbbell_Press,Arnold Dumbbell Press,catalogo:2137,dumbbell arnold press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Around_The_Worlds,Around The Worlds,catalogo:2143,dumbbell standing around world,60.87,0.4,True,True,sin_match,False
+free_exercise_db:Atlas_Stone_Trainer,Atlas Stone Trainer,catalogo:0284,donkey calf raise,62.86,0.0,False,True,sin_match,False
+free_exercise_db:Atlas_Stones,Atlas Stones,catalogo:3304,skin the cat,54.55,0.0,False,True,sin_match,False
+free_exercise_db:Axle_Deadlift,Axle Deadlift,catalogo:0157,cable deadlift,88.89,0.333,False,True,sin_match,False
+free_exercise_db:Back_Flyes_-_With_Bands,Back Flyes - With Bands,catalogo:1023,band straight back stiff leg deadlift,60.71,0.25,False,True,sin_match,False
+free_exercise_db:Backward_Drag,Backward Drag,catalogo:1473,backward jump,69.23,0.333,True,True,sin_match,False
+free_exercise_db:Backward_Medicine_Ball_Throw,Backward Medicine Ball Throw,catalogo:0049,barbell incline row,68.09,0.0,False,False,sin_match,False
+free_exercise_db:Balance_Board,Balance Board,catalogo:0020,balance board,100.0,1.0,True,True,exacto,True
+free_exercise_db:Ball_Leg_Curl,Ball Leg Curl,catalogo:0447,ez barbell curl,75.0,0.2,False,False,sin_match,False
+free_exercise_db:Band_Assisted_Pull-Up,Band Assisted Pull-Up,catalogo:0970,band assisted pull-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Band_Good_Morning,Band Good Morning,catalogo:0044,barbell good morning,81.08,0.5,True,False,sin_match,False
+free_exercise_db:Band_Good_Morning_Pull_Through,Band Good Morning (Pull Through),catalogo:0991,band pull through,72.34,0.6,True,True,sin_match,False
+free_exercise_db:Band_Hip_Adductions,Band Hip Adductions,catalogo:0168,cable hip adduction,81.08,0.5,True,False,sin_match,False
+free_exercise_db:Band_Pull_Apart,Band Pull Apart,catalogo:0970,band assisted pull-up,66.67,0.4,True,True,sin_match,False
+free_exercise_db:Band_Skull_Crusher,Band Skull Crusher,catalogo:0991,band pull through,64.71,0.25,False,True,sin_match,False
+free_exercise_db:Barbell_Ab_Rollout,Barbell Ab Rollout,catalogo:0084,barbell rollerout,85.71,0.667,True,True,difuso,True
+free_exercise_db:Barbell_Ab_Rollout_-_On_Knees,Barbell Ab Rollout - On Knees,catalogo:0102,barbell squat (on knees),76.6,0.5,False,True,sin_match,False
+free_exercise_db:Barbell_Bench_Press_-_Medium_Grip,Barbell Bench Press - Medium Grip,catalogo:0052,barbell jm bench press,79.25,0.5,False,True,sin_match,False
+free_exercise_db:Barbell_Curl,Barbell Curl,catalogo:0031,barbell curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Curls_Lying_Against_An_Incline,Barbell Curls Lying Against An Incline,catalogo:0072,barbell prone incline curl,69.84,0.429,True,True,sin_match,False
+free_exercise_db:Barbell_Deadlift,Barbell Deadlift,catalogo:0032,barbell deadlift,100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Full_Squat,Barbell Full Squat,catalogo:0043,barbell full squat,100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Full_Squat,Barbell Full Squat,catalogo:1461,barbell full squat (back pov),100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Full_Squat,Barbell Full Squat,catalogo:1462,barbell full squat (side pov),100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Glute_Bridge,Barbell Glute Bridge,catalogo:1409,barbell glute bridge,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Guillotine_Bench_Press,Barbell Guillotine Bench Press,catalogo:0045,barbell guillotine bench press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Hack_Squat,Barbell Hack Squat,catalogo:0046,barbell hack squat,100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Hip_Thrust,Barbell Hip Thrust,catalogo:3305,barbell thruster,82.35,0.667,False,True,sin_match,False
+free_exercise_db:Barbell_Incline_Bench_Press_-_Medium_Grip,Barbell Incline Bench Press - Medium Grip,catalogo:1719,barbell incline close grip bench press,83.12,0.714,False,True,sin_match,False
+free_exercise_db:Barbell_Incline_Shoulder_Raise,Barbell Incline Shoulder Raise,catalogo:0050,barbell incline shoulder raise,100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Lunge,Barbell Lunge,catalogo:0054,barbell lunge,100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Rear_Delt_Row,Barbell Rear Delt Row,catalogo:0076,barbell rear delt row,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Rollout_from_Bench,Barbell Rollout from Bench,catalogo:0083,barbell rollerout from bench,96.3,1.0,True,True,difuso,True
+free_exercise_db:Barbell_Seated_Calf_Raise,Barbell Seated Calf Raise,catalogo:0088,barbell seated calf raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Seated_Calf_Raise,Barbell Seated Calf Raise,catalogo:1371,barbell seated calf raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Shoulder_Press,Barbell Shoulder Press,catalogo:0219,cable shoulder press,85.71,0.5,True,False,sin_match,False
+free_exercise_db:Barbell_Shrug,Barbell Shrug,catalogo:0095,barbell shrug,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Shrug_Behind_The_Back,Barbell Shrug Behind The Back,catalogo:1436,barbell high bar squat,66.67,0.125,False,True,sin_match,False
+free_exercise_db:Barbell_Side_Bend,Barbell Side Bend,catalogo:0096,barbell side bent v. 2,94.12,0.5,True,True,sin_match,False
+free_exercise_db:Barbell_Side_Split_Squat,Barbell Side Split Squat,catalogo:0098,barbell side split squat,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Side_Split_Squat,Barbell Side Split Squat,catalogo:0097,barbell side split squat v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Barbell_Squat,Barbell Squat,catalogo:0043,barbell full squat,83.87,0.667,False,True,sin_match,False
+free_exercise_db:Barbell_Squat_To_A_Bench,Barbell Squat To A Bench,catalogo:0026,barbell bench squat,88.37,0.6,True,True,difuso,True
+free_exercise_db:Barbell_Step_Ups,Barbell Step Ups,catalogo:0114,barbell step-up,100.0,1.0,False,True,exacto,True
+free_exercise_db:Barbell_Walking_Lunge,Barbell Walking Lunge,catalogo:0054,barbell lunge,76.47,0.667,False,True,sin_match,False
+free_exercise_db:Battling_Ropes,Battling Ropes,catalogo:0128,battling ropes,100.0,1.0,True,True,exacto,True
+free_exercise_db:Bear_Crawl_Sled_Drags,Bear Crawl Sled Drags,catalogo:3360,bear crawl,66.67,0.5,,True,sin_match,False
+free_exercise_db:Behind_Head_Chest_Stretch,Behind Head Chest Stretch,catalogo:1259,behind head chest stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Bench_Dips,Bench Dips,catalogo:1753,three bench dip,75.0,0.667,True,True,sin_match,False
+free_exercise_db:Bench_Jump,Bench Jump,catalogo:3019,bench pull-ups,69.57,0.25,False,True,sin_match,False
+free_exercise_db:Bench_Press_-_Powerlifting,Bench Press - Powerlifting,catalogo:0314,dumbbell incline bench press,65.38,0.4,False,True,sin_match,False
+free_exercise_db:Bench_Press_-_With_Bands,Bench Press - With Bands,catalogo:1254,band bench press,86.49,0.75,True,True,difuso,True
+free_exercise_db:Bench_Press_with_Chains,Bench Press with Chains,catalogo:0753,smith decline bench press,80.85,0.333,False,False,sin_match,False
+free_exercise_db:Bench_Sprint,Bench Sprint,catalogo:0748,smith bench press,68.97,0.25,False,True,sin_match,False
+free_exercise_db:Bent-Arm_Barbell_Pullover,Bent-Arm Barbell Pullover,catalogo:1316,barbell bent arm pullover,100.0,1.0,True,True,difuso,True
+free_exercise_db:Bent-Arm_Dumbbell_Pullover,Bent-Arm Dumbbell Pullover,catalogo:0288,dumbbell around pullover,84.0,0.4,True,True,sin_match,False
+free_exercise_db:Bent-Knee_Hip_Raise,Bent-Knee Hip Raise,catalogo:0484,hip raise (bent knee),100.0,1.0,True,True,difuso,True
+free_exercise_db:Bent_Over_Barbell_Row,Bent Over Barbell Row,catalogo:0027,barbell bent over row,100.0,1.0,True,True,difuso,True
+free_exercise_db:Bent_Over_Dumbbell_Rear_Delt_Raise_With_Head_On_Bench,Bent Over Dumbbell Rear Delt Raise With Head On Bench,catalogo:0368,dumbbell over bench revers wrist curl,67.42,0.231,False,True,sin_match,False
+free_exercise_db:Bent_Over_Low-Pulley_Side_Lateral,Bent Over Low-Pulley Side Lateral,catalogo:1347,lever one arm lateral wide pulldown,64.71,0.091,True,False,sin_match,False
+free_exercise_db:Bent_Over_One-Arm_Long_Bar_Row,Bent Over One-Arm Long Bar Row,catalogo:0064,barbell one arm bent over row,84.75,0.857,True,True,sin_match,False
+free_exercise_db:Bent_Over_Two-Arm_Long_Bar_Row,Bent Over Two-Arm Long Bar Row,catalogo:0064,barbell one arm bent over row,81.36,0.625,True,True,sin_match,False
+free_exercise_db:Bent_Over_Two-Dumbbell_Row,Bent Over Two-Dumbbell Row,catalogo:0293,dumbbell bent over row,91.67,0.8,True,True,difuso,True
+free_exercise_db:Bent_Over_Two-Dumbbell_Row_With_Palms_In,Bent Over Two-Dumbbell Row With Palms In,catalogo:1329,dumbbell palm rotational bent over row,77.92,0.556,True,True,sin_match,False
+free_exercise_db:Bent_Press,Bent Press,catalogo:1254,band bench press,69.23,0.25,False,False,sin_match,False
+free_exercise_db:Bicycling,Bicycling,catalogo:1634,cable lying bicep curl,51.61,0.0,False,True,sin_match,False
+free_exercise_db:Bicycling_Stationary,"Bicycling, Stationary",catalogo:2138,stationary bike run v. 3,71.79,0.25,,False,sin_match,False
+free_exercise_db:Board_Press,Board Press,catalogo:1254,band bench press,66.67,0.25,False,False,sin_match,False
+free_exercise_db:Body-Up,Body-Up,catalogo:0137,body-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Body_Tricep_Press,Body Tricep Press,catalogo:0816,triceps press,82.76,0.667,True,True,sin_match,False
+free_exercise_db:Bodyweight_Flyes,Bodyweight Flyes,catalogo:1689,push and pull bodyweight,61.54,0.2,True,False,sin_match,False
+free_exercise_db:Bodyweight_Mid_Row,Bodyweight Mid Row,catalogo:3166,bodyweight standing row,68.29,0.5,True,True,sin_match,False
+free_exercise_db:Bodyweight_Squat,Bodyweight Squat,catalogo:3168,bodyweight squatting row,80.0,0.667,False,True,sin_match,False
+free_exercise_db:Bodyweight_Walking_Lunge,Bodyweight Walking Lunge,catalogo:3655,walking high knees lunge,72.34,0.4,,True,sin_match,False
+free_exercise_db:Bosu_Ball_Cable_Crunch_With_Side_Bends,Bosu Ball Cable Crunch With Side Bends,catalogo:0221,cable side bend crunch (bosu ball),92.75,0.857,True,True,difuso,True
+free_exercise_db:Bottoms-Up_Clean_From_The_Hang_Position,Bottoms-Up Clean From The Hang Position,catalogo:0525,kettlebell bottoms up clean from the hang position,87.36,0.875,False,True,sin_match,False
+free_exercise_db:Bottoms_Up,Bottoms Up,catalogo:0138,bottoms-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Box_Jump_Multiple_Response,Box Jump (Multiple Response),catalogo:1304,medicine ball chest push multiple response,61.76,0.25,False,True,sin_match,False
+free_exercise_db:Box_Skip,Box Skip,catalogo:0137,body-up,53.33,0.0,False,True,sin_match,False
+free_exercise_db:Box_Squat,Box Squat,catalogo:1004,band squat,73.68,0.333,False,False,sin_match,False
+free_exercise_db:Box_Squat_with_Bands,Box Squat with Bands,catalogo:1003,band squat row,72.73,0.4,False,False,sin_match,False
+free_exercise_db:Box_Squat_with_Chains,Box Squat with Chains,catalogo:1004,band squat,60.0,0.2,False,False,sin_match,False
+free_exercise_db:Brachialis-SMR,Brachialis-SMR,catalogo:0220,cable shrug,50.0,0.0,False,False,sin_match,False
+free_exercise_db:Bradford_Rocky_Presses,Bradford/Rocky Presses,catalogo:0087,barbell seated bradford rocky press,71.43,0.6,True,True,sin_match,False
+free_exercise_db:Butt-Ups,Butt-Ups,catalogo:0870,butt-ups,100.0,1.0,True,True,exacto,True
+free_exercise_db:Butt_Lift_Bridge,Butt Lift (Bridge),catalogo:1422,pelvic tilt into bridge,61.54,0.167,True,True,sin_match,False
+free_exercise_db:Butterfly,Butterfly,catalogo:1494,butterfly yoga pose,64.29,0.333,False,False,sin_match,False
+free_exercise_db:Cable_Chest_Press,Cable Chest Press,catalogo:2144,cable seated chest press,82.93,0.75,True,True,sin_match,False
+free_exercise_db:Cable_Crossover,Cable Crossover,catalogo:0154,cable cross-over revers fly,73.17,0.4,True,True,sin_match,False
+free_exercise_db:Cable_Crunch,Cable Crunch,catalogo:0223,cable side crunch,82.76,0.667,True,True,sin_match,False
+free_exercise_db:Cable_Deadlifts,Cable Deadlifts,catalogo:0157,cable deadlift,100.0,1.0,False,True,exacto,True
+free_exercise_db:Cable_Hammer_Curls_-_Rope_Attachment,Cable Hammer Curls - Rope Attachment,catalogo:0165,cable hammer curl (with rope),73.33,0.667,True,True,sin_match,False
+free_exercise_db:Cable_Hip_Adduction,Cable Hip Adduction,catalogo:0168,cable hip adduction,100.0,1.0,False,True,exacto,True
+free_exercise_db:Cable_Incline_Pushdown,Cable Incline Pushdown,catalogo:0172,cable incline pushdown,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Incline_Triceps_Extension,Cable Incline Triceps Extension,catalogo:0173,cable incline triceps extension,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Internal_Rotation,Cable Internal Rotation,catalogo:0216,cable seated shoulder internal rotation,74.19,0.6,True,True,sin_match,False
+free_exercise_db:Cable_Iron_Cross,Cable Iron Cross,catalogo:0155,cable cross-over variation,71.43,0.4,True,True,sin_match,False
+free_exercise_db:Cable_Judo_Flip,Cable Judo Flip,catalogo:0174,cable judo flip,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Lying_Triceps_Extension,Cable Lying Triceps Extension,catalogo:0186,cable lying triceps extension v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_One_Arm_Tricep_Extension,Cable One Arm Tricep Extension,catalogo:0231,cable standing one arm triceps extension,86.96,0.833,True,True,difuso,True
+free_exercise_db:Cable_Preacher_Curl,Cable Preacher Curl,catalogo:0195,cable preacher curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Rear_Delt_Fly,Cable Rear Delt Fly,catalogo:0204,cable rear drive,74.29,0.4,False,True,sin_match,False
+free_exercise_db:Cable_Reverse_Crunch,Cable Reverse Crunch,catalogo:0873,cable reverse crunch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Rope_Overhead_Triceps_Extension,Cable Rope Overhead Triceps Extension,catalogo:0194,cable overhead triceps extension (rope attachment),86.75,0.833,True,True,difuso,True
+free_exercise_db:Cable_Rope_Rear-Delt_Rows,Cable Rope Rear-Delt Rows,catalogo:0203,cable rear delt row (with rope),90.57,0.833,True,True,difuso,True
+free_exercise_db:Cable_Russian_Twists,Cable Russian Twists,catalogo:0687,russian twist,81.25,0.667,True,False,sin_match,False
+free_exercise_db:Cable_Seated_Crunch,Cable Seated Crunch,catalogo:0212,cable seated crunch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Seated_Lateral_Raise,Cable Seated Lateral Raise,catalogo:0215,cable seated rear lateral raise,91.23,0.8,True,True,sin_match,False
+free_exercise_db:Cable_Shoulder_Press,Cable Shoulder Press,catalogo:0219,cable shoulder press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Shrugs,Cable Shrugs,catalogo:0220,cable shrug,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cable_Wrist_Curl,Cable Wrist Curl,catalogo:0247,cable wrist curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:Calf-Machine_Shoulder_Shrug,Calf-Machine Shoulder Shrug,catalogo:0759,smith incline shoulder raises,65.45,0.143,True,True,sin_match,False
+free_exercise_db:Calf_Press,Calf Press,catalogo:2289,lever calf press,76.92,0.667,True,True,sin_match,False
+free_exercise_db:Calf_Press_On_The_Leg_Press_Machine,Calf Press On The Leg Press Machine,catalogo:1391,sled calf press on leg press,79.37,0.833,True,True,sin_match,False
+free_exercise_db:Calf_Raise_On_A_Dumbbell,Calf Raise On A Dumbbell,catalogo:0727,single leg calf raise (on a dumbbell),81.36,0.714,True,True,sin_match,False
+free_exercise_db:Calf_Raises_-_With_Bands,Calf Raises - With Bands,catalogo:0999,band single leg calf raise,73.91,0.5,True,True,sin_match,False
+free_exercise_db:Calf_Stretch_Elbows_Against_Wall,Calf Stretch Elbows Against Wall,catalogo:1377,calf stretch with hands against wall,78.79,0.571,True,True,sin_match,False
+free_exercise_db:Calf_Stretch_Hands_Against_Wall,Calf Stretch Hands Against Wall,catalogo:1377,calf stretch with hands against wall,92.31,0.833,True,True,difuso,True
+free_exercise_db:Calves-SMR,Calves-SMR,catalogo:0220,cable shrug,70.0,0.0,False,False,sin_match,False
+free_exercise_db:Car_Deadlift,Car Deadlift,catalogo:0157,cable deadlift,84.62,0.333,False,True,sin_match,False
+free_exercise_db:Car_Drivers,Car Drivers,catalogo:0204,cable rear drive,69.23,0.25,False,False,sin_match,False
+free_exercise_db:Carioca_Quick_Step,Carioca Quick Step,catalogo:3662,pike-to-cobra push-up,51.28,0.0,True,True,sin_match,False
+free_exercise_db:Cat_Stretch,Cat Stretch,catalogo:1390,seated calf stretch (male),73.33,0.25,False,True,sin_match,False
+free_exercise_db:Catch_and_Overhead_Throw,Catch and Overhead Throw,catalogo:1353,medicine ball catch and overhead throw,77.42,0.667,True,True,sin_match,False
+free_exercise_db:Chain_Handle_Extension,Chain Handle Extension,catalogo:0130,bench hip extension,68.29,0.2,False,True,sin_match,False
+free_exercise_db:Chain_Press,Chain Press,catalogo:1261,cable decline press,66.67,0.25,True,True,sin_match,False
+free_exercise_db:Chair_Leg_Extended_Stretch,Chair Leg Extended Stretch,catalogo:1548,chair leg extended stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Chair_Lower_Back_Stretch,Chair Lower Back Stretch,catalogo:2208,roller back stretch,79.07,0.4,False,True,sin_match,False
+free_exercise_db:Chair_Squat,Chair Squat,catalogo:0750,smith chair squat,78.57,0.667,True,True,sin_match,False
+free_exercise_db:Chair_Upper_Body_Stretch,Chair Upper Body Stretch,catalogo:1365,upper back stretch,76.19,0.4,False,True,sin_match,False
+free_exercise_db:Chest_And_Front_Of_Shoulder_Stretch,Chest And Front Of Shoulder Stretch,catalogo:1271,chest and front of shoulder stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Chest_Push_from_3_point_stance,Chest Push from 3 point stance,catalogo:1303,medicine ball chest push from 3 point stance,81.08,0.75,True,True,sin_match,False
+free_exercise_db:Chest_Push_multiple_response,Chest Push (multiple response),catalogo:1304,medicine ball chest push multiple response,80.0,0.667,True,True,sin_match,False
+free_exercise_db:Chest_Push_single_response,Chest Push (single response),catalogo:1305,medicine ball chest push single response,78.79,0.667,True,True,sin_match,False
+free_exercise_db:Chest_Push_with_Run_Release,Chest Push with Run Release,catalogo:1312,medicine ball chest push with run release,79.41,0.714,True,True,sin_match,False
+free_exercise_db:Chest_Stretch_on_Stability_Ball,Chest Stretch on Stability Ball,catalogo:1272,chest stretch with exercise ball,87.1,0.667,True,True,difuso,True
+free_exercise_db:Childs_Pose,Child's Pose,catalogo:0720,side-to-side chin,55.17,0.0,False,True,sin_match,False
+free_exercise_db:Chin-Up,Chin-Up,catalogo:1326,chin-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Chin_To_Chest_Stretch,Chin To Chest Stretch,catalogo:1167,dynamic chest stretch (male),71.43,0.4,False,True,sin_match,False
+free_exercise_db:Circus_Bell,Circus Bell,catalogo:0031,barbell curl,63.64,0.0,False,True,sin_match,False
+free_exercise_db:Clean,Clean,catalogo:0648,power clean,62.5,0.5,True,True,sin_match,False
+free_exercise_db:Clean_Deadlift,Clean Deadlift,catalogo:0157,cable deadlift,85.71,0.333,True,False,sin_match,False
+free_exercise_db:Clean_Pull,Clean Pull,catalogo:0295,dumbbell clean,75.0,0.333,False,True,sin_match,False
+free_exercise_db:Clean_Shrug,Clean Shrug,catalogo:0220,cable shrug,81.82,0.333,True,False,sin_match,False
+free_exercise_db:Clean_and_Jerk,Clean and Jerk,catalogo:0648,power clean,64.0,0.25,False,True,sin_match,False
+free_exercise_db:Clean_and_Press,Clean and Press,catalogo:0028,barbell clean and press,78.95,0.75,False,True,sin_match,False
+free_exercise_db:Clean_from_Blocks,Clean from Blocks,catalogo:3297,back lever,53.85,0.0,False,False,sin_match,False
+free_exercise_db:Clock_Push-Up,Clock Push-Up,catalogo:0258,clock push-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Close-Grip_Barbell_Bench_Press,Close-Grip Barbell Bench Press,catalogo:0030,barbell close-grip bench press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Close-Grip_Dumbbell_Press,Close-Grip Dumbbell Press,catalogo:1731,dumbbell close grip press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Close-Grip_EZ-Bar_Curl_with_Band,Close-Grip EZ-Bar Curl with Band,catalogo:0446,ez barbell close-grip curl,81.48,0.714,True,True,sin_match,False
+free_exercise_db:Close-Grip_EZ-Bar_Press,Close-Grip EZ-Bar Press,catalogo:2432,ez-bar close-grip bench press,88.46,0.833,True,True,difuso,True
+free_exercise_db:Close-Grip_EZ_Bar_Curl,Close-Grip EZ Bar Curl,catalogo:0446,ez barbell close-grip curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Close-Grip_Front_Lat_Pulldown,Close-Grip Front Lat Pulldown,catalogo:0974,band close-grip pulldown,71.7,0.5,True,False,sin_match,False
+free_exercise_db:Close-Grip_Push-Up_off_of_a_Dumbbell,Close-Grip Push-Up off of a Dumbbell,catalogo:0660,push-up close-grip off dumbbell,92.54,0.75,True,False,sin_match,False
+free_exercise_db:Close-Grip_Standing_Barbell_Curl,Close-Grip Standing Barbell Curl,catalogo:0106,barbell standing close grip curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Cocoons,Cocoons,catalogo:0260,cocoons,100.0,1.0,True,True,exacto,True
+free_exercise_db:Conans_Wheel,Conan's Wheel,catalogo:3637,wheel run,63.64,0.25,,True,sin_match,False
+free_exercise_db:Concentration_Curls,Concentration Curls,catalogo:0976,band concentration curl,87.8,0.667,True,False,sin_match,False
+free_exercise_db:Cross-Body_Crunch,Cross-Body Crunch,catalogo:0262,cross body crunch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Cross_Body_Hammer_Curl,Cross Body Hammer Curl,catalogo:0298,dumbbell cross body hammer curl,83.02,0.8,True,True,sin_match,False
+free_exercise_db:Cross_Over_-_With_Bands,Cross Over - With Bands,catalogo:0994,band reverse wrist curl,69.77,0.143,False,True,sin_match,False
+free_exercise_db:Crossover_Reverse_Lunge,Crossover Reverse Lunge,catalogo:0078,barbell rear lunge,72.73,0.5,False,True,sin_match,False
+free_exercise_db:Crucifix,Crucifix,catalogo:2429,frog crunch,52.63,0.0,False,True,sin_match,False
+free_exercise_db:Crunch_-_Hands_Overhead,Crunch - Hands Overhead,catalogo:0267,crunch (hands overhead),100.0,1.0,True,True,exacto,True
+free_exercise_db:Crunch_-_Legs_On_Exercise_Ball,Crunch - Legs On Exercise Ball,catalogo:0271,crunch (on stability ball),92.0,0.8,True,False,sin_match,False
+free_exercise_db:Crunches,Crunches,catalogo:0277,decline crunch,66.67,0.5,True,True,sin_match,False
+free_exercise_db:Cuban_Press,Cuban Press,catalogo:0299,dumbbell cuban press,70.97,0.667,True,True,sin_match,False
+free_exercise_db:Dancers_Stretch,Dancer's Stretch,catalogo:1585,runners stretch,73.33,0.25,False,True,sin_match,False
+free_exercise_db:Dead_Bug,Dead Bug,catalogo:0276,dead bug,100.0,1.0,True,True,exacto,True
+free_exercise_db:Deadlift_with_Bands,Deadlift with Bands,catalogo:0752,smith deadlift,75.0,0.25,False,False,sin_match,False
+free_exercise_db:Deadlift_with_Chains,Deadlift with Chains,catalogo:0752,smith deadlift,72.73,0.25,False,False,sin_match,False
+free_exercise_db:Decline_Barbell_Bench_Press,Decline Barbell Bench Press,catalogo:0033,barbell decline bench press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Decline_Close-Grip_Bench_To_Skull_Crusher,Decline Close-Grip Bench To Skull Crusher,catalogo:1625,smith machine decline close grip bench press,76.32,0.5,True,False,sin_match,False
+free_exercise_db:Decline_Crunch,Decline Crunch,catalogo:0277,decline crunch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Decline_Dumbbell_Bench_Press,Decline Dumbbell Bench Press,catalogo:0301,dumbbell decline bench press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Decline_Dumbbell_Flyes,Decline Dumbbell Flyes,catalogo:0302,dumbbell decline fly,97.56,1.0,True,True,difuso,True
+free_exercise_db:Decline_Dumbbell_Triceps_Extension,Decline Dumbbell Triceps Extension,catalogo:0306,dumbbell decline triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Decline_EZ_Bar_Triceps_Extension,Decline EZ Bar Triceps Extension,catalogo:2186,ez barbell decline triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Decline_Oblique_Crunch,Decline Oblique Crunch,catalogo:0277,decline crunch,77.78,0.667,True,True,sin_match,False
+free_exercise_db:Decline_Push-Up,Decline Push-Up,catalogo:0279,decline push-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Decline_Reverse_Crunch,Decline Reverse Crunch,catalogo:0277,decline crunch,77.78,0.667,True,True,sin_match,False
+free_exercise_db:Decline_Smith_Press,Decline Smith Press,catalogo:0753,smith decline bench press,86.36,0.75,True,True,difuso,True
+free_exercise_db:Deficit_Deadlift,Deficit Deadlift,catalogo:0752,smith deadlift,73.33,0.333,False,False,sin_match,False
+free_exercise_db:Depth_Jump_Leap,Depth Jump Leap,catalogo:0492,incline push up depth jump,58.54,0.333,False,True,sin_match,False
+free_exercise_db:Dip_Machine,Dip Machine,catalogo:0677,ring dips,63.16,0.333,True,False,sin_match,False
+free_exercise_db:Dips_-_Chest_Version,Dips - Chest Version,catalogo:0251,chest dip,69.23,0.667,True,True,sin_match,False
+free_exercise_db:Dips_-_Triceps_Version,Dips - Triceps Version,catalogo:0814,triceps dip,71.43,0.667,True,True,sin_match,False
+free_exercise_db:Donkey_Calf_Raises,Donkey Calf Raises,catalogo:0284,donkey calf raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Double_Kettlebell_Alternating_Hang_Clean,Double Kettlebell Alternating Hang Clean,catalogo:0526,kettlebell double alternating hang clean,100.0,1.0,False,True,sin_match,False
+free_exercise_db:Double_Kettlebell_Jerk,Double Kettlebell Jerk,catalogo:0527,kettlebell double jerk,100.0,1.0,True,True,difuso,True
+free_exercise_db:Double_Kettlebell_Push_Press,Double Kettlebell Push Press,catalogo:0528,kettlebell double push press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Double_Kettlebell_Snatch,Double Kettlebell Snatch,catalogo:0529,kettlebell double snatch,100.0,1.0,True,True,difuso,True
+free_exercise_db:Double_Kettlebell_Windmill,Double Kettlebell Windmill,catalogo:0530,kettlebell double windmill,100.0,1.0,True,True,difuso,True
+free_exercise_db:Double_Leg_Butt_Kick,Double Leg Butt Kick,catalogo:0459,flutter kicks,56.25,0.2,False,True,sin_match,False
+free_exercise_db:Downward_Facing_Balance,Downward Facing Balance,catalogo:0020,balance board,66.67,0.25,False,False,sin_match,False
+free_exercise_db:Drag_Curl,Drag Curl,catalogo:1632,cable drag curl,75.0,0.667,True,False,sin_match,False
+free_exercise_db:Drop_Push,Drop Push,catalogo:1275,drop push up,85.71,0.667,True,True,difuso,True
+free_exercise_db:Dumbbell_Alternate_Bicep_Curl,Dumbbell Alternate Bicep Curl,catalogo:0285,dumbbell alternate biceps curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Bench_Press,Dumbbell Bench Press,catalogo:0289,dumbbell bench press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Bench_Press_with_Neutral_Grip,Dumbbell Bench Press with Neutral Grip,catalogo:0352,dumbbell neutral grip bench press,92.96,0.833,False,True,sin_match,False
+free_exercise_db:Dumbbell_Bicep_Curl,Dumbbell Bicep Curl,catalogo:0294,dumbbell biceps curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Clean,Dumbbell Clean,catalogo:0295,dumbbell clean,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Floor_Press,Dumbbell Floor Press,catalogo:0438,dumbbell w-press,77.78,0.5,False,True,sin_match,False
+free_exercise_db:Dumbbell_Flyes,Dumbbell Flyes,catalogo:0308,dumbbell fly,96.0,1.0,True,True,difuso,True
+free_exercise_db:Dumbbell_Incline_Row,Dumbbell Incline Row,catalogo:0327,dumbbell incline row,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Incline_Shoulder_Raise,Dumbbell Incline Shoulder Raise,catalogo:0328,dumbbell incline shoulder raise,100.0,1.0,False,True,exacto,True
+free_exercise_db:Dumbbell_Lunges,Dumbbell Lunges,catalogo:0336,dumbbell lunge,100.0,1.0,False,True,exacto,True
+free_exercise_db:Dumbbell_Lying_One-Arm_Rear_Lateral_Raise,Dumbbell Lying One-Arm Rear Lateral Raise,catalogo:0345,dumbbell lying one arm rear lateral raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Lying_Pronation,Dumbbell Lying Pronation,catalogo:0347,dumbbell lying pronation,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Lying_Rear_Lateral_Raise,Dumbbell Lying Rear Lateral Raise,catalogo:0348,dumbbell lying rear lateral raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Lying_Supination,Dumbbell Lying Supination,catalogo:0349,dumbbell lying supination,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_One-Arm_Shoulder_Press,Dumbbell One-Arm Shoulder Press,catalogo:0361,dumbbell one arm shoulder press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_One-Arm_Shoulder_Press,Dumbbell One-Arm Shoulder Press,catalogo:0360,dumbbell one arm shoulder press v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_One-Arm_Triceps_Extension,Dumbbell One-Arm Triceps Extension,catalogo:0362,dumbbell one arm triceps extension (on bench),88.0,0.714,True,True,difuso,True
+free_exercise_db:Dumbbell_One-Arm_Upright_Row,Dumbbell One-Arm Upright Row,catalogo:0363,dumbbell one arm upright row,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Prone_Incline_Curl,Dumbbell Prone Incline Curl,catalogo:0374,dumbbell prone incline curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Raise,Dumbbell Raise,catalogo:0376,dumbbell raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Rear_Lunge,Dumbbell Rear Lunge,catalogo:0381,dumbbell rear lunge,100.0,1.0,False,True,exacto,True
+free_exercise_db:Dumbbell_Scaption,Dumbbell Scaption,catalogo:0413,dumbbell squat,77.42,0.333,False,True,sin_match,False
+free_exercise_db:Dumbbell_Seated_Box_Jump,Dumbbell Seated Box Jump,catalogo:0290,dumbbell bench seated press,74.51,0.333,False,True,sin_match,False
+free_exercise_db:Dumbbell_Seated_One-Leg_Calf_Raise,Dumbbell Seated One-Leg Calf Raise,catalogo:0400,dumbbell seated one leg calf raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Shoulder_Press,Dumbbell Shoulder Press,catalogo:0405,dumbbell seated shoulder press,86.79,0.75,True,True,difuso,True
+free_exercise_db:Dumbbell_Shrug,Dumbbell Shrug,catalogo:0406,dumbbell shrug,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Side_Bend,Dumbbell Side Bend,catalogo:0407,dumbbell side bend,100.0,1.0,True,True,exacto,True
+free_exercise_db:Dumbbell_Squat,Dumbbell Squat,catalogo:0413,dumbbell squat,100.0,1.0,False,True,exacto,True
+free_exercise_db:Dumbbell_Squat_To_A_Bench,Dumbbell Squat To A Bench,catalogo:0291,dumbbell bench squat,88.89,0.6,False,True,sin_match,False
+free_exercise_db:Dumbbell_Step_Ups,Dumbbell Step Ups,catalogo:0431,dumbbell step-up,100.0,1.0,False,True,exacto,True
+free_exercise_db:Dumbbell_Tricep_Extension_-Pronated_Grip,Dumbbell Tricep Extension -Pronated Grip,catalogo:0373,dumbbell pronate-grip triceps extension,98.7,1.0,True,True,difuso,True
+free_exercise_db:Dynamic_Back_Stretch,Dynamic Back Stretch,catalogo:1167,dynamic chest stretch (male),82.93,0.5,True,True,sin_match,False
+free_exercise_db:Dynamic_Chest_Stretch,Dynamic Chest Stretch,catalogo:1167,dynamic chest stretch (male),100.0,1.0,True,True,exacto,True
+free_exercise_db:EZ-Bar_Curl,EZ-Bar Curl,catalogo:0447,ez barbell curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:EZ-Bar_Skullcrusher,EZ-Bar Skullcrusher,catalogo:1721,barbell reverse grip skullcrusher,69.23,0.4,True,True,sin_match,False
+free_exercise_db:Elbow_Circles,Elbow Circles,catalogo:3287,elbow dips,66.67,0.333,False,True,sin_match,False
+free_exercise_db:Elbow_to_Knee,Elbow to Knee,catalogo:0443,elbow-to-knee,100.0,1.0,True,True,exacto,True
+free_exercise_db:Elbows_Back,Elbows Back,catalogo:1352,lower back curl,64.0,0.25,False,True,sin_match,False
+free_exercise_db:Elevated_Back_Lunge,Elevated Back Lunge,catalogo:1410,barbell lateral lunge,65.0,0.2,False,True,sin_match,False
+free_exercise_db:Elevated_Cable_Rows,Elevated Cable Rows,catalogo:1321,cable rope elevated seated row,75.0,0.6,False,True,sin_match,False
+free_exercise_db:Elliptical_Trainer,Elliptical Trainer,catalogo:2141,walk elliptical cross trainer,76.6,0.5,,False,sin_match,False
+free_exercise_db:Exercise_Ball_Crunch,Exercise Ball Crunch,catalogo:0271,crunch (on stability ball),93.02,0.75,True,True,difuso,True
+free_exercise_db:Exercise_Ball_Pull-In,Exercise Ball Pull-In,catalogo:0650,pull-in (on stability ball),93.33,0.8,True,True,difuso,True
+free_exercise_db:Extended_Range_One-Arm_Kettlebell_Floor_Press,Extended Range One-Arm Kettlebell Floor Press,catalogo:0531,kettlebell extended range one arm press on floor,96.77,0.875,True,True,difuso,True
+free_exercise_db:External_Rotation,External Rotation,catalogo:0984,band lying hip internal rotation,61.22,0.167,False,False,sin_match,False
+free_exercise_db:External_Rotation_with_Band,External Rotation with Band,catalogo:0996,band seated hip internal rotation,73.33,0.286,False,True,sin_match,False
+free_exercise_db:External_Rotation_with_Cable,External Rotation with Cable,catalogo:0235,cable standing shoulder external rotation,72.46,0.5,True,True,sin_match,False
+free_exercise_db:Face_Pull,Face Pull,catalogo:3293,archer pull up,69.57,0.25,True,False,sin_match,False
+free_exercise_db:Farmers_Walk,Farmer's Walk,catalogo:2133,farmers walk,91.67,0.667,False,True,sin_match,False
+free_exercise_db:Fast_Skipping,Fast Skipping,catalogo:3304,skin the cat,56.0,0.0,False,True,sin_match,False
+free_exercise_db:Finger_Curls,Finger Curls,catalogo:0455,finger curls,100.0,1.0,True,True,exacto,True
+free_exercise_db:Flat_Bench_Cable_Flyes,Flat Bench Cable Flyes,catalogo:0151,cable bench press,68.42,0.4,True,True,sin_match,False
+free_exercise_db:Flat_Bench_Leg_Pull-In,Flat Bench Leg Pull-In,catalogo:0570,leg pull in flat bench,100.0,1.0,True,True,difuso,True
+free_exercise_db:Flat_Bench_Lying_Leg_Raise,Flat Bench Lying Leg Raise,catalogo:0620,lying leg raise flat bench,100.0,1.0,True,True,difuso,True
+free_exercise_db:Flexor_Incline_Dumbbell_Curls,Flexor Incline Dumbbell Curls,catalogo:0318,dumbbell incline curl,85.71,0.75,True,True,difuso,True
+free_exercise_db:Floor_Glute-Ham_Raise,Floor Glute-Ham Raise,catalogo:3193,glute-ham raise,83.33,0.75,True,True,sin_match,False
+free_exercise_db:Floor_Press,Floor Press,catalogo:2289,lever calf press,66.67,0.25,False,False,sin_match,False
+free_exercise_db:Floor_Press_with_Chains,Floor Press with Chains,catalogo:0751,smith close-grip bench press,64.0,0.125,True,False,sin_match,False
+free_exercise_db:Flutter_Kicks,Flutter Kicks,catalogo:0459,flutter kicks,100.0,1.0,True,True,exacto,True
+free_exercise_db:Foot-SMR,Foot-SMR,catalogo:3296,front lever,52.63,0.0,False,True,sin_match,False
+free_exercise_db:Forward_Drag_with_Press,Forward Drag with Press,catalogo:1012,band twisting overhead press,62.75,0.143,True,True,sin_match,False
+free_exercise_db:Frankenstein_Squat,Frankenstein Squat,catalogo:3194,frankenstein squat,100.0,1.0,False,True,exacto,True
+free_exercise_db:Freehand_Jump_Squat,Freehand Jump Squat,catalogo:0053,barbell jump squat,70.27,0.5,False,False,sin_match,False
+free_exercise_db:Frog_Hops,Frog Hops,catalogo:3301,frog planche,60.0,0.333,False,True,sin_match,False
+free_exercise_db:Frog_Sit-Ups,Frog Sit-Ups,catalogo:3202,half sit-up (male),72.73,0.5,True,True,sin_match,False
+free_exercise_db:Front_Barbell_Squat,Front Barbell Squat,catalogo:0024,barbell bench front squat,86.36,0.75,True,True,difuso,True
+free_exercise_db:Front_Barbell_Squat_To_A_Bench,Front Barbell Squat To A Bench,catalogo:0024,barbell bench front squat,90.91,0.667,True,True,difuso,True
+free_exercise_db:Front_Box_Jump,Front Box Jump,catalogo:0042,barbell front squat,54.55,0.2,True,True,sin_match,False
+free_exercise_db:Front_Cable_Raise,Front Cable Raise,catalogo:0162,cable front raise,100.0,1.0,True,True,difuso,True
+free_exercise_db:Front_Cone_Hops_or_hurdle_hops,Front Cone Hops (or hurdle hops),catalogo:0164,cable front shoulder raise,59.26,0.125,False,True,sin_match,False
+free_exercise_db:Front_Dumbbell_Raise,Front Dumbbell Raise,catalogo:0310,dumbbell front raise,100.0,1.0,True,True,difuso,True
+free_exercise_db:Front_Incline_Dumbbell_Raise,Front Incline Dumbbell Raise,catalogo:0325,dumbbell incline raise,88.0,0.75,True,True,difuso,True
+free_exercise_db:Front_Leg_Raises,Front Leg Raises,catalogo:3295,front lever reps,73.33,0.2,False,True,sin_match,False
+free_exercise_db:Front_Plate_Raise,Front Plate Raise,catalogo:0977,band front lateral raise,78.05,0.4,True,True,sin_match,False
+free_exercise_db:Front_Raise_And_Pullover,Front Raise And Pullover,catalogo:0040,barbell front raise and pullover,85.71,0.8,True,True,difuso,True
+free_exercise_db:Front_Squat_Clean_Grip,Front Squat (Clean Grip),catalogo:1433,smith front squat (clean grip),88.0,0.8,False,False,sin_match,False
+free_exercise_db:Front_Squats_With_Two_Kettlebells,Front Squats With Two Kettlebells,catalogo:0533,kettlebell front squat,83.02,0.6,False,True,sin_match,False
+free_exercise_db:Front_Two-Dumbbell_Raise,Front Two-Dumbbell Raise,catalogo:0310,dumbbell front raise,90.91,0.75,True,True,difuso,True
+free_exercise_db:Full_Range-Of-Motion_Lat_Pulldown,Full Range-Of-Motion Lat Pulldown,catalogo:2330,cable lat pulldown full range of motion,91.67,0.857,True,True,difuso,True
+free_exercise_db:Gironda_Sternum_Chins,Gironda Sternum Chins,catalogo:0466,gironda sternum chin,100.0,1.0,True,True,exacto,True
+free_exercise_db:Glute_Ham_Raise,Glute Ham Raise,catalogo:3193,glute-ham raise,100.0,1.0,True,False,exacto,True
+free_exercise_db:Glute_Kickback,Glute Kickback,catalogo:0860,cable kickback,78.57,0.333,False,False,sin_match,False
+free_exercise_db:Goblet_Squat,Goblet Squat,catalogo:1760,dumbbell goblet squat,72.73,0.667,True,True,sin_match,False
+free_exercise_db:Good_Morning,Good Morning,catalogo:0044,barbell good morning,75.0,0.667,True,True,sin_match,False
+free_exercise_db:Good_Morning_off_Pins,Good Morning off Pins,catalogo:0044,barbell good morning,60.0,0.4,True,True,sin_match,False
+free_exercise_db:Gorilla_Chin_Crunch,Gorilla Chin/Crunch,catalogo:0467,gorilla chin,77.42,0.667,True,True,sin_match,False
+free_exercise_db:Groin_and_Back_Stretch,Groin and Back Stretch,catalogo:2208,roller back stretch,73.17,0.4,False,True,sin_match,False
+free_exercise_db:Groiners,Groiners,catalogo:0455,finger curls,55.56,0.0,False,False,sin_match,False
+free_exercise_db:Hack_Squat,Hack Squat,catalogo:0743,sled hack squat,80.0,0.667,False,True,sin_match,False
+free_exercise_db:Hammer_Curls,Hammer Curls,catalogo:0313,dumbbell hammer curl,70.97,0.667,True,True,sin_match,False
+free_exercise_db:Hammer_Grip_Incline_DB_Bench_Press,Hammer Grip Incline DB Bench Press,catalogo:0169,cable incline bench press,74.58,0.429,True,False,sin_match,False
+free_exercise_db:Hamstring-SMR,Hamstring-SMR,catalogo:1511,hamstring stretch,80.0,0.333,True,False,sin_match,False
+free_exercise_db:Hamstring_Stretch,Hamstring Stretch,catalogo:1511,hamstring stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Handstand_Push-Ups,Handstand Push-Ups,catalogo:0471,handstand push-up,100.0,1.0,False,True,exacto,True
+free_exercise_db:Hang_Clean,Hang Clean,catalogo:0535,kettlebell hang clean,64.52,0.667,True,True,sin_match,False
+free_exercise_db:Hang_Clean_-_Below_the_Knees,Hang Clean - Below the Knees,catalogo:0535,kettlebell hang clean,65.22,0.333,True,True,sin_match,False
+free_exercise_db:Hang_Snatch,Hang Snatch,catalogo:1511,hamstring stretch,64.29,0.0,True,False,sin_match,False
+free_exercise_db:Hang_Snatch_-_Below_Knees,Hang Snatch - Below Knees,catalogo:0443,elbow-to-knee,62.86,0.167,False,False,sin_match,False
+free_exercise_db:Hanging_Bar_Good_Morning,Hanging Bar Good Morning,catalogo:0044,barbell good morning,72.73,0.75,True,True,sin_match,False
+free_exercise_db:Hanging_Leg_Raise,Hanging Leg Raise,catalogo:0472,hanging leg raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Hanging_Pike,Hanging Pike,catalogo:0473,hanging pike,100.0,1.0,True,True,exacto,True
+free_exercise_db:Heaving_Snatch_Balance,Heaving Snatch Balance,catalogo:1398,standing calves calf stretch,57.14,0.0,True,False,sin_match,False
+free_exercise_db:Heavy_Bag_Thrust,Heavy Bag Thrust,catalogo:3305,barbell thruster,62.5,0.25,True,True,sin_match,False
+free_exercise_db:High_Cable_Curls,High Cable Curls,catalogo:0868,cable curl,80.0,0.667,True,True,sin_match,False
+free_exercise_db:Hip_Circles_prone,Hip Circles (prone),catalogo:0639,one arm dip,59.26,0.0,False,True,sin_match,False
+free_exercise_db:Hip_Extension_with_Bands,Hip Extension with Bands,catalogo:0130,bench hip extension,76.19,0.4,True,False,sin_match,False
+free_exercise_db:Hip_Flexion_with_Band,Hip Flexion with Band,catalogo:1408,band hip lift,64.71,0.4,False,True,sin_match,False
+free_exercise_db:Hip_Lift_with_Band,Hip Lift with Band,catalogo:1408,band hip lift,83.87,0.75,True,True,sin_match,False
+free_exercise_db:Hug_A_Ball,Hug A Ball,catalogo:0095,barbell shrug,69.57,0.0,False,False,sin_match,False
+free_exercise_db:Hug_Knees_To_Chest,Hug Knees To Chest,catalogo:1418,hug keens to chest,94.12,0.6,False,True,sin_match,False
+free_exercise_db:Hurdle_Hops,Hurdle Hops,catalogo:3361,skater hops,50.0,0.333,,True,sin_match,False
+free_exercise_db:Hyperextensions_Back_Extensions,Hyperextensions (Back Extensions),catalogo:0573,lever back extension,69.39,0.5,True,True,sin_match,False
+free_exercise_db:Hyperextensions_With_No_Hyperextension_Bench,Hyperextensions With No Hyperextension Bench,catalogo:0488,hyperextension (on bench),69.7,0.4,True,True,sin_match,False
+free_exercise_db:IT_Band_and_Glute_Stretch,IT Band and Glute Stretch,catalogo:1709,assisted lying glutes stretch,67.92,0.286,True,True,sin_match,False
+free_exercise_db:Iliotibial_Tract-SMR,Iliotibial Tract-SMR,catalogo:0584,lever lateral raise,46.15,0.0,False,False,sin_match,False
+free_exercise_db:Inchworm,Inchworm,catalogo:1471,inchworm,100.0,1.0,False,True,exacto,True
+free_exercise_db:Inchworm,Inchworm,catalogo:3698,inchworm v. 2,100.0,1.0,False,True,exacto,True
+free_exercise_db:Incline_Barbell_Triceps_Extension,Incline Barbell Triceps Extension,catalogo:0330,dumbbell incline triceps extension,92.31,0.6,True,True,difuso,True
+free_exercise_db:Incline_Bench_Pull,Incline Bench Pull,catalogo:0570,leg pull in flat bench,75.0,0.333,False,False,sin_match,False
+free_exercise_db:Incline_Cable_Chest_Press,Incline Cable Chest Press,catalogo:1261,cable decline press,81.82,0.4,True,True,sin_match,False
+free_exercise_db:Incline_Cable_Flye,Incline Cable Flye,catalogo:0171,cable incline fly,97.14,1.0,True,True,difuso,True
+free_exercise_db:Incline_Dumbbell_Bench_With_Palms_Facing_In,Incline Dumbbell Bench With Palms Facing In,catalogo:1623,dumbbell palms in incline bench press,79.49,0.625,False,True,sin_match,False
+free_exercise_db:Incline_Dumbbell_Curl,Incline Dumbbell Curl,catalogo:0318,dumbbell incline curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Incline_Dumbbell_Flyes,Incline Dumbbell Flyes,catalogo:0319,dumbbell incline fly,97.56,1.0,True,True,difuso,True
+free_exercise_db:Incline_Dumbbell_Flyes_-_With_A_Twist,Incline Dumbbell Flyes - With A Twist,catalogo:0331,dumbbell incline twisted flyes,85.71,0.667,True,True,difuso,True
+free_exercise_db:Incline_Dumbbell_Press,Incline Dumbbell Press,catalogo:0314,dumbbell incline bench press,88.0,0.75,True,True,difuso,True
+free_exercise_db:Incline_Hammer_Curls,Incline Hammer Curls,catalogo:0320,dumbbell incline hammer curl,80.85,0.75,True,True,sin_match,False
+free_exercise_db:Incline_Inner_Biceps_Curl,Incline Inner Biceps Curl,catalogo:0322,dumbbell incline inner biceps curl,84.21,0.8,True,True,sin_match,False
+free_exercise_db:Incline_Push-Up,Incline Push-Up,catalogo:0493,incline push-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Incline_Push-Up_Close-Grip,Incline Push-Up Close-Grip,catalogo:0490,incline close-grip push-up,100.0,1.0,True,True,difuso,True
+free_exercise_db:Incline_Push-Up_Depth_Jump,Incline Push-Up Depth Jump,catalogo:0492,incline push up depth jump,100.0,1.0,True,True,exacto,True
+free_exercise_db:Incline_Push-Up_Medium,Incline Push-Up Medium,catalogo:0493,incline push-up,81.08,0.75,True,True,sin_match,False
+free_exercise_db:Incline_Push-Up_Reverse_Grip,Incline Push-Up Reverse Grip,catalogo:0494,incline reverse grip push-up,100.0,1.0,True,True,difuso,True
+free_exercise_db:Incline_Push-Up_Wide,Incline Push-Up Wide,catalogo:0493,incline push-up,85.71,0.75,True,True,difuso,True
+free_exercise_db:Intermediate_Groin_Stretch,Intermediate Groin Stretch,catalogo:1564,intermediate hip flexor and quad stretch,69.7,0.286,True,True,sin_match,False
+free_exercise_db:Intermediate_Hip_Flexor_and_Quad_Stretch,Intermediate Hip Flexor and Quad Stretch,catalogo:1564,intermediate hip flexor and quad stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Internal_Rotation_with_Band,Internal Rotation with Band,catalogo:0996,band seated hip internal rotation,80.0,0.5,False,True,sin_match,False
+free_exercise_db:Inverted_Row,Inverted Row,catalogo:0499,inverted row,100.0,1.0,True,True,exacto,True
+free_exercise_db:Inverted_Row,Inverted Row,catalogo:0497,inverted row v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Inverted_Row_with_Straps,Inverted Row with Straps,catalogo:0498,inverted row with straps,100.0,1.0,True,True,exacto,True
+free_exercise_db:Iron_Cross,Iron Cross,catalogo:1419,iron cross stretch,71.43,0.667,False,False,sin_match,False
+free_exercise_db:Iron_Crosses_stretch,Iron Crosses (stretch),catalogo:1419,iron cross stretch,97.3,1.0,False,True,sin_match,False
+free_exercise_db:Isometric_Chest_Squeezes,Isometric Chest Squeezes,catalogo:1297,isometric chest squeeze,100.0,1.0,True,True,exacto,True
+free_exercise_db:Isometric_Neck_Exercise_-_Front_And_Back,Isometric Neck Exercise - Front And Back,catalogo:1263,cable one arm fly on exercise ball,61.11,0.083,False,False,sin_match,False
+free_exercise_db:Isometric_Neck_Exercise_-_Sides,Isometric Neck Exercise - Sides,catalogo:1297,isometric chest squeeze,58.82,0.167,False,True,sin_match,False
+free_exercise_db:Isometric_Wipers,Isometric Wipers,catalogo:0500,isometric wipers,100.0,1.0,True,True,exacto,True
+free_exercise_db:JM_Press,JM Press,catalogo:0816,triceps press,58.82,0.5,True,False,sin_match,False
+free_exercise_db:Jackknife_Sit-Up,Jackknife Sit-Up,catalogo:0507,jackknife sit-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Janda_Sit-Up,Janda Sit-Up,catalogo:0508,janda sit-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Jefferson_Squats,Jefferson Squats,catalogo:0051,barbell jefferson squat,78.95,0.667,False,True,sin_match,False
+free_exercise_db:Jerk_Balance,Jerk Balance,catalogo:0020,balance board,72.0,0.333,False,False,sin_match,False
+free_exercise_db:Jerk_Dip_Squat,Jerk Dip Squat,catalogo:0786,squat jerk,83.33,0.667,True,True,sin_match,False
+free_exercise_db:Jogging_Treadmill,"Jogging, Treadmill",catalogo:3666,walking on incline treadmill,53.33,0.2,,True,sin_match,False
+free_exercise_db:Keg_Load,Keg Load,catalogo:2139,hands bike,58.82,0.0,False,True,sin_match,False
+free_exercise_db:Kettlebell_Arnold_Press,Kettlebell Arnold Press,catalogo:0523,kettlebell arnold press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kettlebell_Dead_Clean,Kettlebell Dead Clean,catalogo:0535,kettlebell hang clean,85.71,0.5,True,True,sin_match,False
+free_exercise_db:Kettlebell_Figure_8,Kettlebell Figure 8,catalogo:0532,kettlebell figure 8,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kettlebell_Halo,Kettlebell Halo,catalogo:0535,kettlebell hang clean,72.22,0.25,False,True,sin_match,False
+free_exercise_db:Kettlebell_Halo_With_Overhead_Extension,Kettlebell Halo with Overhead Extension,catalogo:0521,kettlebell alternating renegade row,62.16,0.125,False,True,sin_match,False
+free_exercise_db:Kettlebell_Hang_Clean,Kettlebell Hang Clean,catalogo:0535,kettlebell hang clean,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kettlebell_One-Legged_Deadlift,Kettlebell One-Legged Deadlift,catalogo:1757,dumbbell single leg deadlift,68.97,0.333,True,True,sin_match,False
+free_exercise_db:Kettlebell_Overhead_Triceps_Extension,Kettlebell Overhead Triceps Extension,catalogo:0607,lever triceps extension,75.86,0.4,True,False,sin_match,False
+free_exercise_db:Kettlebell_Pass_Between_The_Legs,Kettlebell Pass Between The Legs,catalogo:0536,kettlebell lunge pass through,70.0,0.286,False,True,sin_match,False
+free_exercise_db:Kettlebell_Pirate_Ships,Kettlebell Pirate Ships,catalogo:0543,kettlebell pirate supper legs,80.0,0.4,True,True,sin_match,False
+free_exercise_db:Kettlebell_Pistol_Squat,Kettlebell Pistol Squat,catalogo:0544,kettlebell pistol squat,100.0,1.0,False,True,exacto,True
+free_exercise_db:Kettlebell_Seated_Press,Kettlebell Seated Press,catalogo:0546,kettlebell seated press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kettlebell_Seesaw_Press,Kettlebell Seesaw Press,catalogo:0547,kettlebell seesaw press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kettlebell_Sumo_High_Pull,Kettlebell Sumo High Pull,catalogo:0548,kettlebell sumo high pull,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kettlebell_Thruster,Kettlebell Thruster,catalogo:0550,kettlebell thruster,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kettlebell_Turkish_Get-Up_Lunge_style,Kettlebell Turkish Get-Up (Lunge style),catalogo:0551,kettlebell turkish get up (squat style),89.19,0.714,False,True,sin_match,False
+free_exercise_db:Kettlebell_Turkish_Get-Up_Squat_style,Kettlebell Turkish Get-Up (Squat style),catalogo:0551,kettlebell turkish get up (squat style),100.0,1.0,False,True,exacto,True
+free_exercise_db:Kettlebell_Windmill,Kettlebell Windmill,catalogo:0554,kettlebell windmill,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kipping_Muscle_Up,Kipping Muscle Up,catalogo:0558,kipping muscle up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Knee_Across_The_Body,Knee Across The Body,catalogo:1419,iron cross stretch,57.89,0.167,True,True,sin_match,False
+free_exercise_db:Knee_Circles,Knee Circles,catalogo:0257,circles knee stretch,73.33,0.667,True,True,sin_match,False
+free_exercise_db:Knee_Hip_Raise_On_Parallel_Bars,Knee/Hip Raise On Parallel Bars,catalogo:0709,side hip (on parallel bars),81.48,0.571,True,True,sin_match,False
+free_exercise_db:Knee_Tuck_Jump,Knee Tuck Jump,catalogo:1420,kneeling jump squat,66.67,0.5,True,False,sin_match,False
+free_exercise_db:Kneeling_Arm_Drill,Kneeling Arm Drill,catalogo:0639,one arm dip,62.07,0.2,False,True,sin_match,False
+free_exercise_db:Kneeling_Cable_Crunch_With_Alternating_Oblique_Twists,Kneeling Cable Crunch With Alternating Oblique Twists,catalogo:0985,band kneeling twisting crunch,61.73,0.375,True,False,sin_match,False
+free_exercise_db:Kneeling_Cable_Triceps_Extension,Kneeling Cable Triceps Extension,catalogo:0176,cable kneeling triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Kneeling_Forearm_Stretch,Kneeling Forearm Stretch,catalogo:1346,kneeling lat stretch,72.73,0.5,False,True,sin_match,False
+free_exercise_db:Kneeling_High_Pulley_Row,Kneeling High Pulley Row,catalogo:0167,cable high row (kneeling),72.34,0.6,False,True,sin_match,False
+free_exercise_db:Kneeling_Hip_Flexor,Kneeling Hip Flexor,catalogo:0167,cable high row (kneeling),66.67,0.167,False,True,sin_match,False
+free_exercise_db:Kneeling_Jump_Squat,Kneeling Jump Squat,catalogo:1420,kneeling jump squat,100.0,1.0,True,True,exacto,True
+free_exercise_db:Kneeling_Single-Arm_High_Pulley_Row,Kneeling Single-Arm High Pulley Row,catalogo:0193,cable one arm straight back high row (kneeling),67.5,0.4,False,True,sin_match,False
+free_exercise_db:Kneeling_Squat,Kneeling Squat,catalogo:1420,kneeling jump squat,84.85,0.667,True,True,sin_match,False
+free_exercise_db:Landmine_180s,Landmine 180's,catalogo:0562,landmine 180,92.31,0.667,True,True,difuso,True
+free_exercise_db:Landmine_Linear_Jammer,Landmine Linear Jammer,catalogo:3237,landmine lateral raise,59.09,0.2,True,True,sin_match,False
+free_exercise_db:Lateral_Bound,Lateral Bound,catalogo:1313,lever unilateral row,60.61,0.0,False,False,sin_match,False
+free_exercise_db:Lateral_Box_Jump,Lateral Box Jump,catalogo:3223,star jump (male),56.0,0.25,,True,sin_match,False
+free_exercise_db:Lateral_Cone_Hops,Lateral Cone Hops,catalogo:3361,skater hops,61.54,0.25,,True,sin_match,False
+free_exercise_db:Lateral_Raise_-_With_Bands,Lateral Raise - With Bands,catalogo:0977,band front lateral raise,76.6,0.6,True,True,sin_match,False
+free_exercise_db:Latissimus_Dorsi-SMR,Latissimus Dorsi-SMR,catalogo:1712,assisted side lying adductor stretch,47.27,0.0,False,False,sin_match,False
+free_exercise_db:Leg-Over_Floor_Press,Leg-Over Floor Press,catalogo:2289,lever calf press,72.22,0.167,False,False,sin_match,False
+free_exercise_db:Leg-Up_Hamstring_Stretch,Leg-Up Hamstring Stretch,catalogo:1576,leg up hamstring stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leg_Extensions,Leg Extensions,catalogo:0585,lever leg extension,81.25,0.667,True,True,sin_match,False
+free_exercise_db:Leg_Lift,Leg Lift,catalogo:0157,cable deadlift,63.64,0.0,True,False,sin_match,False
+free_exercise_db:Leg_Press,Leg Press,catalogo:0760,smith leg press,75.0,0.667,False,True,sin_match,False
+free_exercise_db:Leg_Pull-In,Leg Pull-In,catalogo:0570,leg pull in flat bench,66.67,0.6,True,True,sin_match,False
+free_exercise_db:Leverage_Chest_Press,Leverage Chest Press,catalogo:0577,lever chest press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Chest_Press,Leverage Chest Press,catalogo:0576,lever chest press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Deadlift,Leverage Deadlift,catalogo:0578,lever deadlift,100.0,1.0,False,True,exacto,True
+free_exercise_db:Leverage_Decline_Chest_Press,Leverage Decline Chest Press,catalogo:1300,lever decline chest press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_High_Row,Leverage High Row,catalogo:0581,lever high row,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Incline_Chest_Press,Leverage Incline Chest Press,catalogo:1299,lever incline chest press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Incline_Chest_Press,Leverage Incline Chest Press,catalogo:1479,lever incline chest press v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Iso_Row,Leverage Iso Row,catalogo:0581,lever high row,81.48,0.5,False,True,sin_match,False
+free_exercise_db:Leverage_Shoulder_Press,Leverage Shoulder Press,catalogo:0603,lever shoulder press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Shoulder_Press,Leverage Shoulder Press,catalogo:0869,lever shoulder press v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Shoulder_Press,Leverage Shoulder Press,catalogo:2318,lever shoulder press v. 3,100.0,1.0,True,True,exacto,True
+free_exercise_db:Leverage_Shrug,Leverage Shrug,catalogo:0604,lever shrug,100.0,1.0,True,True,exacto,True
+free_exercise_db:Linear_3-Part_Start_Technique,Linear 3-Part Start Technique,catalogo:1346,kneeling lat stretch,53.06,0.0,False,True,sin_match,False
+free_exercise_db:Linear_Acceleration_Wall_Drill,Linear Acceleration Wall Drill,catalogo:0297,dumbbell concentration curl,56.14,0.0,False,True,sin_match,False
+free_exercise_db:Linear_Depth_Jump,Linear Depth Jump,catalogo:1328,dumbbell lying rear delt row,57.78,0.0,False,True,sin_match,False
+free_exercise_db:Log_Lift,Log Lift,catalogo:0578,lever deadlift,54.55,0.0,False,True,sin_match,False
+free_exercise_db:London_Bridges,London Bridges,catalogo:0609,london bridge,100.0,1.0,False,True,exacto,True
+free_exercise_db:Looking_At_Ceiling,Looking At Ceiling,catalogo:1460,walking lunge,58.06,0.0,False,True,sin_match,False
+free_exercise_db:Low_Cable_Crossover,Low Cable Crossover,catalogo:0155,cable cross-over variation,75.56,0.4,True,True,sin_match,False
+free_exercise_db:Low_Cable_Triceps_Extension,Low Cable Triceps Extension,catalogo:0186,cable lying triceps extension v. 2,88.89,0.6,True,True,difuso,True
+free_exercise_db:Low_Pulley_Row_To_Neck,Low Pulley Row To Neck,catalogo:2312,lying elbow to knee,58.54,0.125,False,False,sin_match,False
+free_exercise_db:Lower_Back-SMR,Lower Back-SMR,catalogo:1352,lower back curl,68.97,0.5,True,False,sin_match,False
+free_exercise_db:Lower_Back_Curl,Lower Back Curl,catalogo:1352,lower back curl,100.0,1.0,True,True,exacto,True
+free_exercise_db:Lunge_Pass_Through,Lunge Pass Through,catalogo:0536,kettlebell lunge pass through,76.6,0.75,True,True,sin_match,False
+free_exercise_db:Lunge_Sprint,Lunge Sprint,catalogo:0769,smith sprint lunge,80.0,0.667,False,True,sin_match,False
+free_exercise_db:Lying_Bent_Leg_Groin,Lying Bent Leg Groin,catalogo:2355,arm slingers hanging bent knee legs,64.15,0.25,False,True,sin_match,False
+free_exercise_db:Lying_Cable_Curl,Lying Cable Curl,catalogo:1634,cable lying bicep curl,84.21,0.75,True,True,sin_match,False
+free_exercise_db:Lying_Cambered_Barbell_Row,Lying Cambered Barbell Row,catalogo:0248,cambered bar lying row,91.67,1.0,True,True,difuso,True
+free_exercise_db:Lying_Close-Grip_Bar_Curl_On_High_Pulley,Lying Close-Grip Bar Curl On High Pulley,catalogo:0182,cable lying close-grip curl,68.66,0.444,True,True,sin_match,False
+free_exercise_db:Lying_Close-Grip_Barbell_Triceps_Extension_Behind_The_Head,Lying Close-Grip Barbell Triceps Extension Behind The Head,catalogo:1748,ez bar lying close grip triceps extension behind head,89.91,0.8,True,True,difuso,True
+free_exercise_db:Lying_Close-Grip_Barbell_Triceps_Press_To_Chin,Lying Close-Grip Barbell Triceps Press To Chin,catalogo:0055,barbell lying close-grip press,80.0,0.625,True,True,sin_match,False
+free_exercise_db:Lying_Crossover,Lying Crossover,catalogo:0586,lever lying leg curl,62.86,0.2,True,False,sin_match,False
+free_exercise_db:Lying_Dumbbell_Tricep_Extension,Lying Dumbbell Tricep Extension,catalogo:0351,dumbbell lying triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Lying_Face_Down_Plate_Neck_Resistance,Lying Face Down Plate Neck Resistance,catalogo:3007,resistance band leg extension,57.58,0.111,False,True,sin_match,False
+free_exercise_db:Lying_Face_Up_Plate_Neck_Resistance,Lying Face Up Plate Neck Resistance,catalogo:3236,resistance band hip thrusts on knees (female),57.97,0.091,False,True,sin_match,False
+free_exercise_db:Lying_Glute,Lying Glute,catalogo:1460,walking lunge,66.67,0.0,True,True,sin_match,False
+free_exercise_db:Lying_Hamstring,Lying Hamstring,catalogo:1511,hamstring stretch,62.5,0.333,True,True,sin_match,False
+free_exercise_db:Lying_High_Bench_Barbell_Curl,Lying High Bench Barbell Curl,catalogo:0058,barbell lying lifting (on hip),66.67,0.25,False,True,sin_match,False
+free_exercise_db:Lying_Leg_Curls,Lying Leg Curls,catalogo:0586,lever lying leg curl,82.35,0.75,True,True,sin_match,False
+free_exercise_db:Lying_Machine_Squat,Lying Machine Squat,catalogo:0744,sled lying squat,74.29,0.5,False,True,sin_match,False
+free_exercise_db:Lying_One-Arm_Lateral_Raise,Lying One-Arm Lateral Raise,catalogo:0345,dumbbell lying one arm rear lateral raise,79.41,0.714,True,True,sin_match,False
+free_exercise_db:Lying_Prone_Quadriceps,Lying Prone Quadriceps,catalogo:1713,assisted prone lying quads stretch,66.67,0.6,True,False,sin_match,False
+free_exercise_db:Lying_Rear_Delt_Raise,Lying Rear Delt Raise,catalogo:0348,dumbbell lying rear lateral raise,77.78,0.5,True,True,sin_match,False
+free_exercise_db:Lying_Supine_Dumbbell_Curl,Lying Supine Dumbbell Curl,catalogo:0350,dumbbell lying supine curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Lying_T-Bar_Row,Lying T-Bar Row,catalogo:0606,lever t bar row,73.33,0.6,True,True,sin_match,False
+free_exercise_db:Lying_Triceps_Press,Lying Triceps Press,catalogo:0816,triceps press,80.0,0.667,True,False,sin_match,False
+free_exercise_db:Machine_Bench_Press,Machine Bench Press,catalogo:0151,cable bench press,77.78,0.5,True,False,sin_match,False
+free_exercise_db:Machine_Bicep_Curl,Machine Bicep Curl,catalogo:1683,smith machine bicep curl,76.47,0.5,True,True,sin_match,False
+free_exercise_db:Machine_Preacher_Curls,Machine Preacher Curls,catalogo:0592,lever preacher curl,75.0,0.5,True,True,sin_match,False
+free_exercise_db:Machine_Shoulder_Military_Press,Machine Shoulder (Military) Press,catalogo:0997,band shoulder press,68.0,0.4,True,False,sin_match,False
+free_exercise_db:Machine_Triceps_Extension,Machine Triceps Extension,catalogo:0607,lever triceps extension,78.26,0.5,True,True,sin_match,False
+free_exercise_db:Medicine_Ball_Chest_Pass,Medicine Ball Chest Pass,catalogo:1302,medicine ball chest pass,100.0,1.0,True,True,exacto,True
+free_exercise_db:Medicine_Ball_Full_Twist,Medicine Ball Full Twist,catalogo:0331,dumbbell incline twisted flyes,67.92,0.143,False,False,sin_match,False
+free_exercise_db:Medicine_Ball_Scoop_Throw,Medicine Ball Scoop Throw,catalogo:1750,medicine ball supine chest throw,77.19,0.5,False,True,sin_match,False
+free_exercise_db:Middle_Back_Shrug,Middle Back Shrug,catalogo:1018,band shrug,66.67,0.25,True,False,sin_match,False
+free_exercise_db:Middle_Back_Stretch,Middle Back Stretch,catalogo:1405,back pec stretch,80.0,0.5,False,True,sin_match,False
+free_exercise_db:Mixed_Grip_Chin,Mixed Grip Chin,catalogo:0627,mixed grip chin-up,90.91,0.75,False,True,sin_match,False
+free_exercise_db:Monster_Walk,Monster Walk,catalogo:0628,monster walk,100.0,1.0,True,False,exacto,True
+free_exercise_db:Mountain_Climbers,Mountain Climbers,catalogo:0630,mountain climber,100.0,1.0,,True,exacto,True
+free_exercise_db:Moving_Claw_Series,Moving Claw Series,catalogo:0455,finger curls,57.14,0.0,False,True,sin_match,False
+free_exercise_db:Muscle_Snatch,Muscle Snatch,catalogo:0776,snatch pull,75.0,0.333,True,True,sin_match,False
+free_exercise_db:Muscle_Up,Muscle Up,catalogo:0631,muscle up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Narrow_Stance_Hack_Squats,Narrow Stance Hack Squats,catalogo:0063,barbell narrow stance squat,82.35,0.6,False,False,sin_match,False
+free_exercise_db:Narrow_Stance_Leg_Press,Narrow Stance Leg Press,catalogo:0063,barbell narrow stance squat,68.0,0.333,False,False,sin_match,False
+free_exercise_db:Narrow_Stance_Squats,Narrow Stance Squats,catalogo:0063,barbell narrow stance squat,82.61,0.75,False,True,sin_match,False
+free_exercise_db:Natural_Glute_Ham_Raise,Natural Glute Ham Raise,catalogo:3193,glute-ham raise,78.95,0.75,True,True,sin_match,False
+free_exercise_db:Neck-SMR,Neck-SMR,catalogo:3433,swimmer kicks v. 2 (male),60.0,0.0,False,True,sin_match,False
+free_exercise_db:Neck_Press,Neck Press,catalogo:1254,band bench press,69.23,0.25,True,False,sin_match,False
+free_exercise_db:Oblique_Crunches,Oblique Crunches,catalogo:1495,oblique crunch v. 2,96.55,1.0,True,True,difuso,True
+free_exercise_db:Oblique_Crunches_-_On_The_Floor,Oblique Crunches - On The Floor,catalogo:0635,oblique crunches floor,85.71,0.6,True,True,difuso,True
+free_exercise_db:Olympic_Squat,Olympic Squat,catalogo:0514,jump squat,69.57,0.333,False,False,sin_match,False
+free_exercise_db:On-Your-Back_Quad_Stretch,On-Your-Back Quad Stretch,catalogo:1365,upper back stretch,69.77,0.333,False,True,sin_match,False
+free_exercise_db:On_Your_Side_Quad_Stretch,On Your Side Quad Stretch,catalogo:0613,lying (side) quads stretch,79.17,0.5,True,True,sin_match,False
+free_exercise_db:One-Arm_Dumbbell_Row,One-Arm Dumbbell Row,catalogo:0363,dumbbell one arm upright row,83.33,0.8,False,True,sin_match,False
+free_exercise_db:One-Arm_Flat_Bench_Dumbbell_Flye,One-Arm Flat Bench Dumbbell Flye,catalogo:1285,dumbbell one arm bench fly,89.66,0.833,True,True,difuso,True
+free_exercise_db:One-Arm_High-Pulley_Cable_Side_Bends,One-Arm High-Pulley Cable Side Bends,catalogo:3563,cable one arm pulldown,66.67,0.375,False,True,sin_match,False
+free_exercise_db:One-Arm_Incline_Lateral_Raise,One-Arm Incline Lateral Raise,catalogo:0323,dumbbell incline one arm lateral raise,86.57,0.833,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Clean,One-Arm Kettlebell Clean,catalogo:0552,kettlebell two arm clean,91.67,0.6,False,True,sin_match,False
+free_exercise_db:One-Arm_Kettlebell_Clean_and_Jerk,One-Arm Kettlebell Clean and Jerk,catalogo:0537,kettlebell one arm clean and jerk,100.0,1.0,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Floor_Press,One-Arm Kettlebell Floor Press,catalogo:1298,kettlebell one arm floor press,100.0,1.0,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Jerk,One-Arm Kettlebell Jerk,catalogo:0538,kettlebell one arm jerk,100.0,1.0,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Military_Press_To_The_Side,One-Arm Kettlebell Military Press To The Side,catalogo:0539,kettlebell one arm military press to the side,100.0,1.0,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Para_Press,One-Arm Kettlebell Para Press,catalogo:0540,kettlebell one arm push press,82.76,0.667,True,True,sin_match,False
+free_exercise_db:One-Arm_Kettlebell_Push_Press,One-Arm Kettlebell Push Press,catalogo:0540,kettlebell one arm push press,100.0,1.0,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Row,One-Arm Kettlebell Row,catalogo:0541,kettlebell one arm row,100.0,1.0,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Snatch,One-Arm Kettlebell Snatch,catalogo:0542,kettlebell one arm snatch,100.0,1.0,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Split_Jerk,One-Arm Kettlebell Split Jerk,catalogo:0538,kettlebell one arm jerk,88.46,0.8,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Split_Snatch,One-Arm Kettlebell Split Snatch,catalogo:0542,kettlebell one arm snatch,89.29,0.8,True,True,difuso,True
+free_exercise_db:One-Arm_Kettlebell_Swings,One-Arm Kettlebell Swings,catalogo:0541,kettlebell one arm row,86.96,0.6,False,True,sin_match,False
+free_exercise_db:One-Arm_Long_Bar_Row,One-Arm Long Bar Row,catalogo:0988,band one arm standing low row,69.39,0.375,True,False,sin_match,False
+free_exercise_db:One-Arm_Medicine_Ball_Slam,One-Arm Medicine Ball Slam,catalogo:0640,one arm slam (with medicine ball),91.23,0.833,True,True,difuso,True
+free_exercise_db:One-Arm_Open_Palm_Kettlebell_Clean,One-Arm Open Palm Kettlebell Clean,catalogo:0552,kettlebell two arm clean,75.86,0.429,False,True,sin_match,False
+free_exercise_db:One-Arm_Overhead_Kettlebell_Squats,One-Arm Overhead Kettlebell Squats,catalogo:0069,barbell overhead squat,76.36,0.333,True,True,sin_match,False
+free_exercise_db:One-Arm_Side_Deadlift,One-Arm Side Deadlift,catalogo:0066,barbell one arm side deadlift,84.0,0.8,False,True,sin_match,False
+free_exercise_db:One-Arm_Side_Laterals,One-Arm Side Laterals,catalogo:0192,cable one arm lateral raise,76.6,0.5,True,False,sin_match,False
+free_exercise_db:One-Legged_Cable_Kickback,One-Legged Cable Kickback,catalogo:0860,cable kickback,71.79,0.5,False,True,sin_match,False
+free_exercise_db:One_Arm_Against_Wall,One Arm Against Wall,catalogo:1355,one arm against wall,100.0,1.0,True,True,exacto,True
+free_exercise_db:One_Arm_Chin-Up,One Arm Chin-Up,catalogo:0638,one arm chin-up,100.0,1.0,False,True,exacto,True
+free_exercise_db:One_Arm_Dumbbell_Bench_Press,One Arm Dumbbell Bench Press,catalogo:0289,dumbbell bench press,83.33,0.6,True,True,sin_match,False
+free_exercise_db:One_Arm_Dumbbell_Preacher_Curl,One Arm Dumbbell Preacher Curl,catalogo:1663,dumbbell one arm hammer preacher curl,89.55,0.833,True,True,difuso,True
+free_exercise_db:One_Arm_Floor_Press,One Arm Floor Press,catalogo:0065,barbell one arm floor press,82.61,0.8,True,True,sin_match,False
+free_exercise_db:One_Arm_Lat_Pulldown,One Arm Lat Pulldown,catalogo:3563,cable one arm pulldown,85.71,0.6,True,True,difuso,True
+free_exercise_db:One_Arm_Pronated_Dumbbell_Triceps_Extension,One Arm Pronated Dumbbell Triceps Extension,catalogo:0344,dumbbell lying one arm pronated triceps extension,93.33,0.857,True,True,difuso,True
+free_exercise_db:One_Arm_Supinated_Dumbbell_Triceps_Extension,One Arm Supinated Dumbbell Triceps Extension,catalogo:0346,dumbbell lying one arm supinated triceps extension,93.48,0.857,True,True,difuso,True
+free_exercise_db:One_Half_Locust,One Half Locust,catalogo:3202,half sit-up (male),61.54,0.2,False,True,sin_match,False
+free_exercise_db:One_Handed_Hang,One Handed Hang,catalogo:0016,assisted prone hamstring,61.54,0.0,False,True,sin_match,False
+free_exercise_db:One_Knee_To_Chest,One Knee To Chest,catalogo:1418,hug keens to chest,76.47,0.333,True,True,sin_match,False
+free_exercise_db:One_Leg_Barbell_Squat,One Leg Barbell Squat,catalogo:0068,barbell one leg squat,100.0,1.0,True,True,difuso,True
+free_exercise_db:Open_Palm_Kettlebell_Clean,Open Palm Kettlebell Clean,catalogo:0552,kettlebell two arm clean,72.0,0.333,False,True,sin_match,False
+free_exercise_db:Otis-Up,Otis-Up,catalogo:0641,otis up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Overhead_Cable_Curl,Overhead Cable Curl,catalogo:1636,cable overhead curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Overhead_Lat,Overhead Lat,catalogo:1636,cable overhead curl,64.52,0.25,False,True,sin_match,False
+free_exercise_db:Overhead_Slam,Overhead Slam,catalogo:1354,medicine ball overhead slam,65.0,0.5,False,True,sin_match,False
+free_exercise_db:Overhead_Squat,Overhead Squat,catalogo:0069,barbell overhead squat,77.78,0.667,True,True,sin_match,False
+free_exercise_db:Overhead_Stretch,Overhead Stretch,catalogo:0643,overhead triceps stretch,82.05,0.667,False,True,sin_match,False
+free_exercise_db:Overhead_Triceps,Overhead Triceps,catalogo:0643,overhead triceps stretch,78.95,0.667,True,True,sin_match,False
+free_exercise_db:Pallof_Press,Pallof Press,catalogo:2289,lever calf press,64.29,0.25,False,False,sin_match,False
+free_exercise_db:Pallof_Press_With_Rotation,Pallof Press With Rotation,catalogo:1336,exercise ball back extension with rotation,61.76,0.25,True,False,sin_match,False
+free_exercise_db:Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench,Palms-Down Dumbbell Wrist Curl Over A Bench,catalogo:0369,dumbbell over bench wrist curl,83.33,0.625,True,True,sin_match,False
+free_exercise_db:Palms-Down_Wrist_Curl_Over_A_Bench,Palms-Down Wrist Curl Over A Bench,catalogo:1411,barbell palms down wrist curl over a bench,89.19,0.875,True,True,difuso,True
+free_exercise_db:Palms-Up_Barbell_Wrist_Curl_Over_A_Bench,Palms-Up Barbell Wrist Curl Over A Bench,catalogo:1412,barbell palms up wrist curl over a bench,100.0,1.0,True,True,difuso,True
+free_exercise_db:Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench,Palms-Up Dumbbell Wrist Curl Over A Bench,catalogo:0369,dumbbell over bench wrist curl,85.71,0.625,True,True,difuso,True
+free_exercise_db:Parallel_Bar_Dip,Parallel Bar Dip,catalogo:0709,side hip (on parallel bars),75.0,0.333,False,True,sin_match,False
+free_exercise_db:Pelvic_Tilt_Into_Bridge,Pelvic Tilt Into Bridge,catalogo:1422,pelvic tilt into bridge,100.0,1.0,False,True,exacto,True
+free_exercise_db:Peroneals-SMR,Peroneals-SMR,catalogo:1388,peroneals stretch,78.57,0.333,True,False,sin_match,False
+free_exercise_db:Peroneals_Stretch,Peroneals Stretch,catalogo:1388,peroneals stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Physioball_Hip_Bridge,Physioball Hip Bridge,catalogo:1774,side bridge hip abduction,56.52,0.4,True,False,sin_match,False
+free_exercise_db:Pin_Presses,Pin Presses,catalogo:1751,barbell pin presses,71.43,0.667,True,True,sin_match,False
+free_exercise_db:Piriformis-SMR,Piriformis-SMR,catalogo:2567,seated piriformis stretch,64.86,0.25,True,False,sin_match,False
+free_exercise_db:Plank,Plank,catalogo:3301,frog planche,47.06,0.0,True,True,sin_match,False
+free_exercise_db:Plate_Pinch,Plate Pinch,catalogo:3147,pelvic tilt,54.55,0.0,False,True,sin_match,False
+free_exercise_db:Plate_Twist,Plate Twist,catalogo:0243,cable twist,72.73,0.333,True,True,sin_match,False
+free_exercise_db:Platform_Hamstring_Slides,Platform Hamstring Slides,catalogo:0730,single leg platform slide,65.31,0.4,True,True,sin_match,False
+free_exercise_db:Plie_Dumbbell_Squat,Plie Dumbbell Squat,catalogo:0371,dumbbell plyo squat,89.47,0.5,False,True,sin_match,False
+free_exercise_db:Plyo_Kettlebell_Pushups,Plyo Kettlebell Pushups,catalogo:0545,kettlebell plyo push-up,100.0,1.0,True,True,difuso,True
+free_exercise_db:Plyo_Push-up,Plyo Push-up,catalogo:1306,plyo push up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Posterior_Tibialis_Stretch,Posterior Tibialis Stretch,catalogo:1389,posterior tibialis stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Power_Clean,Power Clean,catalogo:0648,power clean,100.0,1.0,True,True,exacto,True
+free_exercise_db:Power_Clean_from_Blocks,Power Clean from Blocks,catalogo:0648,power clean,66.67,0.5,True,True,sin_match,False
+free_exercise_db:Power_Jerk,Power Jerk,catalogo:0648,power clean,66.67,0.333,True,True,sin_match,False
+free_exercise_db:Power_Partials,Power Partials,catalogo:3665,power point plank,60.0,0.25,False,False,sin_match,False
+free_exercise_db:Power_Snatch,Power Snatch,catalogo:0776,snatch pull,69.57,0.333,True,True,sin_match,False
+free_exercise_db:Power_Snatch_from_Blocks,Power Snatch from Blocks,catalogo:2208,roller back stretch,61.9,0.0,False,False,sin_match,False
+free_exercise_db:Power_Stairs,Power Stairs,catalogo:3223,star jump (male),60.0,0.333,,True,sin_match,False
+free_exercise_db:Preacher_Curl,Preacher Curl,catalogo:0195,cable preacher curl,81.25,0.667,True,False,sin_match,False
+free_exercise_db:Preacher_Hammer_Dumbbell_Curl,Preacher Hammer Dumbbell Curl,catalogo:0370,dumbbell peacher hammer curl,98.25,1.0,True,True,difuso,True
+free_exercise_db:Press_Sit-Up,Press Sit-Up,catalogo:0071,barbell press sit-up,75.0,0.75,True,True,sin_match,False
+free_exercise_db:Prone_Manual_Hamstring,Prone Manual Hamstring,catalogo:0016,assisted prone hamstring,65.22,0.5,True,True,sin_match,False
+free_exercise_db:Prowler_Sprint,Prowler Sprint,catalogo:0859,wrist rollerer,64.29,0.0,False,True,sin_match,False
+free_exercise_db:Pull_Through,Pull Through,catalogo:0991,band pull through,82.76,0.667,True,False,sin_match,False
+free_exercise_db:Pullups,Pullups,catalogo:0652,pull-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Push-Up_Wide,Push-Up Wide,catalogo:1311,wide hand push up,82.76,0.75,True,True,sin_match,False
+free_exercise_db:Push-Ups_-_Close_Triceps_Position,Push-Ups - Close Triceps Position,catalogo:0490,incline close-grip push-up,65.45,0.429,True,True,sin_match,False
+free_exercise_db:Push-Ups_With_Feet_Elevated,Push-Ups With Feet Elevated,catalogo:1311,wide hand push up,60.47,0.286,True,True,sin_match,False
+free_exercise_db:Push-Ups_With_Feet_On_An_Exercise_Ball,Push-Ups With Feet On An Exercise Ball,catalogo:0655,push-up (on stability ball),78.69,0.625,True,True,sin_match,False
+free_exercise_db:Push_Press,Push Press,catalogo:1700,dumbbell push press,68.97,0.667,True,True,sin_match,False
+free_exercise_db:Push_Press_-_Behind_the_Neck,Push Press - Behind the Neck,catalogo:0747,smith behind neck press,85.71,0.5,True,False,sin_match,False
+free_exercise_db:Push_Up_to_Side_Plank,Push Up to Side Plank,catalogo:0664,push-up to side plank,100.0,1.0,False,True,exacto,True
+free_exercise_db:Pushups,Pushups,catalogo:0662,push-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Pushups_Close_and_Wide_Hand_Positions,Pushups (Close and Wide Hand Positions),catalogo:0975,band close-grip push-up,64.41,0.5,False,False,sin_match,False
+free_exercise_db:Pyramid,Pyramid,catalogo:0756,smith hip raise,45.45,0.0,True,False,sin_match,False
+free_exercise_db:Quad_Stretch,Quad Stretch,catalogo:1512,all fours squad stretch,70.59,0.5,True,True,sin_match,False
+free_exercise_db:Quadriceps-SMR,Quadriceps-SMR,catalogo:0814,triceps dip,52.17,0.0,False,False,sin_match,False
+free_exercise_db:Quick_Leap,Quick Leap,catalogo:3552,quick feet v. 2,70.0,0.333,True,True,sin_match,False
+free_exercise_db:Rack_Delivery,Rack Delivery,catalogo:0669,rear deltoid stretch,54.55,0.0,True,False,sin_match,False
+free_exercise_db:Rack_Pull_with_Bands,Rack Pull with Bands,catalogo:0991,band pull through,66.67,0.4,False,False,sin_match,False
+free_exercise_db:Rack_Pulls,Rack Pulls,catalogo:0776,snatch pull,70.0,0.333,False,True,sin_match,False
+free_exercise_db:Rear_Leg_Raises,Rear Leg Raises,catalogo:0689,seated leg raise,80.0,0.5,False,True,sin_match,False
+free_exercise_db:Recumbent_Bike,Recumbent Bike,catalogo:0294,dumbbell biceps curl,54.55,0.0,False,False,sin_match,False
+free_exercise_db:Return_Push_from_Stance,Return Push from Stance,catalogo:0666,raise single arm push-up,59.57,0.125,True,False,sin_match,False
+free_exercise_db:Reverse_Band_Bench_Press,Reverse Band Bench Press,catalogo:1254,band bench press,80.0,0.75,False,False,sin_match,False
+free_exercise_db:Reverse_Band_Box_Squat,Reverse Band Box Squat,catalogo:0994,band reverse wrist curl,71.11,0.333,False,False,sin_match,False
+free_exercise_db:Reverse_Band_Deadlift,Reverse Band Deadlift,catalogo:0993,band reverse fly,75.68,0.5,False,False,sin_match,False
+free_exercise_db:Reverse_Band_Power_Squat,Reverse Band Power Squat,catalogo:0994,band reverse wrist curl,72.34,0.333,False,False,sin_match,False
+free_exercise_db:Reverse_Band_Sumo_Deadlift,Reverse Band Sumo Deadlift,catalogo:1009,band stiff leg deadlift,69.39,0.333,True,False,sin_match,False
+free_exercise_db:Reverse_Barbell_Curl,Reverse Barbell Curl,catalogo:0080,barbell reverse curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Reverse_Barbell_Preacher_Curls,Reverse Barbell Preacher Curls,catalogo:0081,barbell reverse preacher curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Reverse_Cable_Curl,Reverse Cable Curl,catalogo:0206,cable reverse curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Reverse_Crunch,Reverse Crunch,catalogo:0872,reverse crunch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Reverse_Flyes,Reverse Flyes,catalogo:0993,band reverse fly,78.57,0.667,True,False,sin_match,False
+free_exercise_db:Reverse_Flyes_With_External_Rotation,Reverse Flyes With External Rotation,catalogo:0386,dumbbell rotation reverse fly,71.88,0.5,True,True,sin_match,False
+free_exercise_db:Reverse_Grip_Bent-Over_Rows,Reverse Grip Bent-Over Rows,catalogo:1344,ez bar reverse grip bent over row,88.14,0.714,True,True,difuso,True
+free_exercise_db:Reverse_Grip_Triceps_Pushdown,Reverse Grip Triceps Pushdown,catalogo:0207,cable reverse-grip pushdown,76.36,0.6,True,True,sin_match,False
+free_exercise_db:Reverse_Hyperextension,Reverse Hyperextension,catalogo:0593,lever reverse hyperextension,88.0,0.667,True,True,difuso,True
+free_exercise_db:Reverse_Machine_Flyes,Reverse Machine Flyes,catalogo:0873,cable reverse crunch,65.0,0.2,False,False,sin_match,False
+free_exercise_db:Reverse_Plate_Curls,Reverse Plate Curls,catalogo:0599,lever seated leg curl,71.79,0.167,False,True,sin_match,False
+free_exercise_db:Reverse_Triceps_Bench_Press,Reverse Triceps Bench Press,catalogo:1624,dumbbell reverse bench press,70.37,0.6,False,True,sin_match,False
+free_exercise_db:Rhomboids-SMR,Rhomboids-SMR,catalogo:1018,band shrug,45.45,0.0,True,False,sin_match,False
+free_exercise_db:Rickshaw_Carry,Rickshaw Carry,catalogo:3360,bear crawl,50.0,0.0,,True,sin_match,False
+free_exercise_db:Rickshaw_Deadlift,Rickshaw Deadlift,catalogo:0752,smith deadlift,70.97,0.333,False,True,sin_match,False
+free_exercise_db:Ring_Dips,Ring Dips,catalogo:0677,ring dips,100.0,1.0,True,True,exacto,True
+free_exercise_db:Rocket_Jump,Rocket Jump,catalogo:2612,jump rope,80.0,0.333,,False,sin_match,False
+free_exercise_db:Rocking_Standing_Calf_Raise,Rocking Standing Calf Raise,catalogo:0111,barbell standing rocking leg calf raise,81.82,0.667,True,True,sin_match,False
+free_exercise_db:Rocky_Pull-Ups_Pulldowns,Rocky Pull-Ups/Pulldowns,catalogo:0678,rocky pull-up pulldown,100.0,1.0,True,True,exacto,True
+free_exercise_db:Romanian_Deadlift,Romanian Deadlift,catalogo:0085,barbell romanian deadlift,80.95,0.667,True,True,sin_match,False
+free_exercise_db:Romanian_Deadlift_from_Deficit,Romanian Deadlift from Deficit,catalogo:1459,dumbbell romanian deadlift,71.43,0.4,True,True,sin_match,False
+free_exercise_db:Rope_Climb,Rope Climb,catalogo:0680,rope climb,100.0,1.0,False,True,exacto,True
+free_exercise_db:Rope_Crunch,Rope Crunch,catalogo:2429,frog crunch,81.82,0.333,True,False,sin_match,False
+free_exercise_db:Rope_Jumping,Rope Jumping,catalogo:2612,jump rope,85.71,1.0,,True,difuso,True
+free_exercise_db:Rope_Straight-Arm_Pulldown,Rope Straight-Arm Pulldown,catalogo:0237,cable straight arm pulldown (with rope),82.54,0.667,True,True,sin_match,False
+free_exercise_db:Round_The_World_Shoulder_Stretch,Round The World Shoulder Stretch,catalogo:1271,chest and front of shoulder stretch,59.7,0.222,True,True,sin_match,False
+free_exercise_db:Rowing_Stationary,"Rowing, Stationary",catalogo:2138,stationary bike run v. 3,72.22,0.25,,False,sin_match,False
+free_exercise_db:Runners_Stretch,Runner's Stretch,catalogo:1585,runners stretch,93.33,0.667,True,True,difuso,True
+free_exercise_db:Running_Treadmill,"Running, Treadmill",catalogo:3666,walking on incline treadmill,57.78,0.2,,True,sin_match,False
+free_exercise_db:Russian_Twist,Russian Twist,catalogo:0687,russian twist,100.0,1.0,True,True,exacto,True
+free_exercise_db:Sandbag_Load,Sandbag Load,catalogo:3302,handstand,57.14,0.0,False,True,sin_match,False
+free_exercise_db:Scapular_Pull-Up,Scapular Pull-Up,catalogo:0688,scapular pull-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Scissor_Kick,Scissor Kick,catalogo:3219,scissor jumps (male),66.67,0.333,,True,sin_match,False
+free_exercise_db:Scissors_Jump,Scissors Jump,catalogo:3219,scissor jumps (male),100.0,1.0,,True,exacto,True
+free_exercise_db:Seated_Band_Hamstring_Curl,Seated Band Hamstring Curl,catalogo:1016,band wrist curl,68.29,0.4,False,True,sin_match,False
+free_exercise_db:Seated_Barbell_Military_Press,Seated Barbell Military Press,catalogo:0086,barbell seated behind head military press,82.86,0.667,True,True,sin_match,False
+free_exercise_db:Seated_Barbell_Twist,Seated Barbell Twist,catalogo:0094,barbell seated twist,100.0,1.0,True,True,difuso,True
+free_exercise_db:Seated_Bent-Over_One-Arm_Dumbbell_Triceps_Extension,Seated Bent-Over One-Arm Dumbbell Triceps Extension,catalogo:1737,dumbbell seated bent over triceps extension,91.3,0.75,True,True,difuso,True
+free_exercise_db:Seated_Bent-Over_Rear_Delt_Raise,Seated Bent-Over Rear Delt Raise,catalogo:0215,cable seated rear lateral raise,79.37,0.375,True,False,sin_match,False
+free_exercise_db:Seated_Bent-Over_Two-Arm_Dumbbell_Triceps_Extension,Seated Bent-Over Two-Arm Dumbbell Triceps Extension,catalogo:1737,dumbbell seated bent over triceps extension,91.3,0.75,True,True,difuso,True
+free_exercise_db:Seated_Biceps,Seated Biceps,catalogo:1458,ez barbell seated curls,66.67,0.2,True,False,sin_match,False
+free_exercise_db:Seated_Cable_Rows,Seated Cable Rows,catalogo:0861,cable seated row,100.0,1.0,True,True,difuso,True
+free_exercise_db:Seated_Cable_Shoulder_Press,Seated Cable Shoulder Press,catalogo:0219,cable shoulder press,85.11,0.75,True,True,difuso,True
+free_exercise_db:Seated_Calf_Raise,Seated Calf Raise,catalogo:0594,lever seated calf raise,85.0,0.75,True,True,difuso,True
+free_exercise_db:Seated_Calf_Stretch,Seated Calf Stretch,catalogo:1390,seated calf stretch (male),100.0,1.0,True,True,exacto,True
+free_exercise_db:Seated_Close-Grip_Concentration_Barbell_Curl,Seated Close-Grip Concentration Barbell Curl,catalogo:0089,barbell seated close-grip concentration curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Seated_Dumbbell_Curl,Seated Dumbbell Curl,catalogo:0391,dumbbell seated curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Seated_Dumbbell_Inner_Biceps_Curl,Seated Dumbbell Inner Biceps Curl,catalogo:0393,dumbbell seated inner biceps curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Seated_Dumbbell_Palms-Down_Wrist_Curl,Seated Dumbbell Palms-Down Wrist Curl,catalogo:0401,dumbbell seated palms up wrist curl,88.57,0.714,True,True,difuso,True
+free_exercise_db:Seated_Dumbbell_Palms-Up_Wrist_Curl,Seated Dumbbell Palms-Up Wrist Curl,catalogo:0401,dumbbell seated palms up wrist curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Seated_Dumbbell_Press,Seated Dumbbell Press,catalogo:0290,dumbbell bench seated press,87.5,0.75,True,True,difuso,True
+free_exercise_db:Seated_Flat_Bench_Leg_Pull-In,Seated Flat Bench Leg Pull-In,catalogo:0570,leg pull in flat bench,86.27,0.833,True,True,difuso,True
+free_exercise_db:Seated_Floor_Hamstring_Stretch,Seated Floor Hamstring Stretch,catalogo:1560,exercise ball seated hamstring stretch,79.41,0.5,True,True,sin_match,False
+free_exercise_db:Seated_Front_Deltoid,Seated Front Deltoid,catalogo:0392,dumbbell seated front raise,68.09,0.4,True,False,sin_match,False
+free_exercise_db:Seated_Glute,Seated Glute,catalogo:1424,seated glute stretch,75.0,0.667,True,True,sin_match,False
+free_exercise_db:Seated_Good_Mornings,Seated Good Mornings,catalogo:3759,lever seated good morning,86.36,0.75,False,False,sin_match,False
+free_exercise_db:Seated_Hamstring,Seated Hamstring,catalogo:1511,hamstring stretch,78.79,0.333,True,True,sin_match,False
+free_exercise_db:Seated_Hamstring_and_Calf_Stretch,Seated Hamstring and Calf Stretch,catalogo:1560,exercise ball seated hamstring stretch,78.87,0.429,True,True,sin_match,False
+free_exercise_db:Seated_Head_Harness_Neck_Resistance,Seated Head Harness Neck Resistance,catalogo:3124,resistance band seated chest press,72.46,0.25,False,True,sin_match,False
+free_exercise_db:Seated_Leg_Curl,Seated Leg Curl,catalogo:0599,lever seated leg curl,83.33,0.75,True,True,sin_match,False
+free_exercise_db:Seated_Leg_Tucks,Seated Leg Tucks,catalogo:1424,seated glute stretch,68.57,0.2,False,True,sin_match,False
+free_exercise_db:Seated_One-Arm_Dumbbell_Palms-Down_Wrist_Curl,Seated One-Arm Dumbbell Palms-Down Wrist Curl,catalogo:1415,dumbbell one arm seated neutral wrist curl,81.4,0.667,True,True,sin_match,False
+free_exercise_db:Seated_One-Arm_Dumbbell_Palms-Up_Wrist_Curl,Seated One-Arm Dumbbell Palms-Up Wrist Curl,catalogo:0401,dumbbell seated palms up wrist curl,89.47,0.75,True,True,difuso,True
+free_exercise_db:Seated_One-arm_Cable_Pulley_Rows,Seated One-arm Cable Pulley Rows,catalogo:1323,cable rope seated row,76.92,0.429,True,True,sin_match,False
+free_exercise_db:Seated_Overhead_Stretch,Seated Overhead Stretch,catalogo:1390,seated calf stretch (male),76.19,0.5,False,True,sin_match,False
+free_exercise_db:Seated_Palm-Up_Barbell_Wrist_Curl,Seated Palm-Up Barbell Wrist Curl,catalogo:0401,dumbbell seated palms up wrist curl,77.61,0.714,True,True,sin_match,False
+free_exercise_db:Seated_Palms-Down_Barbell_Wrist_Curl,Seated Palms-Down Barbell Wrist Curl,catalogo:1411,barbell palms down wrist curl over a bench,73.68,0.556,True,True,sin_match,False
+free_exercise_db:Seated_Side_Lateral_Raise,Seated Side Lateral Raise,catalogo:0396,dumbbell seated lateral raise,74.07,0.6,True,True,sin_match,False
+free_exercise_db:Seated_Triceps_Press,Seated Triceps Press,catalogo:0816,triceps press,77.42,0.667,True,False,sin_match,False
+free_exercise_db:Seated_Two-Arm_Palms-Up_Low-Pulley_Wrist_Curl,Seated Two-Arm Palms-Up Low-Pulley Wrist Curl,catalogo:0401,dumbbell seated palms up wrist curl,69.23,0.5,True,False,sin_match,False
+free_exercise_db:See-Saw_Press_Alternating_Side_Press,See-Saw Press (Alternating Side Press),catalogo:0286,dumbbell alternate side press,64.62,0.286,True,True,sin_match,False
+free_exercise_db:Shotgun_Row,Shotgun Row,catalogo:0808,suspended row,58.33,0.333,False,False,sin_match,False
+free_exercise_db:Shoulder_Circles,Shoulder Circles,catalogo:0219,cable shoulder press,68.57,0.25,True,True,sin_match,False
+free_exercise_db:Shoulder_Press_-_With_Bands,Shoulder Press - With Bands,catalogo:0997,band shoulder press,88.37,0.75,True,True,difuso,True
+free_exercise_db:Shoulder_Raise,Shoulder Raise,catalogo:0164,cable front shoulder raise,70.0,0.5,True,True,sin_match,False
+free_exercise_db:Shoulder_Stretch,Shoulder Stretch,catalogo:2202,roller hip stretch,76.47,0.25,False,True,sin_match,False
+free_exercise_db:Side-Lying_Floor_Stretch,Side-Lying Floor Stretch,catalogo:1358,side lying floor stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Side_Bridge,Side Bridge,catalogo:0705,side bridge v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Side_Hop-Sprint,Side Hop-Sprint,catalogo:0720,side-to-side chin,62.5,0.2,False,True,sin_match,False
+free_exercise_db:Side_Jackknife,Side Jackknife,catalogo:0507,jackknife sit-up,80.0,0.25,True,True,sin_match,False
+free_exercise_db:Side_Lateral_Raise,Side Lateral Raise,catalogo:0178,cable lateral raise,70.27,0.5,True,False,sin_match,False
+free_exercise_db:Side_Laterals_to_Front_Raise,Side Laterals to Front Raise,catalogo:0335,dumbbell lateral to front raise,75.86,0.667,True,True,sin_match,False
+free_exercise_db:Side_Leg_Raises,Side Leg Raises,catalogo:0689,seated leg raise,80.0,0.5,False,True,sin_match,False
+free_exercise_db:Side_Lying_Groin_Stretch,Side Lying Groin Stretch,catalogo:1358,side lying floor stretch,83.33,0.6,False,True,sin_match,False
+free_exercise_db:Side_Neck_Stretch,Side Neck Stretch,catalogo:1403,neck side stretch,100.0,1.0,True,True,difuso,True
+free_exercise_db:Side_Standing_Long_Jump,Side Standing Long Jump,catalogo:0795,standing single leg curl,72.34,0.143,True,True,sin_match,False
+free_exercise_db:Side_To_Side_Chins,Side To Side Chins,catalogo:0720,side-to-side chin,100.0,2.0,True,True,exacto,True
+free_exercise_db:Side_Wrist_Pull,Side Wrist Pull,catalogo:0721,side wrist pull stretch,78.95,0.75,False,True,sin_match,False
+free_exercise_db:Side_to_Side_Box_Shuffle,Side to Side Box Shuffle,catalogo:0720,side-to-side chin,68.29,0.75,False,True,sin_match,False
+free_exercise_db:Single-Arm_Cable_Crossover,Single-Arm Cable Crossover,catalogo:0155,cable cross-over variation,69.23,0.333,True,True,sin_match,False
+free_exercise_db:Single-Arm_Linear_Jammer,Single-Arm Linear Jammer,catalogo:3548,dumbbell single arm overhead carry,58.62,0.286,True,True,sin_match,False
+free_exercise_db:Single-Arm_Push-Up,Single-Arm Push-Up,catalogo:0725,single arm push-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Single-Cone_Sprint_Drill,Single-Cone Sprint Drill,catalogo:0795,standing single leg curl,62.5,0.143,True,True,sin_match,False
+free_exercise_db:Single-Leg_High_Box_Squat,Single-Leg High Box Squat,catalogo:0411,dumbbell single leg squat,72.0,0.5,False,True,sin_match,False
+free_exercise_db:Single-Leg_Hop_Progression,Single-Leg Hop Progression,catalogo:0739,sled 45в° leg press,65.12,0.143,False,True,sin_match,False
+free_exercise_db:Single-Leg_Lateral_Hop,Single-Leg Lateral Hop,catalogo:0584,lever lateral raise,63.41,0.167,False,True,sin_match,False
+free_exercise_db:Single-Leg_Leg_Extension,Single-Leg Leg Extension,catalogo:0585,lever leg extension,79.07,0.5,True,True,sin_match,False
+free_exercise_db:Single-Leg_Stride_Jump,Single-Leg Stride Jump,catalogo:0795,standing single leg curl,69.57,0.333,True,True,sin_match,False
+free_exercise_db:Single_Dumbbell_Raise,Single Dumbbell Raise,catalogo:0409,dumbbell single leg calf raise,82.35,0.6,False,True,sin_match,False
+free_exercise_db:Single_Leg_Butt_Kick,Single Leg Butt Kick,catalogo:0999,band single leg calf raise,60.87,0.286,True,False,sin_match,False
+free_exercise_db:Single_Leg_Glute_Bridge,Single Leg Glute Bridge,catalogo:3523,glute bridge two legs on bench (male),69.23,0.429,True,True,sin_match,False
+free_exercise_db:Single_Leg_Push-off,Single Leg Push-off,catalogo:0725,single arm push-up,64.86,0.333,False,True,sin_match,False
+free_exercise_db:Sit-Up,Sit-Up,catalogo:0735,sit-up v. 2,100.0,1.0,True,True,exacto,True
+free_exercise_db:Sit_Squats,Sit Squats,catalogo:0770,smith squat,90.0,0.333,False,True,sin_match,False
+free_exercise_db:Skating,Skating,catalogo:0128,battling ropes,50.0,0.0,False,True,sin_match,False
+free_exercise_db:Sled_Drag_-_Harness,Sled Drag - Harness,catalogo:0739,sled 45в° leg press,64.71,0.167,False,True,sin_match,False
+free_exercise_db:Sled_Overhead_Backward_Walk,Sled Overhead Backward Walk,catalogo:0069,barbell overhead squat,61.22,0.167,False,True,sin_match,False
+free_exercise_db:Sled_Overhead_Triceps_Extension,Sled Overhead Triceps Extension,catalogo:0092,barbell seated overhead triceps extension,82.86,0.5,True,True,sin_match,False
+free_exercise_db:Sled_Push,Sled Push,catalogo:0717,side push-up,66.67,0.25,False,True,sin_match,False
+free_exercise_db:Sled_Reverse_Flye,Sled Reverse Flye,catalogo:0602,lever seated reverse fly,78.05,0.4,True,True,sin_match,False
+free_exercise_db:Sled_Row,Sled Row,catalogo:0808,suspended row,66.67,0.333,True,True,sin_match,False
+free_exercise_db:Sledgehammer_Swings,Sledgehammer Swings,catalogo:1496,sledge hammer,58.06,0.333,True,True,sin_match,False
+free_exercise_db:Smith_Incline_Shoulder_Raise,Smith Incline Shoulder Raise,catalogo:0759,smith incline shoulder raises,100.0,1.0,False,False,exacto,True
+free_exercise_db:Smith_Machine_Behind_the_Back_Shrug,Smith Machine Behind the Back Shrug,catalogo:0746,smith back shrug,74.42,0.6,True,True,sin_match,False
+free_exercise_db:Smith_Machine_Bench_Press,Smith Machine Bench Press,catalogo:0748,smith bench press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Smith_Machine_Bent_Over_Row,Smith Machine Bent Over Row,catalogo:1359,smith bent over row,100.0,1.0,True,True,exacto,True
+free_exercise_db:Smith_Machine_Calf_Raise,Smith Machine Calf Raise,catalogo:0763,smith reverse calf raises,80.0,0.75,True,True,sin_match,False
+free_exercise_db:Smith_Machine_Close-Grip_Bench_Press,Smith Machine Close-Grip Bench Press,catalogo:0751,smith close-grip bench press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Smith_Machine_Decline_Press,Smith Machine Decline Press,catalogo:0753,smith decline bench press,86.36,0.75,True,True,difuso,True
+free_exercise_db:Smith_Machine_Hang_Power_Clean,Smith Machine Hang Power Clean,catalogo:0648,power clean,66.67,0.5,True,False,sin_match,False
+free_exercise_db:Smith_Machine_Hip_Raise,Smith Machine Hip Raise,catalogo:0756,smith hip raise,100.0,1.0,True,True,exacto,True
+free_exercise_db:Smith_Machine_Incline_Bench_Press,Smith Machine Incline Bench Press,catalogo:0757,smith incline bench press,100.0,1.0,True,True,exacto,True
+free_exercise_db:Smith_Machine_Leg_Press,Smith Machine Leg Press,catalogo:0760,smith leg press,100.0,1.0,False,True,exacto,True
+free_exercise_db:Smith_Machine_One-Arm_Upright_Row,Smith Machine One-Arm Upright Row,catalogo:1360,smith one arm row,80.95,0.8,False,True,sin_match,False
+free_exercise_db:Smith_Machine_Overhead_Shoulder_Press,Smith Machine Overhead Shoulder Press,catalogo:0766,smith shoulder press,81.63,0.75,True,True,sin_match,False
+free_exercise_db:Smith_Machine_Pistol_Squat,Smith Machine Pistol Squat,catalogo:3281,smith full squat,76.47,0.5,False,True,sin_match,False
+free_exercise_db:Smith_Machine_Reverse_Calf_Raises,Smith Machine Reverse Calf Raises,catalogo:0763,smith reverse calf raises,100.0,1.0,True,True,exacto,True
+free_exercise_db:Smith_Machine_Reverse_Calf_Raises,Smith Machine Reverse Calf Raises,catalogo:1394,smith reverse calf raises,100.0,1.0,True,True,exacto,True
+free_exercise_db:Smith_Machine_Squat,Smith Machine Squat,catalogo:0770,smith squat,100.0,1.0,False,True,exacto,True
+free_exercise_db:Smith_Machine_Stiff-Legged_Deadlift,Smith Machine Stiff-Legged Deadlift,catalogo:1009,band stiff leg deadlift,72.0,0.6,True,False,sin_match,False
+free_exercise_db:Smith_Machine_Upright_Row,Smith Machine Upright Row,catalogo:0775,smith upright row,100.0,1.0,False,True,exacto,True
+free_exercise_db:Smith_Single-Leg_Split_Squat,Smith Single-Leg Split Squat,catalogo:0768,smith single leg split squat,100.0,1.0,True,True,exacto,True
+free_exercise_db:Snatch,Snatch,catalogo:0776,snatch pull,70.59,0.5,True,True,sin_match,False
+free_exercise_db:Snatch_Balance,Snatch Balance,catalogo:0020,balance board,66.67,0.333,True,False,sin_match,False
+free_exercise_db:Snatch_Deadlift,Snatch Deadlift,catalogo:0752,smith deadlift,82.76,0.333,True,False,sin_match,False
+free_exercise_db:Snatch_Pull,Snatch Pull,catalogo:0776,snatch pull,100.0,1.0,True,True,exacto,True
+free_exercise_db:Snatch_Shrug,Snatch Shrug,catalogo:0767,smith shrug,78.26,0.333,True,False,sin_match,False
+free_exercise_db:Snatch_from_Blocks,Snatch from Blocks,catalogo:2208,roller back stretch,61.11,0.0,False,False,sin_match,False
+free_exercise_db:Speed_Band_Overhead_Triceps,Speed Band Overhead Triceps,catalogo:0643,overhead triceps stretch,73.47,0.4,True,False,sin_match,False
+free_exercise_db:Speed_Box_Squat,Speed Box Squat,catalogo:0101,barbell speed squat,76.47,0.5,False,True,sin_match,False
+free_exercise_db:Speed_Squats,Speed Squats,catalogo:0101,barbell speed squat,73.33,0.667,False,True,sin_match,False
+free_exercise_db:Spell_Caster,Spell Caster,catalogo:0777,spell caster,100.0,1.0,True,True,exacto,True
+free_exercise_db:Spider_Crawl,Spider Crawl,catalogo:0778,spider crawl push up,75.0,0.5,False,True,sin_match,False
+free_exercise_db:Spider_Curl,Spider Curl,catalogo:0454,ez barbell spider curl,75.86,0.5,True,True,sin_match,False
+free_exercise_db:Spinal_Stretch,Spinal Stretch,catalogo:1363,spine stretch,88.89,0.333,False,True,sin_match,False
+free_exercise_db:Split_Clean,Split Clean,catalogo:0648,power clean,63.64,0.333,True,True,sin_match,False
+free_exercise_db:Split_Jerk,Split Jerk,catalogo:0786,squat jerk,70.0,0.333,True,True,sin_match,False
+free_exercise_db:Split_Jump,Split Jump,catalogo:3223,star jump (male),73.68,0.333,,True,sin_match,False
+free_exercise_db:Split_Snatch,Split Snatch,catalogo:0624,march sit (wall),53.85,0.0,True,False,sin_match,False
+free_exercise_db:Split_Squat_with_Dumbbells,Split Squat with Dumbbells,catalogo:2812,dumbbell step-up split squat,83.02,0.5,True,True,sin_match,False
+free_exercise_db:Split_Squats,Split Squats,catalogo:2368,split squats,100.0,1.0,True,True,exacto,True
+free_exercise_db:Squat_Jerk,Squat Jerk,catalogo:0786,squat jerk,100.0,1.0,True,True,exacto,True
+free_exercise_db:Squat_with_Bands,Squat with Bands,catalogo:1004,band squat,80.0,0.667,False,False,sin_match,False
+free_exercise_db:Squat_with_Chains,Squat with Chains,catalogo:3643,weighted cossack squats (male),63.16,0.2,False,True,sin_match,False
+free_exercise_db:Squat_with_Plate_Movers,Squat with Plate Movers,catalogo:1685,squat to overhead reach,62.22,0.143,True,False,sin_match,False
+free_exercise_db:Squats_-_With_Bands,Squats - With Bands,catalogo:1004,band squat,80.0,0.667,False,True,sin_match,False
+free_exercise_db:Stairmaster,Stairmaster,catalogo:3671,ski step,52.63,0.0,,False,sin_match,False
+free_exercise_db:Standing_Alternating_Dumbbell_Press,Standing Alternating Dumbbell Press,catalogo:0415,dumbbell standing alternate raise,85.29,0.333,True,True,sin_match,False
+free_exercise_db:Standing_Barbell_Calf_Raise,Standing Barbell Calf Raise,catalogo:1372,barbell standing calf raise,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Barbell_Press_Behind_Neck,Standing Barbell Press Behind Neck,catalogo:0788,standing behind neck press,86.67,0.8,True,True,difuso,True
+free_exercise_db:Standing_Bent-Over_One-Arm_Dumbbell_Triceps_Extension,Standing Bent-Over One-Arm Dumbbell Triceps Extension,catalogo:1740,dumbbell standing bent over one arm triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Bent-Over_Two-Arm_Dumbbell_Triceps_Extension,Standing Bent-Over Two-Arm Dumbbell Triceps Extension,catalogo:1741,dumbbell standing bent over two arm triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Biceps_Cable_Curl,Standing Biceps Cable Curl,catalogo:1634,cable lying bicep curl,85.11,0.6,True,True,sin_match,False
+free_exercise_db:Standing_Biceps_Stretch,Standing Biceps Stretch,catalogo:0794,standing lateral stretch,78.26,0.5,False,True,sin_match,False
+free_exercise_db:Standing_Bradford_Press,Standing Bradford Press,catalogo:0105,barbell standing bradford press,85.19,0.75,True,True,difuso,True
+free_exercise_db:Standing_Cable_Chest_Press,Standing Cable Chest Press,catalogo:2144,cable seated chest press,84.0,0.6,True,True,sin_match,False
+free_exercise_db:Standing_Cable_Lift,Standing Cable Lift,catalogo:0230,cable standing lift,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Cable_Wood_Chop,Standing Cable Wood Chop,catalogo:0226,cable standing crunch,75.56,0.4,True,True,sin_match,False
+free_exercise_db:Standing_Calf_Raises,Standing Calf Raises,catalogo:0605,lever standing calf raise,86.36,0.75,True,True,difuso,True
+free_exercise_db:Standing_Concentration_Curl,Standing Concentration Curl,catalogo:2414,barbell standing concentration curl,87.1,0.75,True,True,difuso,True
+free_exercise_db:Standing_Dumbbell_Calf_Raise,Standing Dumbbell Calf Raise,catalogo:0417,dumbbell standing calf raise,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Dumbbell_Press,Standing Dumbbell Press,catalogo:0427,dumbbell standing palms in press,85.19,0.6,True,True,difuso,True
+free_exercise_db:Standing_Dumbbell_Reverse_Curl,Standing Dumbbell Reverse Curl,catalogo:0429,dumbbell standing reverse curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Dumbbell_Straight-Arm_Front_Delt_Raise_Above_Head,Standing Dumbbell Straight-Arm Front Delt Raise Above Head,catalogo:0419,dumbbell standing front raise above head,81.63,0.667,True,True,sin_match,False
+free_exercise_db:Standing_Dumbbell_Triceps_Extension,Standing Dumbbell Triceps Extension,catalogo:0430,dumbbell standing triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Dumbbell_Upright_Row,Standing Dumbbell Upright Row,catalogo:0437,dumbbell upright row,81.63,0.75,False,True,sin_match,False
+free_exercise_db:Standing_Elevated_Quad_Stretch,Standing Elevated Quad Stretch,catalogo:0794,standing lateral stretch,81.48,0.4,False,True,sin_match,False
+free_exercise_db:Standing_Front_Barbell_Raise_Over_Head,Standing Front Barbell Raise Over Head,catalogo:0107,barbell standing front raise over head,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Gastrocnemius_Calf_Stretch,Standing Gastrocnemius Calf Stretch,catalogo:1398,standing calves calf stretch,78.69,0.6,True,True,sin_match,False
+free_exercise_db:Standing_Hamstring_and_Calf_Stretch,Standing Hamstring and Calf Stretch,catalogo:1599,standing hamstring and calf stretch with strap,86.42,0.714,True,True,difuso,True
+free_exercise_db:Standing_Hip_Circles,Standing Hip Circles,catalogo:0230,cable standing lift,73.68,0.2,False,False,sin_match,False
+free_exercise_db:Standing_Hip_Flexors,Standing Hip Flexors,catalogo:0228,cable standing hip extension,72.34,0.4,False,True,sin_match,False
+free_exercise_db:Standing_Inner-Biceps_Curl,Standing Inner-Biceps Curl,catalogo:0229,cable standing inner curl,88.0,0.6,True,False,sin_match,False
+free_exercise_db:Standing_Lateral_Stretch,Standing Lateral Stretch,catalogo:0794,standing lateral stretch,100.0,1.0,False,True,exacto,True
+free_exercise_db:Standing_Leg_Curl,Standing Leg Curl,catalogo:0795,standing single leg curl,82.93,0.75,True,False,sin_match,False
+free_exercise_db:Standing_Long_Jump,Standing Long Jump,catalogo:0795,standing single leg curl,66.67,0.167,True,True,sin_match,False
+free_exercise_db:Standing_Low-Pulley_Deltoid_Raise,Standing Low-Pulley Deltoid Raise,catalogo:0108,barbell standing leg calf raise,68.75,0.25,False,False,sin_match,False
+free_exercise_db:Standing_Low-Pulley_One-Arm_Triceps_Extension,Standing Low-Pulley One-Arm Triceps Extension,catalogo:0231,cable standing one arm triceps extension,79.52,0.625,True,True,sin_match,False
+free_exercise_db:Standing_Military_Press,Standing Military Press,catalogo:0774,smith standing military press,88.46,0.75,True,False,sin_match,False
+free_exercise_db:Standing_Olympic_Plate_Hand_Squeeze,Standing Olympic Plate Hand Squeeze,catalogo:0854,weighted standing hand squeeze,64.62,0.5,True,True,sin_match,False
+free_exercise_db:Standing_One-Arm_Cable_Curl,Standing One-Arm Cable Curl,catalogo:0229,cable standing inner curl,84.62,0.5,True,True,sin_match,False
+free_exercise_db:Standing_One-Arm_Dumbbell_Curl_Over_Incline_Bench,Standing One-Arm Dumbbell Curl Over Incline Bench,catalogo:0422,dumbbell standing one arm curl (over incline bench),100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_One-Arm_Dumbbell_Triceps_Extension,Standing One-Arm Dumbbell Triceps Extension,catalogo:0423,dumbbell standing one arm extension,90.91,0.833,True,True,difuso,True
+free_exercise_db:Standing_Overhead_Barbell_Triceps_Extension,Standing Overhead Barbell Triceps Extension,catalogo:0109,barbell standing overhead triceps extension,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Palm-In_One-Arm_Dumbbell_Press,Standing Palm-In One-Arm Dumbbell Press,catalogo:0424,dumbbell standing one arm palm in press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Palms-In_Dumbbell_Press,Standing Palms-In Dumbbell Press,catalogo:0427,dumbbell standing palms in press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Standing_Palms-Up_Barbell_Behind_The_Back_Wrist_Curl,Standing Palms-Up Barbell Behind The Back Wrist Curl,catalogo:0104,barbell standing back wrist curl,77.11,0.556,True,True,sin_match,False
+free_exercise_db:Standing_Pelvic_Tilt,Standing Pelvic Tilt,catalogo:1364,standing pelvic tilt,100.0,1.0,True,True,exacto,True
+free_exercise_db:Standing_Rope_Crunch,Standing Rope Crunch,catalogo:1005,band standing crunch,75.0,0.5,True,False,sin_match,False
+free_exercise_db:Standing_Soleus_And_Achilles_Stretch,Standing Soleus And Achilles Stretch,catalogo:1398,standing calves calf stretch,75.41,0.286,True,True,sin_match,False
+free_exercise_db:Standing_Toe_Touches,Standing Toe Touches,catalogo:3212,basic toe touch (male),70.59,0.5,True,True,sin_match,False
+free_exercise_db:Standing_Towel_Triceps_Extension,Standing Towel Triceps Extension,catalogo:0018,assisted standing triceps extension (with towel),81.58,0.667,True,False,sin_match,False
+free_exercise_db:Standing_Two-Arm_Overhead_Throw,Standing Two-Arm Overhead Throw,catalogo:0109,barbell standing overhead triceps extension,63.01,0.25,False,False,sin_match,False
+free_exercise_db:Star_Jump,Star Jump,catalogo:3223,star jump (male),100.0,1.0,,True,exacto,True
+free_exercise_db:Step-up_with_Knee_Raise,Step-up with Knee Raise,catalogo:0498,inverted row with straps,60.87,0.125,False,True,sin_match,False
+free_exercise_db:Step_Mill,Step Mill,catalogo:3671,ski step,70.59,0.333,,False,sin_match,False
+free_exercise_db:Stiff-Legged_Barbell_Deadlift,Stiff-Legged Barbell Deadlift,catalogo:0116,barbell straight leg deadlift,82.76,0.6,True,True,sin_match,False
+free_exercise_db:Stiff-Legged_Dumbbell_Deadlift,Stiff-Legged Dumbbell Deadlift,catalogo:0432,dumbbell stiff leg deadlift,94.74,1.0,True,True,difuso,True
+free_exercise_db:Stiff_Leg_Barbell_Good_Morning,Stiff Leg Barbell Good Morning,catalogo:0115,barbell stiff leg good morning,100.0,1.0,False,True,sin_match,False
+free_exercise_db:Stomach_Vacuum,Stomach Vacuum,catalogo:3142,smith sumo squat,46.67,0.0,False,False,sin_match,False
+free_exercise_db:Straight-Arm_Dumbbell_Pullover,Straight-Arm Dumbbell Pullover,catalogo:0433,dumbbell straight arm pullover,100.0,1.0,True,True,difuso,True
+free_exercise_db:Straight-Arm_Pulldown,Straight-Arm Pulldown,catalogo:0238,cable straight arm pulldown,87.5,0.75,True,True,difuso,True
+free_exercise_db:Straight_Bar_Bench_Mid_Rows,Straight Bar Bench Mid Rows,catalogo:2462,chest dip on straight bar,74.51,0.25,False,False,sin_match,False
+free_exercise_db:Straight_Raises_on_Incline_Bench,Straight Raises on Incline Bench,catalogo:0491,incline leg hip raise (leg straight),76.92,0.429,False,False,sin_match,False
+free_exercise_db:Stride_Jump_Crossover,Stride Jump Crossover,catalogo:3656,short stride run,59.46,0.2,,True,sin_match,False
+free_exercise_db:Sumo_Deadlift,Sumo Deadlift,catalogo:0752,smith deadlift,81.48,0.333,True,False,sin_match,False
+free_exercise_db:Sumo_Deadlift_with_Bands,Sumo Deadlift with Bands,catalogo:0752,smith deadlift,75.68,0.2,True,False,sin_match,False
+free_exercise_db:Sumo_Deadlift_with_Chains,Sumo Deadlift with Chains,catalogo:0752,smith deadlift,73.68,0.2,True,False,sin_match,False
+free_exercise_db:Superman,Superman,catalogo:0803,superman push-up,66.67,0.333,False,True,sin_match,False
+free_exercise_db:Supine_Chest_Throw,Supine Chest Throw,catalogo:1750,medicine ball supine chest throw,72.0,0.6,True,True,sin_match,False
+free_exercise_db:Supine_One-Arm_Overhead_Throw,Supine One-Arm Overhead Throw,catalogo:3204,arms overhead full sit-up (male),64.15,0.25,True,False,sin_match,False
+free_exercise_db:Supine_Two-Arm_Overhead_Throw,Supine Two-Arm Overhead Throw,catalogo:3204,arms overhead full sit-up (male),64.15,0.25,True,False,sin_match,False
+free_exercise_db:Suspended_Fallout,Suspended Fallout,catalogo:0805,suspended abdominal fallout,77.27,0.667,True,True,sin_match,False
+free_exercise_db:Suspended_Push-Up,Suspended Push-Up,catalogo:0806,suspended push-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Suspended_Reverse_Crunch,Suspended Reverse Crunch,catalogo:0807,suspended reverse crunch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Suspended_Row,Suspended Row,catalogo:0808,suspended row,100.0,1.0,True,True,exacto,True
+free_exercise_db:Suspended_Split_Squat,Suspended Split Squat,catalogo:0809,suspended split squat,100.0,1.0,True,True,exacto,True
+free_exercise_db:Svend_Press,Svend Press,catalogo:0856,weighted svend press,70.97,0.667,True,True,sin_match,False
+free_exercise_db:T-Bar_Row_with_Handle,T-Bar Row with Handle,catalogo:1360,smith one arm row,68.42,0.125,True,False,sin_match,False
+free_exercise_db:Tate_Press,Tate Press,catalogo:3291,stalder press,78.26,0.333,True,False,sin_match,False
+free_exercise_db:The_Straddle,The Straddle,catalogo:3314,straddle maltese,57.14,0.333,False,True,sin_match,False
+free_exercise_db:Thigh_Abductor,Thigh Abductor,catalogo:0710,side hip abduction,62.5,0.0,True,False,sin_match,False
+free_exercise_db:Thigh_Adductor,Thigh Adductor,catalogo:0168,cable hip adduction,60.61,0.0,True,False,sin_match,False
+free_exercise_db:Tire_Flip,Tire Flip,catalogo:2459,tire flip,100.0,1.0,False,True,exacto,True
+free_exercise_db:Toe_Touchers,Toe Touchers,catalogo:3231,two toe touch (male),75.0,0.667,True,True,sin_match,False
+free_exercise_db:Torso_Rotation,Torso Rotation,catalogo:1319,cable palm rotational row,56.41,0.2,False,False,sin_match,False
+free_exercise_db:Trail_Running_Walking,Trail Running/Walking,catalogo:3666,walking on incline treadmill,69.39,0.167,,True,sin_match,False
+free_exercise_db:Trap_Bar_Deadlift,Trap Bar Deadlift,catalogo:0811,trap bar deadlift,100.0,1.0,False,True,exacto,True
+free_exercise_db:Tricep_Dumbbell_Kickback,Tricep Dumbbell Kickback,catalogo:0394,dumbbell seated kickback,83.33,0.5,True,True,sin_match,False
+free_exercise_db:Tricep_Side_Stretch,Tricep Side Stretch,catalogo:0817,triceps stretch,84.85,0.667,True,True,sin_match,False
+free_exercise_db:Triceps_Overhead_Extension_with_Rope,Triceps Overhead Extension with Rope,catalogo:0194,cable overhead triceps extension (rope attachment),73.17,0.571,True,True,sin_match,False
+free_exercise_db:Triceps_Pushdown,Triceps Pushdown,catalogo:0241,cable triceps pushdown (v-bar),71.43,0.4,True,True,sin_match,False
+free_exercise_db:Triceps_Pushdown_-_Rope_Attachment,Triceps Pushdown - Rope Attachment,catalogo:0200,cable pushdown (with rope attachment),78.79,0.5,True,True,sin_match,False
+free_exercise_db:Triceps_Pushdown_-_V-Bar_Attachment,Triceps Pushdown - V-Bar Attachment,catalogo:0200,cable pushdown (with rope attachment),74.63,0.25,True,True,sin_match,False
+free_exercise_db:Triceps_Stretch,Triceps Stretch,catalogo:0817,triceps stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Tuck_Crunch,Tuck Crunch,catalogo:0871,tuck crunch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Two-Arm_Dumbbell_Preacher_Curl,Two-Arm Dumbbell Preacher Curl,catalogo:0372,dumbbell preacher curl,84.62,0.6,True,True,sin_match,False
+free_exercise_db:Two-Arm_Kettlebell_Clean,Two-Arm Kettlebell Clean,catalogo:0552,kettlebell two arm clean,100.0,1.0,True,True,difuso,True
+free_exercise_db:Two-Arm_Kettlebell_Jerk,Two-Arm Kettlebell Jerk,catalogo:0538,kettlebell one arm jerk,91.3,0.6,True,True,difuso,True
+free_exercise_db:Two-Arm_Kettlebell_Military_Press,Two-Arm Kettlebell Military Press,catalogo:0553,kettlebell two arm military press,100.0,1.0,True,True,difuso,True
+free_exercise_db:Two-Arm_Kettlebell_Row,Two-Arm Kettlebell Row,catalogo:1345,kettlebell two arm row,100.0,1.0,True,True,difuso,True
+free_exercise_db:Underhand_Cable_Pulldowns,Underhand Cable Pulldowns,catalogo:0245,cable underhand pulldown,100.0,1.0,True,True,difuso,True
+free_exercise_db:Upper_Back-Leg_Grab,Upper Back-Leg Grab,catalogo:1365,upper back stretch,70.27,0.4,False,True,sin_match,False
+free_exercise_db:Upper_Back_Stretch,Upper Back Stretch,catalogo:1365,upper back stretch,100.0,1.0,True,True,exacto,True
+free_exercise_db:Upright_Barbell_Row,Upright Barbell Row,catalogo:0120,barbell upright row,100.0,1.0,True,True,difuso,True
+free_exercise_db:Upright_Cable_Row,Upright Cable Row,catalogo:0246,cable upright row,100.0,1.0,False,True,sin_match,False
+free_exercise_db:Upright_Row_-_With_Bands,Upright Row - With Bands,catalogo:0120,barbell upright row,70.0,0.4,False,False,sin_match,False
+free_exercise_db:Upward_Stretch,Upward Stretch,catalogo:1365,upper back stretch,68.75,0.25,False,True,sin_match,False
+free_exercise_db:V-Bar_Pulldown,V-Bar Pulldown,catalogo:0198,cable pulldown,71.43,0.25,True,True,sin_match,False
+free_exercise_db:V-Bar_Pullup,V-Bar Pullup,catalogo:3293,archer pull up,74.07,0.4,True,True,sin_match,False
+free_exercise_db:Vertical_Swing,Vertical Swing,catalogo:1401,muscle-up (on vertical bar),56.41,0.167,False,False,sin_match,False
+free_exercise_db:Walking_Treadmill,"Walking, Treadmill",catalogo:2311,walking on stepmill,77.78,0.25,,False,sin_match,False
+free_exercise_db:Weighted_Ball_Hyperextension,Weighted Ball Hyperextension,catalogo:0835,weighted hyperextension (on stability ball),82.35,0.6,True,False,sin_match,False
+free_exercise_db:Weighted_Ball_Side_Bend,Weighted Ball Side Bend,catalogo:0850,weighted side bend (on stability ball),79.31,0.667,True,False,sin_match,False
+free_exercise_db:Weighted_Bench_Dip,Weighted Bench Dip,catalogo:0830,weighted bench dip,100.0,1.0,True,True,exacto,True
+free_exercise_db:Weighted_Crunches,Weighted Crunches,catalogo:0832,weighted crunch,96.77,1.0,True,False,sin_match,False
+free_exercise_db:Weighted_Jump_Squat,Weighted Jump Squat,catalogo:0852,weighted squat,84.85,0.667,False,True,sin_match,False
+free_exercise_db:Weighted_Pull_Ups,Weighted Pull Ups,catalogo:0841,weighted pull-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Weighted_Sissy_Squat,Weighted Sissy Squat,catalogo:0851,weighted sissy squat,100.0,1.0,True,True,exacto,True
+free_exercise_db:Weighted_Sit-Ups_-_With_Bands,Weighted Sit-Ups - With Bands,catalogo:3644,weighted lunge with swing,72.0,0.286,False,True,sin_match,False
+free_exercise_db:Weighted_Squat,Weighted Squat,catalogo:0852,weighted squat,100.0,1.0,False,True,exacto,True
+free_exercise_db:Wide-Grip_Barbell_Bench_Press,Wide-Grip Barbell Bench Press,catalogo:0122,barbell wide bench press,90.57,0.8,True,True,difuso,True
+free_exercise_db:Wide-Grip_Decline_Barbell_Bench_Press,Wide-Grip Decline Barbell Bench Press,catalogo:0036,barbell decline wide-grip press,91.18,0.833,True,True,difuso,True
+free_exercise_db:Wide-Grip_Decline_Barbell_Pullover,Wide-Grip Decline Barbell Pullover,catalogo:0037,barbell decline wide-grip pullover,100.0,1.0,True,True,difuso,True
+free_exercise_db:Wide-Grip_Lat_Pulldown,Wide-Grip Lat Pulldown,catalogo:1429,wide grip pull-up,71.79,0.6,True,False,sin_match,False
+free_exercise_db:Wide-Grip_Pulldown_Behind_The_Neck,Wide-Grip Pulldown Behind The Neck,catalogo:1325,cable wide grip rear pulldown behind neck,85.33,0.625,True,True,sin_match,False
+free_exercise_db:Wide-Grip_Rear_Pull-Up,Wide-Grip Rear Pull-Up,catalogo:1367,wide grip rear pull-up,100.0,1.0,True,True,exacto,True
+free_exercise_db:Wide-Grip_Standing_Barbell_Curl,Wide-Grip Standing Barbell Curl,catalogo:0113,barbell standing wide-grip curl,100.0,1.0,True,True,difuso,True
+free_exercise_db:Wide_Stance_Barbell_Squat,Wide Stance Barbell Squat,catalogo:0124,barbell wide squat,83.72,0.75,True,True,sin_match,False
+free_exercise_db:Wide_Stance_Stiff_Legs,Wide Stance Stiff Legs,catalogo:2802,twisted leg raise,57.89,0.167,False,False,sin_match,False
+free_exercise_db:Wind_Sprints,Wind Sprints,catalogo:0858,wind sprints,100.0,1.0,True,True,exacto,True
+free_exercise_db:Windmills,Windmills,catalogo:0554,kettlebell windmill,59.26,0.5,False,True,sin_match,False
+free_exercise_db:Worlds_Greatest_Stretch,World's Greatest Stretch,catalogo:1604,world greatest stretch,95.65,0.75,True,True,difuso,True
+free_exercise_db:Wrist_Circles,Wrist Circles,catalogo:1428,wrist circles,100.0,1.0,True,True,exacto,True
+free_exercise_db:Wrist_Roller,Wrist Roller,catalogo:0859,wrist rollerer,92.31,1.0,True,True,difuso,True
+free_exercise_db:Wrist_Rotations_with_Straight_Bar,Wrist Rotations with Straight Bar,catalogo:3313,weighted straight bar dip,66.67,0.286,False,True,sin_match,False
+free_exercise_db:Yoke_Walk,Yoke Walk,catalogo:0003,air bike,47.06,0.0,False,True,sin_match,False
+free_exercise_db:Zercher_Squats,Zercher Squats,catalogo:0127,barbell zercher squat,76.47,0.667,False,True,sin_match,False
+free_exercise_db:Zottman_Curl,Zottman Curl,catalogo:0439,dumbbell zottman curl,72.73,0.667,True,True,sin_match,False
+free_exercise_db:Zottman_Preacher_Curl,Zottman Preacher Curl,catalogo:2294,dumbbell zottman preacher curl,82.35,0.75,True,True,sin_match,False
