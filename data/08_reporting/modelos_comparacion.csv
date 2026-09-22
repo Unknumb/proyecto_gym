@@ -1,0 +1,16 @@
+objetivo,modelo,conjunto,n,cv_f1_macro,cv_f1_std,mejores_parametros,f1_macro,accuracy,balanced_accuracy
+mecanica,regresion_logistica,test,158,0.9105,0.0253,{'clf__C': 100.0},0.8949,0.8987,0.8971
+mecanica,regresion_logistica,externa_catalogo,59,0.9105,0.0253,{'clf__C': 100.0},0.8107,0.8475,0.7872
+mecanica,random_forest,test,158,0.901,0.0168,"{'clf__max_depth': None, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 1}",0.8735,0.8797,0.8706
+mecanica,random_forest,externa_catalogo,59,0.901,0.0168,"{'clf__max_depth': None, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 1}",0.8031,0.8475,0.775
+mecanica,azar_estratificado,test,158,,,,0.4957,0.5127,0.4958
+fuerza,regresion_logistica,test,174,0.8969,0.0274,{'clf__C': 30.0},0.8821,0.8908,0.8829
+fuerza,regresion_logistica,externa_catalogo,63,0.8969,0.0274,{'clf__C': 30.0},0.7817,0.8095,0.7836
+fuerza,random_forest,test,174,0.9175,0.023,"{'clf__max_depth': None, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.8831,0.8851,0.8796
+fuerza,random_forest,externa_catalogo,63,0.9175,0.023,"{'clf__max_depth': None, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.8924,0.8889,0.9211
+fuerza,azar_estratificado,test,174,,,,0.3353,0.3851,0.3404
+complejidad_tecnica,regresion_logistica,test,178,0.7617,0.0479,{'clf__C': 3.0},0.7473,0.7697,0.7464
+complejidad_tecnica,regresion_logistica,externa_catalogo,63,0.7617,0.0479,{'clf__C': 3.0},0.6609,0.7143,0.6541
+complejidad_tecnica,random_forest,test,178,0.7178,0.034,"{'clf__max_depth': 30, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.7497,0.7978,0.7322
+complejidad_tecnica,random_forest,externa_catalogo,63,0.7178,0.034,"{'clf__max_depth': 30, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.5867,0.7143,0.6014
+complejidad_tecnica,azar_estratificado,test,178,,,,0.4891,0.5056,0.4954
