@@ -881,10 +881,11 @@ pip install -r requirements.txt
 ### 8.2 Ejecución del pipeline
 
 ```bash
-kedro run                              # pipeline completo (20 nodos)
+kedro run                              # pipeline completo (23 nodos)
 kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
 kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
 kedro run --pipeline=integracion_fuentes  # 8 nodos: free-exercise-db + wger (EV2, §11; requiere los dos anteriores)
+kedro run --pipeline=modelado_supervisado # 3 nodos: modelos del perfil de exigencia (EV2, §12; requiere el anterior)
 ```
 
 Las instantáneas de free-exercise-db y wger ya están versionadas en `data/01_raw/`.
@@ -894,10 +895,11 @@ Para refrescarlas (requiere red; cambia los resultados, ver el manifiesto):
 python scripts/descargar_fuentes_externas.py
 ```
 
-### 8.3 Notebook de EDA
+### 8.3 Notebooks
 
 ```bash
-jupyter lab notebooks/01_exploratory_data_analysis.ipynb
+jupyter lab notebooks/01_exploratory_data_analysis.ipynb   # EDA (EV1)
+jupyter lab notebooks/02_modelado_supervisado.ipynb        # Modelado supervisado (EV2, §12)
 ```
 
 El notebook está versionado **con todas las salidas ejecutadas y visibles**. Se ejecuta
@@ -948,6 +950,10 @@ proyecto_ejercicios/
 │   │   ├── free_exercise_db.parquet     # free-exercise-db en el esquema común
 │   │   ├── wger.parquet                 # wger en el esquema común, deduplicado
 │   │   └── vocabulario_muscular.csv     # (fuente, músculo de origen) → músculo canónico
+│   ├── 05_model_input/
+│   │   └── tabla_modelado.parquet       # Variables comunes a las tres fuentes, partición y grupos (§12)
+│   ├── 07_model_output/
+│   │   └── perfil_exigencia.parquet     # Mecánica, fuerza, complejidad y reglas por nodo, con origen y confianza
 │   ├── 03_primary/
 │   │   ├── exercise_features_enriched.parquet  # Tabla analítica + nivel, tipo, rating
 │   │   ├── ejercicios.parquet           # Nodos Ejercicio del grafo: 2.592 únicos, con etiquetas (§11)
@@ -966,6 +972,8 @@ proyecto_ejercicios/
 │       ├── match_free_exercise_db.csv   # Emparejamiento free-exercise-db → catálogo (§11)
 │       ├── match_wger.csv               # Emparejamiento wger → catálogo + free-exercise-db
 │       ├── integracion_fuentes_resumen.csv  # Cobertura de etiquetas por fuente y contexto
+│       ├── modelos_comparacion.csv      # F1, accuracy y parámetros por objetivo × modelo × conjunto (§12)
+│       ├── modelos_predicciones_test.csv    # Predicciones en test y validación externa
 │       └── figures/                 # Exportación PNG de los gráficos
 ├── scripts/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
@@ -973,6 +981,7 @@ proyecto_ejercicios/
 │   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6.2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
+│   ├── 02_modelado_supervisado.ipynb    # EV2: modelos, interpretación y abstención (§12)
 │   └── databricks/                  # Notebooks de la migración a Delta (§2.3)
 │       ├── 01_bronze_ingesta_delta.py
 │       └── 02_silver_gold_medallion.py
@@ -987,9 +996,14 @@ proyecto_ejercicios/
 │       ├── data_enrichment/
 │       │   ├── nodes.py             # 3 nodos: limpieza, emparejamiento auditado, unión
 │       │   └── pipeline.py
-│       └── integracion_fuentes/
-│           ├── nodes.py             # 8 nodos: ontología, esquema común, emparejamiento, consolidación
+│       ├── integracion_fuentes/
+│       │   ├── nodes.py             # 8 nodos: ontología, esquema común, emparejamiento, consolidación
+│       │   └── pipeline.py
+│       └── modelado_supervisado/
+│           ├── nodes.py             # 3 nodos: tabla de modelado, entrenamiento y comparación, predicción
 │           └── pipeline.py
+├── models/
+│   └── modelos_supervisados.pkl     # Modelos ganadores por objetivo, con su umbral de abstención
 ├── requirements.txt
 └── README.md
 ```
@@ -1018,9 +1032,13 @@ proyecto_ejercicios/
 | `emparejar_wger` | esquemas comunes, ontología, `params:emparejamiento_fuentes` | `match_wger_report` |
 | `consolidar_ejercicios` | esquemas comunes, reportes de emparejamiento | `primary_ejercicios`, `primary_ejercicio_musculo` |
 | `resumir_integracion` | `primary_ejercicios`, `primary_ejercicio_musculo`, `primary_musculo_articulacion` | `integracion_fuentes_resumen` |
+| `construir_tabla_modelado` | `intermediate_free_exercise_db`, `primary_ejercicios`, `match_free_exercise_db_report`, `primary_musculo_articulacion`, `params:modelado_supervisado` | `model_input_tabla_modelado` |
+| `entrenar_modelos` | `model_input_tabla_modelado`, `params:modelado_supervisado` | `modelos_comparacion`, `modelos_predicciones_test`, `modelos_supervisados` |
+| `predecir_etiquetas` | `model_input_tabla_modelado`, `primary_ejercicios`, `modelos_supervisados` | `model_output_perfil_exigencia` |
 
 `preparar_megagym`, `emparejar_con_megagym` y `enrich_with_external_metadata` forman el
-pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11). El entorno `conf/databricks/` no
+pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11), y los tres
+últimos, `modelado_supervisado` (§12). El entorno `conf/databricks/` no
 los reapunta todavía a Delta: con `--env=databricks` leen y escriben las rutas locales
 de `conf/base/`.
 
@@ -1219,3 +1237,113 @@ Consecuencias:
   registro de la EV1.
 - Sin validación clínica (§6.4). La ontología amplía el mapeo curado pero no reemplaza
   la revisión profesional.
+
+---
+
+## 12. EV2 — Fase 2: Modelado supervisado del perfil de exigencia
+
+Pipeline `modelado_supervisado` (§8.5). El desarrollo completo, con gráficos e
+interpretación, está en
+[`notebooks/02_modelado_supervisado.ipynb`](notebooks/02_modelado_supervisado.ipynb).
+
+### 12.1 Qué se predice y por qué
+
+El nivel de dificultad combinado no sirve (kappa = −0,01, §11.5), así que la dificultad
+se reemplaza por un **perfil de exigencia** (`docs/plan_ev2.md`). Tres de sus
+dimensiones se aprenden de free-exercise-db, la única fuente con un solo curador:
+
+| Objetivo | Clases | Uso en el recomendador |
+|---|---|---|
+| Mecánica | compuesto / aislado | Principiantes y sustitución |
+| Fuerza | empuje / tracción / estático | Sustituir por el mismo patrón de movimiento |
+| Complejidad técnica | baja / alta (nivel de free-exercise-db, solo esa fuente) | Principiantes |
+
+Las otras tres son **reglas transparentes** sobre el nombre y el equipamiento: impacto
+(saltos, carrera), estabilidad (apoyado / libre / inestable) y carga graduable (banda,
+polea, máquina). La regla de impacto recupera el **97 %** de la pliometría con aterrizaje
+de free-exercise-db; los lanzamientos de balón medicinal se excluyen a propósito porque
+no tienen aterrizaje.
+
+### 12.2 Diseño
+
+- **Variables idénticas en las tres fuentes**: TF-IDF del nombre y de las instrucciones
+  en inglés, músculos agonistas y sinergistas y articulaciones en *multi-hot* sobre la
+  ontología común, familia de equipamiento y reglas. Nada que exista solo en
+  free-exercise-db: el modelo aprendería a reconocer la fuente, no el movimiento.
+- **Sin fuga entre variantes**: los nombres casi idénticos (`token_sort_ratio` ≥ 85) forman
+  un grupo (788 grupos para 876 ejercicios). Test = 20 % de los grupos; ajuste de
+  hiperparámetros con `GroupKFold` de 5 pliegues.
+- **Validación externa**: ejercicios del catálogo cuyo gemelo en free-exercise-db quedó
+  en test (~60 por objetivo). Mide la generalización a otra redacción y otro vocabulario.
+- **Modelos**: regresión logística y Random Forest, ambos con pesos por clase, y un
+  clasificador al azar estratificado como referencia. Métrica: **F1 macro**, porque las
+  clases están desbalanceadas (`static` es 12 %).
+- **Selección contra el sobreajuste**: `C` se elige con la **regla de un error estándar**
+  (el F1 es casi plano entre `C` = 10 y 300); entre algoritmos, un empate dentro de un
+  error estándar lo gana el modelo más simple.
+- **Abstención**: cada modelo etiqueta solo si su confianza supera un umbral. El umbral es
+  el menor que logra 95 % de acierto fuera de muestra, y se exige 95 % y no 90 % porque
+  la validación externa mide una caída de 4–5 puntos en el catálogo.
+
+### 12.3 Resultados
+
+| Objetivo | Ganador | F1 macro CV | F1 test | F1 externo (catálogo) | Azar (test) |
+|---|---|---|---|---|---|
+| Mecánica | Regresión logística, `C` = 10 | 0,900 | 0,882 | 0,811 | 0,496 |
+| Fuerza | Random Forest | 0,918 | 0,883 | **0,892** | 0,335 |
+| Complejidad técnica | Regresión logística, `C` = 1 | 0,747 | 0,744 | 0,670 | 0,489 |
+
+![Comparación de modelos](data/08_reporting/figures/modelos_comparacion.png)
+
+- **Mecánica** es un empate técnico con Random Forest (0,9004 frente a 0,9010 en CV). Gana
+  la logística por simplicidad, y en el catálogo rinde igual o mejor (0,81 vs. 0,80).
+- **Fuerza**: el Random Forest supera a la logística por más de un error estándar y es el
+  único modelo que **no pierde rendimiento en el catálogo** (0,89 frente a 0,80).
+- **Complejidad técnica** es claramente más difícil. Además, el Random Forest sobreajusta
+  el estilo de free-exercise-db: cae a 0,59 en el catálogo.
+
+**Qué aprendió cada modelo** (importancia por permutación agrupada, en test):
+
+![Importancia de variables](data/08_reporting/figures/modelos_importancia_variables.png)
+
+- **Mecánica se decide por la anatomía**: sinergistas y articulaciones. Es la definición
+  biomecánica de "compuesto", y la mejor evidencia de que el modelo aprendió biomecánica
+  y no palabras.
+- **Fuerza se decide por las instrucciones** (verbos *push*, *pull*, *hold*).
+- **Complejidad técnica no tiene una señal dominante** (ninguna familia supera 0,04 de
+  caída). Confirma §11.5: es un juicio editorial, no una propiedad del movimiento.
+
+### 12.4 Abstención y KPIs
+
+![Abstención](data/08_reporting/figures/modelos_abstencion.png)
+
+| KPI | Resultado |
+|---|---|
+| F1 macro en test ≥ 0,85 (mecánica y fuerza) | 0,88 / 0,88 ✅ |
+| Acierto ≥ 90 % de lo etiquetado, en el catálogo | Mecánica 89,8 %, fuerza 88,5 %: en el límite, con una muestra de ~60 (±8 puntos) |
+| Catálogo con mecánica (EV1 → §11 → §12) | 0 % → 23,1 % → **85,5 %** |
+| Catálogo con fuerza | 0 % → 24,1 % → **95,5 %** |
+| Catálogo con complejidad técnica | 0 % → 24,5 % → **32,9 %** (el modelo casi siempre se abstiene) |
+
+En complejidad técnica, abstenerse es lo correcto: sin abstención el acierto en el
+catálogo es 71 %, lo que significaría clasificar mal a uno de cada tres ejercicios.
+
+**Aplicación.** Con complejidad baja conocida, sin impacto y sin inestabilidad, hay **609
+ejercicios aptos para principiante** (287 del catálogo), y 244 de ellos tienen carga
+graduable.
+
+### 12.5 Recomendaciones y límites
+
+1. Usar mecánica y fuerza en la sustitución por lesión de la fase 3: cubren el 85–96 % del
+   catálogo con ~90 % de acierto.
+2. Curar a mano la complejidad técnica del catálogo, empezando por los ejercicios en que
+   el modelo tiene menos confianza (aprendizaje activo).
+3. Exponer en la aplicación el origen (`fuente` / `transferida` / `modelo`) y la confianza
+   de cada etiqueta, y permitir que un profesional la corrija.
+4. Antes de producción, medir el acierto real con ~100 ejercicios del catálogo revisados
+   a mano. La validación externa detecta la caída, pero no alcanza para certificar la
+   meta.
+
+**Límites.** Las etiquetas de free-exercise-db no están validadas clínicamente: el modelo
+reproduce el criterio de esa fuente. Las reglas dependen de palabras clave y no detectan
+un ejercicio de impacto cuyo nombre no lo describa.
