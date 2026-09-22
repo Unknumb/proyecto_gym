@@ -1131,10 +1131,10 @@ id,name,nombre_norm,candidato_titulo,candidato_titulo_norm,similitud,jaccard,reg
 1763,shoulder grip pull-up,shoulder grip pull up,30 Back Reverse-Grip Pull-Up,reverse grip pull up,73.17,0.6,True,True,sin_match,False
 3699,shoulder tap,shoulder tap,Shoulder tap,shoulder tap,100.0,1.0,True,True,exacto,True
 0699,shoulder tap push-up,shoulder tap push up,Shoulder tap,shoulder tap,75.0,0.5,False,True,sin_match,False
-1774,side bridge hip abduction,side bridge hip abduction,Band Hip Adductions,band hip adduction,69.77,0.4,True,False,sin_match,False
+1774,side bridge hip abduction,side bridge hip abduction,Band Hip Adductions,band hip adduction,69.77,0.167,True,False,sin_match,False
 0705,side bridge v. 2,side bridge,Side Bridge,side bridge,100.0,1.0,True,True,exacto,True
 0709,side hip (on parallel bars),side hip on parallel bar,Parallel Bar Dip,parallel bar dip,75.0,0.333,False,True,sin_match,False
-0710,side hip abduction,side hip abduction,Band Hip Adductions,band hip adduction,66.67,0.5,True,False,sin_match,False
+0710,side hip abduction,side hip abduction,Band Hip Adductions,band hip adduction,66.67,0.2,True,False,sin_match,False
 1358,side lying floor stretch,side lying floor stretch,Side-Lying Floor Stretch,side lying floor stretch,100.0,1.0,True,True,exacto,True
 3667,side lying hip adduction (male),side lying hip adduction,Side-lying leg adduction scissor,side lying leg adduction scissor,75.0,0.5,True,True,sin_match,False
 1775,side plank hip adduction,side plank hip adduction,Side plank hip dip,side plank hip dip,80.95,0.6,False,True,sin_match,False
