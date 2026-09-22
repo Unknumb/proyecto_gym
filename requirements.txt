@@ -10,3 +10,5 @@ jupyter
 pyarrow
 lxml
 rapidfuzz>=3.0
+scikit-learn>=1.5
+kedro-datasets[pickle]
