@@ -227,12 +227,31 @@ def _preprocesador(numericas: list[str]) -> ColumnTransformer:
     ])
 
 
-def _candidatos(parametros: dict[str, Any]) -> dict[str, tuple[Any, dict[str, list]]]:
+def _un_error_estandar(cv_results: dict[str, Any]) -> int:
+    """Regla de un error estándar (Hastie, Tibshirani y Friedman, *ESL* §7.10).
+
+    Entre los ``C`` cuyo F1 medio queda a menos de un error estándar del mejor,
+    elige el **menor** (el modelo más regularizado). Con pocas filas y miles de
+    variables de texto, el F1 es casi plano en un rango amplio de ``C``: elegir
+    el máximo exacto es elegir ruido, y deja un modelo que memoriza palabras
+    raras. Se usa como ``refit`` de ``GridSearchCV``.
+    """
+    medias = np.asarray(cv_results["mean_test_score"])
+    errores = np.asarray(cv_results["std_test_score"]) / np.sqrt(
+        sum(k.startswith("split") and k.endswith("_test_score") for k in cv_results))
+    mejor = int(np.argmax(medias))
+    admisibles = np.flatnonzero(medias >= medias[mejor] - errores[mejor])
+    valores_c = np.asarray(cv_results["param_clf__C"], dtype=float)
+    return int(admisibles[np.argmin(valores_c[admisibles])])
+
+
+def _candidatos(parametros: dict[str, Any]) -> dict[str, tuple[Any, dict[str, list], Any]]:
     """Modelos a comparar y su espacio de hiperparámetros.
 
     - **Regresión logística**: línea base lineal e interpretable; sus
       coeficientes dicen qué palabra o músculo empuja a cada clase.
       ``class_weight="balanced"`` compensa el desbalance (``static`` ~12 %).
+      ``C`` se elige con la regla de un error estándar (``_un_error_estandar``).
     - **Random Forest**: captura interacciones que un modelo lineal no ve (un
       mismo músculo es compuesto con barra y aislado con polea). Es robusto con
       muchas variables binarias dispersas y pocas filas.
@@ -242,12 +261,14 @@ def _candidatos(parametros: dict[str, Any]) -> dict[str, tuple[Any, dict[str, li
         "regresion_logistica": (
             LogisticRegression(max_iter=5000, class_weight="balanced"),
             {"clf__C": parametros["grilla_logistica"]["C"]},
+            _un_error_estandar,
         ),
         "random_forest": (
             RandomForestClassifier(n_estimators=int(parametros["n_arboles"]),
                                    class_weight="balanced_subsample", random_state=semilla,
                                    n_jobs=-1),
             {f"clf__{k}": v for k, v in parametros["grilla_random_forest"].items()},
+            True,
         ),
     }
 
@@ -275,6 +296,25 @@ def _umbral_abstencion(y_real: np.ndarray, probas: np.ndarray, clases: np.ndarra
     return 1.0
 
 
+def _elegir_ganador(resultados: dict[str, GridSearchCV], preferido: str) -> str:
+    """Mayor F1 macro en validación cruzada; pero si ``preferido`` (el modelo más
+    simple e interpretable) queda a menos de un error estándar del mejor, gana
+    ``preferido``. Es la misma lógica de la regla de un error estándar, aplicada
+    a la elección entre algoritmos: una diferencia menor que el ruido entre
+    pliegues no justifica un modelo más complejo."""
+    def _media_y_error(busqueda: GridSearchCV) -> tuple[float, float]:
+        k = busqueda.best_index_
+        n_folds = busqueda.n_splits_
+        return (busqueda.cv_results_["mean_test_score"][k],
+                busqueda.cv_results_["std_test_score"][k] / np.sqrt(n_folds))
+
+    mejor = max(resultados, key=lambda n: _media_y_error(resultados[n])[0])
+    media_mejor, error_mejor = _media_y_error(resultados[mejor])
+    if preferido in resultados and _media_y_error(resultados[preferido])[0] >= media_mejor - error_mejor:
+        return preferido
+    return mejor
+
+
 def entrenar_modelos(
     tabla: pd.DataFrame, parametros: dict[str, Any],
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any]]:
@@ -288,7 +328,8 @@ def entrenar_modelos(
     3. Un ``DummyClassifier`` estratificado da la referencia de azar.
 
     El ganador es el de mayor F1 macro en validación cruzada (no en *test*, para
-    no elegir mirando la prueba). Su umbral de abstención se fija con
+    no elegir mirando la prueba), salvo empate dentro de un error estándar, en
+    cuyo caso gana el modelo más simple (``_elegir_ganador``). Su umbral de abstención se fija con
     predicciones fuera de muestra sobre *train*, y luego se reentrena con todo
     free-exercise-db.
 
@@ -311,17 +352,19 @@ def entrenar_modelos(
                             & tabla["gemelo_fedb"].isin(test["ejercicio_id"])]
 
         resultados = {}
-        for nombre, (clf, grilla) in _candidatos(parametros).items():
+        for nombre, (clf, grilla, refit) in _candidatos(parametros).items():
             pipe = Pipeline([("prep", _preprocesador(numericas)), ("clf", clf)])
-            busqueda = GridSearchCV(pipe, grilla, scoring="f1_macro", cv=cv, n_jobs=-1)
+            busqueda = GridSearchCV(pipe, grilla, scoring="f1_macro", cv=cv, n_jobs=-1,
+                                    refit=refit)
             busqueda.fit(train, train[objetivo], groups=train["grupo"])
             resultados[nombre] = busqueda
+            cv_f1 = busqueda.cv_results_["mean_test_score"][busqueda.best_index_]
             cv_std = busqueda.cv_results_["std_test_score"][busqueda.best_index_]
             for conjunto, df in [("test", test), ("externa_catalogo", externa)]:
                 y_real = df[objetivo] if conjunto == "test" else df[f"{objetivo}_referencia"]
                 y_pred = busqueda.predict(df)
                 filas.append({"objetivo": objetivo, "modelo": nombre, "conjunto": conjunto,
-                              "n": len(df), "cv_f1_macro": busqueda.best_score_,
+                              "n": len(df), "cv_f1_macro": cv_f1,
                               "cv_f1_std": cv_std,
                               "mejores_parametros": str(busqueda.best_params_),
                               **_metricas(y_real, y_pred)})
@@ -337,7 +380,10 @@ def entrenar_modelos(
         filas.append({"objetivo": objetivo, "modelo": "azar_estratificado", "conjunto": "test",
                       "n": len(test), **_metricas(test[objetivo], azar.predict(test))})
 
-        ganador = max(resultados, key=lambda n: resultados[n].best_score_)
+        def _cv_f1(busqueda: GridSearchCV) -> float:
+            return busqueda.cv_results_["mean_test_score"][busqueda.best_index_]
+
+        ganador = _elegir_ganador(resultados, parametros["modelo_preferido_en_empate"])
         mejor = resultados[ganador].best_estimator_
         probas_oof = cross_val_predict(clone(mejor), train, train[objetivo],
                                        groups=train["grupo"], cv=cv, method="predict_proba")
@@ -347,9 +393,11 @@ def entrenar_modelos(
         final = clone(mejor).fit(datos, datos[objetivo])
         modelos[objetivo] = {"estimador": final, "modelo": ganador, "umbral": umbral,
                              "clases": list(final.classes_),
-                             "modelo_train": mejor}
+                             "modelo_train": mejor,
+                             "cv_results": {n: pd.DataFrame(b.cv_results_).filter(
+                                 regex=r"^(param_|mean_test|std_test)") for n, b in resultados.items()}}
         logger.info("%s: gana %s (CV F1 macro %.3f); umbral de abstención %.2f.",
-                    objetivo, ganador, resultados[ganador].best_score_, umbral)
+                    objetivo, ganador, _cv_f1(resultados[ganador]), umbral)
 
     comparacion = pd.DataFrame(filas)
     for columna in ["cv_f1_macro", "cv_f1_std", "f1_macro", "accuracy", "balanced_accuracy"]:

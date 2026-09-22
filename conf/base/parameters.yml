@@ -29,8 +29,10 @@ modelado_supervisado:
   # 4-5 puntos al pasar al catálogo (otra redacción y otro vocabulario).
   precision_objetivo_abstencion: 0.95
   n_arboles: 400
+  # Si queda a menos de 1 error estándar del mejor en CV, gana el más simple.
+  modelo_preferido_en_empate: regresion_logistica
   grilla_logistica:
-    C: [0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0]
+    C: [0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0]   # elegido con la regla de 1 error estándar
   grilla_random_forest:
     max_depth: [null, 30]
     min_samples_leaf: [1, 3]
