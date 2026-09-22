@@ -91,13 +91,13 @@ Por eso la dificultad se reemplaza por un **perfil de exigencia** de varias dime
   - [x] Articulaciones derivadas (`musculo_articulacion.csv`) y número de articulaciones
         implicadas. Es el indicador biomecánico directo de "compuesto".
   - [x] Familia de equipamiento (*one-hot*).
-- [x] **Evitar fuga de información:** agrupar por `nombre_norm` o `grupo_variacion` al
-      separar train/test (`GroupKFold`), para que variantes casi idénticas no queden a
-      ambos lados.
+- [x] **Evitar fuga de información:** grupos de variantes por `token_sort_ratio` ≥ 85
+      (788 grupos), con `GroupShuffleSplit` para test y `GroupKFold` para CV.
 - [x] **Tres objetivos:** `mecanica` (binario), `fuerza` (3 clases) y complejidad técnica
       (binario: `beginner` vs. `intermediate`/`expert`; *expert* solo tiene 57 casos).
-- [x] **Reglas del perfil de exigencia** (impacto, estabilidad, carga graduable) con una
-      muestra revisada a mano, porque se basan en palabras clave.
+- [x] **Reglas del perfil de exigencia** (impacto, estabilidad, carga graduable). La de
+      impacto se validó contra la categoría `plyometrics` de free-exercise-db (recall
+      97 %).
 - [x] **Modelos a comparar (mínimo 2):**
   - [x] Regresión logística (base interpretable; coeficientes por variable).
   - [x] Random Forest o XGBoost (interacciones no lineales entre músculos y equipo).
@@ -123,6 +123,9 @@ Por eso la dificultad se reemplaza por un **perfil de exigencia** de varias dime
       (mecánica y fuerza) para medir el acierto real (README §12.5).
 - [ ] Curar la complejidad técnica de los ejercicios más usados del catálogo, empezando
       por los de menor confianza.
+- [ ] Revisar a mano una muestra de la regla de **estabilidad** (apoyado / libre /
+      inestable): a diferencia de la de impacto, no tiene una referencia contra la cual
+      validarse automáticamente.
 
 ---
 
