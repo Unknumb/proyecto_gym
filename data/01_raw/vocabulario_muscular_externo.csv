@@ -1,0 +1,33 @@
+fuente,musculo_fuente,musculo,nota
+free_exercise_db,abdominals,abdominals,
+free_exercise_db,abductors,abductors,
+free_exercise_db,adductors,adductors,
+free_exercise_db,biceps,biceps,
+free_exercise_db,calves,calves,
+free_exercise_db,chest,chest,región compuesta
+free_exercise_db,forearms,forearms,
+free_exercise_db,glutes,glutes,
+free_exercise_db,hamstrings,hamstrings,
+free_exercise_db,lats,latissimus dorsi,
+free_exercise_db,lower back,lower back,
+free_exercise_db,middle back,upper back,"romboides + trapecio medio, lo que el catálogo llama 'upper back'"
+free_exercise_db,neck,neck,región compuesta
+free_exercise_db,quadriceps,quadriceps,
+free_exercise_db,shoulders,shoulders,región compuesta
+free_exercise_db,traps,trapezius,
+free_exercise_db,triceps,triceps,
+wger,Anterior deltoid,deltoids,"wger lo usa para todo el deltoides, no solo el fascículo anterior (p. ej. en elevaciones laterales)"
+wger,Biceps brachii,biceps,
+wger,Biceps femoris,hamstrings,
+wger,Brachialis,brachialis,
+wger,Gastrocnemius,calves,
+wger,Gluteus maximus,glutes,
+wger,Latissimus dorsi,latissimus dorsi,
+wger,Obliquus externus abdominis,obliques,
+wger,Pectoralis major,pectorals,
+wger,Quadriceps femoris,quadriceps,
+wger,Rectus abdominis,abdominals,
+wger,Serratus anterior,serratus anterior,
+wger,Soleus,soleus,
+wger,Trapezius,trapezius,
+wger,Triceps brachii,triceps,

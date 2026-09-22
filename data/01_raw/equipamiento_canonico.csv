@@ -1,0 +1,53 @@
+fuente,equipamiento_fuente,familia,contexto
+catalogo,body weight,peso corporal,peso_corporal
+catalogo,assisted,asistido,rehabilitacion_funcional
+catalogo,barbell,peso libre,gimnasio
+catalogo,olympic barbell,peso libre,gimnasio
+catalogo,ez barbell,peso libre,gimnasio
+catalogo,trap bar,peso libre,gimnasio
+catalogo,dumbbell,peso libre,gimnasio
+catalogo,kettlebell,peso libre,gimnasio
+catalogo,weighted,peso libre,gimnasio
+catalogo,cable,cable,gimnasio
+catalogo,rope,cable,gimnasio
+catalogo,leverage machine,maquina,gimnasio
+catalogo,smith machine,maquina,gimnasio
+catalogo,sled machine,maquina,gimnasio
+catalogo,band,banda elastica,rehabilitacion_funcional
+catalogo,resistance band,banda elastica,rehabilitacion_funcional
+catalogo,stability ball,balon o rodillo,rehabilitacion_funcional
+catalogo,bosu ball,balon o rodillo,rehabilitacion_funcional
+catalogo,medicine ball,balon o rodillo,rehabilitacion_funcional
+catalogo,roller,balon o rodillo,rehabilitacion_funcional
+catalogo,wheel roller,balon o rodillo,rehabilitacion_funcional
+catalogo,upper body ergometer,maquina de cardio,cardio_otros
+catalogo,skierg machine,maquina de cardio,cardio_otros
+catalogo,stationary bike,maquina de cardio,cardio_otros
+catalogo,elliptical machine,maquina de cardio,cardio_otros
+catalogo,stepmill machine,maquina de cardio,cardio_otros
+catalogo,hammer,otro,cardio_otros
+catalogo,tire,otro,cardio_otros
+free_exercise_db,body only,peso corporal,peso_corporal
+free_exercise_db,barbell,peso libre,gimnasio
+free_exercise_db,e-z curl bar,peso libre,gimnasio
+free_exercise_db,dumbbell,peso libre,gimnasio
+free_exercise_db,kettlebells,peso libre,gimnasio
+free_exercise_db,cable,cable,gimnasio
+free_exercise_db,machine,maquina,gimnasio
+free_exercise_db,bands,banda elastica,rehabilitacion_funcional
+free_exercise_db,exercise ball,balon o rodillo,rehabilitacion_funcional
+free_exercise_db,medicine ball,balon o rodillo,rehabilitacion_funcional
+free_exercise_db,foam roll,balon o rodillo,rehabilitacion_funcional
+free_exercise_db,other,otro,cardio_otros
+wger,none (bodyweight exercise),peso corporal,peso_corporal
+wger,Pull-up bar,peso corporal,peso_corporal
+wger,Gym mat,peso corporal,peso_corporal
+wger,Bench,accesorio,
+wger,Incline bench,accesorio,
+wger,Barbell,peso libre,gimnasio
+wger,SZ-Bar,peso libre,gimnasio
+wger,Dumbbell,peso libre,gimnasio
+wger,Kettlebell,peso libre,gimnasio
+wger,Cable machine,cable,gimnasio
+wger,Resistance band,banda elastica,rehabilitacion_funcional
+wger,Swiss Ball,balon o rodillo,rehabilitacion_funcional

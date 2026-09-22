@@ -1,0 +1,39 @@
+musculo,articulacion,nota
+abdominals,columna (lumbar),
+abductors,cadera,
+adductors,cadera,
+ankle stabilizers,pie (intertarsal),
+biceps,codo,
+brachialis,codo,
+calves,tobillo,biarticular (gastrocnemio)
+calves,rodilla,biarticular (gastrocnemio)
+deltoids,hombro,
+forearms,muñeca,etiqueta compuesta: muñeca y radiocubital
+forearms,radiocubital,etiqueta compuesta: muñeca y radiocubital
+glutes,cadera,
+grip muscles,muñeca/dedos,
+groin,cadera,
+hamstrings,cadera,biarticular
+hamstrings,rodilla,biarticular
+hip flexors,cadera,
+inner thighs,cadera,
+latissimus dorsi,hombro,
+levator scapulae,escapulotorácica,
+lower abs,columna (lumbar),
+lower back,columna (lumbar),
+obliques,columna (torácico-lumbar),
+pectorals,hombro,
+quadriceps,rodilla,
+rear deltoids,hombro,
+rhomboids,escapulotorácica,
+rotator cuff,hombro,
+serratus anterior,escapulotorácica,
+shins,tobillo,
+soleus,tobillo,
+sternocleidomastoid,columna (cervical),
+trapezius,escapulotorácica,
+triceps,codo,
+upper back,escapulotorácica,
+upper chest,hombro,
+wrist extensors,muñeca,
+wrist flexors,muñeca,
