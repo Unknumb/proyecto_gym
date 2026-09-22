@@ -185,3 +185,27 @@ integracion_fuentes_resumen:
 fuentes_match_validacion:
   type: pandas.CSVDataset
   filepath: data/01_raw/fuentes_match_validacion_manual.csv
+
+# ── EV2: Modelado supervisado (pipeline modelado_supervisado) ────────────────
+model_input_tabla_modelado:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/tabla_modelado.parquet
+
+# Por objetivo: estimador final (reentrenado con todo free-exercise-db), modelo
+# entrenado solo con train (para interpretar en test), umbral de abstención.
+modelos_supervisados:
+  type: pickle.PickleDataset
+  filepath: models/modelos_supervisados.pkl
+  backend: joblib
+
+modelos_comparacion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_comparacion.csv
+
+modelos_predicciones_test:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_predicciones_test.csv
+
+model_output_perfil_exigencia:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/perfil_exigencia.parquet

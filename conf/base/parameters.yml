@@ -17,3 +17,21 @@ emparejamiento_megagym:
 emparejamiento_fuentes:
   umbral_similitud: 85
   umbral_jaccard: 0.5
+
+# Modelado supervisado del perfil de exigencia (docs/plan_ev2.md, fase 2).
+modelado_supervisado:
+  semilla: 2026
+  umbral_variantes: 85            # token_sort_ratio para agrupar variantes casi idénticas
+  proporcion_test: 0.2            # fracción de grupos reservada para prueba
+  n_folds: 5                      # GroupKFold dentro de train
+  # Acierto mínimo, fuera de muestra en free-exercise-db, de lo que el modelo sí
+  # etiqueta. Es 0.95 y no 0.90 porque la validación externa mide una caída de
+  # 4-5 puntos al pasar al catálogo (otra redacción y otro vocabulario).
+  precision_objetivo_abstencion: 0.95
+  n_arboles: 400
+  grilla_logistica:
+    C: [0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0]
+  grilla_random_forest:
+    max_depth: [null, 30]
+    min_samples_leaf: [1, 3]
+    max_features: [sqrt, 0.1]
