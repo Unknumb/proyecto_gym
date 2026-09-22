@@ -46,11 +46,33 @@ fuentes las traen.
 (empuje/tracción/estático) a todo el catálogo, para que el recomendador pueda sustituir
 un ejercicio por otro del mismo patrón de movimiento?
 
-**Por qué `mecanica` y `fuerza` y no `nivel`:** el nivel de dificultad tiene un acuerdo
-entre fuentes igual al azar (kappa = −0,01, README §11.5). Mecánica y fuerza dependen de
-la anatomía (cuántas articulaciones se mueven, en qué dirección), así que tienen una base
-que se puede aprender. `nivel` queda como análisis secundario, entrenado dentro de una
-sola fuente.
+**Qué hacer con el nivel de dificultad (decisión del 2026-09-22).** El nivel *combinado*
+no sirve: megaGymDataset y free-exercise-db coinciden igual que al azar (kappa = −0,01,
+README §11.5). El nivel de free-exercise-db **por sí solo** sí sirve, porque tiene un
+solo curador y sigue una lógica coherente: los levantamientos técnicos son 91 %
+intermedio o experto, los ejercicios aislados 78 % principiante y la banda elástica 100 %
+principiante. Lo que mide es **complejidad técnica**, no riesgo: marca como principiante
+el 93 % de los saltos.
+
+Por eso la dificultad se reemplaza por un **perfil de exigencia** de varias dimensiones:
+
+| Dimensión | Cómo se obtiene | Para quién importa |
+|---|---|---|
+| Complejidad técnica | Modelo supervisado entrenado **solo** con el nivel de free-exercise-db (principiante vs. intermedio/experto) | Principiante |
+| Mecánica (compuesto/aislado) | Modelo supervisado | Principiante, sustitución |
+| Fuerza (empuje/tracción/estático) | Modelo supervisado | Sustitución por patrón de movimiento |
+| Impacto | Regla transparente: saltos o pliometría | Lesión, adulto mayor |
+| Estabilidad | Regla: apoyado (máquina, sentado, acostado) o inestable (una pierna, balón) | Ambos |
+| Carga graduable | Regla: banda, máquina o cable | Ambos |
+| Articulaciones que carga | Grafo (Fase 3) | **Lesión** |
+
+- **Principiante:** baja complejidad técnica, apoyado, sin impacto y con carga graduable.
+- **Lesión:** el grafo descarta los ejercicios que cargan la articulación afectada; entre
+  los que quedan se prefieren los apoyados y sin impacto. Si quedan menos de 3
+  alternativas, el sistema se abstiene (README §5.3).
+- El nivel de megaGymDataset queda solo como dato descriptivo.
+- **Límite declarado:** qué combinación del perfil es "apta para principiante" o "apta
+  para lesión" es un criterio de diseño del equipo, no una validación clínica.
 
 **Tareas**
 
@@ -70,6 +92,10 @@ sola fuente.
 - [ ] **Evitar fuga de información:** agrupar por `nombre_norm` o `grupo_variacion` al
       separar train/test (`GroupKFold`), para que variantes casi idénticas no queden a
       ambos lados.
+- [ ] **Tres objetivos:** `mecanica` (binario), `fuerza` (3 clases) y complejidad técnica
+      (binario: `beginner` vs. `intermediate`/`expert`; *expert* solo tiene 57 casos).
+- [ ] **Reglas del perfil de exigencia** (impacto, estabilidad, carga graduable) con una
+      muestra revisada a mano, porque se basan en palabras clave.
 - [ ] **Modelos a comparar (mínimo 2):**
   - [ ] Regresión logística (base interpretable; coeficientes por variable).
   - [ ] Random Forest o XGBoost (interacciones no lineales entre músculos y equipo).
@@ -122,6 +148,8 @@ alternativas reales tiene un ejercicio cuando se veta una articulación lesionad
         del mismo cluster que no carguen esa articulación.
   - [ ] Medir el KPI "Cobertura de sustitución": % de ejercicios con ≥ 3 alternativas
         (meta 85 %, README §1.3), por articulación y por contexto.
+  - [ ] Demostración para la presentación: "principiante con rodilla lesionada busca
+        alternativa a la sentadilla", aplicando el perfil de exigencia sobre el grafo.
   - [ ] Implementar la mitigación de sesgo de §5.1: cuota de alternativas sin
         equipamiento y abstención cuando el músculo tenga < 10 ejercicios
         (`levator scapulae` sigue en 2).
