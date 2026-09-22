@@ -10,3 +10,10 @@
 emparejamiento_megagym:
   umbral_similitud: 85    # token_sort_ratio (0-100) sobre nombres normalizados
   umbral_jaccard: 0.5     # solapamiento de tokens, estrictamente mayor que
+
+# Emparejamiento entre el catálogo, free-exercise-db y wger (pipeline
+# integracion_fuentes). Mismos umbrales que megaGymDataset; la coherencia se
+# mide por articulación de los agonistas y familia de equipamiento.
+emparejamiento_fuentes:
+  umbral_similitud: 85
+  umbral_jaccard: 0.5
