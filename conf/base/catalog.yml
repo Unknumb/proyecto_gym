@@ -209,3 +209,53 @@ modelos_predicciones_test:
 model_output_perfil_exigencia:
   type: pandas.ParquetDataset
   filepath: data/07_model_output/perfil_exigencia.parquet
+
+# ── EV2: Grafo biomecánico no supervisado (pipeline grafo_biomecanico) ───────
+grafo_biomecanico:
+  type: pickle.PickleDataset
+  filepath: models/grafo_biomecanico.pkl
+
+# Una fila por ejercicio del grafo: perfil de exigencia, músculos expandidos y
+# articulaciones que carga.
+grafo_nodos_ejercicio:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/grafo_nodos_ejercicio.parquet
+
+embeddings_node2vec:
+  type: pandas.ParquetDataset
+  filepath: models/embeddings_node2vec.parquet
+
+comunidades_louvain:
+  type: MemoryDataset
+
+clusters_kmeans:
+  type: MemoryDataset
+
+louvain_barrido:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/louvain_barrido.csv
+
+kmeans_barrido:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/kmeans_barrido.csv
+
+# Familia de movimiento de cada ejercicio según los dos métodos, con UMAP.
+model_output_familias_movimiento:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/familias_movimiento.parquet
+
+familias_perfiles:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/familias_perfiles.csv
+
+clustering_comparacion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/clustering_comparacion.csv
+
+sustitucion_cobertura:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/sustitucion_cobertura.csv
+
+sustitucion_contexto:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/sustitucion_contexto.csv

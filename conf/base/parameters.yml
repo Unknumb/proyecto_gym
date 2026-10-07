@@ -37,3 +37,41 @@ modelado_supervisado:
     max_depth: [null, 30]
     min_samples_leaf: [1, 3]
     max_features: [sqrt, 0.1]
+
+# Grafo biomecánico no supervisado (docs/plan_ev2.md, fase 3).
+grafo_biomecanico:
+  semilla: 2026
+  pesos_aristas:
+    agonista: 1.0          # Ejercicio → Músculo
+    sinergista: 0.5
+    articulacion: 1.0      # Músculo → Articulación
+    region: 1.0            # Región → Músculo componente
+    fuerza: 0.5            # Ejercicio → empuje / tracción / estático (fase 2)
+    mecanica: 0.3          # Ejercicio → compuesto / aislado (fase 2)
+    equipamiento: 0.3      # bajo: la familia de movimiento no depende del equipo
+  louvain:
+    vecinos: 25            # k de la proyección k-NN Ejercicio–Ejercicio
+    resoluciones: [0.5, 1.0, 1.5, 2.0]
+    resolucion: 1.0
+    semillas_estabilidad: 5
+  node2vec:
+    dimensiones: 16
+    paseos_por_nodo: 10
+    largo_paseo: 40
+    p: 1.0
+    q: 0.5                 # q < 1: explora hacia afuera (homofilia, comunidades)
+    ventana: 5
+    epocas: 5
+  kmeans:
+    k_candidatos: [4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28]
+    k: 12
+    semillas_estabilidad: 5
+  umap:
+    vecinos: 15
+    distancia_minima: 0.1
+  metodo_familias: kmeans_node2vec
+  sustitucion:
+    min_alternativas: 3                       # KPI §1.3
+    top_n: 5
+    min_ejercicios_musculo: 10                # abstención, README §5.1 b
+    familias_sin_equipamiento: [peso corporal]   # cuota, README §5.1 a
