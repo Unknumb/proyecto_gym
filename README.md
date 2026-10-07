@@ -873,19 +873,23 @@ Norte técnico del proyecto, **no implementado en esta entrega**:
 ### 8.1 Instalación
 
 ```bash
-python -m venv .venv
+python3.13 -m venv .venv          # o: uv venv --python 3.13 .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Requiere **Python 3.13** (`.python-version`): `gensim`, usado por Node2Vec en el grafo
+biomecánico (§13), no compila todavía en Python 3.14.
+
 ### 8.2 Ejecución del pipeline
 
 ```bash
-kedro run                              # pipeline completo (23 nodos)
+kedro run                              # pipeline completo (29 nodos)
 kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
 kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
 kedro run --pipeline=integracion_fuentes  # 8 nodos: free-exercise-db + wger (EV2, §11; requiere los dos anteriores)
 kedro run --pipeline=modelado_supervisado # 3 nodos: modelos del perfil de exigencia (EV2, §12; requiere el anterior)
+kedro run --pipeline=grafo_biomecanico    # 6 nodos: grafo, Louvain, Node2Vec + K-Means, sustitución (EV2, §13; ~1 min)
 ```
 
 Las instantáneas de free-exercise-db y wger ya están versionadas en `data/01_raw/`.
@@ -900,6 +904,7 @@ python scripts/descargar_fuentes_externas.py
 ```bash
 jupyter lab notebooks/01_exploratory_data_analysis.ipynb   # EDA (EV1)
 jupyter lab notebooks/02_modelado_supervisado.ipynb        # Modelado supervisado (EV2, §12)
+jupyter lab notebooks/03_modelado_no_supervisado.ipynb     # Grafo biomecánico no supervisado (EV2, §13)
 ```
 
 El notebook está versionado **con todas las salidas ejecutadas y visibles**. Se ejecuta
@@ -951,9 +956,11 @@ proyecto_ejercicios/
 │   │   ├── wger.parquet                 # wger en el esquema común, deduplicado
 │   │   └── vocabulario_muscular.csv     # (fuente, músculo de origen) → músculo canónico
 │   ├── 05_model_input/
-│   │   └── tabla_modelado.parquet       # Variables comunes a las tres fuentes, partición y grupos (§12)
+│   │   ├── tabla_modelado.parquet       # Variables comunes a las tres fuentes, partición y grupos (§12)
+│   │   └── grafo_nodos_ejercicio.parquet  # Ejercicios del grafo: perfil, músculos y articulaciones que carga (§13)
 │   ├── 07_model_output/
-│   │   └── perfil_exigencia.parquet     # Mecánica, fuerza, complejidad y reglas por nodo, con origen y confianza
+│   │   ├── perfil_exigencia.parquet     # Mecánica, fuerza, complejidad y reglas por nodo, con origen y confianza
+│   │   └── familias_movimiento.parquet  # Familia (Louvain y K-Means) y coordenadas UMAP por ejercicio (§13)
 │   ├── 03_primary/
 │   │   ├── exercise_features_enriched.parquet  # Tabla analítica + nivel, tipo, rating
 │   │   ├── ejercicios.parquet           # Nodos Ejercicio del grafo: 2.592 únicos, con etiquetas (§11)
@@ -974,6 +981,12 @@ proyecto_ejercicios/
 │       ├── integracion_fuentes_resumen.csv  # Cobertura de etiquetas por fuente y contexto
 │       ├── modelos_comparacion.csv      # F1, accuracy y parámetros por objetivo × modelo × conjunto (§12)
 │       ├── modelos_predicciones_test.csv    # Predicciones en test y validación externa
+│       ├── louvain_barrido.csv          # Modularidad y estabilidad por resolución (§13)
+│       ├── kmeans_barrido.csv           # Codo, silhouette, Davies-Bouldin y estabilidad por k
+│       ├── clustering_comparacion.csv   # Louvain vs. Node2Vec + K-Means
+│       ├── familias_perfiles.csv        # Perfil de cada familia de movimiento
+│       ├── sustitucion_cobertura.csv    # KPI de sustitución por articulación y método
+│       ├── sustitucion_contexto.csv     # KPI de sustitución por contexto
 │       └── figures/                 # Exportación PNG de los gráficos
 ├── scripts/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
@@ -982,6 +995,7 @@ proyecto_ejercicios/
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
 │   ├── 02_modelado_supervisado.ipynb    # EV2: modelos, interpretación y abstención (§12)
+│   ├── 03_modelado_no_supervisado.ipynb # EV2: grafo, familias de movimiento y sustitución (§13)
 │   └── databricks/                  # Notebooks de la migración a Delta (§2.3)
 │       ├── 01_bronze_ingesta_delta.py
 │       └── 02_silver_gold_medallion.py
@@ -999,11 +1013,16 @@ proyecto_ejercicios/
 │       ├── integracion_fuentes/
 │       │   ├── nodes.py             # 8 nodos: ontología, esquema común, emparejamiento, consolidación
 │       │   └── pipeline.py
-│       └── modelado_supervisado/
-│           ├── nodes.py             # 3 nodos: tabla de modelado, entrenamiento y comparación, predicción
+│       ├── modelado_supervisado/
+│       │   ├── nodes.py             # 3 nodos: tabla de modelado, entrenamiento y comparación, predicción
+│       │   └── pipeline.py
+│       └── grafo_biomecanico/
+│           ├── nodes.py             # 6 nodos: grafo, Louvain, Node2Vec, K-Means, familias, sustitución
 │           └── pipeline.py
 ├── models/
-│   └── modelos_supervisados.pkl     # Modelos ganadores por objetivo, con su umbral de abstención
+│   ├── modelos_supervisados.pkl     # Modelos ganadores por objetivo, con su umbral de abstención
+│   ├── grafo_biomecanico.pkl        # Grafo heterogéneo (networkx) (§13)
+│   └── embeddings_node2vec.parquet  # Vector de 16 dimensiones por nodo del grafo
 ├── requirements.txt
 └── README.md
 ```
@@ -1035,12 +1054,18 @@ proyecto_ejercicios/
 | `construir_tabla_modelado` | `intermediate_free_exercise_db`, `primary_ejercicios`, `match_free_exercise_db_report`, `primary_musculo_articulacion`, `params:modelado_supervisado` | `model_input_tabla_modelado` |
 | `entrenar_modelos` | `model_input_tabla_modelado`, `params:modelado_supervisado` | `modelos_comparacion`, `modelos_predicciones_test`, `modelos_supervisados` |
 | `predecir_etiquetas` | `model_input_tabla_modelado`, `primary_ejercicios`, `modelos_supervisados` | `model_output_perfil_exigencia` |
+| `construir_grafo` | `primary_ejercicios`, `model_output_perfil_exigencia`, `primary_ejercicio_musculo`, `primary_musculo_articulacion`, `regiones_compuestas`, `params:grafo_biomecanico` | `grafo_biomecanico`, `grafo_nodos_ejercicio` |
+| `detectar_comunidades` | `grafo_biomecanico`, `grafo_nodos_ejercicio` | `comunidades_louvain` (memoria), `louvain_barrido` |
+| `entrenar_node2vec` | `grafo_biomecanico` | `embeddings_node2vec` |
+| `agrupar_embeddings` | `embeddings_node2vec`, `grafo_nodos_ejercicio` | `clusters_kmeans` (memoria), `kmeans_barrido` |
+| `consolidar_familias` | nodos, comunidades, clusters, embeddings, grafo | `model_output_familias_movimiento`, `familias_perfiles`, `clustering_comparacion` |
+| `evaluar_sustitucion` | `model_output_familias_movimiento`, `embeddings_node2vec`, `primary_musculo_articulacion` | `sustitucion_cobertura`, `sustitucion_contexto` |
 
 `preparar_megagym`, `emparejar_con_megagym` y `enrich_with_external_metadata` forman el
-pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11), y los tres
-últimos, `modelado_supervisado` (§12). El entorno `conf/databricks/` no
-los reapunta todavía a Delta: con `--env=databricks` leen y escriben las rutas locales
-de `conf/base/`.
+pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11); los tres
+siguientes, `modelado_supervisado` (§12), y los seis últimos, `grafo_biomecanico` (§13).
+El entorno `conf/databricks/` no los reapunta todavía a Delta: con `--env=databricks`
+leen y escriben las rutas locales de `conf/base/`.
 
 ---
 
@@ -1347,3 +1372,123 @@ graduable.
 **Límites.** Las etiquetas de free-exercise-db no están validadas clínicamente: el modelo
 reproduce el criterio de esa fuente. Las reglas dependen de palabras clave y no detectan
 un ejercicio de impacto cuyo nombre no lo describa.
+
+---
+
+## 13. EV2 — Fase 3: Grafo biomecánico no supervisado
+
+Pipeline `grafo_biomecanico` (§8.5). El desarrollo completo, con gráficos e
+interpretación, está en
+[`notebooks/03_modelado_no_supervisado.ipynb`](notebooks/03_modelado_no_supervisado.ipynb).
+
+### 13.1 Pregunta de negocio
+
+¿Qué **familias de movimiento** existen en el catálogo, y cuántas alternativas reales tiene
+un ejercicio cuando se **veta una articulación lesionada**? Ninguna fuente trae una
+taxonomía común de movimientos, así que las familias se descubren sin etiquetas. La
+segunda pregunta es el KPI *Cobertura de sustitución* de §1.3 (meta ≥ 85 %).
+
+### 13.2 El grafo
+
+![Vecindad de la sentadilla](data/08_reporting/figures/grafo_ego_sentadilla.png)
+
+Grafo heterogéneo de **2.529 nodos y 13.907 aristas**: 2.461 ejercicios (se excluyen 131
+sin músculos), 41 músculos y regiones, 13 articulaciones, 9 familias de equipamiento y
+las etiquetas de fuerza y mecánica de la fase 2.
+
+| Arista | Peso |
+|---|---|
+| Ejercicio → Músculo agonista / sinergista | 1,0 / 0,5 |
+| Músculo → Articulación; Región → Músculo componente | 1,0 |
+| Ejercicio → Fuerza / Mecánica / Equipamiento | 0,5 / 0,3 / 0,3 |
+
+Un ejercicio **carga** una articulación si cualquiera de sus músculos, agonista **o**
+sinergista, la cruza. En la sentadilla del catálogo el agonista es glúteo y el cuádriceps
+es sinergista: mirando solo agonistas parecería segura para la rodilla.
+
+### 13.3 Dos técnicas, comparadas
+
+| | Louvain | Node2Vec + K-Means |
+|---|---|---|
+| Entrada | Proyección Ejercicio–Ejercicio (25 vecinos por coseno) | Grafo heterogéneo completo |
+| Hiperparámetros | resolución 1,0 (máxima modularidad) | p = 1, q = 0,5, 16 dimensiones; k = 12 |
+| Grupos | 24 | **12** |
+| Modularidad (su vara) | **0,88** | 0,75 |
+| *Silhouette* en el embedding (su vara) | 0,07 | **0,23** |
+| AMI con la fuente (↓ mejor) | 0,17 | **0,08** |
+| Cobertura de sustitución, misma familia | 55,8 % | **91,0 %** |
+
+![Elección de k](data/08_reporting/figures/kmeans_barrido.png)
+
+**k = 12** es el último k antes de que caiga la *silhouette* (0,23 → 0,20 en k = 14), con
+estabilidad de 0,91 entre semillas (ARI). Reentrenando Node2Vec con otras semillas, la
+partición se mantiene (ARI 0,83–0,84). El pipeline es reproducible: dos `kedro run` dan
+salidas idénticas.
+
+**Gana Node2Vec + K-Means.** Louvain es más fino y gana en modularidad, pero 8 de sus 24
+comunidades tienen ≥ 90 % de una sola fuente: al proyectar por vecinos, cada ficha encuentra primero
+a sus "hermanas" con el mismo vocabulario. Node2Vec recorre las aristas Región → Músculo
+y mezcla las fuentes.
+
+### 13.4 Las 12 familias de movimiento
+
+![Familias en UMAP](data/08_reporting/figures/familias_umap.png)
+
+Cuádriceps-glúteo de empuje, isquiotibiales-glúteo de tracción, pecho, tríceps-hombro de
+empuje, hombro de empuje, hombro-trapecio de tracción, dorsal, espalda alta, bíceps,
+core y dos familias de estiramiento. Casi todas mezclan al menos dos fuentes:
+
+![Mezcla de fuentes](data/08_reporting/figures/familias_mezcla_fuentes.png)
+
+Los dos huecos son de **vocabulario**, no de movimiento: free-exercise-db anota `chest` y
+`shoulders` (regiones), y sus ejercicios de pecho caen en la familia vecina de
+tríceps-hombro; wger no usa `upper back`. Conectar cada ejercicio directo con los
+componentes de su región (*fan-out*) se probó y empeoró la cobertura sin mejorar la
+mezcla.
+
+### 13.5 Sustitución con articulación vetada
+
+Reglas (`Sustituidor`), en orden: (1) **no cargar** la articulación vetada; (2) conservar un
+agonista del original que no la cruce; (3) abstenerse si esos músculos tienen < 10
+ejercicios (§5.1 b); (4) fuerza por fuerza, estiramiento por estiramiento; (5) primero la
+misma familia; (6) ordenar por similitud del embedding; (7) cuota de al menos una
+alternativa de peso corporal en el top 5 (§5.1 a).
+
+![Cobertura por articulación](data/08_reporting/figures/sustitucion_cobertura.png)
+
+| KPI | Resultado |
+|---|---|
+| Casos (ejercicio × articulación que carga) | 6.475 |
+| Sin sustituto **anatómico** (todos sus agonistas cruzan la articulación) | 2.625 (40,5 %): el sistema se abstiene |
+| Abstención por músculo escaso | 16 (cuello y escápula) |
+| **Cobertura de sustitución, misma familia** (sobre los 3.834 sustituibles) | **91,0 %** ✅ (meta 85 %) |
+| Bajo la meta | hombro 78,9 %, rodilla 80,9 %, cadera 82,4 % |
+| Listas con una alternativa sin equipamiento | 51 % → **99 %** con la cuota (gimnasio: 33 % → 99,7 %) |
+
+- El **40 %** sin sustituto es anatomía, no un fallo del modelo: no existe un ejercicio de
+  cuádriceps que no cargue la rodilla. La respuesta correcta es abstenerse y derivar.
+- Con la **rodilla** vetada, solo el 43 % de las alternativas mantiene el patrón de fuerza:
+  la sentadilla (empuje) se reemplaza por ejercicios de cadera (puente, bisagra). La
+  aplicación debe avisar que cambia el movimiento.
+
+**Demostración.** *Barbell full squat* con la rodilla vetada → **Hip Thrust** (similitud
+0,90, misma familia). Con el perfil de principiante de la fase 2, el Hip Thrust sale de la
+lista porque su complejidad técnica no está etiquetada (el modelo se abstuvo): la regla
+exige complejidad conocida.
+
+### 13.6 Recomendaciones y límites
+
+1. Usar Node2Vec + K-Means como definición de familia, y mostrar en la aplicación si cada
+   alternativa es "del mismo movimiento" u "otro movimiento".
+2. Presentar la abstención como respuesta del producto ("no hay un sustituto seguro;
+   consulta a un kinesiólogo"), no como error.
+3. Validar clínicamente el mapeo músculo → articulación (§10, punto 1): la seguridad del
+   recomendador descansa en él.
+4. Armonizar `chest` / `shoulders` de free-exercise-db con los músculos del catálogo.
+5. Curar la complejidad técnica de los ejercicios más recomendados, como el Hip Thrust.
+6. Definir con un profesional una similitud mínima para ofrecer alternativas de otra
+   familia.
+
+**Límites.** Las familias reflejan cómo están **anotados** los ejercicios, no una medición
+del movimiento. La *silhouette* moderada (0,23) indica fronteras difusas entre familias
+vecinas.
