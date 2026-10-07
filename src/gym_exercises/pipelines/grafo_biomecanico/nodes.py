@@ -362,7 +362,9 @@ def agrupar_embeddings(embeddings: pd.DataFrame, nodos: pd.DataFrame,
     # Renumerar por tamaño (0 = el más grande), igual que Louvain.
     orden = pd.Series(elegido).value_counts().index
     elegido = pd.Series(elegido).map({c: i for i, c in enumerate(orden)}).to_numpy()
-    barrido = pd.DataFrame(barrido).round(4)
+    # La inercia se redondea a 2 decimales: K-Means suma en paralelo y el orden
+    # de la suma cambia el cuarto decimal entre ejecuciones.
+    barrido = pd.DataFrame(barrido).round(4).round({"inercia": 2})
     logger.info("K-Means (k = %s): %s", p["k"],
                 barrido.loc[barrido["k"] == p["k"]].to_dict("records")[0])
     return pd.DataFrame({"ejercicio_id": ids, "cluster_kmeans": elegido}), barrido
