@@ -1,19 +1,35 @@
 # Sistema de Recomendación Biomecánica — Catálogo de Ejercicios
 
 **Asignatura:** MLY1101 Machine Learning — Duoc UC
-**Evaluación:** EV1 — Comprensión del Negocio, Comprensión de los Datos y Preparación
-**Metodología:** CRISP-DM (fases 1 a 3)
+**Evaluación:** EV2 — Modelado y evaluación (sobre la base de la EV1: comprensión del
+negocio, comprensión de los datos y preparación)
+**Metodología:** CRISP-DM (fases 1 a 5)
 **Repositorio:** `Unknumb/proyecto_gym`
 
 ---
 
-> ### ⚠️ Alcance de esta entrega
-> Esta entrega cubre **exclusivamente las fases 1, 2 y 3 de CRISP-DM**. **No se entrena
-> ningún modelo predictivo ni de deep learning.** La decisión es deliberada y responde a
-> la advertencia metodológica del *"salto al vacío"*: modelar antes de comprender y
-> preparar los datos produce sistemas que optimizan métricas sobre supuestos no
-> verificados. Las secciones sobre arquitectura de destino (§7) describen el norte
-> técnico del proyecto, no trabajo ejecutado en esta evaluación.
+> ### Alcance de la entrega
+> - **EV1 (§1–§10): fases 1, 2 y 3 de CRISP-DM**, sin entrenar modelos. Fue una decisión
+>   deliberada contra el *"salto al vacío"*: modelar antes de comprender y preparar los
+>   datos produce sistemas que optimizan métricas sobre supuestos no verificados.
+> - **EV2 (§11–§14): fases 4 (modelado) y 5 (evaluación).** Integra dos fuentes nuevas
+>   (§11), entrena y compara dos modelos supervisados (§12) y dos técnicas no supervisadas
+>   (§13), y evalúa el resultado contra los KPIs de negocio (§14).
+> - **Fase 6 (despliegue): fuera de alcance.** §7 describe su diseño.
+
+### Guía de lectura para la EV2
+
+| Lo que pide la pauta | Dónde está |
+|---|---|
+| Problema de negocio, objetivos y KPIs | §1.1, §1.2, §1.3 (con los resultados de la EV2) |
+| Fuentes de datos | §2.1, §11.1 |
+| Preparación y análisis exploratorio (EDA) | §3, §4, §11 · `notebooks/01_exploratory_data_analysis.ipynb` |
+| Metodología CRISP-DM | §1.4 |
+| Ética y sesgos | §5 (datos) y §14.3 (después del modelado) |
+| Modelos supervisados (IE6) | §12 · `notebooks/02_modelado_supervisado.ipynb` |
+| Modelos no supervisados (IE7) | §13 · `notebooks/03_modelado_no_supervisado.ipynb` |
+| Interpretación y recomendaciones de negocio (IE8) | §12.3–§12.5, §13.3–§13.6, §14 |
+| Reproducibilidad y estructura del proyecto | §8 |
 
 ---
 
@@ -35,34 +51,54 @@ músculo agonista trabaja, qué sinergistas recluta, qué articulaciones comprom
 equipamiento exige— y que permita **enmascarar articulaciones lesionadas** para
 encontrar sustitutos mecánicamente equivalentes.
 
-### 1.3 KPIs propuestos
+**Objetivo general.** Recomendar, para cualquier ejercicio del catálogo, alternativas que
+trabajen el mismo músculo con el mismo patrón de movimiento **sin cargar una articulación
+lesionada**, y abstenerse cuando no exista una alternativa segura.
 
-| KPI | Definición | Meta |
-|---|---|---|
-| Cobertura de sustitución | % de ejercicios con ≥3 alternativas que preservan el músculo objetivo y excluyen la articulación vetada | ≥ 85 % |
-| Precisión de la jerarquía muscular | % de registros con agonista y sinergistas correctamente asignados | 100 % (auditado) |
-| Cobertura por grupo muscular | Nº mínimo de ejercicios por músculo primario | ≥ 10 (hoy: **4 grupos incumplen**) |
-| Latencia de inferencia en dispositivo | FPS de análisis de postura en tiempo real | ≥ 30 FPS |
-| Fuga de datos biométricos | Fotogramas de vídeo enviados a servidores externos | **0** (por diseño) |
+**Objetivos específicos.**
 
-El tercer KPI **no se cumple con el catálogo actual**. Es un hallazgo del EDA, no un
-supuesto: ver §4.1.
+1. Integrar el catálogo con fuentes abiertas en un solo grafo, con un vocabulario
+   muscular común y sin duplicados entre fuentes (§3, §11).
+2. Completar con **modelos supervisados** las etiquetas que el catálogo no trae: mecánica,
+   tipo de fuerza y complejidad técnica (§12).
+3. Descubrir con **aprendizaje no supervisado** las familias de movimiento del catálogo
+   (§13).
+4. Medir cuántas alternativas reales tiene un ejercicio cuando se veta una articulación,
+   y abstenerse cuando no las hay (§13.5).
+5. Medir y mitigar los sesgos de los datos y de los modelos (§5, §14.3).
+
+### 1.3 KPIs y resultados
+
+| KPI | Definición | Meta | Resultado (EV2) |
+|---|---|---|---|
+| **Cobertura de sustitución** | % de ejercicios con ≥3 alternativas que preservan el músculo objetivo y excluyen la articulación vetada | ≥ 85 % | ✅ **91,0 %** de los ejercicios sustituibles, con alternativas de su misma familia de movimiento (§13.5). Bajo la meta: hombro 78,9 %, rodilla 80,9 %, cadera 82,4 %. El 40,5 % de los casos no tiene sustituto por anatomía y el sistema se abstiene |
+| Precisión de la jerarquía muscular | % de registros con agonista y sinergistas correctamente asignados | 100 % (auditado) | ✅ 100 % tras la corrección de la EV1 (§3.3) |
+| Cobertura por grupo muscular | Nº mínimo de ejercicios por músculo primario | ≥ 10 | ⚠️ 4 grupos incumplían en el catálogo (EV1) → **2** con las tres fuentes (`levator scapulae` 2, `neck` 7). La abstención de §5.1 b los cubre (§13.5) |
+| Etiquetas del perfil con confianza *(nuevo)* | % del catálogo con mecánica / fuerza asignadas | — | 0 % → **85,5 % / 95,5 %** (§12.4) |
+| Calidad de los modelos supervisados *(nuevo)* | F1 macro en test, mecánica y fuerza | ≥ 0,85 | ✅ 0,88 / 0,88 (§12.3) |
+| Acierto de lo etiquetado en el catálogo *(nuevo)* | % de etiquetas correctas, validación externa | ≥ 90 % | ⚠️ 89,8 % / 88,5 %: en el límite, con ~60 casos (±8 puntos) (§12.4) |
+| Latencia de inferencia en dispositivo | FPS de análisis de postura en tiempo real | ≥ 30 FPS | No medido: requiere la aplicación (fase 6, §7) |
+| Fuga de datos biométricos | Fotogramas de vídeo enviados a servidores externos | **0** | ✅ 0 por diseño: ningún componente procesa vídeo del usuario |
+
+El KPI de cobertura por grupo muscular **sigue sin cumplirse**: el EDA lo detectó (§4.1) y
+las fuentes nuevas lo redujeron de 4 a 2 grupos. Para esos grupos el sistema se abstiene
+en vez de recomendar con pocas opciones.
 
 ### 1.4 Metodología (CRISP-DM)
 
 El proyecto sigue **CRISP-DM** (*Cross-Industry Standard Process for Data Mining*), el
 estándar de facto para estructurar un proyecto de ciencia de datos en seis fases:
 
-| Fase | Objetivo | Estado en esta entrega |
+| Fase | Objetivo | Estado |
 |---|---|---|
-| 1. Comprensión del negocio | Definir el problema, los objetivos y los KPIs de éxito | **Cerrada** — §1 |
-| 2. Comprensión de los datos | Relevar las fuentes, su estructura, calidad y limitaciones | **Cerrada** — §2, §4 |
-| 3. Preparación de los datos | Limpiar, transformar e integrar los datos para el modelamiento | **Cerrada** — §3 |
-| 4. Modelado | Entrenar y ajustar modelos predictivos | **Fuera de alcance** — ver advertencia inicial y §7 |
-| 5. Evaluación | Validar el modelo contra los KPIs de negocio | Fuera de alcance |
-| 6. Despliegue | Poner el modelo en producción y monitorearlo | Fuera de alcance |
+| 1. Comprensión del negocio | Definir el problema, los objetivos y los KPIs de éxito | **Cerrada** (EV1, actualizada en EV2) — §1 |
+| 2. Comprensión de los datos | Relevar las fuentes, su estructura, calidad y limitaciones | **Cerrada** — §2, §4, §11.5 |
+| 3. Preparación de los datos | Limpiar, transformar e integrar los datos para el modelamiento | **Cerrada** — §3, §11 |
+| 4. Modelado | Entrenar y ajustar modelos | **Cerrada (EV2)** — supervisado §12, no supervisado §13 |
+| 5. Evaluación | Validar los modelos contra los KPIs de negocio | **Cerrada (EV2)** — §12.3–§12.5, §13.3–§13.5, §14 |
+| 6. Despliegue | Poner el modelo en producción y monitorearlo | Fuera de alcance — diseño en §7 |
 
-**Por qué no se salta a la fase 4.** La entrega respeta el orden secuencial de CRISP-DM
+**Por qué la EV1 no saltó a la fase 4.** La entrega respeta el orden secuencial de CRISP-DM
 a propósito: modelar antes de cerrar las fases 1–3 es el *"salto al vacío"* señalado en
 la advertencia de alcance (arriba). La auditoría de calidad de datos (§3.3, §3.5) y de
 los recursos cinemáticos (§4.4) encontró defectos —jerarquía muscular invertida,
@@ -72,10 +108,24 @@ CRISP-DM es iterativo, no lineal: los hallazgos de la fase 2 (§4) obligaron a r
 pasos de la fase 3 (§3.3, §3.5) antes de darla por cerrada, y la evaluación ética (§5) se
 trató como parte de la comprensión del negocio y de los datos, no como un paso posterior.
 
-El §5 (ética, sesgos y privacidad) y el §6 (limitaciones) atraviesan las tres fases
-cerradas en lugar de pertenecer a una sola: el sesgo de muestreo se detecta en la
-comprensión de los datos (§4) pero se declara y mitiga desde la comprensión del negocio
-(§1, §5.1). El §7 describe el diseño de las fases 4–6, sin ejecutarlas.
+El §5 (ética, sesgos y privacidad) y el §6 (limitaciones) atraviesan las fases en lugar
+de pertenecer a una sola: el sesgo de muestreo se detecta en la comprensión de los datos
+(§4) pero se declara y mitiga desde la comprensión del negocio (§1, §5.1), y se vuelve a
+medir después de modelar (§14.3).
+
+**Cómo iteró CRISP-DM en la EV2.** Tres veces la evaluación obligó a volver atrás:
+
+1. **Evaluación de los datos → comprensión del negocio.** El nivel de dificultad de
+   megaGymDataset y el de free-exercise-db coinciden igual que al azar (kappa = −0,01,
+   §11.5). Se dejó de predecir "dificultad" y se redefinió el objetivo como un **perfil
+   de exigencia** (§12.1).
+2. **Evaluación → modelado.** La demostración de sustitución proponía estiramientos como
+   alternativa a una sentadilla. Se agregó la regla "fuerza por fuerza, estiramiento por
+   estiramiento" y se volvió a medir el KPI (§13.5).
+3. **Evaluación → preparación.** La mezcla de fuentes en las familias mostró que
+   `chest` / `shoulders` de free-exercise-db no se alinean con el catálogo. Se probó una
+   corrección en el grafo (*fan-out*), empeoró el KPI y se descartó: la corrección de
+   fondo vuelve a la ontología (§13.4).
 
 ---
 
@@ -792,7 +842,9 @@ y la técnica coinciden.
 
 ## 6. Limitaciones reconocidas
 
-1. **Variables de estratificación — dificultad solo parcial.** El catálogo carece de
+1. **Variables de estratificación — dificultad solo parcial.** *(EV2: mecánica y fuerza
+   cubren ahora el 85,5 % y 95,5 % del catálogo, y la dificultad se reemplazó por la
+   complejidad técnica, §12.)* El catálogo carece de
    mecánica (compuesto/aislado), tipo de fuerza (empuje/tracción) y contraindicaciones.
    La dificultad llega desde megaGymDataset solo para el **24,7 %** de los ejercicios
    (nivel curado, §3.5), con 2 casos *Expert* y un sesgo contra la rehabilitación
@@ -810,7 +862,9 @@ y la técnica coinciden.
    profesional** (ver punto 4), que es el prerrequisito real para producción, no solo
    para el prototipo del grafo.
 
-   > **Decisión pendiente de arquitectura.** Cuatro etiquetas del catálogo son regiones
+   > **Decisión pendiente de arquitectura.** *(Resuelta en la EV2: nodo de región con
+   > articulación solo por consenso, §11.2. El *fan-out* se probó en el grafo y se
+   > descartó, §13.4.)* Cuatro etiquetas del catálogo son regiones
    > compuestas, no un músculo con una sola articulación: `back`, `chest`, `shoulders`,
    > `core` (p. ej. `back` es la unión de dorsal ancho, trapecio, romboides, rotador y
    > erector espinal —cada uno ya confirmado por separado en la tabla—). Falta decidir
@@ -845,18 +899,32 @@ y la técnica coinciden.
    podría recuperar parte de ellas; queda como mejora, validada con una muestra nueva
    antes de adoptarla.
 
+**Limitaciones de los modelos (EV2):**
+
+7. **Etiquetas de una sola fuente.** Mecánica, fuerza y complejidad se aprenden de
+   free-exercise-db: el modelo reproduce el criterio de ese curador, que tampoco está
+   validado clínicamente (§12.5).
+8. **Familias según la anotación.** Las familias de movimiento reflejan cómo están
+   anotados los ejercicios (músculos, fuerza, equipamiento), no una medición del
+   movimiento. La *silhouette* moderada (0,23) indica fronteras difusas (§13.6).
+9. **Sesgo por abstención.** El modelo se abstiene más en wger, así que sus ejercicios
+   casi no llegan al perfil de principiante (§14.3).
+10. **Recomendaciones evaluadas con reglas.** El KPI de sustitución mide que las
+    alternativas sean seguras y de la misma familia, no que un entrenador las considere
+    buenas. Falta revisar a mano una muestra de recomendaciones.
+
 ---
 
-## 7. Arquitectura de destino (fuera del alcance de EV1)
+## 7. Arquitectura de destino (estado tras la EV2)
 
-Norte técnico del proyecto, **no implementado en esta entrega**:
+Norte técnico del proyecto. El punto 1 se implementó en la EV2 en su versión base; los
+puntos 2 y 3 siguen fuera de alcance:
 
-1. **Grafo de conocimiento biomecánico** — nodos de tipo Ejercicio, Músculo Primario,
-   Músculo Sinergista, Articulación y Equipamiento; ruteo topológico por vecindad
-   (Node2Vec / GCN) para hallar sustitutos enmascarando articulaciones lesionadas.
-   El mapeo músculo → articulación (§6.2) ya cubre 40/50 músculos del catálogo; falta
-   la validación clínica y resolver la decisión de arquitectura sobre las etiquetas
-   compuestas (`back`, `chest`, `shoulders`, `core`) antes de generar las aristas.
+1. **Grafo de conocimiento biomecánico** — ✅ **implementado en la EV2 (§13)**: nodos
+   Ejercicio, Músculo, Articulación, Equipamiento y etiquetas de la fase 2; *embeddings*
+   Node2Vec y sustitución enmascarando la articulación vetada. Queda pendiente la
+   validación clínica del mapeo músculo → articulación (§10, punto 1). Una GCN no hizo
+   falta: Node2Vec + K-Means cumplió el KPI.
 2. **Análisis temporal de movimiento** — ⚠️ **replanteado tras la auditoría de §4.4.**
    La formulación original entrenaba un modelo secuencial sobre coordenadas extraídas de
    los GIF; ese corpus no lo permite. La vía viable extrae la pose de la **cámara del
@@ -1084,7 +1152,7 @@ leen y escriben las rutas locales de `conf/base/`.
 | **Multicolinealidad** | 2 pares redundantes (*r* = 0,999 y 0,981) marcados para depuración |
 | **Recursos cinemáticos** | Integridad referencial 100 %; pero 180×180 a 4 FPS, sin etiquetas: no entrenables |
 | **Riesgo ético principal** | Gini de equipamiento 0,737; 4 grupos musculares bajo el umbral de cobertura; la rehabilitación recibe dificultad curada en solo el 6,7 % de sus ejercicios |
-| **Estado CRISP-DM** | Fases 1–3 cerradas. **Sin modelado predictivo**, conforme al alcance de EV1 |
+| **Estado CRISP-DM** | Fases 1–3 cerradas en la EV1, sin modelado (conforme a su alcance). Fases 4–5 cerradas en la EV2: §12–§14 |
 
 ---
 
@@ -1095,7 +1163,8 @@ prerrequisito de cualquier trabajo posterior sobre articulaciones (incluido el g
 conocimiento de §7); el punto 4 es barato de implementar y ya está diseñado, solo falta
 codificarlo; el punto 3 es una mejora de menor riesgo si sobra tiempo.
 
-1. **Validación clínica del mapeo músculo → articulación (bloqueante).** Ninguna de las
+1. **Validación clínica del mapeo músculo → articulación (bloqueante).** *(Sigue
+   pendiente tras la EV2: es la limitación principal de los resultados de §13.)* Ninguna de las
    40 asignaciones de `musculo_articulacion_manual.csv` fue revisada por un profesional
    de salud (§4.6 punto 4). Es el prerrequisito real para que el sistema pueda enmascarar
    articulaciones lesionadas con alguna garantía de seguridad — sin esto, el resto del
@@ -1111,13 +1180,15 @@ codificarlo; el punto 3 es una mejora de menor riesgo si sobra tiempo.
    que exige la regla estricta) podría recuperar cobertura sobre el 31,9 % actual sin
    reintroducir los falsos positivos de `WRatio` (§14). Requiere validarse con una
    muestra nueva, revisada a mano, antes de adoptarla — mismo protocolo que en §14.2.
-4. **Implementar en código la mitigación de sesgo ya diseñada.** §5.1 define dos reglas
+4. **Implementar en código la mitigación de sesgo ya diseñada.** *(Implementado en la
+   EV2, §13.5.)* §5.1 define dos reglas
    que hoy son solo texto: (a) cuota mínima de alternativas sin equipamiento en el
    ranking, para que no colapse hacia gimnasio tradicional; (b) abstención explícita
    cuando el músculo objetivo tenga menos de 10 ejercicios. La rehabilitación (9,1 % del
    catálogo, 6,7 % con dificultad curada — §17) es el caso que más se beneficia de
    codificar esto en vez de intentar conseguir más datos de esa categoría.
-5. **No adelantar todavía.** El grafo de conocimiento (Node2Vec/GCN) y el análisis
+5. **No adelantar todavía.** *(El grafo se construyó en la EV2, §13, sobre la ontología
+   ya cerrada; la validación clínica del punto 1 sigue pendiente.)* El grafo de conocimiento (Node2Vec/GCN) y el análisis
    temporal de movimiento (§7) dependen de los puntos 1 y 2. Empezarlos antes de cerrar
    la validación clínica arriesga construir sobre una base articular que puede cambiar.
 
