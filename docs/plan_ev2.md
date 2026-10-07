@@ -129,45 +129,62 @@ Por eso la dificultad se reemplaza por un **perfil de exigencia** de varias dime
 
 ---
 
-## Fase 3 — Grafo biomecánico no supervisado (IE7 · 30 %)
+## Fase 3 — Grafo biomecánico no supervisado (IE7 · 30 %) ✅ (cerrada el 2026-10-07)
+
+Detalle en README §13 y `notebooks/03_modelado_no_supervisado.ipynb`.
 
 **Pregunta de negocio:** ¿qué familias de movimiento existen en el catálogo, y cuántas
 alternativas reales tiene un ejercicio cuando se veta una articulación lesionada?
 
 **Tareas**
 
-- [ ] Agregar `networkx` (y `node2vec` o `gensim` para los *embeddings*) a
-      `requirements.txt`.
-- [ ] **Construir el grafo** a partir de:
-  - [ ] Nodos Ejercicio (`ejercicios.parquet`, con mecánica y fuerza de la Fase 2).
-  - [ ] Aristas Ejercicio → Músculo (`ejercicio_musculo.parquet`), con peso según el rol
+- [x] Agregar `networkx`, `gensim` y `umap-learn` a `requirements.txt`. `gensim` no
+      compila en Python 3.14: el proyecto pasa a Python 3.13.
+- [x] **Construir el grafo** a partir de:
+  - [x] Nodos Ejercicio (`ejercicios.parquet`, con mecánica y fuerza de la Fase 2).
+  - [x] Aristas Ejercicio → Músculo (`ejercicio_musculo.parquet`), con peso según el rol
         (agonista > sinergista).
-  - [ ] Aristas Músculo → Articulación (`musculo_articulacion.csv`).
-  - [ ] Aristas Región → Músculo *parte de* (`regiones_compuestas.csv`).
-  - [ ] Aristas Ejercicio → Familia de equipamiento.
-- [ ] **Técnicas no supervisadas (mínimo 1; se proponen 2 para comparar):**
-  - [ ] Detección de comunidades con Louvain sobre la proyección ejercicio–ejercicio.
+  - [x] Aristas Músculo → Articulación (`musculo_articulacion.csv`).
+  - [x] Aristas Región → Músculo *parte de* (`regiones_compuestas.csv`).
+  - [x] Aristas Ejercicio → Familia de equipamiento.
+- [x] **Técnicas no supervisadas (mínimo 1; se proponen 2 para comparar):**
+  - [x] Detección de comunidades con Louvain sobre la proyección ejercicio–ejercicio.
         Métrica: modularidad.
-  - [ ] *Embeddings* con Node2Vec + K-Means / HDBSCAN. Métricas: *silhouette* y
-        Davies-Bouldin; elegir k con el método del codo y *silhouette*.
-  - [ ] Visualizar con UMAP o t-SNE, coloreando por *cluster* y por contexto.
-- [ ] **Interpretar los clusters** como familias de movimiento (p. ej. "empuje
+  - [x] *Embeddings* con Node2Vec + K-Means / HDBSCAN. Métricas: *silhouette* y
+        Davies-Bouldin; elegir k con el método del codo y *silhouette*. Se usó K-Means
+        (k = 12); HDBSCAN no hizo falta.
+  - [x] Visualizar con UMAP (un panel por familia) y la composición por fuente.
+- [x] **Interpretar los clusters** como familias de movimiento (p. ej. "empuje
       horizontal de hombro", "extensión de cadera"). Revisar si el catálogo y las
       fuentes nuevas se mezclan o quedan separados: si quedan separados, el modelo
       aprendió la fuente y no la biomecánica.
-- [ ] **Demostración de negocio: sustitución con articulación vetada.**
-  - [ ] Para un ejercicio y una articulación lesionada (p. ej. rodilla), buscar vecinos
+- [x] **Demostración de negocio: sustitución con articulación vetada.**
+  - [x] Para un ejercicio y una articulación lesionada (p. ej. rodilla), buscar vecinos
         del mismo cluster que no carguen esa articulación.
-  - [ ] Medir el KPI "Cobertura de sustitución": % de ejercicios con ≥ 3 alternativas
+  - [x] Medir el KPI "Cobertura de sustitución": % de ejercicios con ≥ 3 alternativas
         (meta 85 %, README §1.3), por articulación y por contexto.
-  - [ ] Demostración para la presentación: "principiante con rodilla lesionada busca
+  - [x] Demostración para la presentación: "principiante con rodilla lesionada busca
         alternativa a la sentadilla", aplicando el perfil de exigencia sobre el grafo.
-  - [ ] Implementar la mitigación de sesgo de §5.1: cuota de alternativas sin
+  - [x] Implementar la mitigación de sesgo de §5.1: cuota de alternativas sin
         equipamiento y abstención cuando el músculo tenga < 10 ejercicios
         (`levator scapulae` sigue en 2).
-- [ ] Guardar el grafo y los *embeddings* en `data/06_models/` o `models/`.
-- [ ] Commit por parte: dependencias · construcción del grafo · clustering ·
+- [x] Guardar el grafo y los *embeddings* en `data/06_models/` o `models/`.
+- [x] Commit por parte: dependencias · construcción del grafo · clustering ·
       sustitución · notebook · README.
+
+**Resultado:** gana Node2Vec + K-Means (12 familias, AMI con la fuente 0,08, cobertura
+de sustitución 91,0 % sobre los sustituibles). Louvain: 24 comunidades, modularidad
+0,88, pero cobertura 55,8 % y 8 comunidades con ≥ 90 % de una sola fuente.
+
+**Pendiente del equipo:**
+
+- [ ] Revisar a mano una muestra de recomendaciones (p. ej. 30 pares original →
+      alternativa con rodilla, hombro y columna lumbar vetadas) para medir si son
+      sustitutos razonables, no solo seguros.
+- [ ] Decidir con un profesional una similitud mínima para ofrecer alternativas de otra
+      familia.
+- [ ] Armonizar `chest` / `shoulders` de free-exercise-db con `pectorals` / `deltoids`
+      en la ontología (hueco de mezcla de fuentes, README §13.4).
 
 ---
 
