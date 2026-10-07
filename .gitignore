@@ -48,3 +48,6 @@ conf/local/*
 .vscode/
 *.swp
 *.swo
+
+# Respaldo local de entornos anteriores
+.venv-*/
