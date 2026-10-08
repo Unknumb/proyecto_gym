@@ -188,27 +188,33 @@ de sustitución 91,0 % sobre los sustituibles). Louvain: 24 comunidades, modular
 
 ---
 
-## Fase 4 — Evaluación, informe y defensa (IE5 + IE8 · 40 %)
+## Fase 4 — Evaluación, informe y defensa (IE5 + IE8 · 40 %) ✅ (cerrada el 2026-10-08, salvo el ensayo)
 
-- [ ] **README como informe EV2:**
-  - [ ] Reescribir el aviso de "Alcance": las fases 4 y 5 de CRISP-DM ahora están
+Detalle en README §1 (alcance, objetivos, KPIs, CRISP-DM) y §14.
+
+- [x] **README como informe EV2:**
+  - [x] Reescribir el aviso de "Alcance": las fases 4 y 5 de CRISP-DM ahora están
         cerradas.
-  - [ ] Actualizar la tabla de §1.4 (estado de cada fase CRISP-DM).
-  - [ ] KPIs: agregar los nuevos (cobertura de etiquetas con confianza, cobertura de
+  - [x] Actualizar la tabla de §1.4 (estado de cada fase CRISP-DM).
+  - [x] KPIs: agregar los nuevos (cobertura de etiquetas con confianza, cobertura de
         sustitución medida) y actualizar la tabla de §1.3 con valores reales.
-  - [ ] Secciones de modelado supervisado, no supervisado y evaluación, con métricas
+  - [x] Secciones de modelado supervisado, no supervisado y evaluación, con métricas
         interpretadas en lenguaje de negocio.
-  - [ ] Recomendaciones de negocio concretas a partir de los resultados.
-  - [ ] Actualizar §6 (limitaciones) y §7 (arquitectura: qué quedó implementado).
-- [ ] **Sesgo después del modelado:** ¿mejoró la cobertura de rehabilitación?
+  - [x] Recomendaciones de negocio concretas a partir de los resultados.
+  - [x] Actualizar §6 (limitaciones) y §7 (arquitectura: qué quedó implementado).
+- [x] **Sesgo después del modelado:** ¿mejoró la cobertura de rehabilitación?
       ¿El modelo se equivoca más en algún contexto o fuente?
-- [ ] **Estructura exigida:** crear `models/` e `images/` (o documentar que las figuras
-      viven en `data/08_reporting/figures/`).
-- [ ] **Reproducibilidad:** ejecutar `kedro run` y los notebooks desde cero en un entorno
-      limpio (`pip install -r requirements.txt`) antes de entregar.
-- [ ] **Presentación (10 min):** guion con un bloque por indicador de la rúbrica.
-      Ensayar preguntas cruzadas: cada integrante explica el pipeline, el modelo
-      supervisado, el grafo y el hallazgo del kappa.
+- [x] **Estructura exigida:** `models/` existe; las figuras viven en
+      `data/08_reporting/figures/` y está documentado en README §8.4.
+- [x] **Reproducibilidad:** `kedro run` completo y los tres notebooks ejecutados en un
+      entorno nuevo de Python 3.13 (`pip install -r requirements.txt`): mismas salidas
+      que las versionadas. Repetir antes de entregar si algo cambia.
+- [x] **Presentación (10 min):** guion con un bloque por indicador de la rúbrica
+      (`guion_presentacion_ev2.txt`, fuera de git como el de la EV1), con preguntas
+      cruzadas y sus respuestas.
+- [ ] **Ensayar** la presentación y las preguntas cruzadas: cada integrante explica el
+      pipeline, el modelo supervisado, el grafo y el hallazgo del kappa. Asignar los
+      bloques A y B del guion.
 
 ---
 
