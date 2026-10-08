@@ -1095,6 +1095,12 @@ proyecto_ejercicios/
 └── README.md
 ```
 
+**Estructura exigida por la pauta.** La pauta pide `data/`, `notebooks/`, `models/`,
+`images/` y `README.md`. Los cuatro primeros existen con ese nombre. Las imágenes viven
+en `data/08_reporting/figures/`, la convención de Kedro para las salidas de reporte: así
+cada `kedro run` y cada notebook regeneran las figuras en el mismo lugar que el resto de
+los reportes, y el README las incrusta desde ahí.
+
 ### 8.5 Nodos del pipeline
 
 | Nodo | Entrada | Salida |
@@ -1178,8 +1184,9 @@ codificarlo; el punto 3 es una mejora de menor riesgo si sobra tiempo.
    identificada en §6 punto 6: aceptar un par cuando el título de megaGym está
    *contenido* en el nombre del catálogo (con la misma coherencia de región/equipamiento
    que exige la regla estricta) podría recuperar cobertura sobre el 31,9 % actual sin
-   reintroducir los falsos positivos de `WRatio` (§14). Requiere validarse con una
-   muestra nueva, revisada a mano, antes de adoptarla — mismo protocolo que en §14.2.
+   reintroducir los falsos positivos de `WRatio` (notebook 01, §14). Requiere validarse
+   con una muestra nueva, revisada a mano, antes de adoptarla — mismo protocolo que en
+   el §14.2 del notebook 01.
 4. **Implementar en código la mitigación de sesgo ya diseñada.** *(Implementado en la
    EV2, §13.5.)* §5.1 define dos reglas
    que hoy son solo texto: (a) cuota mínima de alternativas sin equipamiento en el
@@ -1563,3 +1570,96 @@ exige complejidad conocida.
 **Límites.** Las familias reflejan cómo están **anotados** los ejercicios, no una medición
 del movimiento. La *silhouette* moderada (0,23) indica fronteras difusas entre familias
 vecinas.
+
+---
+
+## 14. EV2 — Evaluación integrada y recomendaciones de negocio
+
+### 14.1 Cómo encajan los modelos
+
+Los modelos de la EV2 no compiten entre sí: cada uno resuelve una parte del recomendador
+y alimenta al siguiente.
+
+```
+Integración de fuentes (§11)        catálogo + free-exercise-db + wger → 2.592 ejercicios, ontología común
+        │
+        ▼
+Modelos supervisados (§12)          completan mecánica, fuerza y complejidad técnica (con abstención)
+        │                            → aristas Fuerza y Mecánica del grafo; filtro de principiante
+        ▼
+Grafo + Node2Vec + K-Means (§13)    12 familias de movimiento y un embedding por ejercicio
+        │
+        ▼
+Sustitución con articulación vetada  reglas de seguridad → misma familia → orden por similitud
+                                     → cuota sin equipamiento → o abstención explicada
+```
+
+### 14.2 Respuesta a los objetivos
+
+| Objetivo (§1.2) | Resultado | Evidencia |
+|---|---|---|
+| 1. Integrar las fuentes en un solo grafo | 2.592 ejercicios sin duplicados, 41 músculos en vocabulario común, 2.461 en el grafo | §11, §13.2 |
+| 2. Completar etiquetas con modelos supervisados | Mecánica y fuerza: F1 0,88 en test; catálogo con etiqueta 85,5 % y 95,5 % (antes 0 %). Complejidad: el modelo se abstiene en la mayoría, a propósito | §12.3, §12.4 |
+| 3. Descubrir familias de movimiento | 12 familias interpretables que mezclan las tres fuentes (AMI con la fuente 0,08) | §13.3, §13.4 |
+| 4. Sustituir con articulación vetada, o abstenerse | 91,0 % de los ejercicios sustituibles con ≥ 3 alternativas de su familia (meta 85 %); 40,5 % de los casos sin sustituto anatómico, con abstención | §13.5 |
+| 5. Medir y mitigar sesgos | Cuota sin equipamiento: 51 % → 99 % de las listas; rehabilitación con complejidad conocida: 6,7 % → 65 %; sesgo nuevo contra wger detectado y declarado | §13.5, §14.3 |
+
+### 14.3 Sesgo después del modelado
+
+Detalle en `notebooks/03_modelado_no_supervisado.ipynb`, §12.
+
+| Pregunta | Resultado |
+|---|---|
+| ¿Mejoró la cobertura de rehabilitación? | **Sí.** Complejidad técnica conocida: 6,7 % (EV1) → **65 %**, el contexto mejor cubierto. Sustitución en rehabilitación: 89,5 % (meta 85 %) |
+| ¿Algún contexto quedó atrás? | *Cardio y otros*: sustitución 75,7 %, bajo la meta (muchos estiramientos y desplazamientos con pocos pares del mismo tipo) |
+| ¿El modelo se equivoca más en algún contexto? | Mecánica: ≈ 78 % de acierto en rehabilitación frente a ≈ 91 % en gimnasio. Complejidad: ≈ 61 % en peso corporal. Muestras de 18 a 100: diferencias de menos de ~10 puntos no son concluyentes |
+| ¿Y en alguna fuente? | **wger** queda peor etiquetada (fuerza 69 %, complejidad 11,5 %): el modelo se abstiene más con sus instrucciones cortas, y el perfil de principiante casi no recomienda ejercicios de wger. Es un sesgo **creado por la abstención** |
+| ¿El ranking favorece el gimnasio? | Sin corrección, sí: solo el 33 % de las listas del gimnasio traía una opción sin equipamiento. Con la cuota, el 99,7 % |
+
+La abstención protege la **calidad** de las etiquetas, pero redistribuye la **cobertura**:
+los contextos y fuentes más difíciles de etiquetar son los que menos se recomiendan. Es
+el costo de fallar hacia la abstención, y se corrige curando datos, no bajando el umbral.
+
+### 14.4 Recomendaciones de negocio
+
+Ordenadas por cuándo deben hacerse.
+
+**En el producto, desde la primera versión**
+
+1. **Presentar la abstención como respuesta**: "no hay un sustituto seguro para este
+   ejercicio; consulta a un kinesiólogo". En el 40 % de los casos con una articulación
+   vetada es la única respuesta honesta.
+2. **Decir cuándo cambia el movimiento.** Cada alternativa se marca como "mismo
+   movimiento" (misma familia) u "otro movimiento". Con la rodilla vetada, la alternativa
+   segura casi siempre pasa de sentadilla a puente o bisagra de cadera.
+3. **Mostrar el origen y la confianza de cada etiqueta** (fuente, transferida o modelo),
+   y permitir que un profesional la corrija.
+4. **Mantener activa la cuota sin equipamiento**: cuesta un lugar del top 5 y saca al
+   recomendador del sesgo hacia el gimnasio.
+
+**Antes de producción**
+
+5. **Validar clínicamente el mapeo músculo → articulación** con un profesional de la
+   salud. Toda la seguridad de la sustitución descansa en él (§10, punto 1).
+6. **Revisar a mano** ~100 etiquetas del catálogo y ~30 recomendaciones con rodilla,
+   hombro y columna lumbar vetadas: la validación externa detecta caídas, pero no
+   alcanza para certificar las metas.
+7. **Definir una similitud mínima** para ofrecer alternativas de otra familia (hoy se
+   ofrecen todas las que cumplen las reglas de seguridad).
+
+**En los datos**
+
+8. **Curar la complejidad técnica** de los ejercicios más recomendados, empezando por
+   los de wger y por los que el modelo deja sin etiqueta (como el Hip Thrust).
+9. **Armonizar `chest` / `shoulders`** de free-exercise-db con `pectorals` / `deltoids`
+   en la ontología, para cerrar el hueco de mezcla de fuentes en las familias de pecho y
+   hombro.
+
+### 14.5 Próximos pasos tras la EV2
+
+| Paso | Por qué | Fase CRISP-DM |
+|---|---|---|
+| Validación clínica del mapeo articular | Prerrequisito de seguridad para producción | 2–3 (datos) |
+| Revisión humana de etiquetas y recomendaciones | Certificar los KPIs de acierto con una muestra real | 5 (evaluación) |
+| Subir hombro, rodilla y cadera sobre el 85 % | Las tres articulaciones más consultadas están en 79–82 % | 4 (modelado) |
+| API de recomendación y aplicación con pose en el dispositivo | Medir los KPIs de latencia y privacidad, hoy sin medir | 6 (despliegue), §7 |
