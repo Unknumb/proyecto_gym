@@ -17,5 +17,8 @@ networkx>=3.3
 gensim>=4.3
 umap-learn>=0.5
 
+# Dashboard de la presentación (README §8.7)
+streamlit>=1.40
+
 # Tests (pytest tests/)
 pytest>=8.0
