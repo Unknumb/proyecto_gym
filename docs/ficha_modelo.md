@@ -12,6 +12,7 @@ detalle está en el README (§12–§14) y en los notebooks 02 y 03.
 | Complejidad técnica (baja / alta) | Regresión logística, `C` = 1 | `models/modelos_supervisados.pkl` | free-exercise-db, 876 ejercicios |
 | Familias de movimiento | Node2Vec (16 dimensiones) + K-Means (k = 12) | `models/embeddings_node2vec.parquet`, `data/07_model_output/familias_movimiento.parquet` | Grafo de 2.529 nodos y 13.907 aristas |
 | Sustitución con articulación vetada | Reglas de seguridad + similitud del *embedding* | `Sustituidor` en `grafo_biomecanico/nodes.py` | — |
+| Carga articular | Músculos anotados ∪ patrón de movimiento del nombre | `data/01_raw/carga_por_patron.csv` | Tabla curada |
 
 Reentrenamiento: `kedro run` (30 nodos, ~3 minutos), con semillas fijas y versiones
 exactas en `requirements-lock.txt`.
@@ -50,17 +51,17 @@ exactas en `requirements-lock.txt`.
 | Fuerza | 0,88 (0,82–0,93) | 0,89 (0,78–0,96) | 0,34 | 95,5 % |
 | Complejidad técnica | 0,74 (0,68–0,81) | 0,67 (0,53–0,80) | 0,49 | 32,9 % |
 
-Sustitución: 91,0 % de los ejercicios sustituibles con ≥ 3 alternativas de su familia
-(meta 85 %); hombro 78,9 %, rodilla 80,9 % y cadera 82,4 % bajo la meta. El 40,5 % de los
+Sustitución: 90,7 % de los ejercicios sustituibles con ≥ 3 alternativas de su familia
+(meta 85 %); hombro 79,3 %, rodilla 81,4 % y cadera 83,2 % bajo la meta. El 39,6 % de los
 casos no tiene sustituto anatómico y el sistema se abstiene.
 
 ### Por subgrupo
 
 | Subgrupo | Resultado |
 |---|---|
-| Contexto rehabilitación / funcional | Acierto en mecánica ≈ 78 % frente a ≈ 91 % en gimnasio; sustitución 89,5 % |
+| Contexto rehabilitación / funcional | Acierto en mecánica ≈ 78 % frente a ≈ 91 % en gimnasio; sustitución 89,6 % |
 | Contexto peso corporal | Acierto en complejidad técnica ≈ 61 % |
-| Contexto cardio / otros | Sustitución 75,7 %, bajo la meta |
+| Contexto cardio / otros | Sustitución 74,6 %, bajo la meta |
 | Fuente wger | Peor etiquetada (fuerza 69 %, complejidad 11,5 %): el modelo se abstiene más con sus instrucciones cortas |
 
 Muestras de 18 a 100 casos: diferencias de menos de ~10 puntos no son concluyentes
@@ -69,7 +70,7 @@ Muestras de 18 a 100 casos: diferencias de menos de ~10 puntos no son concluyent
 ## Consideraciones éticas
 
 - Sesgo de muestreo hacia el gimnasio comercial (Gini de equipamiento 0,737). Mitigado
-  con una cuota de alternativas sin equipamiento (51 % → 99 % de las listas).
+  con una cuota de alternativas sin equipamiento (52 % → 99 % de las listas).
 - La abstención protege la calidad de las etiquetas pero redistribuye la cobertura: los
   ejercicios de wger casi no llegan al perfil de principiante.
 - No hay datos personales en el entrenamiento. El diseño de destino procesa el vídeo del
@@ -80,7 +81,9 @@ Muestras de 18 a 100 casos: diferencias de menos de ~10 puntos no son concluyent
 - Las etiquetas reproducen el criterio de free-exercise-db, sin validación clínica. En
   complejidad técnica, el 23,5 % de los grupos de variantes tiene etiquetas discordantes.
 - El mapeo músculo → articulación, del que depende la seguridad de la sustitución, no fue
-  revisado por un profesional de la salud.
+  revisado por un profesional de la salud. La carga por patrón de movimiento cubre las
+  fichas incompletas que el nombre delata (peso muerto → lumbar), pero una ficha
+  incompleta con un nombre poco descriptivo todavía puede pasar por segura.
 - Las familias reflejan cómo están anotados los ejercicios, no una medición del
   movimiento (*silhouette* 0,23).
 - El KPI de sustitución mide que las alternativas sean seguras y de la misma familia, no

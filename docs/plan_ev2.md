@@ -173,8 +173,9 @@ alternativas reales tiene un ejercicio cuando se veta una articulación lesionad
       sustitución · notebook · README.
 
 **Resultado:** gana Node2Vec + K-Means (12 familias, AMI con la fuente 0,08, cobertura
-de sustitución 91,0 % sobre los sustituibles). Louvain: 24 comunidades, modularidad
-0,88, pero cobertura 55,8 % y 8 comunidades con ≥ 90 % de una sola fuente.
+de sustitución 91,0 % sobre los sustituibles; 90,7 % tras la carga por patrón de
+movimiento del 2026-10-20). Louvain: 24 comunidades, modularidad 0,88, pero cobertura
+55,8 % y 8 comunidades con ≥ 90 % de una sola fuente.
 
 **Pendiente del equipo:**
 
@@ -182,8 +183,9 @@ de sustitución 91,0 % sobre los sustituibles). Louvain: 24 comunidades, modular
       alternativa con rodilla, hombro y columna lumbar vetadas) para medir si son
       sustitutos razonables, no solo seguros. La muestra está lista en
       `data/01_raw/sustitucion_revision_manual.csv` (`scripts/muestra_revision_sustitucion.py`):
-      falta completar `veredicto`. Ojo con la columna lumbar: propone *Kettlebell
-      deadlifts* y *dumbbell clean*, que en los datos no anotan el músculo lumbar.
+      falta completar `veredicto`. La primera versión de la muestra propuso *Kettlebell
+      deadlifts* con la lumbar vetada; se corrigió con la carga por patrón de movimiento
+      (README §13.2) y la muestra se regeneró.
 - [ ] Decidir con un profesional una similitud mínima para ofrecer alternativas de otra
       familia.
 - [ ] Armonizar `chest` / `shoulders` de free-exercise-db con `pectorals` / `deltoids`
