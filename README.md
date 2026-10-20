@@ -926,7 +926,11 @@ y la técnica coinciden.
    casi no llegan al perfil de principiante (§14.3).
 10. **Recomendaciones evaluadas con reglas.** El KPI de sustitución mide que las
     alternativas sean seguras y de la misma familia, no que un entrenador las considere
-    buenas. Falta revisar a mano una muestra de recomendaciones.
+    buenas. Falta revisar a mano una muestra de recomendaciones: 30 pares listos en
+    `data/01_raw/sustitucion_revision_manual.csv`. Una primera lectura ya muestra el
+    riesgo: con la columna lumbar vetada se proponen *Kettlebell deadlifts* y *dumbbell
+    clean*, porque sus fichas no anotan el músculo lumbar. La seguridad depende de que la
+    anotación muscular esté completa.
 
 ---
 

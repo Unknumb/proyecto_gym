@@ -180,7 +180,10 @@ de sustitución 91,0 % sobre los sustituibles). Louvain: 24 comunidades, modular
 
 - [ ] Revisar a mano una muestra de recomendaciones (p. ej. 30 pares original →
       alternativa con rodilla, hombro y columna lumbar vetadas) para medir si son
-      sustitutos razonables, no solo seguros.
+      sustitutos razonables, no solo seguros. La muestra está lista en
+      `data/01_raw/sustitucion_revision_manual.csv` (`scripts/muestra_revision_sustitucion.py`):
+      falta completar `veredicto`. Ojo con la columna lumbar: propone *Kettlebell
+      deadlifts* y *dumbbell clean*, que en los datos no anotan el músculo lumbar.
 - [ ] Decidir con un profesional una similitud mínima para ofrecer alternativas de otra
       familia.
 - [ ] Armonizar `chest` / `shoulders` de free-exercise-db con `pectorals` / `deltoids`
