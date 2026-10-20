@@ -28,7 +28,7 @@ negocio, comprensión de los datos y preparación)
 | Ética y sesgos | §5 (datos) y §14.3 (después del modelado) |
 | Modelos supervisados (IE6) | §12 · `notebooks/02_modelado_supervisado.ipynb` |
 | Modelos no supervisados (IE7) | §13 · `notebooks/03_modelado_no_supervisado.ipynb` |
-| Interpretación y recomendaciones de negocio (IE8) | §12.3–§12.5, §13.3–§13.6, §14 |
+| Interpretación y recomendaciones de negocio (IE8) | §12.3–§12.6, §13.3–§13.6, §14 |
 | Reproducibilidad y estructura del proyecto | §8 |
 
 ---
@@ -83,6 +83,21 @@ lesionada**, y abstenerse cuando no exista una alternativa segura.
 El KPI de cobertura por grupo muscular **sigue sin cumplirse**: el EDA lo detectó (§4.1) y
 las fuentes nuevas lo redujeron de 4 a 2 grupos. Para esos grupos el sistema se abstiene
 en vez de recomendar con pocas opciones.
+
+**Qué decide cada modelo y cuánto cuesta equivocarse.** Se fijó antes de entrenar, y es lo
+que justifica fallar hacia la abstención (§5.3):
+
+| | Etiquetas del perfil (§12) | Sustitución (§13) |
+|---|---|---|
+| Decisión | Asignar mecánica, fuerza y complejidad técnica, o dejar la etiqueta vacía | Proponer hasta 5 alternativas, o abstenerse |
+| Quién la usa | El recomendador, para filtrar y sustituir; un profesional puede corregirla | El usuario con una articulación lesionada, idealmente con su kinesiólogo |
+| Error grave | Etiqueta falsa: a un principiante le llega un ejercicio técnico, o se sustituye por otro patrón de movimiento | Alternativa que carga la articulación lesionada |
+| Error leve | Abstenerse: el ejercicio queda fuera del filtro hasta que alguien lo etiquete | Abstenerse: "no hay un sustituto seguro, consulta a un profesional" |
+| Criterio de éxito | F1 macro ≥ 0,85 en test y ≥ 90 % de acierto en lo etiquetado | ≥ 85 % de los ejercicios con ≥ 3 alternativas seguras de su familia |
+
+Como el error grave cuesta mucho más que el leve, los dos modelos se calibran para
+abstenerse antes que equivocarse: umbral de confianza con 95 % de acierto (§12.2) y
+exclusión dura de la articulación vetada (§13.5).
 
 ### 1.4 Metodología (CRISP-DM)
 
@@ -952,11 +967,11 @@ biomecánico (§13), no compila todavía en Python 3.14.
 ### 8.2 Ejecución del pipeline
 
 ```bash
-kedro run                              # pipeline completo (29 nodos)
+kedro run                              # pipeline completo (30 nodos)
 kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
 kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
 kedro run --pipeline=integracion_fuentes  # 8 nodos: free-exercise-db + wger (EV2, §11; requiere los dos anteriores)
-kedro run --pipeline=modelado_supervisado # 3 nodos: modelos del perfil de exigencia (EV2, §12; requiere el anterior)
+kedro run --pipeline=modelado_supervisado # 4 nodos: modelos del perfil de exigencia y su diagnóstico (EV2, §12; requiere el anterior)
 kedro run --pipeline=grafo_biomecanico    # 6 nodos: grafo, Louvain, Node2Vec + K-Means, sustitución (EV2, §13; ~1 min)
 ```
 
@@ -1048,7 +1063,14 @@ proyecto_ejercicios/
 │       ├── match_wger.csv               # Emparejamiento wger → catálogo + free-exercise-db
 │       ├── integracion_fuentes_resumen.csv  # Cobertura de etiquetas por fuente y contexto
 │       ├── modelos_comparacion.csv      # F1, accuracy y parámetros por objetivo × modelo × conjunto (§12)
-│       ├── modelos_predicciones_test.csv    # Predicciones en test y validación externa
+│       ├── modelos_predicciones_test.csv    # Predicciones y probabilidades en test y validación externa
+│       ├── modelos_cv_repetida.csv      # Diagnóstico (§12.6): F1 por pliegue, CV repetida 5 × 5
+│       ├── modelos_contraste_pareado.csv    # Logística vs. Random Forest, prueba de Nadeau-Bengio
+│       ├── modelos_calibracion.csv      # Brier sin calibrar, sigmoide e isotónica
+│       ├── modelos_curva_aprendizaje.csv    # F1 en validación según el tamaño de train
+│       ├── modelos_control_fuga.csv     # Prueba del objetivo barajado
+│       ├── modelos_importancia.csv      # Importancia por permutación en validación
+│       ├── validacion_adversarial.csv   # ¿Se distingue free-exercise-db del catálogo y de wger?
 │       ├── louvain_barrido.csv          # Modularidad y estabilidad por resolución (§13)
 │       ├── kmeans_barrido.csv           # Codo, silhouette, Davies-Bouldin y estabilidad por k
 │       ├── clustering_comparacion.csv   # Louvain vs. Node2Vec + K-Means
@@ -1082,7 +1104,7 @@ proyecto_ejercicios/
 │       │   ├── nodes.py             # 8 nodos: ontología, esquema común, emparejamiento, consolidación
 │       │   └── pipeline.py
 │       ├── modelado_supervisado/
-│       │   ├── nodes.py             # 3 nodos: tabla de modelado, entrenamiento y comparación, predicción
+│       │   ├── nodes.py             # 4 nodos: tabla de modelado, entrenamiento y comparación, diagnóstico, predicción
 │       │   └── pipeline.py
 │       └── grafo_biomecanico/
 │           ├── nodes.py             # 6 nodos: grafo, Louvain, Node2Vec, K-Means, familias, sustitución
@@ -1127,6 +1149,7 @@ los reportes, y el README las incrusta desde ahí.
 | `resumir_integracion` | `primary_ejercicios`, `primary_ejercicio_musculo`, `primary_musculo_articulacion` | `integracion_fuentes_resumen` |
 | `construir_tabla_modelado` | `intermediate_free_exercise_db`, `primary_ejercicios`, `match_free_exercise_db_report`, `primary_musculo_articulacion`, `params:modelado_supervisado` | `model_input_tabla_modelado` |
 | `entrenar_modelos` | `model_input_tabla_modelado`, `params:modelado_supervisado` | `modelos_comparacion`, `modelos_predicciones_test`, `modelos_supervisados` |
+| `diagnosticar_modelos` | `model_input_tabla_modelado`, `modelos_supervisados`, `params:modelado_supervisado` | `modelos_cv_repetida`, `modelos_contraste_pareado`, `modelos_calibracion`, `modelos_curva_aprendizaje`, `modelos_control_fuga`, `modelos_importancia`, `validacion_adversarial` |
 | `predecir_etiquetas` | `model_input_tabla_modelado`, `primary_ejercicios`, `modelos_supervisados` | `model_output_perfil_exigencia` |
 | `construir_grafo` | `primary_ejercicios`, `model_output_perfil_exigencia`, `primary_ejercicio_musculo`, `primary_musculo_articulacion`, `regiones_compuestas`, `params:grafo_biomecanico` | `grafo_biomecanico`, `grafo_nodos_ejercicio` |
 | `detectar_comunidades` | `grafo_biomecanico`, `grafo_nodos_ejercicio` | `comunidades_louvain` (memoria), `louvain_barrido` |
@@ -1136,7 +1159,7 @@ los reportes, y el README las incrusta desde ahí.
 | `evaluar_sustitucion` | `model_output_familias_movimiento`, `embeddings_node2vec`, `primary_musculo_articulacion` | `sustitucion_cobertura`, `sustitucion_contexto` |
 
 `preparar_megagym`, `emparejar_con_megagym` y `enrich_with_external_metadata` forman el
-pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11); los tres
+pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11); los cuatro
 siguientes, `modelado_supervisado` (§12), y los seis últimos, `grafo_biomecanico` (§13).
 El entorno `conf/databricks/` no los reapunta todavía a Delta: con `--env=databricks`
 leen y escriben las rutas locales de `conf/base/`.
@@ -1450,6 +1473,41 @@ graduable.
 **Límites.** Las etiquetas de free-exercise-db no están validadas clínicamente: el modelo
 reproduce el criterio de esa fuente. Las reglas dependen de palabras clave y no detectan
 un ejercicio de impacto cuyo nombre no lo describa.
+
+### 12.6 Diagnóstico: cuánto confiar en los modelos
+
+Nodo `diagnosticar_modelos` y sección 13 del notebook 02. Somete a los modelos ya
+entrenados a pruebas más exigentes que la métrica principal. **No cambia ningún modelo ni
+etiqueta**: es un informe de cómo se analizaron.
+
+| Pregunta | Prueba | Resultado |
+|---|---|---|
+| ¿La diferencia entre algoritmos es real? | CV repetida 5 × 5 con los mismos pliegues, prueba t corregida de Nadeau-Bengio y McNemar | Ninguna supera el ruido. En fuerza, el Random Forest gana en el 80 % de los pliegues pero por 0,016 (t = 1,20, p = 0,24); en el catálogo difiere de la logística en 3 ejercicios (p = 0,25). Los dos algoritmos son equivalentes dentro del ruido |
+| ¿Cuán inciertas son las métricas? | Intervalo *bootstrap* del 95 % | Test: 0,83–0,93 (mecánica), 0,82–0,93 (fuerza). Catálogo: 0,68–0,91 y 0,78–0,96. Con ~60 casos no se puede afirmar ni descartar la meta del 90 % |
+| ¿La confianza es una probabilidad real? | Brier y curva de calibración | Sobre 0,9 los modelos aciertan 96–100 %. En tramos medios, mecánica promete de más y fuerza de menos (Brier del Random Forest 0,164 → 0,130 al recalibrar). No se recalibra: el umbral de abstención ya se eligió por acierto real |
+| ¿Ordena bien la clase minoritaria? | PR-AUC frente a la prevalencia | `static`: 0,93 con prevalencia 0,12. Mecánica y fuerza > 0,87 en todas las clases |
+| ¿Hay fuga de información? | Entrenar con la etiqueta barajada | El F1 cae al nivel del azar (0,50 / 0,31 / 0,54): no hay fuga |
+| ¿El catálogo se parece a los datos de entrenamiento? | Validación adversarial | No: AUC 0,999. Las instrucciones bastan para distinguir la fuente, y también la anatomía (0,84): el catálogo anota más sinergistas que su gemelo (1,94 vs. 1,53) y usa otro vocabulario. Explica la caída en la validación externa |
+| ¿Ayudarían más datos? | Curva de aprendizaje | Fuerza (0,83 → 0,91) y complejidad (0,69 → 0,75) siguen subiendo; mecánica está cerca de su techo (~0,89) |
+| ¿La importancia depende del test? | Permutación agrupada en validación | No: mecánica = sinergistas y articulaciones; fuerza = instrucciones; complejidad = sin señal dominante |
+| ¿Dónde se equivoca? | Revisión de los errores más seguros y casos explicados | Varios son errores de la etiqueta: *Lying Cambered Barbell Row* figura como aislado; *Leg-Up Hamstring Stretch*, como empuje. En fuerza, la confusión es empuje ↔ tracción en movimientos ambiguos (*pullover*, *windmill*) |
+| ¿Qué tan buenas son las etiquetas? | Concordancia dentro de los grupos de variantes | Discordantes: 8 % (mecánica), 12 % (fuerza), **23,5 % (complejidad)**. Con ese ruido, un F1 de ~0,75 en complejidad está cerca del techo |
+
+**Lo que cambia en la lectura de §12.3.** En fuerza el Random Forest se mantiene, porque
+lo eligió la regla fijada antes de entrenar y es el único que no pierde rendimiento en el
+catálogo, pero la defensa correcta es que **los dos algoritmos empatan dentro del ruido**.
+La conclusión firme es otra: ningún modelo complejo supera claramente a la regresión
+logística.
+
+**Recomendaciones que agrega.**
+
+1. Corregir las etiquetas discordantes de free-exercise-db antes de reentrenar: son pocas
+   decenas de grupos y suben el techo de los tres modelos.
+2. Si la aplicación muestra la confianza al usuario, recalibrar el modelo de fuerza con
+   etiquetas del catálogo revisadas a mano: una calibración ajustada en free-exercise-db no
+   vale para otra fuente.
+3. Priorizar más etiquetas para fuerza y complejidad, que son las que mejorarían con más
+   datos.
 
 ---
 
