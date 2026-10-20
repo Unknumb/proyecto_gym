@@ -5,8 +5,12 @@ no que un entrenador las considere buenas. Este script toma 10 ejercicios al aza
 por articulación vetada (rodilla, hombro y columna lumbar), pide la primera
 alternativa al sustituidor y deja la muestra en
 ``data/01_raw/sustitucion_revision_manual.csv`` con una columna ``veredicto`` vacía
-(``bueno`` / ``aceptable`` / ``malo``) para que la complete el equipo. Si el archivo
+para que la complete el equipo. Si el archivo
 ya existe, no lo sobrescribe: los veredictos son trabajo manual.
+
+Veredictos: ``bueno`` (un entrenador lo propondría), ``aceptable`` (mismo músculo,
+pero cambia el patrón, el equipo o la dificultad), ``malo`` (seguro pero no sirve
+como reemplazo) e ``inseguro`` (carga la articulación vetada).
 
 Uso::
 
