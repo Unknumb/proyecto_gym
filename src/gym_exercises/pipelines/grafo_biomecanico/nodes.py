@@ -130,9 +130,16 @@ def construir_grafo(
             if regla.articulacion not in por_musculos[i]:
                 por_patron[i].add(regla.articulacion)
     nodos["articulaciones_carga"] = [sorted(m | p) for m, p in zip(por_musculos, por_patron)]
+
+    # Estiramientos y movilidad que la fuente no marca como tales: la regla
+    # "fuerza por fuerza, estiramiento por estiramiento" del sustituidor los necesita.
+    nodos["estiramiento_por_patron"] = (~nodos["es_estiramiento"]
+                                        & nombres.str.contains(parametros["patron_estiramiento"], regex=True))
+    nodos["es_estiramiento"] = nodos["es_estiramiento"] | nodos["estiramiento_por_patron"]
     nodos["articulaciones_carga_patron"] = [sorted(p) for p in por_patron]
     logger.info("Carga por patrón de movimiento: %d ejercicios suman articulaciones que sus "
-                "músculos no anotan.", sum(bool(p) for p in por_patron))
+                "músculos no anotan; %d se reconocen como estiramiento o movilidad por su nombre.",
+                sum(bool(p) for p in por_patron), int(nodos["estiramiento_por_patron"].sum()))
 
     grafo = nx.Graph()
     p = TIPOS_ENTIDAD
