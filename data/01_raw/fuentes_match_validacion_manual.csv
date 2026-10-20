@@ -1,0 +1,51 @@
+fuente,semilla,ejercicio_id,nombre,candidato_id,candidato_nombre,similitud,veredicto
+free_exercise_db,7,free_exercise_db:One_Leg_Barbell_Squat,One Leg Barbell Squat,catalogo:0068,barbell one leg squat,100.0,mismo
+free_exercise_db,7,free_exercise_db:Standing_Concentration_Curl,Standing Concentration Curl,catalogo:2414,barbell standing concentration curl,87.1,variante
+free_exercise_db,7,free_exercise_db:Flexor_Incline_Dumbbell_Curls,Flexor Incline Dumbbell Curls,catalogo:0318,dumbbell incline curl,85.71,variante
+free_exercise_db,7,free_exercise_db:Bent-Knee_Hip_Raise,Bent-Knee Hip Raise,catalogo:0484,hip raise (bent knee),100.0,mismo
+free_exercise_db,7,free_exercise_db:Front_Two-Dumbbell_Raise,Front Two-Dumbbell Raise,catalogo:0310,dumbbell front raise,90.91,variante
+free_exercise_db,7,free_exercise_db:Standing_Dumbbell_Press,Standing Dumbbell Press,catalogo:0427,dumbbell standing palms in press,85.19,variante
+free_exercise_db,7,free_exercise_db:Seated_One-Arm_Dumbbell_Palms-Up_Wrist_Curl,Seated One-Arm Dumbbell Palms-Up Wrist Curl,catalogo:0401,dumbbell seated palms up wrist curl,89.47,variante
+free_exercise_db,7,free_exercise_db:Lying_Cambered_Barbell_Row,Lying Cambered Barbell Row,catalogo:0248,cambered bar lying row,91.67,mismo
+free_exercise_db,7,free_exercise_db:Dumbbell_One-Arm_Triceps_Extension,Dumbbell One-Arm Triceps Extension,catalogo:0362,dumbbell one arm triceps extension (on bench),88.0,variante
+free_exercise_db,7,free_exercise_db:Wide-Grip_Standing_Barbell_Curl,Wide-Grip Standing Barbell Curl,catalogo:0113,barbell standing wide-grip curl,100.0,mismo
+free_exercise_db,7,free_exercise_db:Wide-Grip_Decline_Barbell_Bench_Press,Wide-Grip Decline Barbell Bench Press,catalogo:0036,barbell decline wide-grip press,91.18,mismo
+free_exercise_db,7,free_exercise_db:Exercise_Ball_Pull-In,Exercise Ball Pull-In,catalogo:0650,pull-in (on stability ball),93.33,mismo
+free_exercise_db,7,free_exercise_db:Palms-Down_Wrist_Curl_Over_A_Bench,Palms-Down Wrist Curl Over A Bench,catalogo:1411,barbell palms down wrist curl over a bench,89.19,mismo
+free_exercise_db,7,free_exercise_db:Incline_Push-Up_Close-Grip,Incline Push-Up Close-Grip,catalogo:0490,incline close-grip push-up,100.0,mismo
+free_exercise_db,7,free_exercise_db:Close-Grip_Standing_Barbell_Curl,Close-Grip Standing Barbell Curl,catalogo:0106,barbell standing close grip curl,100.0,mismo
+free_exercise_db,7,free_exercise_db:One_Arm_Lat_Pulldown,One Arm Lat Pulldown,catalogo:3563,cable one arm pulldown,85.71,mismo
+free_exercise_db,7,free_exercise_db:One_Arm_Dumbbell_Preacher_Curl,One Arm Dumbbell Preacher Curl,catalogo:1663,dumbbell one arm hammer preacher curl,89.55,variante
+free_exercise_db,7,free_exercise_db:One_Arm_Pronated_Dumbbell_Triceps_Extension,One Arm Pronated Dumbbell Triceps Extension,catalogo:0344,dumbbell lying one arm pronated triceps extension,93.33,variante
+free_exercise_db,7,free_exercise_db:Underhand_Cable_Pulldowns,Underhand Cable Pulldowns,catalogo:0245,cable underhand pulldown,100.0,mismo
+free_exercise_db,7,free_exercise_db:Standing_Dumbbell_Reverse_Curl,Standing Dumbbell Reverse Curl,catalogo:0429,dumbbell standing reverse curl,100.0,mismo
+free_exercise_db,7,free_exercise_db:Low_Cable_Triceps_Extension,Low Cable Triceps Extension,catalogo:0186,cable lying triceps extension v. 2,88.89,variante
+free_exercise_db,7,free_exercise_db:Standing_Hamstring_and_Calf_Stretch,Standing Hamstring and Calf Stretch,catalogo:1599,standing hamstring and calf stretch with strap,86.42,variante
+free_exercise_db,7,free_exercise_db:Wrist_Roller,Wrist Roller,catalogo:0859,wrist rollerer,92.31,mismo
+free_exercise_db,7,free_exercise_db:Decline_Dumbbell_Triceps_Extension,Decline Dumbbell Triceps Extension,catalogo:0306,dumbbell decline triceps extension,100.0,mismo
+free_exercise_db,7,free_exercise_db:Double_Kettlebell_Push_Press,Double Kettlebell Push Press,catalogo:0528,kettlebell double push press,100.0,mismo
+wger,7,wger:427,Negative Crunches,catalogo:0634,negative crunch,96.77,mismo
+wger,7,wger:2634,Machine Dip or Triceps Extension,free_exercise_db:Machine_Triceps_Extension,Machine Triceps Extension,87.27,variante
+wger,7,wger:1728,Shoulder Internal Rotation (Cable),catalogo:0216,cable seated shoulder internal rotation,90.14,variante
+wger,7,wger:1472,Cable Shrug-In,catalogo:0220,cable shrug,88.0,variante
+wger,7,wger:1088,Dumbbell sumo deadlift,catalogo:0300,dumbbell deadlift,87.18,distinto
+wger,7,wger:351,Lateral-to-Front Raises,free_exercise_db:Side_Laterals_to_Front_Raise,Side Laterals to Front Raise,89.8,mismo
+wger,7,wger:1320,Bench Dips On Floor HD,catalogo:1399,bench dip on floor,92.31,mismo
+wger,7,wger:803,One Arm Triceps Extensions on Cable,free_exercise_db:Cable_One_Arm_Tricep_Extension,Cable One Arm Tricep Extension,95.24,mismo
+wger,7,wger:566,"Shoulder Press, Barbell",free_exercise_db:Barbell_Shoulder_Press,Barbell Shoulder Press,100.0,mismo
+wger,7,wger:713,Wall Pushup,catalogo:0659,push-up (wall),100.0,mismo
+wger,7,wger:320,Jumping Jacks,catalogo:3224,jack jump (male),85.71,mismo
+wger,7,wger:493,Reverse Bar Curl,catalogo:0080,barbell reverse curl,88.89,mismo
+wger,7,wger:1620,Seated Dumbbell Calf Raise,catalogo:1379,dumbbell seated calf raise,100.0,mismo
+wger,7,wger:310,Incline Dumbbell Row,catalogo:0327,dumbbell incline row,100.0,mismo
+wger,7,wger:1467,Incline Close Grip Barbell Bench Press,catalogo:1719,barbell incline close grip bench press,100.0,mismo
+wger,7,wger:1112,Push-Ups | Decline,catalogo:0279,decline push-up,100.0,mismo
+wger,7,wger:308,Incline Dumbbell Fly,catalogo:0319,dumbbell incline fly,100.0,mismo
+wger,7,wger:1513,Overhead Cable Tricep Extension,free_exercise_db:Cable_Rope_Overhead_Triceps_Extension,Cable Rope Overhead Triceps Extension,92.54,variante
+wger,7,wger:377,"Leg Raises, Lying",catalogo:0865,lying leg-hip raise,88.24,variante
+wger,7,wger:2660,Bent-Over Dumbbell Triceps Extension,catalogo:1737,dumbbell seated bent over triceps extension,90.91,variante
+wger,7,wger:71,Single Leg Extension,free_exercise_db:Single-Leg_Leg_Extension,Single-Leg Leg Extension,90.91,mismo
+wger,7,wger:373,Leg Presses (narrow),free_exercise_db:Narrow_Stance_Leg_Press,Narrow Stance Leg Press,85.0,mismo
+wger,7,wger:1660,Cable Chest Press - Incline,free_exercise_db:Incline_Cable_Chest_Press,Incline Cable Chest Press,100.0,mismo
+wger,7,wger:185,Decline Bench Press Barbell,catalogo:0033,barbell decline bench press,100.0,mismo
+wger,7,wger:1715,Shoulder External Rotation with Dumbbell,catalogo:0864,dumbbell upright shoulder external rotation,91.57,variante

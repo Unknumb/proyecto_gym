@@ -10,6 +10,15 @@ from gym_exercises.pipelines.data_enrichment.pipeline import (
 from gym_exercises.pipelines.data_understanding.pipeline import (
     create_pipeline as create_data_understanding_pipeline,
 )
+from gym_exercises.pipelines.grafo_biomecanico.pipeline import (
+    create_pipeline as create_grafo_biomecanico_pipeline,
+)
+from gym_exercises.pipelines.integracion_fuentes.pipeline import (
+    create_pipeline as create_integracion_fuentes_pipeline,
+)
+from gym_exercises.pipelines.modelado_supervisado.pipeline import (
+    create_pipeline as create_modelado_supervisado_pipeline,
+)
 
 
 def register_pipelines() -> dict[str, Pipeline]:
@@ -20,9 +29,16 @@ def register_pipelines() -> dict[str, Pipeline]:
     """
     data_understanding = create_data_understanding_pipeline()
     data_enrichment = create_data_enrichment_pipeline()
+    integracion_fuentes = create_integracion_fuentes_pipeline()
+    modelado_supervisado = create_modelado_supervisado_pipeline()
+    grafo_biomecanico = create_grafo_biomecanico_pipeline()
 
     return {
         "data_understanding": data_understanding,
         "data_enrichment": data_enrichment,
-        "__default__": data_understanding + data_enrichment,
+        "integracion_fuentes": integracion_fuentes,
+        "modelado_supervisado": modelado_supervisado,
+        "grafo_biomecanico": grafo_biomecanico,
+        "__default__": (data_understanding + data_enrichment + integracion_fuentes
+                        + modelado_supervisado + grafo_biomecanico),
     }

@@ -1,0 +1,5 @@
+resolucion,n_comunidades,modularidad,estabilidad_ari,ami_fuente,tamano_min,tamano_max
+0.5,18,0.8722,0.7774,0.1312,31,390
+1.0,24,0.8784,0.8777,0.1728,31,241
+1.5,28,0.8773,0.9253,0.1715,31,169
+2.0,30,0.8741,0.9243,0.1723,31,156

@@ -1,0 +1,42 @@
+musculo,articulacion,origen
+abdominals,columna (lumbar),directo
+abductors,cadera,directo
+adductors,cadera,directo
+ankle stabilizers,pie (intertarsal),directo
+biceps,codo,directo
+brachialis,codo,directo
+calves,tobillo,directo
+calves,rodilla,directo
+deltoids,hombro,directo
+forearms,muñeca,directo
+forearms,radiocubital,directo
+glutes,cadera,directo
+grip muscles,muñeca/dedos,directo
+groin,cadera,directo
+hamstrings,cadera,directo
+hamstrings,rodilla,directo
+hip flexors,cadera,directo
+inner thighs,cadera,directo
+latissimus dorsi,hombro,directo
+levator scapulae,escapulotorácica,directo
+lower abs,columna (lumbar),directo
+lower back,columna (lumbar),directo
+obliques,columna (torácico-lumbar),directo
+pectorals,hombro,directo
+quadriceps,rodilla,directo
+rear deltoids,hombro,directo
+rhomboids,escapulotorácica,directo
+rotator cuff,hombro,directo
+serratus anterior,escapulotorácica,directo
+shins,tobillo,directo
+soleus,tobillo,directo
+sternocleidomastoid,columna (cervical),directo
+trapezius,escapulotorácica,directo
+triceps,codo,directo
+upper back,escapulotorácica,directo
+upper chest,hombro,directo
+wrist extensors,muñeca,directo
+wrist flexors,muñeca,directo
+chest,hombro,consenso_region
+shoulders,hombro,consenso_region
+spine,columna (lumbar),consenso_region

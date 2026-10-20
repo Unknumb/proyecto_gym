@@ -10,3 +10,84 @@
 emparejamiento_megagym:
   umbral_similitud: 85    # token_sort_ratio (0-100) sobre nombres normalizados
   umbral_jaccard: 0.5     # solapamiento de tokens, estrictamente mayor que
+
+# Emparejamiento entre el catálogo, free-exercise-db y wger (pipeline
+# integracion_fuentes). Mismos umbrales que megaGymDataset; la coherencia se
+# mide por articulación de los agonistas y familia de equipamiento.
+emparejamiento_fuentes:
+  umbral_similitud: 85
+  umbral_jaccard: 0.5
+
+# Modelado supervisado del perfil de exigencia (docs/plan_ev2.md, fase 2).
+modelado_supervisado:
+  semilla: 2026
+  umbral_variantes: 85            # token_sort_ratio para agrupar variantes casi idénticas
+  proporcion_test: 0.2            # fracción de grupos reservada para prueba
+  n_folds: 5                      # GroupKFold dentro de train
+  # Acierto mínimo, fuera de muestra en free-exercise-db, de lo que el modelo sí
+  # etiqueta. Es 0.95 y no 0.90 porque la validación externa mide una caída de
+  # 4-5 puntos al pasar al catálogo (otra redacción y otro vocabulario).
+  precision_objetivo_abstencion: 0.95
+  n_arboles: 400
+  # Si queda a menos de 1 error estándar del mejor en CV, gana el más simple.
+  modelo_preferido_en_empate: regresion_logistica
+  grilla_logistica:
+    C: [0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0]   # elegido con la regla de 1 error estándar
+  grilla_random_forest:
+    max_depth: [null, 30]
+    min_samples_leaf: [1, 3]
+    max_features: [sqrt, 0.1]
+  # Diagnósticos (nodo diagnosticar_modelos): solo informan, no cambian los modelos.
+  diagnosticos:
+    n_bootstrap: 1000               # intervalo de confianza del F1 en test y externa
+    n_repeticiones_cv: 5            # CV repetida 5 × 5 para el contraste pareado
+    mejora_minima_f1: 0.02          # mejora que justificaría el modelo complejo
+    pliegues_minimos_mejora: 0.8    # gana en al menos el 80 % de los pliegues
+    t_minimo_mejora: 2.0            # ≈ dos errores estándar corregidos (Nadeau-Bengio)
+    repeticiones_permutacion: 10    # importancia por permutación, por pliegue
+
+# Grafo biomecánico no supervisado (docs/plan_ev2.md, fase 3).
+grafo_biomecanico:
+  semilla: 2026
+  pesos_aristas:
+    agonista: 1.0          # Ejercicio → Músculo
+    sinergista: 0.5
+    articulacion: 1.0      # Músculo → Articulación
+    region: 1.0            # Región → Músculo componente
+    fuerza: 0.5            # Ejercicio → empuje / tracción / estático (fase 2)
+    mecanica: 0.3          # Ejercicio → compuesto / aislado (fase 2)
+    equipamiento: 0.3      # bajo: la familia de movimiento no depende del equipo
+  louvain:
+    vecinos: 25            # k de la proyección k-NN Ejercicio–Ejercicio
+    resoluciones: [0.5, 1.0, 1.5, 2.0]
+    resolucion: 1.0
+    semillas_estabilidad: 5
+  node2vec:
+    dimensiones: 16
+    paseos_por_nodo: 10
+    largo_paseo: 40
+    p: 1.0
+    q: 0.5                 # q < 1: explora hacia afuera (homofilia, comunidades)
+    ventana: 5
+    epocas: 5
+  kmeans:
+    k_candidatos: [4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28]
+    k: 12
+    semillas_estabilidad: 5
+  umap:
+    vecinos: 15
+    distancia_minima: 0.1
+  metodo_familias: kmeans_node2vec
+  # Estiramientos y movilidad que el nombre delata aunque no digan "stretch"
+  # (pancake, figure four, foam roller, yoga...). La revisión manual encontró que
+  # el sustituidor los proponía como reemplazo de ejercicios de fuerza.
+  patron_estiramiento: "\\bstretch|pancake|figure (?:four|4)|foam roll|myofascial|\\bsmr\\b|mobility|mobilization|cat[- ]cow|cow[- ]cat|child'?s pose|pigeon|\\bsplits\\b|90 ?/ ?90|hip switch|\\byoga\\b|\\bpose\\b|downward (?:dog|facing)|(?:ankle|wrist|arm|neck|hip|shoulder) circles"
+  sustitucion:
+    min_alternativas: 3                       # KPI §1.3
+    top_n: 5
+    min_ejercicios_musculo: 10                # abstención, README §5.1 b
+    familias_sin_equipamiento: [peso corporal]   # cuota, README §5.1 a
+    # Vetar una articulación veta también las que se solapan con ella: la columna
+    # torácico-lumbar incluye segmentos lumbares (revisión manual, README §13.5).
+    veto_incluye:
+      columna (lumbar): [columna (torácico-lumbar)]

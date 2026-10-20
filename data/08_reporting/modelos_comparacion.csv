@@ -1,0 +1,16 @@
+objetivo,modelo,conjunto,n,cv_f1_macro,cv_f1_std,mejores_parametros,f1_macro,accuracy,balanced_accuracy,f1_ic95_inf,f1_ic95_sup,brier,pr_auc_macro
+mecanica,regresion_logistica,test,158,0.9004,0.0249,{'clf__C': 10.0},0.8824,0.8861,0.8865,0.8315,0.9328,0.1644,0.9408
+mecanica,regresion_logistica,externa_catalogo,59,0.9004,0.0249,{'clf__C': 10.0},0.8107,0.8475,0.7872,0.6845,0.9142,0.2242,0.902
+mecanica,random_forest,test,158,0.901,0.0168,"{'clf__max_depth': None, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 1}",0.8735,0.8797,0.8706,0.8192,0.9254,0.1942,0.9496
+mecanica,random_forest,externa_catalogo,59,0.901,0.0168,"{'clf__max_depth': None, 'clf__max_features': 'sqrt', 'clf__min_samples_leaf': 1}",0.8031,0.8475,0.775,0.6722,0.9063,0.2409,0.932
+mecanica,azar_estratificado,test,158,,,,0.4957,0.5127,0.4958,,,,
+fuerza,regresion_logistica,test,174,0.8942,0.0325,{'clf__C': 3.0},0.8821,0.8908,0.8829,0.8165,0.929,0.171,0.9352
+fuerza,regresion_logistica,externa_catalogo,63,0.8942,0.0325,{'clf__C': 3.0},0.8045,0.8413,0.8012,0.6348,0.9246,0.2813,0.8831
+fuerza,random_forest,test,174,0.9175,0.023,"{'clf__max_depth': None, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.8831,0.8851,0.8796,0.8235,0.9289,0.1833,0.9526
+fuerza,random_forest,externa_catalogo,63,0.9175,0.023,"{'clf__max_depth': None, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.8924,0.8889,0.9211,0.7848,0.9642,0.19,0.9348
+fuerza,azar_estratificado,test,174,,,,0.3353,0.3851,0.3404,,,,
+complejidad_tecnica,regresion_logistica,test,178,0.7466,0.0547,{'clf__C': 1.0},0.7438,0.764,0.7456,0.6756,0.8102,0.3008,0.8507
+complejidad_tecnica,regresion_logistica,externa_catalogo,63,0.7466,0.0547,{'clf__C': 1.0},0.6703,0.7143,0.6646,0.5333,0.7958,0.3621,0.7732
+complejidad_tecnica,random_forest,test,178,0.7178,0.034,"{'clf__max_depth': 30, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.7497,0.7978,0.7322,0.6775,0.8177,0.2942,0.8496
+complejidad_tecnica,random_forest,externa_catalogo,63,0.7178,0.034,"{'clf__max_depth': 30, 'clf__max_features': 0.1, 'clf__min_samples_leaf': 1}",0.5867,0.7143,0.6014,0.4415,0.7245,0.3779,0.7566
+complejidad_tecnica,azar_estratificado,test,178,,,,0.4891,0.5056,0.4954,,,,

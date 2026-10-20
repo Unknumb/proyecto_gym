@@ -7,7 +7,7 @@ name = "gym_exercises"
 version = "0.1.0"
 description = "Kedro pipeline for EDA on a fitness exercises dataset"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<3.14"
 
 [project.scripts]
 gym-exercises = "gym_exercises.__main__:main"
@@ -21,6 +21,11 @@ example_pipeline = "false"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning", "ignore::UserWarning"]
 
 [tool.kedro_telemetry]
 project_id = "4d780cf565b74e65997768a8186b8432"

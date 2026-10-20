@@ -1,0 +1,16 @@
+region,musculo_componente,nota
+back,latissimus dorsi,README §6.2: dorsal ancho + trapecio + romboides + erector espinal
+back,trapezius,README §6.2: dorsal ancho + trapecio + romboides + erector espinal
+back,rhomboids,README §6.2: dorsal ancho + trapecio + romboides + erector espinal
+back,lower back,README §6.2: dorsal ancho + trapecio + romboides + erector espinal
+chest,pectorals,pectoral mayor (fascículos esternal y clavicular)
+chest,upper chest,pectoral mayor (fascículos esternal y clavicular)
+shoulders,deltoids,deltoides (tres fascículos) + manguito rotador
+shoulders,rear deltoids,deltoides (tres fascículos) + manguito rotador
+shoulders,rotator cuff,deltoides (tres fascículos) + manguito rotador
+core,abdominals,recto abdominal + oblicuos + erector espinal
+core,obliques,recto abdominal + oblicuos + erector espinal
+core,lower back,recto abdominal + oblicuos + erector espinal
+neck,sternocleidomastoid,solo en free-exercise-db ('neck')
+neck,levator scapulae,solo en free-exercise-db ('neck')
+spine,lower back,"en el catálogo, target 'spine' son extensiones de columna (hyperextension, back extension, sphinx, pelvic tilt): el agonista es el erector espinal"

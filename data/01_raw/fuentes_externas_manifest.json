@@ -1,0 +1,16 @@
+{
+  "free_exercise_db": {
+    "repositorio": "https://github.com/yuhonas/free-exercise-db",
+    "commit": "a859101d633a01c4a1a920d6a8ce41dabba0705f",
+    "url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/a859101d633a01c4a1a920d6a8ce41dabba0705f/dist/exercises.json",
+    "licencia": "The Unlicense",
+    "n_ejercicios": 876
+  },
+  "wger": {
+    "api": "https://wger.de/api/v2/exerciseinfo/",
+    "fecha_descarga": "2026-09-22",
+    "licencia": "por ejercicio (campo 'licencia')",
+    "n_fichas_api": 910,
+    "n_ejercicios": 910
+  }
+}

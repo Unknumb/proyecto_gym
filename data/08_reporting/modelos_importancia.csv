@@ -1,0 +1,22 @@
+familia,caida_media,caida_sd,n,objetivo
+Articulaciones,0.079,0.0406,50,mecanica
+Equipamiento,0.0054,0.0146,50,mecanica
+Estabilidad e impacto,-0.0019,0.0095,50,mecanica
+Instrucciones (texto),0.0041,0.0134,50,mecanica
+Músculos agonistas,0.0064,0.02,50,mecanica
+Músculos sinergistas,0.1012,0.0519,50,mecanica
+Nombre (texto),0.0081,0.0168,50,mecanica
+Articulaciones,0.0398,0.015,50,fuerza
+Equipamiento,0.0151,0.0138,50,fuerza
+Estabilidad e impacto,0.005,0.0079,50,fuerza
+Instrucciones (texto),0.2186,0.0427,50,fuerza
+Músculos agonistas,0.0313,0.0181,50,fuerza
+Músculos sinergistas,0.015,0.0154,50,fuerza
+Nombre (texto),0.0206,0.014,50,fuerza
+Articulaciones,0.0269,0.0305,50,complejidad_tecnica
+Equipamiento,0.0656,0.0376,50,complejidad_tecnica
+Estabilidad e impacto,0.0223,0.0245,50,complejidad_tecnica
+Instrucciones (texto),0.0487,0.0331,50,complejidad_tecnica
+Músculos agonistas,0.008,0.0268,50,complejidad_tecnica
+Músculos sinergistas,0.0535,0.0323,50,complejidad_tecnica
+Nombre (texto),0.0441,0.025,50,complejidad_tecnica

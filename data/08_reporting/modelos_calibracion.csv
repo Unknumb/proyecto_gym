@@ -1,0 +1,10 @@
+objetivo,metodo,brier,f1_macro,pr_auc_macro
+mecanica,sin calibrar,0.1414,0.8942,0.9492
+mecanica,sigmoide,0.139,0.9004,0.9512
+mecanica,isotonica,0.1412,0.8915,0.9529
+fuerza,sin calibrar,0.1636,0.9174,0.9698
+fuerza,sigmoide,0.1317,0.9135,0.9678
+fuerza,isotonica,0.1303,0.9057,0.9686
+complejidad_tecnica,sin calibrar,0.3374,0.7525,0.8115
+complejidad_tecnica,sigmoide,0.3363,0.7515,0.8088
+complejidad_tecnica,isotonica,0.3417,0.7492,0.8008

@@ -106,3 +106,192 @@ megagym_match_validacion:
   load_args:
     dtype:
       id: str
+
+# ── EV2: Integración de fuentes (pipeline integracion_fuentes) ───────────────
+# Instantáneas producidas por scripts/descargar_fuentes_externas.py (requiere
+# red); el commit y la fecha exactos quedan en fuentes_externas_manifest.json.
+raw_free_exercise_db:
+  type: pandas.JSONDataset
+  filepath: data/01_raw/free_exercise_db.json
+  load_args:
+    dtype: {id: str}
+
+raw_wger:
+  type: pandas.JSONDataset
+  filepath: data/01_raw/wger_exercises.json
+
+# Curación manual de la ontología (README §6.2): vocabulario, articulaciones,
+# regiones compuestas y familias de equipamiento.
+vocabulario_muscular_externo:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/vocabulario_muscular_externo.csv
+
+articulaciones_canonicas:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/articulaciones_canonicas.csv
+
+regiones_compuestas:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/regiones_compuestas.csv
+
+# Articulaciones que el nombre del ejercicio delata aunque la ficha no anote el
+# músculo que las cruza (peso muerto → columna lumbar). Regla de seguridad del grafo.
+carga_por_patron:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/carga_por_patron.csv
+
+equipamiento_canonico:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/equipamiento_canonico.csv
+
+vocabulario_muscular:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/vocabulario_muscular.csv
+
+intermediate_catalogo_unificado:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/catalogo_unificado.parquet
+
+intermediate_free_exercise_db:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/free_exercise_db.parquet
+
+intermediate_wger:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/wger.parquet
+
+match_free_exercise_db_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/match_free_exercise_db.csv
+
+match_wger_report:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/match_wger.csv
+
+# Base del grafo biomecánico: nodos Ejercicio y aristas Ejercicio→Músculo y
+# Músculo→Articulación.
+primary_ejercicios:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/ejercicios.parquet
+
+primary_ejercicio_musculo:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/ejercicio_musculo.parquet
+
+primary_musculo_articulacion:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/musculo_articulacion.csv
+
+integracion_fuentes_resumen:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/integracion_fuentes_resumen.csv
+
+# Muestra de pares difusos revisada a mano (mismo / variante / distinto), mismo
+# protocolo que megagym_match_validacion.
+fuentes_match_validacion:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/fuentes_match_validacion_manual.csv
+
+# ── EV2: Modelado supervisado (pipeline modelado_supervisado) ────────────────
+model_input_tabla_modelado:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/tabla_modelado.parquet
+
+# Por objetivo: estimador final (reentrenado con todo free-exercise-db), modelo
+# entrenado solo con train (para interpretar en test), umbral de abstención.
+modelos_supervisados:
+  type: pickle.PickleDataset
+  filepath: models/modelos_supervisados.pkl
+  backend: joblib
+
+modelos_comparacion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_comparacion.csv
+
+modelos_predicciones_test:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_predicciones_test.csv
+
+# Diagnósticos (informe, no cambian los modelos): CV repetida y contraste pareado
+# entre algoritmos, calibración, aprendizaje, fuga, importancia y cambio de dominio.
+modelos_cv_repetida:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_cv_repetida.csv
+
+modelos_contraste_pareado:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_contraste_pareado.csv
+
+modelos_calibracion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_calibracion.csv
+
+modelos_curva_aprendizaje:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_curva_aprendizaje.csv
+
+modelos_control_fuga:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_control_fuga.csv
+
+modelos_importancia:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_importancia.csv
+
+validacion_adversarial:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/validacion_adversarial.csv
+
+model_output_perfil_exigencia:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/perfil_exigencia.parquet
+
+# ── EV2: Grafo biomecánico no supervisado (pipeline grafo_biomecanico) ───────
+grafo_biomecanico:
+  type: pickle.PickleDataset
+  filepath: models/grafo_biomecanico.pkl
+
+# Una fila por ejercicio del grafo: perfil de exigencia, músculos expandidos y
+# articulaciones que carga.
+grafo_nodos_ejercicio:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/grafo_nodos_ejercicio.parquet
+
+embeddings_node2vec:
+  type: pandas.ParquetDataset
+  filepath: models/embeddings_node2vec.parquet
+
+comunidades_louvain:
+  type: MemoryDataset
+
+clusters_kmeans:
+  type: MemoryDataset
+
+louvain_barrido:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/louvain_barrido.csv
+
+kmeans_barrido:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/kmeans_barrido.csv
+
+# Familia de movimiento de cada ejercicio según los dos métodos, con UMAP.
+model_output_familias_movimiento:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/familias_movimiento.parquet
+
+familias_perfiles:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/familias_perfiles.csv
+
+clustering_comparacion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/clustering_comparacion.csv
+
+sustitucion_cobertura:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/sustitucion_cobertura.csv
+
+sustitucion_contexto:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/sustitucion_contexto.csv

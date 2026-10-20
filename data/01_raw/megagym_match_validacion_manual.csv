@@ -69,53 +69,53 @@ regla_estricta_exacto,1297,isometric chest squeeze,Isometric Chest Squeezes,100.
 regla_estricta_exacto,0282,decline sit-up,Decline sit-up,100.0,mismo
 regla_estricta_exacto,0031,barbell curl,Barbell Curl,100.0,mismo
 regla_estricta_exacto,0025,barbell bench press,30 Chest Barbell Bench Press,100.0,mismo
-wratio_rama_benja,0058,barbell lying lifting (on hip),Barbell roll-out,85.5,distinto
-wratio_rama_benja,3361,skater hops,Front Cone Hops (or hurdle hops),85.5,distinto
-wratio_rama_benja,1630,cable close grip curl,Standing cable low-to-high twist,85.5,distinto
-wratio_rama_benja,0208,cable reverse-grip straight back seated high row,Partner plank band row,85.5,distinto
-wratio_rama_benja,1741,dumbbell standing bent over two arm triceps extension,Kettlebell 3-point leg extension,85.5,distinto
-wratio_rama_benja,2327,dumbbell reverse grip row (female),Partner plank band row,85.5,distinto
-wratio_rama_benja,0286,dumbbell alternate side press,Barbell Side Bend,85.5,distinto
-wratio_rama_benja,1701,medicine ball close grip push up,Bottoms Up,85.5,distinto
-wratio_rama_benja,0387,dumbbell seated alternate front raise,Seated bar twist,85.5,distinto
-wratio_rama_benja,0433,dumbbell straight arm pullover,Dumbbell side bend,85.5,distinto
-wratio_rama_benja,1405,back pec stretch,Standing torso twist stretch,85.5,distinto
-wratio_rama_benja,0337,dumbbell lying extension (across face),Dumbbell V-Sit Cross Jab,85.5,distinto
-wratio_rama_benja,0767,smith shrug,Smith machine straight-legged hip raise,85.5,distinto
-wratio_rama_benja,1582,reclining big toe pose with rope,Holman Boat with Feet Push-Out and Overhead Press,85.5,distinto
-wratio_rama_benja,0152,cable concentration extension (on knee),Kneeling cable crunch,85.5,distinto
-wratio_rama_benja,0338,dumbbell lying elbow press,Dumbbell crunch,85.5,distinto
-wratio_rama_benja,1714,assisted prone rectus femoris stretch,Seated Overhead Stretch,85.5,distinto
-wratio_rama_benja,3656,short stride run,Bench Press With Short Bands,85.5,distinto
-wratio_rama_benja,0002,45° side bend,Holman Right Side Plank with Left Triceps Press,85.5,distinto
-wratio_rama_benja,0857,wheel rollerout,Ab Wheel Roll-Out - Gethin Variation,85.5,variante
-wratio_rama_benja,1378,calf stretch with rope,30 Hanging Leg Raise With Dumbbell,85.5,distinto
-wratio_rama_benja,1735,dumbbell lying single extension,Leg extension,86.4,distinto
-wratio_rama_benja,0149,cable alternate triceps extension,Low Cable Triceps Extension,87.4,variante
-wratio_rama_benja,1671,dumbbell one arm standing hammer curl,Hammer curl,90.0,variante
-wratio_rama_benja,0014,assisted motion russian twist,Russian twist,90.0,variante
-wratio_rama_benja,1767,weighted triceps dip on high parallel bars,Triceps dip,90.0,variante
-wratio_rama_benja,2334,sled lying calf press,Calf Press,90.0,variante
-wratio_rama_benja,0635,oblique crunches floor,Crunch,90.0,distinto
-wratio_rama_benja,1461,barbell full squat (back pov),Barbell Full Squat,90.0,mismo
-wratio_rama_benja,1672,dumbbell one arm zottman preacher curl,Preacher Curl,90.0,variante
-wratio_rama_benja,3470,forward lunge (male),Forward lunge,90.0,mismo
-wratio_rama_benja,0749,smith bent knee good morning,Good Morning,90.0,variante
-wratio_rama_benja,1007,band standing twisting crunch,Crunch,90.0,variante
-wratio_rama_benja,0274,crunch floor,Crunch,90.0,variante
-wratio_rama_benja,0370,dumbbell peacher hammer curl,Preacher Hammer Dumbbell Curl,93.33,mismo
-wratio_rama_benja,0757,smith incline bench press,Incline bench press,95.0,variante
-wratio_rama_benja,0775,smith upright row,Smith machine upright row,95.0,mismo
-wratio_rama_benja,1661,dumbbell lying supine biceps curl,Lying Supine Dumbbell Curl,95.0,mismo
-wratio_rama_benja,0795,standing single leg curl,Standing Leg Curl,95.0,variante
-wratio_rama_benja,0344,dumbbell lying one arm pronated triceps extension,One Arm Pronated Dumbbell Triceps Extension,95.0,mismo
-wratio_rama_benja,0592,lever preacher curl,Preacher Curl,95.0,variante
-wratio_rama_benja,1358,side lying floor stretch,Side-Lying Floor Stretch,95.83,mismo
-wratio_rama_benja,0120,barbell upright row,Barbell upright row,100.0,mismo
-wratio_rama_benja,0808,suspended row,Suspended row,100.0,mismo
-wratio_rama_benja,1355,one arm against wall,One Arm Against Wall,100.0,mismo
-wratio_rama_benja,0873,cable reverse crunch,Cable reverse crunch,100.0,mismo
-wratio_rama_benja,0630,mountain climber,Mountain climber,100.0,mismo
-wratio_rama_benja,0042,barbell front squat,Barbell front squat,100.0,mismo
-wratio_rama_benja,3699,shoulder tap,Shoulder tap,100.0,mismo
-wratio_rama_benja,0544,kettlebell pistol squat,Kettlebell Pistol Squat,100.0,mismo
+wratio_original,0058,barbell lying lifting (on hip),Barbell roll-out,85.5,distinto
+wratio_original,3361,skater hops,Front Cone Hops (or hurdle hops),85.5,distinto
+wratio_original,1630,cable close grip curl,Standing cable low-to-high twist,85.5,distinto
+wratio_original,0208,cable reverse-grip straight back seated high row,Partner plank band row,85.5,distinto
+wratio_original,1741,dumbbell standing bent over two arm triceps extension,Kettlebell 3-point leg extension,85.5,distinto
+wratio_original,2327,dumbbell reverse grip row (female),Partner plank band row,85.5,distinto
+wratio_original,0286,dumbbell alternate side press,Barbell Side Bend,85.5,distinto
+wratio_original,1701,medicine ball close grip push up,Bottoms Up,85.5,distinto
+wratio_original,0387,dumbbell seated alternate front raise,Seated bar twist,85.5,distinto
+wratio_original,0433,dumbbell straight arm pullover,Dumbbell side bend,85.5,distinto
+wratio_original,1405,back pec stretch,Standing torso twist stretch,85.5,distinto
+wratio_original,0337,dumbbell lying extension (across face),Dumbbell V-Sit Cross Jab,85.5,distinto
+wratio_original,0767,smith shrug,Smith machine straight-legged hip raise,85.5,distinto
+wratio_original,1582,reclining big toe pose with rope,Holman Boat with Feet Push-Out and Overhead Press,85.5,distinto
+wratio_original,0152,cable concentration extension (on knee),Kneeling cable crunch,85.5,distinto
+wratio_original,0338,dumbbell lying elbow press,Dumbbell crunch,85.5,distinto
+wratio_original,1714,assisted prone rectus femoris stretch,Seated Overhead Stretch,85.5,distinto
+wratio_original,3656,short stride run,Bench Press With Short Bands,85.5,distinto
+wratio_original,0002,45° side bend,Holman Right Side Plank with Left Triceps Press,85.5,distinto
+wratio_original,0857,wheel rollerout,Ab Wheel Roll-Out - Gethin Variation,85.5,variante
+wratio_original,1378,calf stretch with rope,30 Hanging Leg Raise With Dumbbell,85.5,distinto
+wratio_original,1735,dumbbell lying single extension,Leg extension,86.4,distinto
+wratio_original,0149,cable alternate triceps extension,Low Cable Triceps Extension,87.4,variante
+wratio_original,1671,dumbbell one arm standing hammer curl,Hammer curl,90.0,variante
+wratio_original,0014,assisted motion russian twist,Russian twist,90.0,variante
+wratio_original,1767,weighted triceps dip on high parallel bars,Triceps dip,90.0,variante
+wratio_original,2334,sled lying calf press,Calf Press,90.0,variante
+wratio_original,0635,oblique crunches floor,Crunch,90.0,distinto
+wratio_original,1461,barbell full squat (back pov),Barbell Full Squat,90.0,mismo
+wratio_original,1672,dumbbell one arm zottman preacher curl,Preacher Curl,90.0,variante
+wratio_original,3470,forward lunge (male),Forward lunge,90.0,mismo
+wratio_original,0749,smith bent knee good morning,Good Morning,90.0,variante
+wratio_original,1007,band standing twisting crunch,Crunch,90.0,variante
+wratio_original,0274,crunch floor,Crunch,90.0,variante
+wratio_original,0370,dumbbell peacher hammer curl,Preacher Hammer Dumbbell Curl,93.33,mismo
+wratio_original,0757,smith incline bench press,Incline bench press,95.0,variante
+wratio_original,0775,smith upright row,Smith machine upright row,95.0,mismo
+wratio_original,1661,dumbbell lying supine biceps curl,Lying Supine Dumbbell Curl,95.0,mismo
+wratio_original,0795,standing single leg curl,Standing Leg Curl,95.0,variante
+wratio_original,0344,dumbbell lying one arm pronated triceps extension,One Arm Pronated Dumbbell Triceps Extension,95.0,mismo
+wratio_original,0592,lever preacher curl,Preacher Curl,95.0,variante
+wratio_original,1358,side lying floor stretch,Side-Lying Floor Stretch,95.83,mismo
+wratio_original,0120,barbell upright row,Barbell upright row,100.0,mismo
+wratio_original,0808,suspended row,Suspended row,100.0,mismo
+wratio_original,1355,one arm against wall,One Arm Against Wall,100.0,mismo
+wratio_original,0873,cable reverse crunch,Cable reverse crunch,100.0,mismo
+wratio_original,0630,mountain climber,Mountain climber,100.0,mismo
+wratio_original,0042,barbell front squat,Barbell front squat,100.0,mismo
+wratio_original,3699,shoulder tap,Shoulder tap,100.0,mismo
+wratio_original,0544,kettlebell pistol squat,Kettlebell Pistol Squat,100.0,mismo

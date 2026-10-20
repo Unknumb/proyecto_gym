@@ -96,11 +96,20 @@ def normalizar_nombre(nombre: str) -> str:
     return " ".join(tokens)
 
 
+#: Raíces que se escriben casi igual pero nombran movimientos opuestos: sin esta
+#: guarda, ``fuzz.ratio("abduction", "adduction")`` = 89 las daba por iguales.
+_RAICES_OPUESTAS = [("abduct", "adduct"), ("pronat", "supinat")]
+
+
 def _tokens_equivalentes(a: str, b: str) -> bool:
     """Dos tokens valen lo mismo si uno es prefijo del otro o casi idénticos
-    (``clap``/``clapping``, ``scapula``/``scapular``, ``flye``/``fly``)."""
+    (``clap``/``clapping``, ``scapula``/``scapular``, ``flye``/``fly``), salvo
+    que nombren movimientos opuestos (``abduction``/``adduction``)."""
     if a == b:
         return True
+    for x, y in _RAICES_OPUESTAS:
+        if (a.startswith(x) and b.startswith(y)) or (a.startswith(y) and b.startswith(x)):
+            return False
     corto, largo = sorted((a, b), key=len)
     return (len(corto) >= 3 and largo.startswith(corto)) or fuzz.ratio(a, b) >= 85
 

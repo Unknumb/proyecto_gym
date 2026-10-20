@@ -1,0 +1,43 @@
+metodo,articulacion,afectados,sin_sustituto_anatomico,abstencion_musculo_escaso,sustituibles,cobertura_misma_familia,cobertura_total,misma_fuerza_top3,con_sin_equipamiento_antes,con_sin_equipamiento_despues
+kmeans_node2vec,cadera,859.0,384.0,0.0,475.0,83.6,99.8,87.4,78.1,98.3
+kmeans_node2vec,codo,1120.0,437.0,0.0,683.0,97.5,100.0,84.0,38.2,95.5
+kmeans_node2vec,columna (cervical),10.0,0.0,9.0,1.0,0.0,100.0,100.0,100.0,100.0
+kmeans_node2vec,columna (lumbar),762.0,331.0,0.0,431.0,87.0,99.5,79.3,59.4,100.0
+kmeans_node2vec,columna (torácico-lumbar),253.0,22.0,0.0,231.0,97.0,100.0,90.7,72.7,100.0
+kmeans_node2vec,escapulotorácica,478.0,152.0,7.0,319.0,90.9,100.0,73.4,21.6,100.0
+kmeans_node2vec,hombro,1184.0,679.0,0.0,505.0,79.6,95.2,88.0,42.4,94.5
+kmeans_node2vec,muñeca,388.0,50.0,0.0,338.0,98.5,100.0,93.6,27.2,100.0
+kmeans_node2vec,muñeca/dedos,1.0,0.0,0.0,1.0,100.0,100.0,100.0,0.0,100.0
+kmeans_node2vec,pie (intertarsal),4.0,0.0,0.0,4.0,100.0,100.0,58.3,50.0,100.0
+kmeans_node2vec,radiocubital,388.0,50.0,0.0,338.0,98.5,100.0,93.6,27.2,100.0
+kmeans_node2vec,rodilla,785.0,424.0,0.0,361.0,69.3,94.5,45.6,86.7,96.7
+kmeans_node2vec,tobillo,420.0,123.0,0.0,297.0,96.3,100.0,76.7,56.9,100.0
+louvain,cadera,859.0,384.0,0.0,475.0,58.3,99.8,79.3,63.8,98.3
+louvain,codo,1120.0,437.0,0.0,683.0,83.2,100.0,83.5,38.5,95.5
+louvain,columna (cervical),10.0,0.0,9.0,1.0,0.0,100.0,100.0,100.0,100.0
+louvain,columna (lumbar),762.0,331.0,0.0,431.0,70.3,99.5,77.4,54.8,100.0
+louvain,columna (torácico-lumbar),253.0,22.0,0.0,231.0,97.0,100.0,90.0,81.0,100.0
+louvain,escapulotorácica,478.0,152.0,7.0,319.0,67.7,100.0,75.4,21.0,100.0
+louvain,hombro,1184.0,679.0,0.0,505.0,39.2,95.2,86.5,47.1,94.5
+louvain,muñeca,388.0,50.0,0.0,338.0,26.3,100.0,92.7,28.4,100.0
+louvain,muñeca/dedos,1.0,0.0,0.0,1.0,100.0,100.0,100.0,0.0,100.0
+louvain,pie (intertarsal),4.0,0.0,0.0,4.0,100.0,100.0,50.0,100.0,100.0
+louvain,radiocubital,388.0,50.0,0.0,338.0,26.3,100.0,92.7,28.4,100.0
+louvain,rodilla,785.0,424.0,0.0,361.0,41.6,94.5,50.5,88.4,96.7
+louvain,tobillo,420.0,123.0,0.0,297.0,52.9,100.0,73.5,73.1,100.0
+sin_familias,cadera,859.0,384.0,0.0,475.0,99.8,99.8,81.7,77.3,98.3
+sin_familias,codo,1120.0,437.0,0.0,683.0,100.0,100.0,83.2,39.4,95.5
+sin_familias,columna (cervical),10.0,0.0,9.0,1.0,100.0,100.0,100.0,100.0,100.0
+sin_familias,columna (lumbar),762.0,331.0,0.0,431.0,99.5,99.5,79.4,53.6,100.0
+sin_familias,columna (torácico-lumbar),253.0,22.0,0.0,231.0,100.0,100.0,91.1,73.2,100.0
+sin_familias,escapulotorácica,478.0,152.0,7.0,319.0,100.0,100.0,70.5,24.1,100.0
+sin_familias,hombro,1184.0,679.0,0.0,505.0,95.2,95.2,87.2,42.8,94.5
+sin_familias,muñeca,388.0,50.0,0.0,338.0,100.0,100.0,92.6,26.3,100.0
+sin_familias,muñeca/dedos,1.0,0.0,0.0,1.0,100.0,100.0,100.0,0.0,100.0
+sin_familias,pie (intertarsal),4.0,0.0,0.0,4.0,100.0,100.0,50.0,100.0,100.0
+sin_familias,radiocubital,388.0,50.0,0.0,338.0,100.0,100.0,92.6,26.3,100.0
+sin_familias,rodilla,785.0,424.0,0.0,361.0,94.5,94.5,44.2,88.1,96.7
+sin_familias,tobillo,420.0,123.0,0.0,297.0,100.0,100.0,79.9,54.2,100.0
+kmeans_node2vec,TODAS,6652.0,2652.0,16.0,3984.0,89.4,98.8,82.1,50.4,98.0
+louvain,TODAS,6652.0,2652.0,16.0,3984.0,57.1,98.8,80.8,50.9,98.0
+sin_familias,TODAS,6652.0,2652.0,16.0,3984.0,98.8,98.8,80.9,50.0,98.0

@@ -10,3 +10,15 @@ jupyter
 pyarrow
 lxml
 rapidfuzz>=3.0
+scikit-learn>=1.5
+kedro-datasets[pickle]
+# EV2 fase 3 (grafo biomecánico). gensim no compila en Python 3.14: usar 3.13.
+networkx>=3.3
+gensim>=4.3
+umap-learn>=0.5
+
+# Dashboard de la presentación (README §8.7)
+streamlit>=1.40
+
+# Tests (pytest tests/)
+pytest>=8.0
