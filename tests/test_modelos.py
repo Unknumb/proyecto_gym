@@ -131,3 +131,17 @@ def test_vetar_la_lumbar_veta_la_toracico_lumbar(sustituidor, familias):
         alternativas, _ = sustituidor.recomendar(ejercicio_id, "columna (lumbar)")
         for carga in alternativas["articulaciones_carga"]:
             assert not {"columna (lumbar)", "columna (torácico-lumbar)"} & set(carga)
+
+
+def test_no_propone_estiramientos_para_ejercicios_de_fuerza(sustituidor, familias):
+    """La revisión manual encontró pancakes, figure four y foam roller propuestos para
+    reemplazar ejercicios de fuerza: ahora se reconocen como estiramiento."""
+    estiramientos = familias.set_index("nombre")["es_estiramiento"]
+    for nombre in ["Seated Pancake Good Morning", "seated figure four", "Foam Roller Gluteus"]:
+        assert estiramientos[nombre]
+    assert not estiramientos["Ab Roller"]        # rueda abdominal: es fuerza
+    for original in ["lever hip extension v. 2", "Hip Raise, Lying", "Hip Bridge"]:
+        fila = familias[familias["nombre"] == original].iloc[0]
+        articulacion = "columna (lumbar)" if original == "Hip Bridge" else "rodilla"
+        alternativas, _ = sustituidor.recomendar(fila["ejercicio_id"], articulacion)
+        assert not alternativas["es_estiramiento"].any()
