@@ -1027,7 +1027,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 45 tests, ~5 s; corren sobre los artefactos versionados
+python -m pytest -q      # 46 tests, ~5 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
@@ -1036,7 +1036,7 @@ python -m pytest -q      # 45 tests, ~5 s; corren sobre los artefactos versionad
 | Datos | 2.592 ejercicios únicos, `id` con ceros a la izquierda (el defecto de §3.3), esquema y dominios de las etiquetas, partición sin grupos compartidos, datos crudos sin cambios |
 | Modelo | F1 al menos 0,2 sobre el azar y KPI de F1 ≥ 0,85; invariancia (cambiar barra por mancuernas casi no cambia la mecánica); dirección (más articulaciones, más probabilidad de compuesto) |
 | Sustituidor | Ninguna alternativa carga la articulación vetada; abstención sin sustituto anatómico; demostración sentadilla → Hip Thrust |
-| Dashboard | Las seis vistas se dibujan sin errores; la demo propone el Hip Thrust y se abstiene con la extensión de piernas (§8.7) |
+| Dashboard | Las seis vistas se dibujan sin errores; la tabla de niveles marca las 102 coincidencias; la demo propone el Hip Thrust y se abstiene con la extensión de piernas (§8.7) |
 
 GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
 

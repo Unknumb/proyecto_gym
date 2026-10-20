@@ -27,6 +27,12 @@ def test_cada_vista_se_dibuja_sin_errores(app, vista):
     assert not app.exception, app.exception
 
 
+def test_tabla_de_niveles_indica_las_coincidencias(app):
+    app.run()
+    app.sidebar.radio[0].set_value("2 · Datos").run()
+    assert any("coinciden: 102 de 227" in c.value for c in app.caption)
+
+
 def test_demo_sentadilla_con_rodilla_propone_hip_thrust(app):
     app.run()
     app.sidebar.radio[0].set_value("5 · Sustitución en vivo").run()

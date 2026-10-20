@@ -266,18 +266,31 @@ def vista_datos() -> None:
     kappa = cohen_kappa_score(pares["nivel"], pares["nivel_megagym"])
     acuerdo = (pares["nivel"] == pares["nivel_megagym"]).mean() * 100
     orden = ["beginner", "intermediate", "expert"]
-    tabla = pd.crosstab(pares["nivel"], pares["nivel_megagym"]).reindex(index=orden, columns=orden, fill_value=0)
+    nombres = {"beginner": "Principiante", "intermediate": "Intermedio", "expert": "Experto"}
+    tabla = (pd.crosstab(pares["nivel"], pares["nivel_megagym"])
+             .reindex(index=orden, columns=orden, fill_value=0).rename(index=nombres, columns=nombres))
+    n = len(pares)
+    coinciden = int(np.trace(tabla.to_numpy()))
+    # Coincidencia esperada si cada fuente etiquetara al azar con sus propias proporciones.
+    azar = float(tabla.sum(axis=1).to_numpy() @ tabla.sum(axis=0).to_numpy()) / n ** 2 * 100
     izq, der = st.columns([1, 1.1])
     with izq:
         fig = px.imshow(tabla, text_auto=True, color_continuous_scale=["#F3F5F7", ACENTO], aspect="auto",
-                        labels=dict(x="Nivel en megaGymDataset", y="Nivel en free-exercise-db", color="n"))
-        fig.update_layout(title=f"El mismo ejercicio en dos fuentes (n = {len(pares)})", coloraxis_showscale=False)
+                        labels=dict(x="Nivel según megaGymDataset", y="Nivel según free-exercise-db",
+                                    color="Ejercicios"))
+        for k in range(len(orden)):
+            fig.add_shape(type="rect", x0=k - .5, x1=k + .5, y0=k - .5, y1=k + .5,
+                          line=dict(color=ROJO, width=3))
+        fig.update_layout(title="Los mismos ejercicios en dos fuentes", coloraxis_showscale=False)
         st.plotly_chart(estilo(fig, 340), use_container_width=True)
+        st.caption(f"Cada celda cuenta los ejercicios con esa combinación de niveles. **Borde rojo = las dos "
+                   f"fuentes coinciden: {coinciden} de {n}.** Fuera de la diagonal, {n - coinciden} desacuerdos.")
     with der:
         st.write("")
         c = st.columns(2)
         tarjeta(c[0], dec(kappa), "kappa de Cohen entre las dos fuentes", "= igual que al azar", "bad")
-        tarjeta(c[1], pct(acuerdo), "de coincidencia (el azar daría ~45 %)", "Dificultad = opinión del curador", "warn")
+        tarjeta(c[1], pct(acuerdo), f"de coincidencia; por azar se esperaría {pct(azar)}",
+                "Dificultad = opinión del curador", "warn")
         st.write("")
         lectura("La <b>dificultad no es una etiqueta objetiva</b>: depende de quién la puso. Por eso "
                 "dejamos de predecirla y la reemplazamos por un <b>perfil de exigencia</b> (mecánica, "
