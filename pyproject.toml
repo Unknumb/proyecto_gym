@@ -22,5 +22,10 @@ example_pipeline = "false"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning", "ignore::UserWarning"]
+
 [tool.kedro_telemetry]
 project_id = "4d780cf565b74e65997768a8186b8432"

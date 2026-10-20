@@ -1,0 +1,90 @@
+"""Tests de modelo: métrica mínima frente al azar, invariancia, dirección y las
+reglas de seguridad del sustituidor."""
+
+from __future__ import annotations
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from gym_exercises.pipelines.grafo_biomecanico.nodes import Sustituidor
+from gym_exercises.pipelines.modelado_supervisado.nodes import OBJETIVOS
+
+
+@pytest.mark.parametrize("objetivo", OBJETIVOS)
+def test_el_ganador_supera_claramente_al_azar(comparacion, modelos, objetivo):
+    filas = comparacion[(comparacion["objetivo"] == objetivo) & (comparacion["conjunto"] == "test")]
+    ganador = filas.loc[filas["modelo"] == modelos[objetivo]["modelo"], "f1_macro"].item()
+    azar = filas.loc[filas["modelo"] == "azar_estratificado", "f1_macro"].item()
+    assert ganador >= azar + 0.2
+
+
+@pytest.mark.parametrize("objetivo, minimo", [("mecanica", 0.85), ("fuerza", 0.85)])
+def test_kpi_f1_en_test(comparacion, modelos, objetivo, minimo):
+    fila = comparacion[(comparacion["objetivo"] == objetivo) & (comparacion["conjunto"] == "test")
+                       & (comparacion["modelo"] == modelos[objetivo]["modelo"])]
+    assert fila["f1_macro"].item() >= minimo
+
+
+def _test(tabla_modelado, objetivo):
+    t = tabla_modelado
+    return t[(t["particion"] == "test") & t[objetivo].notna()]
+
+
+def test_invariancia_al_cambiar_barra_por_mancuernas(tabla_modelado, modelos):
+    """Sentadilla con barra o con mancuernas es el mismo movimiento: cambiar solo el
+    equipamiento entre pesos libres casi nunca debe cambiar la mecánica."""
+    datos = _test(tabla_modelado, "mecanica")
+    datos = datos[datos["familia_equipamiento"] == "peso libre"]
+    modelo = modelos["mecanica"]["modelo_train"]
+    original = modelo.predict(datos)
+    cambiado = datos.assign(
+        nombre_norm=datos["nombre_norm"].str.replace(r"\bbarbell\b", "dumbbell", regex=True),
+        instrucciones_en=datos["instrucciones_en"].str.replace(r"\bbarbell\b", "dumbbell",
+                                                               regex=True, case=False))
+    assert (original == modelo.predict(cambiado)).mean() >= 0.95
+
+
+def test_direccion_mas_articulaciones_mas_compuesto(tabla_modelado, modelos):
+    """Sumar articulaciones implicadas debe subir, en promedio, la probabilidad de
+    compuesto: es la definición biomecánica."""
+    datos = _test(tabla_modelado, "mecanica")
+    modelo = modelos["mecanica"]["modelo_train"]
+    k = list(modelo.classes_).index("compound")
+    mas = datos.copy()
+    for articulacion in ["cadera", "rodilla", "hombro"]:
+        mas[f"articulacion__{articulacion}"] = 1
+    mas["n_articulaciones_total"] = mas[[c for c in mas.columns if c.startswith("articulacion__")]].sum(axis=1)
+    assert modelo.predict_proba(mas)[:, k].mean() > modelo.predict_proba(datos)[:, k].mean()
+
+
+# ── Sustituidor: reglas de seguridad ─────────────────────────────────────────
+@pytest.fixture(scope="module")
+def sustituidor(familias, embeddings, musculo_articulacion, parametros):
+    return Sustituidor(familias, embeddings, musculo_articulacion, parametros["grafo_biomecanico"])
+
+
+def test_ninguna_alternativa_carga_la_articulacion_vetada(sustituidor, familias):
+    muestra = familias.sample(150, random_state=0)
+    revisados = 0
+    for _, fila in muestra.iterrows():
+        for articulacion in fila["articulaciones_carga"]:
+            alternativas, _ = sustituidor.recomendar(fila["ejercicio_id"], articulacion)
+            for carga in alternativas["articulaciones_carga"]:
+                assert articulacion not in set(carga)
+            revisados += len(alternativas)
+    assert revisados > 0
+
+
+def test_sin_sustituto_anatomico_se_abstiene(sustituidor, familias):
+    extension = familias[familias["nombre"].str.lower() == "lever leg extension"]
+    assert len(extension) == 1
+    alternativas, motivo = sustituidor.recomendar(extension["ejercicio_id"].item(), "rodilla")
+    assert alternativas.empty and motivo == "sin_sustituto_anatomico"
+
+
+def test_demo_sentadilla_con_rodilla_vetada(sustituidor, familias):
+    sentadilla = familias[familias["nombre"] == "barbell full squat"]
+    alternativas, motivo = sustituidor.recomendar(sentadilla["ejercicio_id"].item(), "rodilla")
+    assert motivo is None
+    assert alternativas["nombre"].iloc[0] == "Hip Thrust"

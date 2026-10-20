@@ -16,3 +16,6 @@ kedro-datasets[pickle]
 networkx>=3.3
 gensim>=4.3
 umap-learn>=0.5
+
+# Tests (pytest tests/)
+pytest>=8.0
