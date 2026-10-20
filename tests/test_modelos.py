@@ -110,3 +110,24 @@ def test_peso_muerto_rumano_con_lumbar_vetada_no_recibe_bisagras(sustituidor, fa
     rumano = familias[familias["nombre"] == "Romanian Deadlift from Deficit"]
     alternativas, _ = sustituidor.recomendar(rumano["ejercicio_id"].item(), "columna (lumbar)")
     assert not alternativas["nombre"].str.lower().str.contains(r"deadlift|clean|rdl|swing").any()
+
+
+# ── Casos que la revisión manual marcó como inseguros (README §13.5) ──────────
+def test_clean_con_hombro_vetado_no_propone_otro_clean(sustituidor, familias):
+    """En un clean la barra se recibe en rack: carga el hombro."""
+    clean = familias[familias["nombre"] == "Clean"]
+    alternativas, _ = sustituidor.recomendar(clean["ejercicio_id"].item(), "hombro")
+    assert not alternativas["nombre"].str.lower().str.contains(r"\bcleans?\b").any()
+
+
+def test_vetar_la_lumbar_veta_la_toracico_lumbar(sustituidor, familias):
+    """Con la lumbar lesionada tampoco sirve una alternativa que cargue la columna
+    torácico-lumbar (Cable Woodchoppers → Upper External Oblique)."""
+    leñador = familias[familias["nombre"] == "Cable Woodchoppers"]
+    alternativas, motivo = sustituidor.recomendar(leñador["ejercicio_id"].item(), "columna (lumbar)")
+    assert alternativas.empty and motivo == "sin_sustituto_anatomico"
+    muestra = familias[familias["articulaciones_carga"].map(lambda a: "columna (lumbar)" in set(a))].head(60)
+    for ejercicio_id in muestra["ejercicio_id"]:
+        alternativas, _ = sustituidor.recomendar(ejercicio_id, "columna (lumbar)")
+        for carga in alternativas["articulaciones_carga"]:
+            assert not {"columna (lumbar)", "columna (torácico-lumbar)"} & set(carga)
