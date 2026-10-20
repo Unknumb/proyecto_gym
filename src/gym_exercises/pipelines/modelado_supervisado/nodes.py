@@ -33,15 +33,20 @@ from typing import Any
 import numpy as np
 import pandas as pd
 from rapidfuzz import fuzz, process
+from scipy import stats
 from scipy.sparse.csgraph import connected_components
 from sklearn.base import clone
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, balanced_accuracy_score, f1_score
-from sklearn.model_selection import GridSearchCV, GroupKFold, GroupShuffleSplit, cross_val_predict
+from sklearn.metrics import (accuracy_score, average_precision_score, balanced_accuracy_score,
+                             f1_score, roc_auc_score)
+from sklearn.model_selection import (GridSearchCV, GroupKFold, GroupShuffleSplit,
+                                     StratifiedGroupKFold, StratifiedKFold, cross_val_predict,
+                                     learning_curve)
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MaxAbsScaler, OneHotEncoder
 
@@ -281,6 +286,31 @@ def _metricas(y_real, y_pred) -> dict[str, float]:
     }
 
 
+def _brier(y_real: np.ndarray, probas: np.ndarray, clases: np.ndarray) -> float:
+    """Brier multiclase: error cuadrático medio entre la probabilidad y el 0/1 real,
+    sumado sobre las clases. 0 es perfecto; mide a la vez acierto y calibración."""
+    reales = (np.asarray(y_real)[:, None] == np.asarray(clases)[None, :]).astype(float)
+    return float(((probas - reales) ** 2).sum(axis=1).mean())
+
+
+def _pr_auc_macro(y_real: np.ndarray, probas: np.ndarray, clases: np.ndarray) -> float:
+    """PR-AUC (*average precision*) promedio entre clases, una contra el resto. Su
+    referencia de azar es la prevalencia de cada clase, no 0,5."""
+    return float(np.mean([average_precision_score(np.asarray(y_real) == c, probas[:, k])
+                          for k, c in enumerate(clases)]))
+
+
+def _intervalo_bootstrap(y_real, y_pred, n: int, semilla: int) -> tuple[float, float]:
+    """Intervalo de confianza del 95 % del F1 macro por *bootstrap* de los ejemplos.
+    Con ~60 casos en la validación externa, el valor puntual solo no basta para
+    afirmar una meta."""
+    y_real, y_pred = np.asarray(y_real), np.asarray(y_pred)
+    rng = np.random.default_rng(semilla)
+    muestras = [f1_score(y_real[i], y_pred[i], average="macro", zero_division=0)
+                for i in (rng.integers(0, len(y_real), len(y_real)) for _ in range(n))]
+    return float(np.percentile(muestras, 2.5)), float(np.percentile(muestras, 97.5))
+
+
 def _umbral_abstencion(y_real: np.ndarray, probas: np.ndarray, clases: np.ndarray,
                        precision_objetivo: float) -> float:
     """Menor umbral de confianza con el que los ejercicios que sí se etiquetan
@@ -363,16 +393,24 @@ def entrenar_modelos(
             for conjunto, df in [("test", test), ("externa_catalogo", externa)]:
                 y_real = df[objetivo] if conjunto == "test" else df[f"{objetivo}_referencia"]
                 y_pred = busqueda.predict(df)
+                probas = busqueda.predict_proba(df)
+                inferior, superior = _intervalo_bootstrap(
+                    y_real, y_pred, int(parametros["diagnosticos"]["n_bootstrap"]),
+                    int(parametros["semilla"]))
                 filas.append({"objetivo": objetivo, "modelo": nombre, "conjunto": conjunto,
                               "n": len(df), "cv_f1_macro": cv_f1,
                               "cv_f1_std": cv_std,
                               "mejores_parametros": str(busqueda.best_params_),
-                              **_metricas(y_real, y_pred)})
+                              **_metricas(y_real, y_pred),
+                              "f1_ic95_inf": inferior, "f1_ic95_sup": superior,
+                              "brier": _brier(y_real, probas, busqueda.classes_),
+                              "pr_auc_macro": _pr_auc_macro(y_real, probas, busqueda.classes_)})
                 predicciones.append(pd.DataFrame({
                     "objetivo": objetivo, "modelo": nombre, "conjunto": conjunto,
                     "ejercicio_id": df["ejercicio_id"].to_numpy(),
                     "y_real": y_real.to_numpy(), "y_pred": y_pred,
-                    "confianza": busqueda.predict_proba(df).max(axis=1),
+                    "confianza": probas.max(axis=1),
+                    **{f"proba_{c}": probas[:, k] for k, c in enumerate(busqueda.classes_)},
                 }))
 
         azar = DummyClassifier(strategy="stratified", random_state=int(parametros["semilla"]))
@@ -394,19 +432,254 @@ def entrenar_modelos(
         modelos[objetivo] = {"estimador": final, "modelo": ganador, "umbral": umbral,
                              "clases": list(final.classes_),
                              "modelo_train": mejor,
+                             "candidatos_train": {n: b.best_estimator_ for n, b in resultados.items()},
                              "cv_results": {n: pd.DataFrame(b.cv_results_).filter(
                                  regex=r"^(param_|mean_test|std_test)") for n, b in resultados.items()}}
         logger.info("%s: gana %s (CV F1 macro %.3f); umbral de abstención %.2f.",
                     objetivo, ganador, _cv_f1(resultados[ganador]), umbral)
 
     comparacion = pd.DataFrame(filas)
-    for columna in ["cv_f1_macro", "cv_f1_std", "f1_macro", "accuracy", "balanced_accuracy"]:
+    for columna in ["cv_f1_macro", "cv_f1_std", "f1_macro", "accuracy", "balanced_accuracy",
+                    "f1_ic95_inf", "f1_ic95_sup", "brier", "pr_auc_macro"]:
         comparacion[columna] = comparacion[columna].round(4)
     return comparacion, pd.concat(predicciones, ignore_index=True), modelos
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 4. Etiquetas finales del perfil de exigencia
+# 4. Diagnósticos: informe de cómo se analizaron los modelos
+# ─────────────────────────────────────────────────────────────────────────────
+# Nada de esta sección cambia los modelos ni las etiquetas: reanaliza a los
+# candidatos ya entrenados con pruebas más exigentes y deja el resultado como
+# informe. Sus parámetros están en ``modelado_supervisado.diagnosticos``.
+
+#: Familias de variables que se permutan juntas: las columnas de una misma familia
+#: están correlacionadas y, permutadas por separado, se repartirían la importancia.
+FAMILIAS_VARIABLES = {
+    "Nombre (texto)": ["nombre_norm"],
+    "Instrucciones (texto)": ["instrucciones_en"],
+    "Músculos agonistas": ["agonista__", "n_agonistas"],
+    "Músculos sinergistas": ["sinergista__", "n_sinergistas"],
+    "Articulaciones": ["articulacion__", "n_articulaciones_agonistas", "n_articulaciones_total"],
+    "Equipamiento": ["familia_equipamiento", "carga_graduable"],
+    "Estabilidad e impacto": ["estabilidad", "impacto", "es_estiramiento_nombre"],
+}
+
+METODOS_CALIBRACION = {"sin calibrar": None, "sigmoide": "sigmoid", "isotonica": "isotonic"}
+
+
+def _validacion_estratificada(parametros: dict[str, Any], semilla: int) -> StratifiedGroupKFold:
+    """Pliegues estratificados **y** por grupos: ningún grupo de variantes queda
+    repartido, y cada pliegue conserva la proporción de clases."""
+    return StratifiedGroupKFold(n_splits=int(parametros["n_folds"]), shuffle=True,
+                                random_state=semilla)
+
+
+def _columnas_familia(tabla: pd.DataFrame, patrones: list[str]) -> list[str]:
+    return [c for c in tabla.columns
+            if any(c == p or (p.endswith("__") and c.startswith(p)) for p in patrones)]
+
+
+def _cv_repetida(candidatos: dict[str, Pipeline], train: pd.DataFrame, objetivo: str,
+                 parametros: dict[str, Any]) -> pd.DataFrame:
+    """F1 macro de cada candidato en una validación cruzada repetida, con **los
+    mismos pliegues** para todos, para compararlos pliegue a pliegue."""
+    y, grupos = train[objetivo].to_numpy(), train["grupo"].to_numpy()
+    filas = []
+    for repeticion in range(int(parametros["diagnosticos"]["n_repeticiones_cv"])):
+        cv = _validacion_estratificada(parametros, int(parametros["semilla"]) + repeticion)
+        for pliegue, (a, b) in enumerate(cv.split(train, y, grupos)):
+            for nombre, estimador in candidatos.items():
+                modelo = clone(estimador).fit(train.iloc[a], y[a])
+                filas.append({"objetivo": objetivo, "repeticion": repeticion, "pliegue": pliegue,
+                              "modelo": nombre,
+                              "f1_macro": f1_score(y[b], modelo.predict(train.iloc[b]), average="macro")})
+    return pd.DataFrame(filas)
+
+
+def _contraste_pareado(cv_repetida: pd.DataFrame, simple: str,
+                       parametros: dict[str, Any]) -> dict[str, Any]:
+    """¿La mejora del modelo complejo sobre el ``simple`` es más que ruido?
+
+    Diferencia pliegue a pliegue y prueba t corregida de Nadeau y Bengio (2003): la
+    varianza se infla por ``1/n + n_test/n_train`` porque los pliegues comparten
+    datos de entrenamiento. Se informa si la mejora cumple tres condiciones: un
+    mínimo relevante de F1, ganar en la mayoría de los pliegues y superar dos
+    errores estándar corregidos.
+    """
+    criterio = parametros["diagnosticos"]
+    tabla = cv_repetida.pivot_table(index=["repeticion", "pliegue"], columns="modelo",
+                                    values="f1_macro")
+    complejo = tabla.columns.drop(simple)[0]
+    diferencia = tabla[complejo] - tabla[simple]
+    n, k = len(diferencia), int(parametros["n_folds"])
+    error = np.sqrt((1 / n + 1 / (k - 1)) * diferencia.var(ddof=1))
+    t = float(diferencia.mean() / error) if error > 0 else 0.0
+    return {
+        "simple": simple, "complejo": complejo,
+        "f1_simple": float(tabla[simple].mean()), "sd_simple": float(tabla[simple].std()),
+        "f1_complejo": float(tabla[complejo].mean()), "sd_complejo": float(tabla[complejo].std()),
+        "diferencia_media": float(diferencia.mean()), "diferencia_sd": float(diferencia.std()),
+        "pct_pliegues_complejo_mejor": float((diferencia > 0).mean() * 100),
+        "t_nadeau_bengio": t, "p_valor": float(2 * stats.t.sf(abs(t), n - 1)),
+        "cumple_mejora_minima": bool(diferencia.mean() >= float(criterio["mejora_minima_f1"])),
+        "cumple_pliegues": bool((diferencia > 0).mean() >= float(criterio["pliegues_minimos_mejora"])),
+        "cumple_significancia": bool(t >= float(criterio["t_minimo_mejora"])),
+    }
+
+
+def _calibracion(estimador: Pipeline, train: pd.DataFrame, objetivo: str,
+                 parametros: dict[str, Any]) -> list[dict[str, Any]]:
+    """Brier fuera de muestra sin calibrar y recalibrado con ``CalibratedClassifierCV``
+    (sigmoide e isotónica). La calibración de cada pliegue se ajusta en pliegues
+    internos, sobre datos que ese modelo no usó para entrenar."""
+    semilla = int(parametros["semilla"])
+    y, grupos = train[objetivo].to_numpy(), train["grupo"].to_numpy()
+    clases = np.sort(np.unique(y))
+    probas = {m: np.zeros((len(train), len(clases))) for m in METODOS_CALIBRACION}
+    for a, b in _validacion_estratificada(parametros, semilla).split(train, y, grupos):
+        internos = list(_validacion_estratificada(parametros, semilla + 100)
+                        .split(train.iloc[a], y[a], grupos[a]))
+        for nombre, metodo in METODOS_CALIBRACION.items():
+            modelo = (clone(estimador) if metodo is None else
+                      CalibratedClassifierCV(clone(estimador), method=metodo, cv=internos))
+            probas[nombre][b] = modelo.fit(train.iloc[a], y[a]).predict_proba(train.iloc[b])
+    return [{"objetivo": objetivo, "metodo": nombre, "brier": _brier(y, p, clases),
+             "f1_macro": f1_score(y, clases[p.argmax(axis=1)], average="macro"),
+             "pr_auc_macro": _pr_auc_macro(y, p, clases)} for nombre, p in probas.items()]
+
+
+def _importancia_en_validacion(estimador: Pipeline, train: pd.DataFrame, objetivo: str,
+                               parametros: dict[str, Any]) -> pd.DataFrame:
+    """Importancia por permutación **agrupada** y calculada en **validación**: en
+    cada pliegue se entrena con el resto y se permuta cada familia de variables en
+    el pliegue retenido. Devuelve la caída del F1 macro con su desviación entre
+    pliegues y repeticiones."""
+    semilla = int(parametros["semilla"])
+    rng = np.random.default_rng(semilla)
+    y, grupos = train[objetivo].to_numpy(), train["grupo"].to_numpy()
+    caidas = []
+    for a, b in _validacion_estratificada(parametros, semilla).split(train, y, grupos):
+        modelo = clone(estimador).fit(train.iloc[a], y[a])
+        retenido = train.iloc[b]
+        base = f1_score(y[b], modelo.predict(retenido), average="macro")
+        for familia, patrones in FAMILIAS_VARIABLES.items():
+            columnas = _columnas_familia(train, patrones)
+            for _ in range(int(parametros["diagnosticos"]["repeticiones_permutacion"])):
+                barajado = retenido.copy()
+                barajado[columnas] = retenido[columnas].iloc[rng.permutation(len(retenido))].to_numpy()
+                caidas.append({"familia": familia, "caida_f1": base - f1_score(
+                    y[b], modelo.predict(barajado), average="macro")})
+    return (pd.DataFrame(caidas).groupby("familia")["caida_f1"]
+            .agg(caida_media="mean", caida_sd="std", n="size").reset_index())
+
+
+def _preprocesador_familia(tabla: pd.DataFrame, patrones: list[str]) -> ColumnTransformer:
+    """Preprocesador restringido a una familia de variables (validación adversarial)."""
+    columnas = _columnas_familia(tabla, patrones)
+    texto = [c for c in columnas if c in {"nombre_norm", "instrucciones_en"}]
+    categoricas = [c for c in columnas if c in {"familia_equipamiento", "estabilidad"}]
+    resto = [c for c in columnas if c not in texto + categoricas]
+    pasos = [(c, TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True, min_df=2), c) for c in texto]
+    if categoricas:
+        pasos.append(("categoricas", OneHotEncoder(handle_unknown="ignore"), categoricas))
+    if resto:
+        pasos.append(("numericas", MaxAbsScaler(), resto))
+    return ColumnTransformer(pasos)
+
+
+def _validacion_adversarial(tabla: pd.DataFrame, semilla: int) -> pd.DataFrame:
+    """Un clasificador intenta distinguir free-exercise-db (entrenamiento) del
+    catálogo y de wger (predicción), con todas las variables y por familia. Un AUC
+    cercano a 0,5 indica que las fuentes son intercambiables; cercano a 1, que hay
+    cambio de dominio."""
+    filas = []
+    entrenamiento = tabla.loc[tabla["rol"] == "entrenamiento"]
+    numericas = _columnas_numericas(tabla)
+    for fuente in ["catalogo", "wger"]:
+        datos = pd.concat([entrenamiento.assign(destino=0),
+                           tabla.loc[(tabla["rol"] == "prediccion") & (tabla["fuente"] == fuente)]
+                           .assign(destino=1)], ignore_index=True)
+        for familia, patrones in {"Todas las variables": None, **FAMILIAS_VARIABLES}.items():
+            prep = (_preprocesador(numericas) if patrones is None else
+                    _preprocesador_familia(datos, patrones))
+            clf = Pipeline([("prep", prep), ("clf", LogisticRegression(max_iter=5000))])
+            p = cross_val_predict(clf, datos, datos["destino"], method="predict_proba",
+                                  cv=StratifiedKFold(5, shuffle=True, random_state=semilla))[:, 1]
+            filas.append({"fuente_prediccion": fuente, "familia": familia,
+                          "auc": roc_auc_score(datos["destino"], p)})
+    return pd.DataFrame(filas)
+
+
+def diagnosticar_modelos(
+    tabla: pd.DataFrame, modelos: dict[str, Any], parametros: dict[str, Any],
+) -> tuple[pd.DataFrame, ...]:
+    """Informe de diagnóstico de los modelos ya entrenados. No modifica nada.
+
+    Por objetivo, sobre *train* y con validación estratificada por grupos:
+
+    - **CV repetida y contraste pareado** entre regresión logística y Random
+      Forest: ¿la diferencia entre ambos es más que ruido entre pliegues?
+    - **Calibración**: Brier sin calibrar, con sigmoide y con isotónica.
+    - **Curva de aprendizaje**: ¿ayudarían más datos?
+    - **Objetivo barajado**: si el F1 no cae al nivel del azar, hay una fuga.
+    - **Importancia por permutación** agrupada, en validación.
+
+    Y entre fuentes, la **validación adversarial**.
+
+    Returns:
+        ``cv_repetida``, ``contraste``, ``calibracion``, ``aprendizaje``,
+        ``control_fuga``, ``importancia`` y ``adversarial``.
+    """
+    semilla = int(parametros["semilla"])
+    repetidas, contrastes, calibracion, aprendizaje, fuga, importancia = [], [], [], [], [], []
+
+    for objetivo in OBJETIVOS:
+        datos = tabla.loc[(tabla["rol"] == "entrenamiento") & tabla[objetivo].notna()]
+        train = datos.loc[datos["particion"] == "train"]
+        y, grupos = train[objetivo].to_numpy(), train["grupo"].to_numpy()
+        ganador = modelos[objetivo]["modelo_train"]
+        cv = _validacion_estratificada(parametros, semilla)
+
+        repetida = _cv_repetida(modelos[objetivo]["candidatos_train"], train, objetivo, parametros)
+        repetidas.append(repetida)
+        contrastes.append({"objetivo": objetivo, "ganador_elegido": modelos[objetivo]["modelo"],
+                           **_contraste_pareado(repetida, parametros["modelo_preferido_en_empate"],
+                                                parametros)})
+        calibracion += _calibracion(ganador, train, objetivo, parametros)
+
+        tamanos, _, puntajes = learning_curve(
+            clone(ganador), train, y, groups=grupos, cv=cv, scoring="f1_macro",
+            train_sizes=np.linspace(0.2, 1.0, 5), shuffle=True, random_state=semilla)
+        aprendizaje += [{"objetivo": objetivo, "n_train": int(n), "f1_media": float(p.mean()),
+                         "f1_sd": float(p.std())} for n, p in zip(tamanos, puntajes)]
+
+        rng = np.random.default_rng(semilla)
+        barajados = [f1_score(yb, cross_val_predict(clone(ganador), train, yb, groups=grupos, cv=cv),
+                              average="macro")
+                     for yb in (rng.permutation(y) for _ in range(3))]
+        azar = DummyClassifier(strategy="stratified", random_state=semilla)
+        fuga.append({
+            "objetivo": objetivo,
+            "f1_real_cv": f1_score(y, cross_val_predict(clone(ganador), train, y, groups=grupos, cv=cv),
+                                   average="macro"),
+            "f1_objetivo_barajado": float(np.mean(barajados)),
+            "f1_azar": f1_score(y, cross_val_predict(azar, train, y, groups=grupos, cv=cv),
+                                average="macro")})
+
+        importancia.append(_importancia_en_validacion(ganador, train, objetivo, parametros)
+                           .assign(objetivo=objetivo))
+
+    def _redondear(df: pd.DataFrame) -> pd.DataFrame:
+        return df.round({c: 4 for c in df.select_dtypes("float").columns})
+
+    return tuple(_redondear(df) for df in [
+        pd.concat(repetidas, ignore_index=True), pd.DataFrame(contrastes),
+        pd.DataFrame(calibracion), pd.DataFrame(aprendizaje), pd.DataFrame(fuga),
+        pd.concat(importancia, ignore_index=True), _validacion_adversarial(tabla, semilla)])
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. Etiquetas finales del perfil de exigencia
 # ─────────────────────────────────────────────────────────────────────────────
 def predecir_etiquetas(tabla: pd.DataFrame, ejercicios: pd.DataFrame,
                        modelos: dict[str, Any]) -> pd.DataFrame:

@@ -9,6 +9,11 @@ Pipeline Modelado Supervisado — definición del DAG.
                                                          → modelos_predicciones_test
                                                          → modelos_supervisados (models/)
                                                                        │
+                                        diagnosticar_modelos ←─────────┤
+                                                         → informe: CV repetida y contraste
+                                                           pareado, calibración, curva de
+                                                           aprendizaje, control de fuga,
+                                                           importancia, validación adversarial
                                         predecir_etiquetas ←───────────┘
                                                          → model_output_perfil_exigencia
 
@@ -19,7 +24,8 @@ from __future__ import annotations
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from .nodes import construir_tabla_modelado, entrenar_modelos, predecir_etiquetas
+from .nodes import (construir_tabla_modelado, diagnosticar_modelos, entrenar_modelos,
+                    predecir_etiquetas)
 
 
 def create_pipeline(**kwargs) -> Pipeline:  # noqa: ARG001
@@ -40,6 +46,16 @@ def create_pipeline(**kwargs) -> Pipeline:  # noqa: ARG001
                 outputs=["modelos_comparacion", "modelos_predicciones_test",
                          "modelos_supervisados"],
                 name="entrenar_modelos",
+            ),
+            node(
+                func=diagnosticar_modelos,
+                inputs=["model_input_tabla_modelado", "modelos_supervisados",
+                        "params:modelado_supervisado"],
+                outputs=["modelos_cv_repetida", "modelos_contraste_pareado",
+                         "modelos_calibracion", "modelos_curva_aprendizaje",
+                         "modelos_control_fuga", "modelos_importancia",
+                         "validacion_adversarial"],
+                name="diagnosticar_modelos",
             ),
             node(
                 func=predecir_etiquetas,

@@ -37,6 +37,14 @@ modelado_supervisado:
     max_depth: [null, 30]
     min_samples_leaf: [1, 3]
     max_features: [sqrt, 0.1]
+  # Diagnósticos (nodo diagnosticar_modelos): solo informan, no cambian los modelos.
+  diagnosticos:
+    n_bootstrap: 1000               # intervalo de confianza del F1 en test y externa
+    n_repeticiones_cv: 5            # CV repetida 5 × 5 para el contraste pareado
+    mejora_minima_f1: 0.02          # mejora que justificaría el modelo complejo
+    pliegues_minimos_mejora: 0.8    # gana en al menos el 80 % de los pliegues
+    t_minimo_mejora: 2.0            # ≈ dos errores estándar corregidos (Nadeau-Bengio)
+    repeticiones_permutacion: 10    # importancia por permutación, por pliegue
 
 # Grafo biomecánico no supervisado (docs/plan_ev2.md, fase 3).
 grafo_biomecanico:

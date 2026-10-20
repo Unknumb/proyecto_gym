@@ -206,6 +206,36 @@ modelos_predicciones_test:
   type: pandas.CSVDataset
   filepath: data/08_reporting/modelos_predicciones_test.csv
 
+# Diagnósticos (informe, no cambian los modelos): CV repetida y contraste pareado
+# entre algoritmos, calibración, aprendizaje, fuga, importancia y cambio de dominio.
+modelos_cv_repetida:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_cv_repetida.csv
+
+modelos_contraste_pareado:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_contraste_pareado.csv
+
+modelos_calibracion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_calibracion.csv
+
+modelos_curva_aprendizaje:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_curva_aprendizaje.csv
+
+modelos_control_fuga:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_control_fuga.csv
+
+modelos_importancia:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/modelos_importancia.csv
+
+validacion_adversarial:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/validacion_adversarial.csv
+
 model_output_perfil_exigencia:
   type: pandas.ParquetDataset
   filepath: data/07_model_output/perfil_exigencia.parquet
