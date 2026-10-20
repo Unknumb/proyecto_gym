@@ -71,6 +71,7 @@ def construir_grafo(
     ejercicio_musculo: pd.DataFrame,
     musculo_articulacion: pd.DataFrame,
     regiones: pd.DataFrame,
+    carga_por_patron: pd.DataFrame,
     parametros: dict[str, Any],
 ) -> tuple[nx.Graph, pd.DataFrame]:
     """Grafo heterogéneo y tabla de nodos Ejercicio.
@@ -83,6 +84,16 @@ def construir_grafo(
     componentes) la cruza. Es deliberadamente conservador: en la sentadilla del
     catálogo el agonista es ``glutes`` y el cuádriceps figura como sinergista;
     mirar solo agonistas la daría por segura para la rodilla.
+
+    **Carga por patrón de movimiento.** La carga deducida de los músculos depende
+    de que la ficha los anote todos, y no siempre lo hace: *Kettlebell deadlifts*
+    no anota la zona lumbar, y un peso muerto la carga. Por eso se le **suman**
+    las articulaciones que el nombre delata según ``carga_por_patron`` (tabla
+    curada: patrón, articulación y motivo), y se guardan aparte en
+    ``articulaciones_carga_patron`` para poder auditarlas. Solo agrega
+    articulaciones, nunca las quita: una ficha incompleta ya no puede hacer pasar
+    un ejercicio por seguro. No toca las aristas del grafo, así que las familias
+    de movimiento no cambian.
 
     Returns:
         El grafo (``networkx``) y una fila por ejercicio con su perfil de
@@ -110,9 +121,18 @@ def construir_grafo(
     sinergistas = [_expandir(s if isinstance(s, set) else set(), componentes) for s in sinergistas]
     nodos["agonistas"] = [sorted(a) for a in agonistas]
     nodos["musculos"] = [sorted(a | s) for a, s in zip(agonistas, sinergistas)]
-    nodos["articulaciones_carga"] = [
-        sorted(set().union(*(articulaciones.get(m, set()) for m in a | s)))
-        for a, s in zip(agonistas, sinergistas)]
+    por_musculos = [set().union(*(articulaciones.get(m, set()) for m in a | s))
+                    for a, s in zip(agonistas, sinergistas)]
+    por_patron = [set() for _ in por_musculos]
+    nombres = nodos["nombre"].str.lower()
+    for regla in carga_por_patron.itertuples(index=False):
+        for i in np.flatnonzero(nombres.str.contains(regla.patron, regex=True).to_numpy()):
+            if regla.articulacion not in por_musculos[i]:
+                por_patron[i].add(regla.articulacion)
+    nodos["articulaciones_carga"] = [sorted(m | p) for m, p in zip(por_musculos, por_patron)]
+    nodos["articulaciones_carga_patron"] = [sorted(p) for p in por_patron]
+    logger.info("Carga por patrón de movimiento: %d ejercicios suman articulaciones que sus "
+                "músculos no anotan.", sum(bool(p) for p in por_patron))
 
     grafo = nx.Graph()
     p = TIPOS_ENTIDAD

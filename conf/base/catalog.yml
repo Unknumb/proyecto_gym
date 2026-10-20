@@ -134,6 +134,12 @@ regiones_compuestas:
   type: pandas.CSVDataset
   filepath: data/01_raw/regiones_compuestas.csv
 
+# Articulaciones que el nombre del ejercicio delata aunque la ficha no anote el
+# músculo que las cruza (peso muerto → columna lumbar). Regla de seguridad del grafo.
+carga_por_patron:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/carga_por_patron.csv
+
 equipamiento_canonico:
   type: pandas.CSVDataset
   filepath: data/01_raw/equipamiento_canonico.csv

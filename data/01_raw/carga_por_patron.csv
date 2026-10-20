@@ -1,0 +1,13 @@
+articulacion,patron,motivo
+columna (lumbar),deadlift|\brdls?\b|romanian|stiff[- ]?leg|rack pull|hip hinge,Bisagra de cadera con carga: el erector espinal sostiene la columna lumbar aunque la ficha no lo anote
+columna (lumbar),\bcleans?\b|snatch|\bjerks?\b|thruster,Levantamiento olímpico: bisagra y extensión explosiva con carga
+columna (lumbar),good ?mornings?\b|\bswings?\b|pull ?through,Bisagra de cadera: la columna lumbar transmite la carga
+columna (lumbar),hyperextension|back extension|superman,Extensión de columna
+columna (lumbar),bent[- ]?over.*\brows?\b|\brows?\b.*bent[- ]?over|pendlay|t-bar row,Remo con el tronco inclinado: el erector espinal sostiene el tronco
+columna (lumbar),front squat|back squat|zercher|overhead squat|olympic squat|\bbarbell\b.*\b(squat|lunge)|\b(squat|lunge)\b.*\bbarbell,Carga axial de una barra sobre la columna
+columna (lumbar),standing.*\b(overhead|military|shoulder) press|^overhead press|military press|push press,Press de pie: carga axial sobre la columna
+columna (lumbar),sit[- ]?ups?\b|crunch|\bv[- ]?ups?\b|jackknife|toes to bar,Flexión de columna
+columna (lumbar),twist|wood ?chop,Rotación de columna
+rodilla,squat|lunge|step[- ]?ups?\b|leg press|leg extension|pistol|wall sit|\bjump|skater|burpee|sissy,Flexo-extensión de rodilla con carga o con impacto
+hombro,overhead press|shoulder press|military press|push press|\bjerks?\b|snatch|pull[- ]?ups?\b|chin[- ]?ups?\b|\bdips?\b|handstand|muscle[- ]?up|pullover,Brazo sobre la cabeza o el cuerpo colgado o apoyado en los brazos
+cadera,deadlift|squat|lunge|\bcleans?\b|snatch|\bswings?\b|step[- ]?ups?\b|good ?mornings?\b|thruster,Flexo-extensión de cadera con carga

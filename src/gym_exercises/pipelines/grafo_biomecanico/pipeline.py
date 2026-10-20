@@ -5,7 +5,8 @@ Pipeline Grafo Biomecánico — definición del DAG.
     model_output_perfil_exigencia ┤
     primary_ejercicio_musculo ────┼→ construir_grafo → grafo_biomecanico (models/)
     primary_musculo_articulacion ─┤                  → grafo_nodos_ejercicio
-    regiones_compuestas ──────────┘                          │
+    regiones_compuestas ──────────┤                          │
+    carga_por_patron ─────────────┘                          │
                      ┌───────────────────────────────────────┤
                      ▼                                       ▼
     detectar_comunidades (Louvain)            entrenar_node2vec → embeddings_node2vec (models/)
@@ -37,7 +38,7 @@ def create_pipeline(**kwargs) -> Pipeline:  # noqa: ARG001
                 func=construir_grafo,
                 inputs=["primary_ejercicios", "model_output_perfil_exigencia",
                         "primary_ejercicio_musculo", "primary_musculo_articulacion",
-                        "regiones_compuestas", "params:grafo_biomecanico"],
+                        "regiones_compuestas", "carga_por_patron", "params:grafo_biomecanico"],
                 outputs=["grafo_biomecanico", "grafo_nodos_ejercicio"],
                 name="construir_grafo",
             ),
