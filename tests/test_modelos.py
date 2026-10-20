@@ -88,3 +88,25 @@ def test_demo_sentadilla_con_rodilla_vetada(sustituidor, familias):
     alternativas, motivo = sustituidor.recomendar(sentadilla["ejercicio_id"].item(), "rodilla")
     assert motivo is None
     assert alternativas["nombre"].iloc[0] == "Hip Thrust"
+
+
+def test_carga_por_patron_cubre_las_bisagras_con_carga(familias):
+    """Todo peso muerto, clean o remo inclinado carga la columna lumbar, aunque su
+    ficha no anote el músculo lumbar (README §13.2)."""
+    nombres = familias["nombre"].str.lower()
+    bisagras = familias[nombres.str.contains(r"deadlift|\bcleans?\b|bent[- ]?over.*\brows?\b")]
+    assert len(bisagras) > 20
+    assert bisagras["articulaciones_carga"].map(lambda a: "columna (lumbar)" in set(a)).all()
+
+
+def test_la_carga_por_patron_solo_agrega(familias):
+    agregadas = familias["articulaciones_carga_patron"].map(set)
+    carga = familias["articulaciones_carga"].map(set)
+    assert all(a <= c for a, c in zip(agregadas, carga))
+
+
+def test_peso_muerto_rumano_con_lumbar_vetada_no_recibe_bisagras(sustituidor, familias):
+    """El caso que encontró la revisión manual: antes se proponía Kettlebell deadlifts."""
+    rumano = familias[familias["nombre"] == "Romanian Deadlift from Deficit"]
+    alternativas, _ = sustituidor.recomendar(rumano["ejercicio_id"].item(), "columna (lumbar)")
+    assert not alternativas["nombre"].str.lower().str.contains(r"deadlift|clean|rdl|swing").any()
