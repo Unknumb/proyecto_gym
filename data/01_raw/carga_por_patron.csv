@@ -10,4 +10,5 @@ columna (lumbar),sit[- ]?ups?\b|crunch|\bv[- ]?ups?\b|jackknife|toes to bar,Flex
 columna (lumbar),twist|wood ?chop,Rotación de columna
 rodilla,squat|lunge|step[- ]?ups?\b|leg press|leg extension|pistol|wall sit|\bjump|skater|burpee|sissy,Flexo-extensión de rodilla con carga o con impacto
 hombro,overhead press|shoulder press|military press|push press|\bjerks?\b|snatch|pull[- ]?ups?\b|chin[- ]?ups?\b|\bdips?\b|handstand|muscle[- ]?up|pullover,Brazo sobre la cabeza o el cuerpo colgado o apoyado en los brazos
+hombro,\bcleans?\b|thruster,Recepción de la barra en posición de rack: el hombro sostiene la carga
 cadera,deadlift|squat|lunge|\bcleans?\b|snatch|\bswings?\b|step[- ]?ups?\b|good ?mornings?\b|thruster,Flexo-extensión de cadera con carga

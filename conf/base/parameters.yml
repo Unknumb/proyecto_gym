@@ -83,3 +83,7 @@ grafo_biomecanico:
     top_n: 5
     min_ejercicios_musculo: 10                # abstención, README §5.1 b
     familias_sin_equipamiento: [peso corporal]   # cuota, README §5.1 a
+    # Vetar una articulación veta también las que se solapan con ella: la columna
+    # torácico-lumbar incluye segmentos lumbares (revisión manual, README §13.5).
+    veto_incluye:
+      columna (lumbar): [columna (torácico-lumbar)]

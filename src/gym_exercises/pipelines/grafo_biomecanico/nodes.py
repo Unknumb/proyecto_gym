@@ -496,7 +496,8 @@ class Sustituidor:
     Reglas, en orden:
 
     1. **Seguridad (filtro duro).** La alternativa no carga la articulación
-       vetada, contando agonistas y sinergistas.
+       vetada, contando agonistas y sinergistas, ni las que se solapan con ella
+       (``veto_incluye``: la lumbar incluye la torácico-lumbar).
     2. **Músculo objetivo.** Comparte al menos un agonista del original que no
        cruce la articulación vetada. Si todos los agonistas del original la
        cruzan (extensión de rodilla con la rodilla vetada) no existe sustituto
@@ -529,14 +530,22 @@ class Sustituidor:
         self.min_alternativas = int(p["min_alternativas"])
         self.sin_equipamiento = set(p["familias_sin_equipamiento"])
         self.metodo = parametros["metodo_familias"]
+        self.veto_incluye = {a: set(v) for a, v in (p.get("veto_incluye") or {}).items()}
+
+    def vetadas(self, articulacion: str) -> set[str]:
+        """La articulación vetada y las que se solapan con ella (``veto_incluye``):
+        con la lumbar lesionada tampoco sirve un ejercicio que cargue la columna
+        torácico-lumbar."""
+        return {articulacion} | self.veto_incluye.get(articulacion, set())
 
     def _candidatos(self, i: int, articulacion: str, filtro: np.ndarray | None):
-        objetivo = {m for m in self.agonistas[i] if articulacion not in self.cruza.get(m, set())}
+        vetadas = self.vetadas(articulacion)
+        objetivo = {m for m in self.agonistas[i] if not vetadas & self.cruza.get(m, set())}
         if not objetivo:
             return None, objetivo, "sin_sustituto_anatomico"
         if objetivo <= self.escasos:
             return None, objetivo, "musculo_con_pocos_ejercicios"
-        validos = np.array([articulacion not in c and bool(a & objetivo)
+        validos = np.array([not vetadas & c and bool(a & objetivo)
                             for c, a in zip(self.carga, self.agonistas)])
         validos &= self.estiramiento == self.estiramiento[i]
         validos[i] = False
