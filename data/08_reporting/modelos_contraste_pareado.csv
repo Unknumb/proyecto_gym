@@ -1,0 +1,4 @@
+objetivo,ganador_elegido,simple,complejo,f1_simple,sd_simple,f1_complejo,sd_complejo,diferencia_media,diferencia_sd,pct_pliegues_complejo_mejor,t_nadeau_bengio,p_valor,cumple_mejora_minima,cumple_pliegues,cumple_significancia
+mecanica,regresion_logistica,regresion_logistica,random_forest,0.9009,0.0208,0.8963,0.0259,-0.0047,0.0238,56.0,-0.3639,0.7191,False,False,False
+fuerza,random_forest,regresion_logistica,random_forest,0.8957,0.0274,0.9113,0.0318,0.0156,0.0242,80.0,1.2007,0.2416,False,True,False
+complejidad_tecnica,regresion_logistica,regresion_logistica,random_forest,0.7466,0.0417,0.7382,0.0467,-0.0084,0.0297,44.0,-0.5229,0.6058,False,False,False

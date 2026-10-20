@@ -1,0 +1,17 @@
+fuente_prediccion,familia,auc
+catalogo,Todas las variables,0.9993
+catalogo,Nombre (texto),0.7727
+catalogo,Instrucciones (texto),0.9998
+catalogo,Músculos agonistas,0.8378
+catalogo,Músculos sinergistas,0.8409
+catalogo,Articulaciones,0.7069
+catalogo,Equipamiento,0.6621
+catalogo,Estabilidad e impacto,0.5715
+wger,Todas las variables,0.9946
+wger,Nombre (texto),0.7473
+wger,Instrucciones (texto),0.9797
+wger,Músculos agonistas,0.8846
+wger,Músculos sinergistas,0.8283
+wger,Articulaciones,0.7904
+wger,Equipamiento,0.6894
+wger,Estabilidad e impacto,0.5737
