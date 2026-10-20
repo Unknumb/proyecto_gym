@@ -179,13 +179,12 @@ movimiento del 2026-10-20). Louvain: 24 comunidades, modularidad 0,88, pero cobe
 
 **Pendiente del equipo:**
 
-- [ ] Revisar a mano una muestra de recomendaciones (p. ej. 30 pares original →
+- [x] Revisar a mano una muestra de recomendaciones (p. ej. 30 pares original →
       alternativa con rodilla, hombro y columna lumbar vetadas) para medir si son
       sustitutos razonables, no solo seguros. La muestra está lista en
       `data/01_raw/sustitucion_revision_manual.csv` (`scripts/muestra_revision_sustitucion.py`):
-      falta completar `veredicto`. La primera versión de la muestra propuso *Kettlebell
-      deadlifts* con la lumbar vetada; se corrigió con la carga por patrón de movimiento
-      (README §13.2) y la muestra se regeneró.
+      revisada por el equipo el 2026-10-20: 3 buenas, 17 aceptables, 8 malas y 2
+      inseguras, ya corregidas (README §13.5).
 - [ ] Decidir con un profesional una similitud mínima para ofrecer alternativas de otra
       familia.
 - [ ] Armonizar `chest` / `shoulders` de free-exercise-db con `pectorals` / `deltoids`

@@ -71,7 +71,7 @@ lesionada**, y abstenerse cuando no exista una alternativa segura.
 
 | KPI | Definición | Meta | Resultado (EV2) |
 |---|---|---|---|
-| **Cobertura de sustitución** | % de ejercicios con ≥3 alternativas que preservan el músculo objetivo y excluyen la articulación vetada | ≥ 85 % | ✅ **90,7 %** de los ejercicios sustituibles, con alternativas de su misma familia de movimiento (§13.5). Bajo la meta: hombro 79,3 %, rodilla 81,4 %, cadera 83,2 %. El 39,6 % de los casos no tiene sustituto por anatomía y el sistema se abstiene |
+| **Cobertura de sustitución** | % de ejercicios con ≥3 alternativas que preservan el músculo objetivo y excluyen la articulación vetada | ≥ 85 % | ✅ **90,5 %** de los ejercicios sustituibles, con alternativas de su misma familia de movimiento (§13.5). Bajo la meta: hombro 79,8 %, rodilla 81,4 %, cadera 83,2 %. El 39,9 % de los casos no tiene sustituto por anatomía y el sistema se abstiene |
 | Precisión de la jerarquía muscular | % de registros con agonista y sinergistas correctamente asignados | 100 % (auditado) | ✅ 100 % tras la corrección de la EV1 (§3.3) |
 | Cobertura por grupo muscular | Nº mínimo de ejercicios por músculo primario | ≥ 10 | ⚠️ 4 grupos incumplían en el catálogo (EV1) → **2** con las tres fuentes (`levator scapulae` 2, `neck` 7). La abstención de §5.1 b los cubre (§13.5) |
 | Etiquetas del perfil con confianza *(nuevo)* | % del catálogo con mecánica / fuerza asignadas | — | 0 % → **85,5 % / 95,5 %** (§12.4) |
@@ -926,8 +926,8 @@ y la técnica coinciden.
    casi no llegan al perfil de principiante (§14.3).
 10. **Recomendaciones evaluadas con reglas.** El KPI de sustitución mide que las
     alternativas sean seguras y de la misma familia, no que un entrenador las considere
-    buenas. Falta revisar a mano una muestra de recomendaciones: 30 pares listos en
-    `data/01_raw/sustitucion_revision_manual.csv`.
+    buenas. La revisión manual de 30 casos (§13.5) da 20 que sirven, 8 malos y 2
+    inseguros (ya corregidos): con 30 casos es una señal, no una certificación.
 11. **La seguridad depende de que la anotación esté completa.** Una primera lectura de esa
     muestra encontró alternativas que cargaban la lumbar sin que su ficha lo anotara
     (*Kettlebell deadlifts* para un peso muerto rumano). La carga por patrón de movimiento
@@ -1593,7 +1593,7 @@ Por eso a la carga deducida de los músculos se le **suman** las articulaciones 
 nombre delata, según una tabla curada con patrón, articulación y motivo
 (`data/01_raw/carga_por_patron.csv`). La regla solo agrega articulaciones, nunca las
 quita, y no cambia las aristas del grafo: las familias de movimiento son las mismas. Toca
-145 ejercicios, y cada uno guarda en `articulaciones_carga_patron` qué se le agregó.
+153 ejercicios, y cada uno guarda en `articulaciones_carga_patron` qué se le agregó.
 
 ### 13.3 Dos técnicas, comparadas
 
@@ -1605,7 +1605,7 @@ quita, y no cambia las aristas del grafo: las familias de movimiento son las mis
 | Modularidad (su vara) | **0,88** | 0,75 |
 | *Silhouette* en el embedding (su vara) | 0,07 | **0,23** |
 | AMI con la fuente (↓ mejor) | 0,17 | **0,08** |
-| Cobertura de sustitución, misma familia | 57,4 % | **90,7 %** |
+| Cobertura de sustitución, misma familia | 57,1 % | **90,5 %** |
 
 ![Elección de k](data/08_reporting/figures/kmeans_barrido.png)
 
@@ -1647,22 +1647,53 @@ alternativa de peso corporal en el top 5 (§5.1 a).
 
 | KPI | Resultado |
 |---|---|
-| Casos (ejercicio × articulación que carga) | 6.639 |
-| Sin sustituto **anatómico** (todos sus agonistas cruzan la articulación) | 2.627 (39,6 %): el sistema se abstiene |
+| Casos (ejercicio × articulación que carga) | 6.652 |
+| Sin sustituto **anatómico** (todos sus agonistas cruzan la articulación) | 2.652 (39,9 %): el sistema se abstiene |
 | Abstención por músculo escaso | 16 (cuello y escápula) |
-| **Cobertura de sustitución, misma familia** (sobre los 3.996 sustituibles) | **90,7 %** ✅ (meta 85 %) |
-| Columna lumbar | 88,8 % (92,6 % antes de la carga por patrón: esa cifra incluía alternativas que sí cargaban la lumbar) |
-| Bajo la meta | hombro 79,3 %, rodilla 81,4 %, cadera 83,2 % |
-| Listas con una alternativa sin equipamiento | 52 % → **99 %** con la cuota (gimnasio: 35 % → 99,7 %) |
+| **Cobertura de sustitución, misma familia** (sobre los 3.984 sustituibles) | **90,5 %** ✅ (meta 85 %) |
+| Columna lumbar | 86,8 % (92,6 % antes de las correcciones de seguridad: esa cifra incluía alternativas que sí cargaban la lumbar) |
+| Bajo la meta | hombro 79,8 %, rodilla 81,4 %, cadera 83,2 % |
+| Listas con una alternativa sin equipamiento | 51 % → **99 %** con la cuota (gimnasio: 35 % → 99,7 %) |
 
 - El **40 %** sin sustituto es anatomía, no un fallo del modelo: no existe un ejercicio de
   cuádriceps que no cargue la rodilla. La respuesta correcta es abstenerse y derivar.
-- La carga por patrón bajó la cobertura de 91,0 % a 90,7 %: es el costo de no contar como
-  seguras alternativas que no lo eran. Con la lumbar vetada, a un peso muerto rumano ya no
-  se le propone *Kettlebell deadlifts* sino curl femoral o extensión de cadera en polea.
+- Las correcciones de seguridad (carga por patrón y revisión manual, abajo) bajaron la
+  cobertura de 91,0 % a 90,5 %: es el costo de no contar como seguras alternativas que no
+  lo eran. Con la lumbar vetada, a un peso muerto rumano ya no se le propone *Kettlebell
+  deadlifts* sino curl femoral o extensión de cadera en polea.
 - Con la **rodilla** vetada, solo el 43 % de las alternativas mantiene el patrón de fuerza:
   la sentadilla (empuje) se reemplaza por ejercicios de cadera (puente, bisagra). La
   aplicación debe avisar que cambia el movimiento.
+
+**Revisión manual de 30 recomendaciones.** El KPI mide que las alternativas sean seguras
+según los datos, no que sirvan. El equipo revisó la primera alternativa de 30 casos (10 por
+rodilla, hombro y columna lumbar vetados), con veredicto y comentario por caso, en
+`data/01_raw/sustitucion_revision_manual.csv`:
+
+| Veredicto | Rodilla | Hombro | Lumbar | Total |
+|---|---|---|---|---|
+| Bueno (un entrenador lo propondría) | 1 | 1 | 1 | **3** |
+| Aceptable (mismo músculo; cambia patrón, equipo o dificultad) | 4 | 7 | 6 | **17** |
+| Malo (seguro, pero no sirve como reemplazo) | 5 | 1 | 2 | **8** |
+| Inseguro (carga la articulación vetada) | 0 | 1 | 1 | **2** |
+
+- **20 de 30 (67 %) sirven** como reemplazo (bueno o aceptable). Con 30 casos el margen
+  es amplio (IC 95 % ≈ 49–81 %): es una señal, no una certificación.
+- **Los 2 inseguros se corrigieron y tienen test.** *Clean → Alternating Hang Clean* con el
+  hombro vetado: en un *clean* la barra se recibe en rack sobre los hombros, así que la
+  carga por patrón suma ahora el hombro. *Cable Woodchoppers → Upper External Oblique* con
+  la lumbar vetada: la alternativa cargaba la columna torácico-lumbar, que el sistema
+  trataba como otra articulación; vetar la lumbar ahora veta también la torácico-lumbar
+  (`veto_incluye` en `parameters.yml`), y el sistema se abstiene.
+- **Los 8 malos tienen un patrón claro:** 4 proponen un estiramiento o una liberación
+  miofascial como reemplazo de un ejercicio de fuerza (*Seated Pancake Good Morning*,
+  *seated figure four*, *Foam Roller Gluteus*), porque sus nombres no dicen *stretch* y la
+  regla "fuerza por fuerza, estiramiento por estiramiento" no los reconoce. Se concentran
+  en la rodilla (5 de 10).
+- **Los aceptables cambian casi siempre la dificultad o el patrón** (piedras de Atlas →
+  *good morning* sentado; *front lever* → activación abdominal). Es lo esperable con la
+  articulación vetada, y refuerza la recomendación de avisar al usuario cuando cambia el
+  movimiento.
 
 **Demostración.** *Barbell full squat* con la rodilla vetada → **Hip Thrust** (similitud
 0,90, misma familia). Con el perfil de principiante de la fase 2, el Hip Thrust sale de la
@@ -1716,8 +1747,8 @@ Sustitución con articulación vetada  reglas de seguridad → misma familia →
 | 1. Integrar las fuentes en un solo grafo | 2.592 ejercicios sin duplicados, 41 músculos en vocabulario común, 2.461 en el grafo | §11, §13.2 |
 | 2. Completar etiquetas con modelos supervisados | Mecánica y fuerza: F1 0,88 en test; catálogo con etiqueta 85,5 % y 95,5 % (antes 0 %). Complejidad: el modelo se abstiene en la mayoría, a propósito | §12.3, §12.4 |
 | 3. Descubrir familias de movimiento | 12 familias interpretables que mezclan las tres fuentes (AMI con la fuente 0,08) | §13.3, §13.4 |
-| 4. Sustituir con articulación vetada, o abstenerse | 90,7 % de los ejercicios sustituibles con ≥ 3 alternativas de su familia (meta 85 %); 39,6 % de los casos sin sustituto anatómico, con abstención | §13.5 |
-| 5. Medir y mitigar sesgos | Cuota sin equipamiento: 52 % → 99 % de las listas; rehabilitación con complejidad conocida: 6,7 % → 65 %; sesgo nuevo contra wger detectado y declarado | §13.5, §14.3 |
+| 4. Sustituir con articulación vetada, o abstenerse | 90,5 % de los ejercicios sustituibles con ≥ 3 alternativas de su familia (meta 85 %); 39,9 % de los casos sin sustituto anatómico, con abstención. Revisión manual: 20 de 30 alternativas sirven | §13.5 |
+| 5. Medir y mitigar sesgos | Cuota sin equipamiento: 51 % → 99 % de las listas; rehabilitación con complejidad conocida: 6,7 % → 65 %; sesgo nuevo contra wger detectado y declarado | §13.5, §14.3 |
 
 ### 14.3 Sesgo después del modelado
 
@@ -1726,7 +1757,7 @@ Detalle en `notebooks/03_modelado_no_supervisado.ipynb`, §12.
 | Pregunta | Resultado |
 |---|---|
 | ¿Mejoró la cobertura de rehabilitación? | **Sí.** Complejidad técnica conocida: 6,7 % (EV1) → **65 %**, el contexto mejor cubierto. Sustitución en rehabilitación: 89,6 % (meta 85 %) |
-| ¿Algún contexto quedó atrás? | *Cardio y otros*: sustitución 74,6 %, bajo la meta (muchos estiramientos y desplazamientos con pocos pares del mismo tipo) |
+| ¿Algún contexto quedó atrás? | *Cardio y otros*: sustitución 73,5 %, bajo la meta (muchos estiramientos y desplazamientos con pocos pares del mismo tipo) |
 | ¿El modelo se equivoca más en algún contexto? | Mecánica: ≈ 78 % de acierto en rehabilitación frente a ≈ 91 % en gimnasio. Complejidad: ≈ 61 % en peso corporal. Muestras de 18 a 100: diferencias de menos de ~10 puntos no son concluyentes |
 | ¿Y en alguna fuente? | **wger** queda peor etiquetada (fuerza 69 %, complejidad 11,5 %): el modelo se abstiene más con sus instrucciones cortas, y el perfil de principiante casi no recomienda ejercicios de wger. Es un sesgo **creado por la abstención** |
 | ¿El ranking favorece el gimnasio? | Sin corrección, sí: solo el 35 % de las listas del gimnasio traía una opción sin equipamiento. Con la cuota, el 99,7 % |
@@ -1769,6 +1800,9 @@ Ordenadas por cuándo deben hacerse.
 9. **Armonizar `chest` / `shoulders`** de free-exercise-db con `pectorals` / `deltoids`
    en la ontología, para cerrar el hueco de mezcla de fuentes en las familias de pecho y
    hombro.
+10. **Reconocer los estiramientos y la movilidad sin la palabra *stretch*** (*pancake*,
+    *figure four*, *foam roller*): son la mitad de los reemplazos malos de la revisión
+    manual (§13.5), porque la regla "fuerza por fuerza" no los distingue.
 
 ### 14.5 Próximos pasos tras la EV2
 

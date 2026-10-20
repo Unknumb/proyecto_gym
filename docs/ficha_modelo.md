@@ -51,8 +51,8 @@ exactas en `requirements-lock.txt`.
 | Fuerza | 0,88 (0,82–0,93) | 0,89 (0,78–0,96) | 0,34 | 95,5 % |
 | Complejidad técnica | 0,74 (0,68–0,81) | 0,67 (0,53–0,80) | 0,49 | 32,9 % |
 
-Sustitución: 90,7 % de los ejercicios sustituibles con ≥ 3 alternativas de su familia
-(meta 85 %); hombro 79,3 %, rodilla 81,4 % y cadera 83,2 % bajo la meta. El 39,6 % de los
+Sustitución: 90,5 % de los ejercicios sustituibles con ≥ 3 alternativas de su familia
+(meta 85 %); hombro 79,8 %, rodilla 81,4 % y cadera 83,2 % bajo la meta. El 39,9 % de los
 casos no tiene sustituto anatómico y el sistema se abstiene.
 
 ### Por subgrupo
@@ -61,7 +61,7 @@ casos no tiene sustituto anatómico y el sistema se abstiene.
 |---|---|
 | Contexto rehabilitación / funcional | Acierto en mecánica ≈ 78 % frente a ≈ 91 % en gimnasio; sustitución 89,6 % |
 | Contexto peso corporal | Acierto en complejidad técnica ≈ 61 % |
-| Contexto cardio / otros | Sustitución 74,6 %, bajo la meta |
+| Contexto cardio / otros | Sustitución 73,5 %, bajo la meta |
 | Fuente wger | Peor etiquetada (fuerza 69 %, complejidad 11,5 %): el modelo se abstiene más con sus instrucciones cortas |
 
 Muestras de 18 a 100 casos: diferencias de menos de ~10 puntos no son concluyentes
@@ -70,7 +70,7 @@ Muestras de 18 a 100 casos: diferencias de menos de ~10 puntos no son concluyent
 ## Consideraciones éticas
 
 - Sesgo de muestreo hacia el gimnasio comercial (Gini de equipamiento 0,737). Mitigado
-  con una cuota de alternativas sin equipamiento (52 % → 99 % de las listas).
+  con una cuota de alternativas sin equipamiento (51 % → 99 % de las listas).
 - La abstención protege la calidad de las etiquetas pero redistribuye la cobertura: los
   ejercicios de wger casi no llegan al perfil de principiante.
 - No hay datos personales en el entrenamiento. El diseño de destino procesa el vídeo del
@@ -87,7 +87,9 @@ Muestras de 18 a 100 casos: diferencias de menos de ~10 puntos no son concluyent
 - Las familias reflejan cómo están anotados los ejercicios, no una medición del
   movimiento (*silhouette* 0,23).
 - El KPI de sustitución mide que las alternativas sean seguras y de la misma familia, no
-  que un entrenador las considere buenas.
+  que un entrenador las considere buenas. En la revisión manual del equipo (30 casos), 20
+  sirven, 8 son malas (la mitad, estiramientos propuestos como reemplazo de fuerza) y 2
+  eran inseguras; esas 2 se corrigieron con reglas y tests.
 
 ## Responsables
 
