@@ -1027,7 +1027,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 31 tests, ~1 s; corren sobre los artefactos versionados
+python -m pytest -q      # 45 tests, ~5 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
@@ -1036,6 +1036,7 @@ python -m pytest -q      # 31 tests, ~1 s; corren sobre los artefactos versionad
 | Datos | 2.592 ejercicios únicos, `id` con ceros a la izquierda (el defecto de §3.3), esquema y dominios de las etiquetas, partición sin grupos compartidos, datos crudos sin cambios |
 | Modelo | F1 al menos 0,2 sobre el azar y KPI de F1 ≥ 0,85; invariancia (cambiar barra por mancuernas casi no cambia la mecánica); dirección (más articulaciones, más probabilidad de compuesto) |
 | Sustituidor | Ninguna alternativa carga la articulación vetada; abstención sin sustituto anatómico; demostración sentadilla → Hip Thrust |
+| Dashboard | Las seis vistas se dibujan sin errores; la demo propone el Hip Thrust y se abstiene con la extensión de piernas (§8.7) |
 
 GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
 
@@ -1130,7 +1131,8 @@ proyecto_ejercicios/
 │   ├── plan_ev2.md                  # Plan de trabajo de la EV2
 │   ├── registro_decisiones.md       # Qué se probó, qué se descartó y por qué
 │   └── ficha_modelo.md              # Uso previsto, métricas por subgrupo y limitaciones
-├── tests/                           # Tests unitarios, de datos y de modelo (§8.4)
+├── app/dashboard.py                 # Dashboard de la presentación, Streamlit (§8.7)
+├── tests/                           # Tests unitarios, de datos, de modelo y del dashboard (§8.4)
 ├── .github/workflows/tests.yml      # CI: pytest en cada push
 ├── src/gym_exercises/
 │   ├── pipeline_registry.py
@@ -1205,6 +1207,29 @@ pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11); l
 siguientes, `modelado_supervisado` (§12), y los seis últimos, `grafo_biomecanico` (§13).
 El entorno `conf/databricks/` no los reapunta todavía a Delta: con `--env=databricks`
 leen y escriben las rutas locales de `conf/base/`.
+
+### 8.7 Dashboard
+
+```bash
+streamlit run app/dashboard.py      # abre http://localhost:8501
+```
+
+El dashboard resume el proyecto para la presentación, en el mismo orden: KPIs, datos,
+modelos supervisados, grafo y familias, sustitución en vivo y sesgo. No entrena ni
+recalcula modelos: lee las salidas de `kedro run` (`data/08_reporting/`,
+`data/07_model_output/` y `models/`), así que sus cifras son las de este informe. Lo único
+que calcula en vivo son lecturas directas de esas salidas: el kappa entre fuentes (§11.5),
+la curva de abstención sobre la validación externa (§12.4) y las recomendaciones, con la
+misma clase `Sustituidor` del pipeline (§13.5).
+
+| Vista | Qué muestra | Rúbrica |
+|---|---|---|
+| 1 · KPIs | Metas, resultados y semáforo, incluidos los que no se cumplen | IE5 · IE8 |
+| 2 · Datos | Integración de las tres fuentes, quién trae etiquetas y el hallazgo del kappa | IE5 |
+| 3 · Supervisado | F1 de los dos modelos frente al azar, importancia de variables y umbral de abstención ajustable | IE6 |
+| 4 · No supervisado | Louvain frente a Node2Vec + K-Means, elección de k, mapa UMAP y mezcla de fuentes | IE7 |
+| 5 · Sustitución | Demo: ejercicio, articulación lesionada y perfil; cobertura por articulación | IE8 |
+| 6 · Sesgo y cierre | Cuota sin equipamiento, sesgo nuevo contra wger y recomendaciones | IE8 |
 
 ---
 
