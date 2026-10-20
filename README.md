@@ -958,8 +958,11 @@ puntos 2 y 3 siguen fuera de alcance:
 ```bash
 python3.13 -m venv .venv          # o: uv venv --python 3.13 .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-lock.txt   # versiones exactas con que se generaron los resultados
 ```
+
+`requirements.txt` declara las versiones mínimas; `requirements-lock.txt`, el entorno
+exacto. Para reproducir las cifras de este informe conviene el segundo.
 
 Requiere **Python 3.13** (`.python-version`): `gensim`, usado por Node2Vec en el grafo
 biomecánico (§13), no compila todavía en Python 3.14.
@@ -967,7 +970,7 @@ biomecánico (§13), no compila todavía en Python 3.14.
 ### 8.2 Ejecución del pipeline
 
 ```bash
-kedro run                              # pipeline completo (30 nodos)
+kedro run                              # pipeline completo (30 nodos, ~3 min)
 kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
 kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
 kedro run --pipeline=integracion_fuentes  # 8 nodos: free-exercise-db + wger (EV2, §11; requiere los dos anteriores)
@@ -980,6 +983,15 @@ Para refrescarlas (requiere red; cambia los resultados, ver el manifiesto):
 
 ```bash
 python scripts/descargar_fuentes_externas.py
+```
+
+**Reproducibilidad verificada.** Dos ejecuciones completas de `kedro run` dan salidas con
+el mismo contenido que las versionadas: semillas fijas en `parameters.yml` y un solo hilo
+en word2vec. Los datos crudos son inmutables, y su huella SHA-256 queda registrada en
+`data/01_raw/huellas_sha256.txt`:
+
+```bash
+python scripts/registrar_huellas.py --verificar   # falla si algún archivo crudo cambió
 ```
 
 ### 8.3 Notebooks
@@ -1005,7 +1017,22 @@ VS Code y nbviewer.
 > notebook en Jupyter o VS Code. Las versiones estáticas en PNG están en
 > `data/08_reporting/figures/` y son las que se incrustan en este README.
 
-### 8.4 Estructura del repositorio
+### 8.4 Tests
+
+```bash
+python -m pytest -q      # 31 tests, ~1 s; corren sobre los artefactos versionados
+```
+
+| Nivel | Qué verifica |
+|---|---|
+| Unitarios | Emparejamiento (veto de `abduction`/`adduction`, modificadores opuestos), reglas del perfil, regla de un error estándar, umbral de abstención, contraste pareado |
+| Datos | 2.592 ejercicios únicos, `id` con ceros a la izquierda (el defecto de §3.3), esquema y dominios de las etiquetas, partición sin grupos compartidos, datos crudos sin cambios |
+| Modelo | F1 al menos 0,2 sobre el azar y KPI de F1 ≥ 0,85; invariancia (cambiar barra por mancuernas casi no cambia la mecánica); dirección (más articulaciones, más probabilidad de compuesto) |
+| Sustituidor | Ninguna alternativa carga la articulación vetada; abstención sin sustituto anatómico; demostración sentadilla → Hip Thrust |
+
+GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
+
+### 8.5 Estructura del repositorio
 
 ```
 proyecto_ejercicios/
@@ -1029,7 +1056,8 @@ proyecto_ejercicios/
 │   │   ├── regiones_compuestas.csv          # Ontología: región → músculos componentes
 │   │   ├── vocabulario_muscular_externo.csv # Ontología: músculos de fuentes 4 y 5 → canónicos
 │   │   ├── equipamiento_canonico.csv        # Ontología: equipamiento → familia y contexto
-│   │   └── fuentes_match_validacion_manual.csv  # Muestras revisadas del emparejamiento (§11)
+│   │   ├── fuentes_match_validacion_manual.csv  # Muestras revisadas del emparejamiento (§11)
+│   │   └── huellas_sha256.txt           # Huella de cada archivo crudo (§8.2)
 │   ├── 02_intermediate/
 │   │   ├── exercises_clean.parquet  # Grano ejercicio × músculo secundario
 │   │   ├── exercise_features.parquet# Grano ejercicio (tabla analítica)
@@ -1081,6 +1109,7 @@ proyecto_ejercicios/
 ├── scripts/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
 │   ├── descargar_fuentes_externas.py    # Instantáneas de free-exercise-db y wger (requiere red)
+│   ├── registrar_huellas.py         # Registra o verifica la huella de los datos crudos
 │   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6.2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
@@ -1090,7 +1119,12 @@ proyecto_ejercicios/
 │       ├── 01_bronze_ingesta_delta.py
 │       └── 02_silver_gold_medallion.py
 ├── docs/
-│   └── databricks_setup.md          # Puesta en marcha del workspace
+│   ├── databricks_setup.md          # Puesta en marcha del workspace
+│   ├── plan_ev2.md                  # Plan de trabajo de la EV2
+│   ├── registro_decisiones.md       # Qué se probó, qué se descartó y por qué
+│   └── ficha_modelo.md              # Uso previsto, métricas por subgrupo y limitaciones
+├── tests/                           # Tests unitarios, de datos y de modelo (§8.4)
+├── .github/workflows/tests.yml      # CI: pytest en cada push
 ├── src/gym_exercises/
 │   ├── pipeline_registry.py
 │   └── pipelines/
@@ -1113,7 +1147,8 @@ proyecto_ejercicios/
 │   ├── modelos_supervisados.pkl     # Modelos ganadores por objetivo, con su umbral de abstención
 │   ├── grafo_biomecanico.pkl        # Grafo heterogéneo (networkx) (§13)
 │   └── embeddings_node2vec.parquet  # Vector de 16 dimensiones por nodo del grafo
-├── requirements.txt
+├── requirements.txt                 # Versiones mínimas
+├── requirements-lock.txt            # Versiones exactas (Python 3.13)
 └── README.md
 ```
 
@@ -1123,7 +1158,7 @@ en `data/08_reporting/figures/`, la convención de Kedro para las salidas de rep
 cada `kedro run` y cada notebook regeneran las figuras en el mismo lugar que el resto de
 los reportes, y el README las incrusta desde ahí.
 
-### 8.5 Nodos del pipeline
+### 8.6 Nodos del pipeline
 
 | Nodo | Entrada | Salida |
 |---|---|---|
@@ -1226,7 +1261,7 @@ codificarlo; el punto 3 es una mejora de menor riesgo si sobra tiempo.
 
 ## 11. EV2 — Fase 1: Integración de fuentes para el grafo biomecánico
 
-Pipeline `integracion_fuentes` (§8.5). Su objetivo es dejar lista la base del grafo de
+Pipeline `integracion_fuentes` (§8.6). Su objetivo es dejar lista la base del grafo de
 §7 y de los modelos supervisados de la EV2. Esa base tiene tres partes: nodos
 *Ejercicio* sin duplicados entre fuentes, un **vocabulario muscular único** y las
 etiquetas que el catálogo no trae.
@@ -1368,7 +1403,7 @@ Consecuencias:
 
 ## 12. EV2 — Fase 2: Modelado supervisado del perfil de exigencia
 
-Pipeline `modelado_supervisado` (§8.5). El desarrollo completo, con gráficos e
+Pipeline `modelado_supervisado` (§8.6). El desarrollo completo, con gráficos e
 interpretación, está en
 [`notebooks/02_modelado_supervisado.ipynb`](notebooks/02_modelado_supervisado.ipynb).
 
@@ -1513,7 +1548,7 @@ logística.
 
 ## 13. EV2 — Fase 3: Grafo biomecánico no supervisado
 
-Pipeline `grafo_biomecanico` (§8.5). El desarrollo completo, con gráficos e
+Pipeline `grafo_biomecanico` (§8.6). El desarrollo completo, con gráficos e
 interpretación, está en
 [`notebooks/03_modelado_no_supervisado.ipynb`](notebooks/03_modelado_no_supervisado.ipynb).
 

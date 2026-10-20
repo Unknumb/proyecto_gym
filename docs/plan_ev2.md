@@ -205,7 +205,7 @@ Detalle en README §1 (alcance, objetivos, KPIs, CRISP-DM) y §14.
 - [x] **Sesgo después del modelado:** ¿mejoró la cobertura de rehabilitación?
       ¿El modelo se equivoca más en algún contexto o fuente?
 - [x] **Estructura exigida:** `models/` existe; las figuras viven en
-      `data/08_reporting/figures/` y está documentado en README §8.4.
+      `data/08_reporting/figures/` y está documentado en README §8.5.
 - [x] **Reproducibilidad:** `kedro run` completo y los tres notebooks ejecutados en un
       entorno nuevo de Python 3.13 (`pip install -r requirements.txt`): mismas salidas
       que las versionadas. Repetir antes de entregar si algo cambia.
