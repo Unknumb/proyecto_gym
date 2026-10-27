@@ -51,3 +51,7 @@ conf/local/*
 
 # Respaldo local de entornos anteriores
 .venv-*/
+
+# MLflow (seguimiento local de experimentos, README §8.8)
+mlflow.db
+mlruns/

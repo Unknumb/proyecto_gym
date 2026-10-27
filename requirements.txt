@@ -20,5 +20,8 @@ umap-learn>=0.5
 # Dashboard de la presentación (README §8.7)
 streamlit>=1.40
 
+# Seguimiento de experimentos (README §8.8)
+mlflow>=3.0
+
 # Tests (pytest tests/)
 pytest>=8.0
