@@ -1,0 +1,24 @@
+# =============================================================================
+# Seguimiento de experimentos con MLflow (src/gym_exercises/hooks.py, README §8.8)
+# =============================================================================
+# Cada `kedro run` que incluya un pipeline de modelado abre un run de MLflow con
+# los parámetros, las métricas, la tabla de entrada, los modelos ganadores y los
+# reportes CSV. Ver los runs con: mlflow ui --backend-store-uri sqlite:///mlflow.db
+#
+# Para desactivarlo en una máquina sin tocar este archivo, crear
+# conf/local/mlflow.yml con `activo: false`.
+
+activo: true
+
+# Rutas relativas a la raíz del proyecto. mlflow.db guarda runs, parámetros,
+# métricas y el registro de modelos; mlruns/ guarda los artefactos.
+tracking_uri: sqlite:///mlflow.db
+carpeta_artefactos: mlruns
+
+experimento: gym_exercises
+
+# Registra los modelos ganadores del perfil de exigencia en el Model Registry
+# (gym_perfil_mecanica, gym_perfil_fuerza, gym_perfil_complejidad_tecnica): cada
+# corrida crea una versión nueva y la etiqueta con el alias de abajo.
+registrar_modelos: true
+alias_modelo: candidato

@@ -1027,7 +1027,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 46 tests, ~5 s; corren sobre los artefactos versionados
+python -m pytest -q      # 52 tests, ~6 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
@@ -1037,6 +1037,7 @@ python -m pytest -q      # 46 tests, ~5 s; corren sobre los artefactos versionad
 | Modelo | F1 al menos 0,2 sobre el azar y KPI de F1 ≥ 0,85; invariancia (cambiar barra por mancuernas casi no cambia la mecánica); dirección (más articulaciones, más probabilidad de compuesto) |
 | Sustituidor | Ninguna alternativa carga la articulación vetada; abstención sin sustituto anatómico; demostración sentadilla → Hip Thrust |
 | Dashboard | Las seis vistas se dibujan sin errores; la tabla de niveles marca las 102 coincidencias; la demo propone el Hip Thrust y se abstiene con la extensión de piernas (§8.7) |
+| MLflow | Las métricas registradas son las de los reportes versionados; el hook deja la corrida terminada y el modelo del registro predice igual que el `.pkl` (§8.8) |
 
 GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
 
@@ -1047,6 +1048,7 @@ proyecto_ejercicios/
 ├── conf/
 │   ├── base/
 │   │   ├── catalog.yml              # Definición declarativa de los datasets
+│   │   ├── mlflow.yml               # Seguimiento de experimentos (§8.8)
 │   │   └── parameters.yml
 │   └── databricks/
 │       └── catalog.yml              # Mismo pipeline sobre tablas Delta (§2.3)
@@ -1135,6 +1137,7 @@ proyecto_ejercicios/
 ├── tests/                           # Tests unitarios, de datos, de modelo y del dashboard (§8.4)
 ├── .github/workflows/tests.yml      # CI: pytest en cada push
 ├── src/gym_exercises/
+│   ├── hooks.py                     # Registro de cada corrida en MLflow (§8.8)
 │   ├── pipeline_registry.py
 │   └── pipelines/
 │       ├── data_understanding/
@@ -1230,6 +1233,47 @@ misma clase `Sustituidor` del pipeline (§13.5).
 | 4 · No supervisado | Louvain frente a Node2Vec + K-Means, elección de k, mapa UMAP y mezcla de fuentes | IE7 |
 | 5 · Sustitución | Demo: ejercicio, articulación lesionada y perfil; cobertura por articulación | IE8 |
 | 6 · Sesgo y cierre | Cuota sin equipamiento, sesgo nuevo contra wger y recomendaciones | IE8 |
+
+### 8.8 Seguimiento de experimentos con MLflow
+
+Los CSV de `data/08_reporting/` guardan **la última** corrida: si se cambia un parámetro
+y se vuelve a correr, la cifra anterior se pierde (salvo en git). MLflow guarda **todas**
+las corridas, con qué parámetros, datos y código se obtuvo cada cifra, y permite
+compararlas lado a lado. Se integra como un *hook* de Kedro (`src/gym_exercises/hooks.py`):
+solo observa, no cambia ningún nodo, modelo ni salida.
+
+```bash
+kedro run                                      # registra la corrida automáticamente
+mlflow ui --backend-store-uri sqlite:///mlflow.db   # abre http://127.0.0.1:5000
+```
+
+Cada `kedro run` que incluya `modelado_supervisado` o `grafo_biomecanico` crea una
+corrida en el experimento `gym_exercises` con:
+
+| Qué | Contenido |
+|---|---|
+| Parámetros | Los bloques `modelado_supervisado` y `grafo_biomecanico` (con los `--params` ya aplicados), el modelo ganador y el umbral de abstención por objetivo |
+| Etiquetas | Pipeline, commit y rama de git, y si había cambios sin commitear |
+| Dataset | `tabla_modelado` con su huella: dos corridas con la misma huella usaron los mismos datos |
+| Métricas | F1 macro, *accuracy*, Brier y PR-AUC por objetivo, modelo y conjunto (`fuerza/random_forest/externa_catalogo/f1_macro`); CV; contraste pareado; métricas de los agrupamientos; KPI `kpi/cobertura_sustitucion` |
+| Curvas | Los barridos de *k* (K-Means) y de resolución (Louvain, paso = resolución × 10) como curvas |
+| Modelos | El ganador de cada objetivo con firma y ejemplo de entrada, en el **Model Registry** como `gym_perfil_<objetivo>`, alias `candidato` |
+| Artefactos | Los CSV de `data/08_reporting/` que produjo la corrida |
+
+Un modelo registrado se carga sin conocer la ruta del `.pkl` ni la corrida que lo produjo:
+
+```python
+import mlflow
+mlflow.set_tracking_uri("sqlite:///mlflow.db")
+modelo = mlflow.sklearn.load_model("models:/gym_perfil_fuerza@candidato")
+modelo.predict_proba(tabla)   # mismas probabilidades que models/modelos_supervisados.pkl
+```
+
+Los modelos se guardan con `skops`, que, a diferencia de `pickle`, no ejecuta código al
+cargarlos. `mlflow.db` (corridas, métricas y registro) y `mlruns/` (artefactos) quedan
+fuera de git: son el historial local de cada máquina. Para desactivar el registro sin
+tocar el repositorio, crear `conf/local/mlflow.yml` con `activo: false`; si MLflow no está
+instalado o el registro falla, el pipeline corre igual y solo deja un aviso en el log.
 
 ---
 
