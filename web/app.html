@@ -1,0 +1,1246 @@
+<title>Sustituto Seguro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: app de una columna con barra de pestañas fija (abajo en móvil, arriba en escritorio).
+   Tema oscuro deliberado: sala de entrenamiento de noche, teal clínico del proyecto + ámbar de esfuerzo. */
+:root {
+  --bg: #0A1114;
+  --surface: #111B1F;
+  --surface-2: #172429;
+  --line: #22353A;
+  --fg: #E6EEF0;
+  --muted: #8FA4A9;
+  --accent: #3CC0B2;
+  --accent-ink: #062521;
+  --accent-soft: #123430;
+  --amber: #EBA845;
+  --amber-soft: #3A2C14;
+  --veto: #F07A6E;
+  --veto-soft: #3C1D1A;
+  --ok: #62CC8E;
+  --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --tabbar: 64px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); }
+body {
+  color: var(--fg); font-family: var(--body); font-size: 1rem; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-bottom: calc(var(--tabbar) + 24px + env(safe-area-inset-bottom, 0px));
+}
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--accent); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 900px; margin: 0 auto; padding-block: 20px 24px; }
+.vista { display: grid; gap: 22px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+.eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); }
+.num-tab { font-variant-numeric: tabular-nums; }
+
+/* Barra de pestañas */
+nav.tabs {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+  display: flex; justify-content: center;
+}
+nav.tabs .in { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; width: 100%; max-width: 720px; }
+nav.tabs a {
+  display: grid; justify-items: center; gap: 2px; padding: 6px 2px; border-radius: 10px;
+  color: var(--muted); text-decoration: none; font-size: 0.74rem; font-weight: 600;
+}
+nav.tabs a svg { width: 22px; height: 22px; }
+nav.tabs a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
+@media (min-width: 760px) {
+  body { padding-bottom: 32px; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
+  nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); bottom: auto; border-top: 0; border-bottom: 1px solid var(--line); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); }
+  nav.tabs .in { grid-template-columns: repeat(5, auto); justify-content: center; gap: 6px; }
+  nav.tabs a { grid-auto-flow: column; gap: 8px; padding: 8px 14px; font-size: 0.92rem; }
+  nav.tabs a svg { width: 18px; height: 18px; }
+}
+
+/* Componentes */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.card.plain { background: transparent; border-style: dashed; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 10px 16px; font-weight: 600;
+  text-decoration: none; color: var(--fg);
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { background: transparent; }
+.btn.danger { color: var(--veto); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px; cursor: pointer; user-select: none;
+  border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 14px; font-size: 0.95rem;
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.chip.veto[aria-pressed="true"] { background: var(--veto-soft); border-color: var(--veto); color: var(--veto); }
+.chip .dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid currentColor; }
+.chip[aria-pressed="true"] .dot { background: currentColor; }
+.pill { font-size: 0.78rem; border-radius: 999px; padding: 2px 10px; white-space: nowrap; height: fit-content; font-weight: 600; }
+.pill.teal { background: var(--accent-soft); color: var(--accent); }
+.pill.amber { background: var(--amber-soft); color: var(--amber); }
+.pill.red { background: var(--veto-soft); color: var(--veto); }
+.aviso { display: flex; gap: 10px; align-items: flex-start; border-radius: 12px; padding: 12px 14px; font-size: 0.94rem; }
+.aviso.amber { background: var(--amber-soft); } .aviso.amber b { color: var(--amber); }
+.aviso.red { background: var(--veto-soft); } .aviso.red b { color: var(--veto); }
+.aviso.teal { background: var(--accent-soft); } .aviso.teal b { color: var(--accent); }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label, .lbl { font-weight: 600; font-size: 0.93rem; }
+.field input, .field select, textarea {
+  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--surface-2);
+}
+.field input:focus, .field select:focus, textarea:focus { border-color: var(--accent); outline: none; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 10px; padding: 3px; background: var(--surface-2); gap: 2px; }
+.seg button { border: 0; background: none; padding: 7px 13px; border-radius: 7px; cursor: pointer; font-size: 0.93rem; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+
+/* Inicio */
+.hero { display: grid; gap: 12px; padding-top: 8px; }
+.hero h1 { font-size: clamp(2.1rem, 7vw, 3.4rem); line-height: 1.02; font-weight: 700; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lead { color: var(--muted); max-width: 58ch; font-size: 1.08rem; }
+.entradas { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.entrada {
+  display: grid; gap: 8px; align-content: start; padding: 18px; border-radius: 14px; text-decoration: none; color: var(--fg);
+  background: var(--surface); border: 1px solid var(--line); transition: border-color .15s, transform .15s;
+}
+.entrada:hover { border-color: var(--accent); transform: translateY(-2px); }
+.entrada .ico { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.entrada h3 { font-size: 1.15rem; }
+.entrada p { color: var(--muted); font-size: 0.94rem; }
+.resumen-inicio { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 2px; }
+.kpi .v { font-family: var(--display); font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.kpi .l { color: var(--muted); font-size: 0.85rem; }
+
+/* Sustituir */
+.buscador { position: relative; }
+.buscador input { width: 100%; font-size: 1.05rem; padding: 13px 14px 13px 42px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); }
+.buscador input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+.buscador svg { position: absolute; left: 14px; top: 24px; transform: translateY(-50%); color: var(--muted); }
+.sugerencias { list-style: none; margin: 6px 0 0; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; display: grid; max-height: 320px; overflow-y: auto; }
+.sugerencias button { width: 100%; text-align: left; background: none; border: 0; padding: 9px 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; gap: 12px; }
+.sugerencias button:hover, .sugerencias button[aria-selected="true"] { background: var(--accent-soft); }
+.sugerencias .meta { color: var(--muted); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; }
+.sugerencias .vacio { padding: 10px; color: var(--muted); }
+.nombre { text-transform: none; }
+.nombre .en { display: block; font-family: var(--body); font-weight: 400; color: var(--muted); font-size: 0.82rem; text-transform: capitalize; letter-spacing: 0; }
+.ficha-h h3 { font-size: 1.4rem; overflow-wrap: anywhere; }
+.datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px 20px; margin: 0; }
+.dato { min-width: 0; }
+.dato dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.dato dd { margin: 2px 0 0; }
+.lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: alt; }
+.alt { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 2.2rem 1fr; gap: 4px 12px; counter-increment: alt; }
+.alt::before { content: counter(alt); grid-row: 1 / span 3; font-family: var(--display); font-weight: 700; font-size: 1.5rem; color: var(--accent); line-height: 1.2; }
+.alt-h { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; min-width: 0; }
+.linkbtn { background: none; border: 0; padding: 0; cursor: pointer; text-align: left; font-weight: 600; font-size: 1.06rem; min-width: 0; overflow-wrap: anywhere; color: var(--fg); }
+.linkbtn:hover { color: var(--accent); }
+.alt-pie { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; min-width: 0; font-size: 0.9rem; }
+.parecido { display: inline-flex; gap: 3px; align-items: center; color: var(--muted); }
+.parecido i { width: 7px; height: 12px; border-radius: 2px; background: var(--line); }
+.parecido i.on { background: var(--accent); }
+.porque { border-left: 3px solid var(--accent); padding: 4px 0 4px 12px; color: var(--fg); }
+
+/* Rutina */
+.pasos-form { display: grid; gap: 18px; }
+.dia { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.dia-h { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 12px; padding: 14px 16px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.dia-h h3 { font-size: 1.15rem; }
+.ejs { list-style: none; margin: 0; padding: 0; }
+.ej { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; padding: 12px 16px; border-bottom: 1px solid var(--line); align-items: center; }
+.ej:last-child { border-bottom: 0; }
+.ej .pres { font-family: var(--mono); font-size: 0.85rem; color: var(--amber); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ej .sub { grid-column: 1 / -1; color: var(--muted); font-size: 0.86rem; }
+.ej.extra { background: color-mix(in srgb, var(--amber-soft) 45%, transparent); }
+.notas-rutina { display: grid; gap: 8px; padding-left: 1.1rem; margin: 0; color: var(--muted); }
+.notas-rutina b { color: var(--fg); }
+.ia { border: 1px solid var(--accent); background: linear-gradient(160deg, var(--accent-soft), var(--surface) 60%); }
+.ia-out { white-space: pre-wrap; line-height: 1.55; }
+.cambio { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); }
+.cambio input { margin-top: 5px; accent-color: var(--accent); width: 18px; height: 18px; flex: none; }
+
+/* Entrenar */
+.serie { display: grid; grid-template-columns: 2rem 1fr 1fr 2.8rem; gap: 8px; align-items: center; }
+.serie .n { font-family: var(--mono); color: var(--muted); font-size: 0.85rem; }
+.serie input { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--surface-2); text-align: center; font-variant-numeric: tabular-nums; }
+.serie input:focus { border-color: var(--accent); outline: none; }
+.check { width: 2.8rem; height: 2.4rem; border-radius: 9px; border: 1.5px solid var(--line); background: var(--surface-2); cursor: pointer; display: grid; place-items: center; }
+.check[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: #062014; }
+.serie.hecha input { color: var(--muted); }
+.serie-h { display: grid; grid-template-columns: 2rem 1fr 1fr 2.8rem; gap: 8px; font-family: var(--mono); font-size: 0.7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: center; }
+.barra-prog { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.barra-prog i { display: block; height: 100%; background: var(--accent); transition: width .25s; }
+.timer {
+  position: fixed; left: 0; right: 0; bottom: calc(var(--tabbar) + env(safe-area-inset-bottom, 0px)); z-index: 25;
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
+  background: var(--amber); color: #241703; display: flex; justify-content: center;
+}
+.timer .in { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: space-between; width: 100%; max-width: 860px; }
+.timer .t { font-family: var(--mono); font-size: 1.6rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.timer button { border: 1.5px solid #241703; background: transparent; color: #241703; border-radius: 8px; padding: 6px 12px; cursor: pointer; font-weight: 700; }
+@media (min-width: 760px) { .timer { bottom: 0; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); } }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.slider-row { display: grid; grid-template-columns: minmax(110px, 1fr) 2fr 2.4rem; gap: 10px; align-items: center; }
+.slider-row output { font-family: var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Progreso */
+.graf { width: 100%; height: auto; display: block; }
+.graf text { fill: var(--muted); font-family: var(--mono); font-size: 10px; }
+.historial { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.historial li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.85rem; color: var(--muted); }
+.leyenda span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; background: var(--c); vertical-align: -1px; }
+
+/* Cómo funciona */
+.como-pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: p; }
+.como-pasos li { display: grid; grid-template-columns: 2.4rem 1fr; gap: 4px 14px; counter-increment: p; }
+.como-pasos li::before { content: counter(p); grid-row: 1 / span 2; width: 2.2rem; height: 2.2rem; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--accent); color: var(--accent); font-family: var(--mono); font-size: 0.9rem; }
+.como-pasos h3 { font-size: 1.08rem; }
+.como-pasos p { color: var(--muted); }
+details { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 0 16px; }
+details summary { cursor: pointer; padding: 14px 0; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+details summary::after { content: "+"; color: var(--accent); font-family: var(--mono); }
+details[open] summary::after { content: "–"; }
+details > div { padding-bottom: 14px; color: var(--muted); display: grid; gap: 8px; }
+footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 28px; }
+
+@media (max-width: 480px) {
+  .card { padding: 14px; }
+  .alt { grid-template-columns: 1.6rem 1fr; padding: 12px; }
+  .ej { grid-template-columns: 1fr; }
+  .ej .pres { text-align: left; }
+  .slider-row { grid-template-columns: 1fr 2.4rem; }
+  .slider-row label { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<nav class="tabs" aria-label="Secciones"><div class="in" id="tabs"></div></nav>
+<div class="wrap">
+  <main id="app"></main>
+  <footer>
+    <p>Proyecto de Machine Learning (MLY1101, Duoc UC) · <a href="https://github.com/Unknumb/proyecto_gym" target="_blank" rel="noopener">github.com/Unknumb/proyecto_gym</a></p>
+    <p>Datos: catálogo de ejercicios (MIT), free-exercise-db (The Unlicense) y wger (CC-BY-SA). Herramienta informativa: no reemplaza a un kinesiólogo o médico.</p>
+  </footer>
+</div>
+
+<div class="timer" id="timer" hidden></div>
+
+<script type="application/json" id="datos">__DATOS__</script>
+<script>
+(() => {
+  'use strict';
+  const D = JSON.parse(document.getElementById('datos').textContent);
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const app = $('app');
+
+  // ═══════════════ Vocabulario ═══════════════
+  const MUSCULO = {
+    'abdominals': 'abdominales', 'abductors': 'abductores', 'adductors': 'aductores', 'ankle stabilizers': 'estabilizadores del tobillo',
+    'back': 'espalda', 'biceps': 'bíceps', 'brachialis': 'braquial', 'calves': 'pantorrillas', 'chest': 'pecho', 'core': 'core',
+    'deltoids': 'deltoides', 'forearms': 'antebrazos', 'glutes': 'glúteos', 'grip muscles': 'músculos del agarre', 'groin': 'ingle',
+    'hamstrings': 'isquiotibiales', 'hip flexors': 'flexores de cadera', 'inner thighs': 'cara interna del muslo',
+    'latissimus dorsi': 'dorsal ancho', 'levator scapulae': 'elevador de la escápula', 'lower abs': 'abdomen bajo',
+    'lower back': 'zona lumbar', 'neck': 'cuello', 'obliques': 'oblicuos', 'pectorals': 'pectorales', 'quadriceps': 'cuádriceps',
+    'rear deltoids': 'deltoides posterior', 'rhomboids': 'romboides', 'rotator cuff': 'manguito rotador', 'serratus anterior': 'serrato anterior',
+    'shins': 'tibial anterior', 'shoulders': 'hombros', 'soleus': 'sóleo', 'spine': 'columna', 'sternocleidomastoid': 'esternocleidomastoideo',
+    'trapezius': 'trapecio', 'triceps': 'tríceps', 'upper back': 'espalda alta', 'upper chest': 'pecho superior',
+    'wrist extensors': 'extensores de muñeca', 'wrist flexors': 'flexores de muñeca'
+  };
+  const EQUIPO = { 'asistido': 'Asistido', 'balon o rodillo': 'Balón o rodillo', 'banda elastica': 'Banda elástica', 'cable': 'Polea',
+    'maquina': 'Máquina', 'maquina de cardio': 'Máquina de cardio', 'otro': 'Otro', 'peso corporal': 'Peso corporal', 'peso libre': 'Peso libre' };
+  const ARTIC = { 'cadera': 'Cadera', 'codo': 'Codo', 'columna (cervical)': 'Cuello', 'columna (lumbar)': 'Zona lumbar',
+    'columna (torácico-lumbar)': 'Espalda media', 'escapulotorácica': 'Escápula', 'hombro': 'Hombro', 'muñeca': 'Muñeca',
+    'muñeca/dedos': 'Muñeca y dedos', 'pie (intertarsal)': 'Pie', 'radiocubital': 'Antebrazo', 'rodilla': 'Rodilla', 'tobillo': 'Tobillo' };
+  const FUENTE = { catalogo: 'Catálogo', free_exercise_db: 'free-exercise-db', wger: 'wger' };
+  const A = Object.fromEntries(D.articulaciones.map((a, k) => [a, k]));
+  const nomArt = k => ARTIC[D.articulaciones[k]] || D.articulaciones[k];
+  const musculos = ids => ids.map(m => MUSCULO[D.musculos[m]] || D.musculos[m]).join(', ');
+  const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+
+  // Lesiones tal como las entiende una persona → articulaciones del modelo (criterio conservador)
+  const LESIONES = [
+    ['hombro', 'Hombro', ['hombro', 'escapulotorácica']],
+    ['codo', 'Codo', ['codo', 'radiocubital']],
+    ['muneca', 'Muñeca', ['muñeca', 'muñeca/dedos', 'radiocubital']],
+    ['cuello', 'Cuello', ['columna (cervical)']],
+    ['lumbar', 'Zona lumbar', ['columna (lumbar)', 'columna (torácico-lumbar)']],
+    ['cadera', 'Cadera', ['cadera']],
+    ['rodilla', 'Rodilla', ['rodilla']],
+    ['tobillo', 'Tobillo o pie', ['tobillo', 'pie (intertarsal)']]
+  ];
+  const LES = Object.fromEntries(LESIONES.map(([k, n, arts]) => [k, { nombre: n, arts: arts.map(a => A[a]) }]));
+  const vetadasDe = claves => new Set(claves.flatMap(k => LES[k]?.arts || []));
+  const esSeguro = (i, vet) => !D.ejercicios[i][5].some(a => vet.has(a));
+
+  // ═══════════════ Ejercicios conocidos, en español ═══════════════
+  // [índice, nombre en español, grupo, nivel 1-3, categoría de equipo (o null = la del dato), impacto, isométrico]
+  const CURADOS = [
+    [1382, 'Sentadilla con peso corporal', 'rodilla', 1, null, 0, 0], [512, 'Sentadilla goblet con mancuerna', 'rodilla', 1, null, 0, 0],
+    [1361, 'Sentadilla con barra', 'rodilla', 2, null, 0, 0], [120, 'Sentadilla profunda con barra', 'rodilla', 3, null, 0, 0],
+    [1570, 'Prensa de piernas', 'rodilla', 1, null, 0, 0], [2040, 'Zancada hacia atrás', 'rodilla', 1, null, 0, 0],
+    [555, 'Zancada con mancuernas', 'rodilla', 2, null, 0, 0], [1276, 'Zancada caminando', 'rodilla', 2, null, 0, 0],
+    [727, 'Subida al cajón con mancuernas', 'rodilla', 2, null, 0, 0], [1987, 'Sentadilla sumo', 'rodilla', 1, null, 0, 0],
+    [79, 'Sentadilla dividida con banda', 'rodilla', 2, null, 0, 0], [954, 'Extensión de piernas en máquina', 'rodilla', 1, null, 0, 0],
+    [2159, 'Sentadilla isométrica en pared', 'rodilla', 1, 'pc', 0, 1],
+    [1920, 'Puente de glúteo', 'cadera', 1, 'pc', 0, 0], [1754, 'Puente de glúteo a una pierna', 'cadera', 2, null, 0, 0],
+    [1927, 'Hip thrust con barra', 'cadera', 2, null, 0, 0], [654, 'Peso muerto rumano con mancuernas', 'cadera', 2, null, 0, 0],
+    [182, 'Peso muerto rumano con barra', 'cadera', 2, null, 0, 0], [107, 'Peso muerto con barra', 'cadera', 3, null, 0, 0],
+    [1593, 'Curl femoral tumbado', 'cadera', 1, null, 0, 0], [905, 'Swing con kettlebell', 'cadera', 3, null, 0, 0],
+    [2340, 'Almeja (glúteo medio)', 'cadera', 1, null, 0, 0], [1829, 'Superman', 'cadera', 1, null, 0, 0],
+    [1063, 'Flexiones de brazos', 'pecho', 1, null, 0, 0], [473, 'Press de banca con mancuernas', 'pecho', 1, null, 0, 0],
+    [98, 'Press de banca con barra', 'pecho', 2, null, 0, 0], [519, 'Press inclinado con mancuernas', 'pecho', 2, null, 0, 0],
+    [936, 'Press de pecho en máquina', 'pecho', 1, null, 0, 0], [1395, 'Cruce de poleas', 'pecho', 2, null, 0, 0],
+    [506, 'Aperturas con mancuernas', 'pecho', 2, null, 0, 0], [431, 'Fondos en paralelas', 'pecho', 3, 'gym', 0, 0],
+    [1059, 'Dominadas', 'vertical', 3, 'gym', 0, 0], [436, 'Dominadas supinas', 'vertical', 3, 'gym', 0, 0],
+    [340, 'Jalón al pecho en polea', 'vertical', 1, null, 0, 0],
+    [376, 'Remo sentado en polea', 'horizontal', 1, null, 0, 0], [476, 'Remo inclinado con mancuernas', 'horizontal', 2, null, 0, 0],
+    [101, 'Remo con barra', 'horizontal', 2, null, 0, 0], [856, 'Remo invertido', 'horizontal', 2, 'gym', 0, 0],
+    [1351, 'Separación de banda', 'horizontal', 1, null, 0, 0], [1476, 'Face pull en polea', 'horizontal', 2, null, 0, 0],
+    [687, 'Press de hombros con mancuernas', 'hombro', 2, null, 0, 0], [190, 'Press militar con barra', 'hombro', 2, null, 0, 0],
+    [553, 'Elevaciones laterales', 'hombro', 1, null, 0, 0], [690, 'Encogimientos con mancuernas', 'hombro', 1, null, 0, 0],
+    [480, 'Curl de bíceps con mancuernas', 'biceps', 1, null, 0, 0], [106, 'Curl de bíceps con barra', 'biceps', 1, null, 0, 0],
+    [513, 'Curl martillo', 'biceps', 1, null, 0, 0],
+    [1846, 'Extensión de tríceps en polea', 'triceps', 1, null, 0, 0], [241, 'Fondos en banco', 'triceps', 1, null, 0, 0],
+    [580, 'Extensión de tríceps tumbado', 'triceps', 2, null, 0, 0],
+    [1651, 'Plancha', 'core', 1, null, 0, 1], [1974, 'Plancha lateral', 'core', 1, null, 0, 1], [454, 'Dead bug', 'core', 1, null, 0, 0],
+    [2241, 'Bird dog (cuadrupedia)', 'core', 1, null, 0, 0], [2163, 'Abdominal bicicleta', 'core', 1, null, 0, 0],
+    [830, 'Elevación de piernas colgado', 'core', 3, 'gym', 0, 0], [1112, 'Giro ruso', 'core', 2, null, 0, 0],
+    [1893, 'Leñador en polea', 'core', 2, null, 0, 0], [1643, 'Press Pallof', 'core', 2, null, 0, 0], [1023, 'Escalador', 'core', 2, null, 1, 0],
+    [256, 'Elevación de talones de pie', 'pantorrilla', 1, null, 0, 0], [993, 'Elevación de talones en máquina', 'pantorrilla', 1, null, 0, 0],
+    [974, 'Elevación de talones sentado', 'pantorrilla', 1, null, 0, 0],
+    [869, 'Sentadilla con salto', 'potencia', 2, null, 1, 0], [1152, 'Saltos de patinador', 'potencia', 2, null, 1, 0],
+    [1385, 'Saltos al cajón', 'potencia', 2, 'gym', 1, 0], [266, 'Burpee', 'potencia', 2, null, 1, 0], [2131, 'Jumping jacks', 'potencia', 1, null, 1, 0]
+  ];
+  const CATEG = { 'peso corporal': 'pc', 'peso libre': 'pesas', 'maquina': 'gym', 'cable': 'gym', 'asistido': 'gym', 'maquina de cardio': 'gym',
+    'banda elastica': 'banda', 'balon o rodillo': 'balon', 'otro': 'gym' };
+  const CUR = {};
+  for (const [i, es, grupo, nivel, eq, imp, iso] of CURADOS) {
+    CUR[i] = { i, es, grupo, nivel, eq: eq || CATEG[D.equipos[D.ejercicios[i][3]]], imp: !!imp, iso: !!iso };
+  }
+  const nombreEs = i => CUR[i]?.es || null;
+  const nombreHTML = i => {
+    const en = D.ejercicios[i][0];
+    return CUR[i] ? `${esc(CUR[i].es)}<span class="en">${esc(en)}</span>` : `<span style="text-transform:capitalize">${esc(en)}</span>`;
+  };
+  const nombreTxt = i => CUR[i]?.es || cap(D.ejercicios[i][0]);
+  const GRUPO_MUSC = { rodilla: ['quadriceps'], cadera: ['glutes', 'hamstrings'], pecho: ['pectorals', 'chest'], vertical: ['latissimus dorsi'],
+    horizontal: ['upper back', 'rhomboids', 'rear deltoids'], hombro: ['deltoids', 'shoulders'], biceps: ['biceps'], triceps: ['triceps'],
+    core: ['abdominals', 'obliques'], pantorrilla: ['calves'], potencia: ['quadriceps', 'glutes'] };
+  const GRUPO_NOMBRE = { rodilla: 'Piernas (cuádriceps)', cadera: 'Glúteos e isquiotibiales', pecho: 'Pecho', vertical: 'Espalda (dorsal)',
+    horizontal: 'Espalda alta', hombro: 'Hombros', biceps: 'Bíceps', triceps: 'Tríceps', core: 'Core / abdomen', pantorrilla: 'Pantorrillas', potencia: 'Potencia y saltos' };
+
+  // ═══════════════ Almacenamiento local ═══════════════
+  const CLAVE = 'sustituto-seguro-v1';
+  let S = { perfil: null, rutina: null, sesiones: [], pesos: [], enCurso: null };
+  try { const t = localStorage.getItem(CLAVE); if (t) S = Object.assign(S, JSON.parse(t)); } catch (_) { /* sin almacenamiento */ }
+  let almacenOK = true;
+  function guardar() {
+    try { localStorage.setItem(CLAVE, JSON.stringify(S)); almacenOK = true; } catch (_) { almacenOK = false; }
+  }
+
+  // ═══════════════ Capacidades (IA y descargas) ═══════════════
+  let IA = null, DESC = null;
+  const usar = n => (window.claude && typeof window.claude.use === 'function') ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
+  usar('sample').then(s => { IA = s; if (vista === 'rutina') render(); });
+  usar('downloads').then(d => { DESC = d; if (vista === 'progreso') render(); });
+  const ERR_IA = {
+    not_granted: 'No se dio permiso para usar la IA. Puedes seguir usando la rutina sin ella.',
+    rate_limited: 'Se alcanzó el límite de uso de IA por ahora. Inténtalo más tarde.',
+    invalid_json: 'La IA respondió en un formato inesperado. Vuelve a intentarlo.',
+    prompt_too_large: 'La consulta es demasiado larga.',
+    cancelled: 'Consulta detenida.'
+  };
+  const errIA = e => ERR_IA[e?.code] || 'La IA no está disponible en este momento. Inténtalo de nuevo más tarde.';
+
+  // ═══════════════ Navegación ═══════════════
+  const ICO = {
+    inicio: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/>',
+    sustituir: '<path d="M4 7h13l-3-3"/><path d="M20 17H7l3 3"/>',
+    rutina: '<rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 2v4M16 2v4M4 10h16"/>',
+    entrenar: '<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',
+    progreso: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    como: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/>'
+  };
+  const svgIco = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
+  const TABS = [['inicio', 'Inicio'], ['sustituir', 'Sustituir'], ['rutina', 'Mi rutina'], ['entrenar', 'Entrenar'], ['progreso', 'Progreso']];
+  const VISTAS = ['inicio', 'sustituir', 'rutina', 'entrenar', 'progreso', 'como-funciona'];
+  let vista = 'inicio';
+  $('tabs').innerHTML = TABS.map(([k, t]) => `<a href="#${k}" data-tab="${k}">${svgIco(k)}<span>${t}</span></a>`).join('');
+
+  function ir(v) { if (location.hash !== '#' + v) location.hash = v; else { vista = v; render(); } }
+  function leerHash() {
+    const h = location.hash.slice(1);
+    const m = /^e(\d+)-a(\d+)-p([01])$/.exec(h);
+    if (m && +m[1] < D.ejercicios.length) { sust.ej = +m[1]; sust.art = +m[2]; sust.perfil = +m[3]; vista = 'sustituir'; }
+    else vista = VISTAS.includes(h) ? h : 'inicio';
+    render();
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', leerHash);
+
+  function render() {
+    document.querySelectorAll('#tabs a').forEach(a => {
+      const activa = a.dataset.tab === vista || (vista === 'como-funciona' && a.dataset.tab === 'inicio');
+      if (activa) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    ({ inicio: vInicio, sustituir: vSustituir, rutina: vRutina, entrenar: vEntrenar, progreso: vProgreso, 'como-funciona': vComo })[vista]();
+  }
+
+  // ═══════════════ Fechas ═══════════════
+  const hoyISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+  const fechaLarga = iso => new Date(iso + 'T12:00:00').toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric', month: 'short' });
+  const lunes = iso => { const d = new Date(iso + 'T12:00:00'); const k = (d.getDay() + 6) % 7; d.setDate(d.getDate() - k); return d.toISOString().slice(0, 10); };
+  function semanas(n) {
+    const out = []; let l = lunes(hoyISO());
+    for (let k = 0; k < n; k++) { out.unshift(l); const d = new Date(l + 'T12:00:00'); d.setDate(d.getDate() - 7); l = d.toISOString().slice(0, 10); }
+    return out;
+  }
+  function estadisticas() {
+    const ses = S.sesiones;
+    const sem = lunes(hoyISO());
+    const estaSemana = ses.filter(s => lunes(s.fecha) === sem).length;
+    let racha = 0;
+    const porSem = new Set(ses.map(s => lunes(s.fecha)));
+    const ws = semanas(104).reverse();
+    for (let k = 0; k < ws.length; k++) {
+      if (porSem.has(ws[k])) racha++;
+      else if (k === 0) continue; // la semana actual aún puede completarse
+      else break;
+    }
+    return { total: ses.length, estaSemana, racha, objetivo: S.perfil?.dias || 3 };
+  }
+
+  // ═══════════════ INICIO ═══════════════
+  function vInicio() {
+    const st = estadisticas();
+    const tieneRutina = !!S.rutina;
+    app.innerHTML = `<div class="vista">
+      <section class="hero">
+        <div class="eyebrow">Entrenamiento con lesiones</div>
+        <h1>Entrena lo que puedes,<br><em>cuida lo que duele.</em></h1>
+        <p class="lead">Encuentra reemplazos seguros para ejercicios que te molestan, arma una rutina según tu edad, deporte y lesiones, y registra cómo avanzas sesión a sesión.</p>
+        <div class="row"><a class="btn primary" href="#${tieneRutina ? 'entrenar' : 'rutina'}">${tieneRutina ? 'Entrenar hoy' : 'Crear mi rutina'}</a><a class="btn ghost" href="#como-funciona">Cómo funciona</a></div>
+      </section>
+      ${st.total ? `<section class="resumen-inicio" aria-label="Tu resumen">
+        <div class="kpi"><span class="v">${st.estaSemana}/${st.objetivo}</span><span class="l">Sesiones esta semana</span></div>
+        <div class="kpi"><span class="v">${st.racha}</span><span class="l">Semanas seguidas entrenando</span></div>
+        <div class="kpi"><span class="v">${st.total}</span><span class="l">Sesiones registradas</span></div>
+      </section>` : ''}
+      <section class="entradas" aria-label="Qué puedes hacer">
+        <a class="entrada" href="#sustituir"><span class="ico">${svgIco('sustituir')}</span><h3>Reemplazar un ejercicio</h3><p>Dinos qué ejercicio no puedes hacer y qué te duele. Te damos alternativas que trabajan el mismo músculo sin cargar esa zona.</p></a>
+        <a class="entrada" href="#rutina"><span class="ico">${svgIco('rutina')}</span><h3>Rutina personalizada</h3><p>Según tu edad, peso, deporte, nivel, tiempo y equipamiento. Las lesiones se excluyen siempre.</p></a>
+        <a class="entrada" href="#entrenar"><span class="ico">${svgIco('entrenar')}</span><h3>Modo entrenamiento</h3><p>Marca cada serie, anota el peso y descansa con cronómetro. Al final registras cómo se sintió tu lesión.</p></a>
+        <a class="entrada" href="#progreso"><span class="ico">${svgIco('progreso')}</span><h3>Tu progreso</h3><p>Constancia, cargas por ejercicio y evolución del dolor. Si el dolor sube, te avisamos.</p></a>
+      </section>
+      <div class="aviso amber" role="note"><span aria-hidden="true">⚕</span><p><b>Herramienta informativa.</b> No reemplaza la evaluación de un kinesiólogo o médico. Si un ejercicio te causa dolor agudo, detente y consulta.</p></div>
+    </div>`;
+  }
+
+  // ═══════════════ SUSTITUIR ═══════════════
+  const SINONIMOS = [['sentadilla', 'squat'], ['sentadillas', 'squat'], ['press de banca', 'bench press'], ['banca', 'bench'], ['peso muerto', 'deadlift'],
+    ['dominada', 'pull-up'], ['dominadas', 'pull-up'], ['flexion de brazos', 'push-up'], ['flexiones', 'push-up'], ['lagartija', 'push-up'],
+    ['lagartijas', 'push-up'], ['zancada', 'lunge'], ['zancadas', 'lunge'], ['estocada', 'lunge'], ['estocadas', 'lunge'], ['remo', 'row'],
+    ['plancha', 'plank'], ['abdominales', 'crunch'], ['abdominal', 'crunch'], ['fondos', 'dip'], ['fondo', 'dip'], ['extension de piernas', 'leg extension'],
+    ['prensa', 'leg press'], ['curl femoral', 'leg curl'], ['elevacion lateral', 'lateral raise'], ['elevaciones laterales', 'lateral raise'],
+    ['press militar', 'overhead press'], ['press de hombro', 'shoulder press'], ['jalon', 'pulldown'], ['puente de gluteo', 'glute bridge'],
+    ['pantorrilla', 'calf'], ['gemelos', 'calf'], ['aperturas', 'fly'], ['apertura', 'fly'], ['mancuerna', 'dumbbell'], ['mancuernas', 'dumbbell'],
+    ['barra', 'barbell'], ['polea', 'cable'], ['maquina', 'lever'], ['estiramiento', 'stretch'], ['salto', 'jump'], ['saltos', 'jump'], ['encogimientos', 'shrug']];
+  const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const NOMBRES = D.ejercicios.map((e, i) => norm(e[0]));
+  const NOMBRES_ES = D.ejercicios.map((e, i) => CUR[i] ? norm(CUR[i].es) : '');
+  const SIN_ORD = [...SINONIMOS].sort((a, b) => b[0].length - a[0].length);
+  const traducir = q => { let t = ' ' + q + ' '; for (const [es, en] of SIN_ORD) t = t.split(' ' + es + ' ').join(' ' + norm(en) + ' '); return t.trim(); };
+  function buscar(texto) {
+    const q = norm(texto); if (!q) return [];
+    const variantes = [...new Set([q, traducir(q)])].map(v => v.split(' ').filter(Boolean));
+    const res = [];
+    D.ejercicios.forEach((e, i) => {
+      let mejor = -1;
+      for (const n of [NOMBRES[i], NOMBRES_ES[i]]) {
+        if (!n) continue;
+        for (const pal of variantes) {
+          if (!pal.every(p => n.includes(p))) continue;
+          const frase = pal.join(' ');
+          let p = 100 - n.length / 4 + (CUR[i] ? 120 : 0) + (e[1] === 'catalogo' ? 2 : 0);
+          if (n === frase) p += 100; else if (n.startsWith(frase)) p += 40; else if (n.includes(frase)) p += 20;
+          mejor = Math.max(mejor, p);
+        }
+      }
+      if (mejor >= 0) res.push([mejor, i]);
+    });
+    return res.sort((a, b) => b[0] - a[0]).slice(0, 12).map(r => r[1]);
+  }
+  const idPorNombre = n => NOMBRES.indexOf(norm(n));
+  const EJEMPLOS = [['Sentadilla · rodilla', 'barbell full squat', 'rodilla'], ['Extensión de piernas · rodilla', 'lever leg extension', 'rodilla'],
+    ['Press de banca · codo', 'barbell bench press', 'codo'], ['Press militar · hombro', 'barbell seated overhead press', 'hombro'],
+    ['Peso muerto · zona lumbar', 'barbell deadlift', 'columna (lumbar)']].map(([t, n, a]) => [t, idPorNombre(n), A[a]]).filter(e => e[1] >= 0);
+  const sust = { ej: EJEMPLOS[0][1], art: EJEMPLOS[0][2], perfil: 0 };
+  const MOTIVO = {
+    2: ['red', 'No hay un sustituto seguro.', 'Todos los músculos principales de este ejercicio cruzan la articulación lesionada: cualquier ejercicio que los trabaje también la cargaría. Lo mejor es un plan de rehabilitación con un kinesiólogo.'],
+    3: ['red', 'Preferimos no recomendar.', 'El músculo que habría que conservar tiene menos de 10 ejercicios en el catálogo. Con tan pocas opciones la recomendación no es confiable.'],
+    4: ['teal', 'Este ejercicio no carga esa articulación.', 'No hace falta sustituirlo.']
+  };
+
+  function vSustituir() {
+    const ej = D.ejercicios[sust.ej];
+    if (!ej[5].includes(sust.art)) sust.art = ej[5].includes(A['rodilla']) ? A['rodilla'] : ej[5][0];
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Sustituir un ejercicio</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">¿Qué ejercicio te molesta?</h1>
+        <p class="lead">Las alternativas trabajan el mismo músculo y nunca cargan la articulación que marques.</p></header>
+      <section class="card" aria-labelledby="h-b">
+        <span class="lbl" id="h-b">1 · Busca el ejercicio</span>
+        <div class="buscador">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="q" type="search" autocomplete="off" placeholder="Ej: sentadilla, press de banca, peso muerto…" aria-label="Buscar ejercicio" aria-controls="sug" aria-expanded="false">
+          <ul id="sug" class="sugerencias" role="listbox" hidden></ul>
+        </div>
+        <div class="chips" aria-label="Ejemplos">${EJEMPLOS.map(([t, i, a], k) => `<button type="button" class="chip" data-ejemplo="${k}">${esc(t)}</button>`).join('')}</div>
+      </section>
+      <section class="card" aria-labelledby="h-f">
+        <span class="lbl" id="h-f">2 · Marca lo que te duele</span>
+        <div class="ficha-h"><h3 class="nombre">${nombreHTML(sust.ej)}</h3></div>
+        <dl class="datos">
+          <div class="dato"><dt>Músculo principal</dt><dd>${esc(cap(musculos(ej[4])) || '—')}</dd></div>
+          <div class="dato"><dt>Equipamiento</dt><dd>${esc(EQUIPO[D.equipos[ej[3]]])}</dd></div>
+        </dl>
+        <p class="muted small">Este ejercicio carga ${ej[5].length} articulaci${ej[5].length === 1 ? 'ón' : 'ones'}:</p>
+        <div class="chips" role="group" aria-label="Articulación lesionada">
+          ${ej[5].map(a => `<button type="button" class="chip veto" data-art="${a}" aria-pressed="${a === sust.art}"><span class="dot" aria-hidden="true"></span>${esc(nomArt(a))}</button>`).join('')}
+        </div>
+        <div class="row"><span class="muted small">Nivel:</span><div class="seg" role="group" aria-label="Nivel">
+          <button type="button" data-perfil="0" aria-pressed="${sust.perfil === 0}">Cualquiera</button>
+          <button type="button" data-perfil="1" aria-pressed="${sust.perfil === 1}">Principiante</button></div></div>
+      </section>
+      <section aria-labelledby="h-r" style="display:grid;gap:12px">
+        <span class="lbl" id="h-r">3 · Alternativas seguras</span>
+        <div id="resultado" aria-live="polite" style="display:grid;gap:12px"></div>
+      </section>
+    </div>`;
+    pintarResultado();
+    conectarBuscador();
+    app.querySelectorAll('[data-ejemplo]').forEach(b => b.onclick = () => { const [, i, a] = EJEMPLOS[+b.dataset.ejemplo]; sust.ej = i; sust.art = a; sust.perfil = 0; actualizarSust(); });
+    app.querySelectorAll('[data-art]').forEach(b => b.onclick = () => { sust.art = +b.dataset.art; actualizarSust(); });
+    app.querySelectorAll('[data-perfil]').forEach(b => b.onclick = () => { sust.perfil = +b.dataset.perfil; actualizarSust(); });
+  }
+  function actualizarSust() {
+    const arts = D.ejercicios[sust.ej][5];
+    if (!arts.includes(sust.art)) sust.art = arts.includes(A['rodilla']) ? A['rodilla'] : arts[0];
+    const h = `#e${sust.ej}-a${sust.art}-p${sust.perfil}`;
+    if (location.hash !== h) location.hash = h; else vSustituir();
+  }
+  function explicacionPorque(i, art, filas) {
+    const ago = D.ejercicios[i][4].map(m => D.musculos[m]);
+    const quedan = new Set(filas.flatMap(([j]) => D.ejercicios[j][4].map(m => D.musculos[m])));
+    const perdidos = ago.filter(m => !quedan.has(m));
+    const mantenidos = ago.filter(m => quedan.has(m));
+    if (!filas.length || !mantenidos.length) return '';
+    let t = `Con ${nomArt(art).toLowerCase()} lesionada, estas alternativas mantienen el trabajo de ${mantenidos.map(m => MUSCULO[m] || m).join(' y ')}`;
+    if (perdidos.length) t += `. ${cap(perdidos.map(m => MUSCULO[m] || m).join(' y '))} no se puede trabajar sin cargar esa articulación`;
+    return t + '.';
+  }
+  function pintarResultado() {
+    const [motivo, filas] = D.rec[sust.ej][sust.art][sust.perfil];
+    let html = '';
+    if (!filas.length) {
+      const [c, t, d] = MOTIVO[motivo] || ['red', 'Sin alternativas para principiante.', 'Ninguna alternativa segura cumple el filtro de principiante. Prueba con nivel “Cualquiera”.'];
+      html = `<div class="aviso ${c}"><p><b>${t}</b> ${d}</p></div>`;
+    } else {
+      const porque = explicacionPorque(sust.ej, sust.art, filas);
+      html += motivo === 1 ? `<div class="aviso amber"><p><b>Hay menos de 3 alternativas seguras.</b> Se muestran las que hay.</p></div>` : '';
+      html += porque ? `<p class="porque">${esc(porque)}</p>` : '';
+      html += '<ol class="lista">' + filas.map(([j, sim, misma]) => {
+        const a = D.ejercicios[j];
+        const nivel = sim >= 850 ? 3 : sim >= 700 ? 2 : 1;
+        const yt = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(a[0] + ' exercise');
+        return `<li class="alt"><div class="alt-h"><button type="button" class="linkbtn nombre" data-ej="${j}">${nombreHTML(j)}</button>
+            <span class="pill ${misma ? 'teal' : 'amber'}">${misma ? 'Mismo movimiento' : 'Otro movimiento'}</span></div>
+          <p class="muted small">${esc(cap(musculos(a[4])))} · ${esc(EQUIPO[D.equipos[a[3]]])}</p>
+          <div class="alt-pie"><span class="parecido" title="Qué tan parecido es al original">${[1, 2, 3].map(k => `<i class="${k <= nivel ? 'on' : ''}"></i>`).join('')}&nbsp;${['', 'Algo parecido', 'Parecido', 'Muy parecido'][nivel]}</span>
+            <a href="${yt}" target="_blank" rel="noopener">Ver cómo se hace ↗</a></div></li>`;
+      }).join('') + '</ol>';
+    }
+    $('resultado').innerHTML = html;
+    $('resultado').querySelectorAll('[data-ej]').forEach(b => b.onclick = () => { sust.ej = +b.dataset.ej; actualizarSust(); });
+  }
+  let cerrarBuscador = () => {};
+  document.addEventListener('click', ev => { if (!ev.target.closest('.buscador')) cerrarBuscador(); });
+  function conectarBuscador() {
+    const q = $('q'), sug = $('sug'); let res = [], act = -1;
+    const cerrar = () => { sug.hidden = true; q.setAttribute('aria-expanded', 'false'); };
+    q.addEventListener('input', () => {
+      res = buscar(q.value); act = -1;
+      if (!q.value.trim()) return cerrar();
+      sug.innerHTML = res.length ? res.map((i, k) => `<li><button type="button" role="option" id="op${k}" data-i="${i}" aria-selected="false"><span>${esc(nombreTxt(i))}</span><span class="meta">${esc(musculos(D.ejercicios[i][4]))}</span></button></li>`).join('')
+        : '<li class="vacio">Sin resultados. Prueba con otra palabra o en inglés (ej. “squat”).</li>';
+      sug.hidden = false; q.setAttribute('aria-expanded', 'true');
+    });
+    const elegir = i => { cerrar(); sust.ej = i; sust.art = -1; actualizarSust(); };
+    q.addEventListener('keydown', ev => {
+      if (sug.hidden || !res.length) return;
+      if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+        ev.preventDefault(); act = ev.key === 'ArrowDown' ? Math.min(act + 1, res.length - 1) : Math.max(act - 1, 0);
+        sug.querySelectorAll('[role=option]').forEach((b, n) => b.setAttribute('aria-selected', String(n === act)));
+        $('op' + act)?.scrollIntoView({ block: 'nearest' });
+      } else if (ev.key === 'Enter') { ev.preventDefault(); elegir(res[Math.max(act, 0)]); }
+      else if (ev.key === 'Escape') cerrar();
+    });
+    sug.addEventListener('click', ev => { const b = ev.target.closest('[data-i]'); if (b) elegir(+b.dataset.i); });
+    cerrarBuscador = cerrar;
+  }
+
+  // ═══════════════ RUTINA: generador ═══════════════
+  const DEPORTES = {
+    ninguno: ['Ninguno / solo gimnasio', []],
+    futbol: ['Fútbol', [['cadera', [1593, 654, 1754]], ['potencia', [1152, 869]], ['core', [1643, 1974]]]],
+    running: ['Running / trote', [['pantorrilla', [256, 974]], ['cadera', [2340, 1754]], ['rodilla', [2040, 727]]]],
+    ciclismo: ['Ciclismo', [['cadera', [1920, 654]], ['core', [2241, 1651]], ['horizontal', [1351, 476]]]],
+    natacion: ['Natación', [['horizontal', [1476, 1351]], ['core', [454, 1651]], ['vertical', [340, 1059]]]],
+    basquet: ['Básquetbol / vóleibol', [['potencia', [1385, 869]], ['pantorrilla', [256, 993]], ['core', [1974, 1643]]]],
+    tenis: ['Tenis / pádel', [['core', [1893, 1643]], ['horizontal', [1476, 1351]], ['rodilla', [2040, 555]]]],
+    combate: ['Artes marciales / boxeo', [['core', [1112, 1893]], ['cadera', [1754, 905]], ['potencia', [266, 1152]]]],
+    escalada: ['Escalada', [['horizontal', [1476, 1351]], ['vertical', [1059, 340]], ['core', [454, 830]]]],
+    otro: ['Otro deporte', [['core', [1643, 1974]], ['cadera', [1754, 1920]]]]
+  };
+  const OBJETIVOS = {
+    salud: ['Salud general', { series: 3, reps: '10–12', descanso: 75 }],
+    fuerza: ['Ganar fuerza', { series: 4, reps: '5–6', descanso: 150 }],
+    musculo: ['Ganar músculo', { series: 3, reps: '8–12', descanso: 90 }],
+    resistencia: ['Resistencia', { series: 3, reps: '15–20', descanso: 45 }]
+  };
+  const EQ_OPC = [['pc', 'Peso corporal'], ['pesas', 'Mancuernas / barras / kettlebell'], ['gym', 'Máquinas y poleas (gimnasio)'], ['banda', 'Bandas elásticas'], ['balon', 'Balón suizo']];
+  const PLANTILLAS = {
+    full: [
+      ['Cuerpo completo A', ['rodilla', 'pecho', 'horizontal', 'cadera', 'hombro', 'core', 'triceps', 'pantorrilla']],
+      ['Cuerpo completo B', ['cadera', 'vertical', 'pecho', 'rodilla', 'core', 'biceps', 'hombro', 'pantorrilla']],
+      ['Cuerpo completo C', ['rodilla', 'hombro', 'horizontal', 'cadera', 'core', 'pecho', 'biceps', 'triceps']]
+    ],
+    tp: [
+      ['Torso A', ['pecho', 'horizontal', 'hombro', 'vertical', 'triceps', 'biceps', 'core']],
+      ['Piernas A', ['rodilla', 'cadera', 'rodilla', 'cadera', 'pantorrilla', 'core', 'core']],
+      ['Torso B', ['vertical', 'pecho', 'horizontal', 'hombro', 'biceps', 'triceps', 'core']],
+      ['Piernas B', ['cadera', 'rodilla', 'cadera', 'rodilla', 'pantorrilla', 'core', 'core']]
+    ],
+    epp: [
+      ['Empuje', ['pecho', 'hombro', 'pecho', 'triceps', 'hombro', 'core', 'triceps']],
+      ['Tracción', ['vertical', 'horizontal', 'horizontal', 'biceps', 'cadera', 'core', 'biceps']],
+      ['Piernas', ['rodilla', 'cadera', 'rodilla', 'cadera', 'pantorrilla', 'core', 'core']]
+    ]
+  };
+  function ejerciciosPorTiempo(min) { return min <= 30 ? 4 : min <= 45 ? 5 : min <= 60 ? 6 : 7; }
+
+  function ajustesPorPerfil(p) {
+    const avisos = [];
+    let nivelMax = { principiante: 1, intermedio: 2, avanzado: 3 }[p.nivel] || 1;
+    let impacto = true;
+    let objetivo = p.objetivo;
+    if (p.edad < 14) {
+      avisos.push(['amber', 'Menores de 14 años:', 'entrena con supervisión de un adulto o profesor de educación física. La rutina usa solo ejercicios simples con peso corporal o bandas.']);
+      nivelMax = 1; objetivo = 'salud';
+    } else if (p.edad < 18) {
+      avisos.push(['amber', 'Menores de 18 años:', 'prioriza la técnica antes que el peso y entrena con supervisión al usar cargas. Evitamos series de muy pocas repeticiones.']);
+      nivelMax = Math.min(nivelMax, 2); if (objetivo === 'fuerza') objetivo = 'musculo';
+    }
+    if (p.edad >= 60) {
+      avisos.push(['teal', '60 años o más:', 'evitamos saltos y ejercicios de técnica compleja, y sumamos trabajo de equilibrio. Consulta a tu médico antes de empezar si no entrenabas.']);
+      impacto = false; nivelMax = Math.min(nivelMax, 2);
+    }
+    const imc = p.peso && p.altura ? p.peso / Math.pow(p.altura / 100, 2) : null;
+    if ((imc && imc >= 30) || (!p.altura && p.peso >= 110)) {
+      if (impacto) avisos.push(['teal', 'Cuidamos tus articulaciones:', 'empezamos sin saltos ni ejercicios de impacto. Puedes sumarlos más adelante.']);
+      impacto = false;
+    }
+    if (p.lesiones.length) avisos.push(['red', 'Lesiones excluidas:', `ningún ejercicio de esta rutina carga ${p.lesiones.map(k => LES[k].nombre.toLowerCase()).join(', ')}. Si sientes dolor, detente.`]);
+    const pres = { ...OBJETIVOS[objetivo][1] };
+    if (p.edad < 18 && pres.reps === '5–6') pres.reps = '8–12';
+    if (p.nivel === 'principiante' && pres.series > 3) pres.series = 3;
+    return { avisos, nivelMax, impacto, objetivo, pres };
+  }
+
+  function candidatos(grupo, p, aj, vet) {
+    const eqs = new Set(p.equipo.concat('pc'));
+    return CURADOS.map(c => CUR[c[0]]).filter(c => c.grupo === grupo && eqs.has(c.eq) && c.nivel <= aj.nivelMax && (aj.impacto || !c.imp) && esSeguro(c.i, vet));
+  }
+  function respaldo(grupo, p, aj, vet, usados) {
+    // Si no queda ningún ejercicio conocido seguro, se busca en el catálogo completo con las mismas reglas
+    const eqs = new Set(p.equipo.concat('pc'));
+    const objetivo = new Set(GRUPO_MUSC[grupo]);
+    const out = [];
+    D.ejercicios.forEach((e, i) => {
+      if (usados.has(i) || e[8] || !esSeguro(i, vet)) return;
+      if (CUR[i] && (!eqs.has(CUR[i].eq) || CUR[i].nivel > aj.nivelMax || (!aj.impacto && CUR[i].imp))) return;
+      if (!eqs.has(CATEG[D.equipos[e[3]]]) || D.equipos[e[3]] === 'otro') return;
+      if (!e[4].some(m => objetivo.has(D.musculos[m]))) return;
+      if (/suspen|trx|ring|smith|machine|lever|cable|band|ball|bosu|sled|wheel|roller|wall|towel|assisted/i.test(e[0]) && !(eqs.has('gym') || eqs.has('banda') || eqs.has('balon'))) return;
+      if (aj.nivelMax === 1 && e[6] !== 'baja') return;
+      if (aj.nivelMax === 2 && e[6] === 'alta') return;
+      out.push([(e[1] === 'catalogo' ? 0 : 5) + (e[6] === 'baja' ? 0 : 3) + e[0].length / 10, i]);
+    });
+    out.sort((a, b) => a[0] - b[0]);
+    return out.slice(0, 8).map(x => x[1]);
+  }
+  function generarRutina(p) {
+    const aj = ajustesPorPerfil(p);
+    const vet = vetadasDe(p.lesiones);
+    const plantilla = p.dias <= 3 ? PLANTILLAS.full.slice(0, Math.max(2, p.dias)) : p.dias === 4 ? PLANTILLAS.tp : PLANTILLAS.epp;
+    const nDias = p.dias;
+    const n = ejerciciosPorTiempo(p.minutos);
+    const usadosSemana = new Map();
+    const huecos = [];
+    const dias = [];
+    for (let d = 0; d < nDias; d++) {
+      const [titulo, grupos] = plantilla[d % plantilla.length];
+      const usadosDia = new Set();
+      const ejs = [];
+      for (const grupo of grupos) {
+        if (ejs.length >= n) break;
+        let cands = candidatos(grupo, p, aj, vet);
+        if (!cands.length && grupo === 'vertical') cands = candidatos('horizontal', p, aj, vet);
+        let i = null, alternativas = [];
+        if (cands.length) {
+          cands.sort((a, b) => (usadosSemana.get(a.i) || 0) - (usadosSemana.get(b.i) || 0) || Math.abs(aj.nivelMax - a.nivel) - Math.abs(aj.nivelMax - b.nivel));
+          const libre = cands.find(c => !usadosDia.has(c.i));
+          if (libre) { i = libre.i; alternativas = cands.map(c => c.i).filter(x => x !== i); }
+        }
+        if (i === null) {
+          const r = respaldo(grupo, p, aj, vet, usadosDia);
+          if (r.length) { i = r[0]; alternativas = r.slice(1); }
+        }
+        if (i === null) { if (!huecos.includes(grupo)) huecos.push(grupo); continue; }
+        usadosDia.add(i); usadosSemana.set(i, (usadosSemana.get(i) || 0) + 1);
+        ejs.push(item(i, grupo, aj, alternativas, false));
+      }
+      dias.push({ titulo: nDias > plantilla.length && d >= plantilla.length ? titulo + ' (repetición)' : titulo, ejercicios: ejs });
+    }
+    // Complemento del deporte: un ejercicio extra en los días 1 y 2 (o en todos si entrena 2 días)
+    const dep = DEPORTES[p.deporte]?.[1] || [];
+    dep.forEach(([grupo, preferidos], k) => {
+      const dia = dias[k % dias.length];
+      const cands = candidatos(grupo, p, aj, vet).map(c => c.i);
+      const usados = new Set(dia.ejercicios.map(e => e.i));
+      const i = preferidos.find(x => cands.includes(x) && !usados.has(x)) ?? cands.find(x => !usados.has(x));
+      if (i !== undefined) dia.ejercicios.push(item(i, grupo, aj, cands.filter(x => x !== i), true));
+    });
+    if (aj.impacto === false && p.edad >= 60) {
+      dias.forEach(d => d.equilibrio = true);
+    }
+    const llenos = dias.filter(d => d.ejercicios.length);
+    if (llenos.length < dias.length) aj.avisos.push(['amber', llenos.length ? `Tu rutina queda en ${llenos.length} día${llenos.length > 1 ? 's' : ''}:` : 'No pudimos armar una rutina segura:',
+      llenos.length ? 'con tus lesiones y equipamiento no hay ejercicios seguros suficientes para más días. Sumar equipamiento puede abrir más opciones.' : 'con tus lesiones y equipamiento ningún ejercicio del catálogo es seguro. Consulta a un kinesiólogo para un plan de rehabilitación.']);
+    return { creada: hoyISO(), perfil: { ...p }, avisos: aj.avisos, objetivo: aj.objetivo, dias: llenos, huecos, ia: null };
+  }
+  function item(i, grupo, aj, alternativas, extra) {
+    const c = CUR[i];
+    const iso = c?.iso;
+    return { i, grupo, series: grupo === 'core' || grupo === 'pantorrilla' ? Math.min(3, aj.pres.series) : aj.pres.series,
+      reps: iso ? '30–45 s' : grupo === 'core' ? '10–15' : grupo === 'potencia' ? '6–8' : aj.pres.reps,
+      descanso: grupo === 'core' || grupo === 'pantorrilla' ? Math.min(60, aj.pres.descanso) : aj.pres.descanso,
+      iso: !!iso, extra, alternativas: alternativas.slice(0, 8) };
+  }
+
+  // ═══════════════ RUTINA: vista ═══════════════
+  const formDef = () => S.perfil || { edad: '', peso: '', altura: '', deporte: 'ninguno', nivel: 'principiante', objetivo: 'salud', dias: 3, minutos: 45, equipo: ['pc'], lesiones: [] };
+  let editando = false;
+  function vRutina() {
+    if (!S.rutina || editando) return vFormulario();
+    const r = S.rutina, p = r.perfil;
+    const yt = i => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(D.ejercicios[i][0] + ' exercise');
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Mi rutina · creada el ${esc(fechaLarga(r.creada))}</div>
+        <h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">${r.dias.length} día${r.dias.length === 1 ? '' : 's'} por semana · ${esc(OBJETIVOS[r.objetivo][0].toLowerCase())}</h1>
+        <p class="lead">${esc(p.edad)} años${p.peso ? ' · ' + esc(p.peso) + ' kg' : ''} · ${esc(DEPORTES[p.deporte][0])} · nivel ${esc(p.nivel)} · sesiones de ${p.minutos} min</p>
+        <div class="row"><a class="btn primary" href="#entrenar">Empezar a entrenar</a><button class="btn" id="editar" type="button">Cambiar mis datos</button><button class="btn ghost" id="regenerar" type="button">Generar otra variante</button></div>
+      </header>
+      ${r.avisos.map(([c, b, t]) => `<div class="aviso ${c}"><p><b>${esc(b)}</b> ${esc(t)}</p></div>`).join('')}
+      ${r.huecos.length ? `<div class="aviso amber"><p><b>Sin ejercicio seguro para:</b> ${esc(r.huecos.map(g => GRUPO_NOMBRE[g]).join(', '))}. Con tu lesión y equipamiento no encontramos una opción que no cargue la zona. Un kinesiólogo puede indicarte ejercicios de rehabilitación.</p></div>` : ''}
+      <section class="card ia" id="ia-card" ${IA ? '' : 'hidden'}>
+        <div class="row" style="justify-content:space-between"><h3>Mejorar con IA</h3><span class="pill teal">Usa tu cuenta de Claude</span></div>
+        <p class="muted">La IA revisa tu rutina según tus datos y deporte, te explica el porqué y propone cambios. Solo puede elegir entre ejercicios que ya pasaron el filtro de seguridad.</p>
+        <div class="row"><button class="btn primary" id="ia-mejorar" type="button">Revisar mi rutina con IA</button><button class="btn ghost" id="ia-parar" type="button" hidden>Detener</button></div>
+        <div id="ia-res" aria-live="polite" style="display:grid;gap:10px"></div>
+        <div style="display:grid;gap:8px;border-top:1px solid var(--line);padding-top:14px">
+          <label class="lbl" for="ia-pregunta">Pregúntale al entrenador IA</label>
+          <textarea id="ia-pregunta" rows="2" placeholder="Ej: ¿Cómo caliento antes del día de piernas? ¿Qué hago si un día no tengo tiempo?"></textarea>
+          <div class="row"><button class="btn" id="ia-preguntar" type="button">Preguntar</button></div>
+          <div id="ia-resp" class="ia-out" aria-live="polite"></div>
+        </div>
+      </section>
+      ${r.dias.map((d, k) => `<section class="dia" aria-label="${esc(d.titulo)}">
+        <div class="dia-h"><h3>Día ${k + 1} · ${esc(d.titulo)}</h3><span class="muted small">${d.ejercicios.length} ejercicios · ~${p.minutos} min</span></div>
+        <ul class="ejs">${d.ejercicios.map((e, n) => `<li class="ej ${e.extra ? 'extra' : ''}">
+          <div><div class="nombre" style="font-weight:600">${nombreHTML(e.i)}</div></div>
+          <div class="pres">${e.series} × ${esc(e.reps)}<br><span class="muted">descanso ${e.descanso % 60 === 0 ? e.descanso / 60 + ' min' : e.descanso + ' s'}</span></div>
+          <div class="sub">${e.extra ? '<span class="pill amber">Para tu deporte</span> ' : ''}${esc(cap(musculos(D.ejercicios[e.i][4])))} · ${esc(EQUIPO[D.equipos[D.ejercicios[e.i][3]]])} · <a href="${yt(e.i)}" target="_blank" rel="noopener">Ver cómo se hace ↗</a>
+            ${e.alternativas.length ? ` · <button type="button" class="linkbtn" style="font-size:inherit;font-weight:600;color:var(--accent)" data-cambiar="${k}-${n}">Cambiar ejercicio</button>` : ''}</div>
+        </li>`).join('')}</ul>
+        ${d.equilibrio ? '<p class="muted small" style="padding:12px 16px;border-top:1px solid var(--line)">Equilibrio: al final, 2 × 30 s parado en un pie por lado, cerca de una pared o silla.</p>' : ''}
+      </section>`).join('')}
+      <section class="card plain"><h3>Cómo usar esta rutina</h3>
+        <ul class="notas-rutina">
+          <li><b>Calienta 5–10 minutos:</b> movilidad de articulaciones y una serie liviana del primer ejercicio.</li>
+          <li><b>Elige un peso que te deje 2 repeticiones “en reserva”</b> al final de cada serie, con buena técnica.</li>
+          <li><b>Progresa de a poco:</b> cuando completes todas las series en el tope de repeticiones dos sesiones seguidas, sube 2–5 % el peso.</li>
+          <li><b>Descansa un día</b> entre sesiones del mismo grupo muscular cuando puedas.</li>
+          <li><b>Dolor:</b> una molestia leve (hasta 3 de 10) que se va al día siguiente suele ser tolerable; un dolor mayor o que empeora es señal para parar y consultar.</li>
+        </ul></section>
+    </div>`;
+    $('editar').onclick = () => { editando = true; vRutina(); window.scrollTo(0, 0); };
+    $('regenerar').onclick = () => { const nueva = generarRutinaVariante(r.perfil); S.rutina = nueva; guardar(); vRutina(); };
+    app.querySelectorAll('[data-cambiar]').forEach(b => b.onclick = () => {
+      const [d, n] = b.dataset.cambiar.split('-').map(Number);
+      const e = S.rutina.dias[d].ejercicios[n];
+      const sig = e.alternativas.shift(); e.alternativas.push(e.i); e.i = sig; S.rutina.ia = null; guardar(); vRutina();
+    });
+    conectarIA();
+  }
+  function generarRutinaVariante(p) {
+    // Variante: desplaza el orden de preferencia rotando las listas de candidatos
+    const r = generarRutina(p);
+    r.dias.forEach(d => d.ejercicios.forEach(e => { if (e.alternativas.length) { const sig = e.alternativas[Math.floor(Math.random() * Math.min(3, e.alternativas.length))]; e.alternativas = e.alternativas.filter(x => x !== sig).concat(e.i); e.i = sig; } }));
+    // Evita repetir el mismo ejercicio dos veces en un día tras la rotación
+    r.dias.forEach(d => { const vistos = new Set(); d.ejercicios.forEach(e => { if (vistos.has(e.i)) { const alt = e.alternativas.find(x => !vistos.has(x)); if (alt !== undefined) { e.alternativas = e.alternativas.filter(x => x !== alt).concat(e.i); e.i = alt; } } vistos.add(e.i); }); });
+    return r;
+  }
+
+  function vFormulario() {
+    const p = formDef();
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Mi rutina</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Cuéntanos de ti</h1>
+        <p class="lead">Con esto armamos una rutina semanal. Tus datos se guardan solo en este dispositivo.</p></header>
+      <form id="form" class="pasos-form" novalidate>
+        <section class="card"><h3>Tus datos</h3>
+          <div class="grid-2">
+            <div class="field"><label for="f-edad">Edad</label><input id="f-edad" type="number" inputmode="numeric" min="10" max="100" required value="${esc(p.edad)}" placeholder="Ej: 25"></div>
+            <div class="field"><label for="f-peso">Peso (kg)</label><input id="f-peso" type="number" inputmode="decimal" min="30" max="250" step="0.1" value="${esc(p.peso)}" placeholder="Ej: 70"></div>
+            <div class="field"><label for="f-altura">Altura (cm) <span class="muted small">opcional</span></label><input id="f-altura" type="number" inputmode="numeric" min="120" max="230" value="${esc(p.altura)}" placeholder="Ej: 170"></div>
+            <div class="field"><label for="f-deporte">Deporte que practicas</label><select id="f-deporte">${Object.entries(DEPORTES).map(([k, [n]]) => `<option value="${k}" ${p.deporte === k ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
+          </div>
+          <p id="f-error" class="small" style="color:var(--veto)" hidden></p>
+        </section>
+        <section class="card"><h3>Tu entrenamiento</h3>
+          <div class="field"><span class="lbl">Nivel</span><div class="seg" data-campo="nivel">${['principiante', 'intermedio', 'avanzado'].map(n => `<button type="button" data-v="${n}" aria-pressed="${p.nivel === n}">${cap(n)}</button>`).join('')}</div>
+            <span class="muted small">Principiante: menos de 6 meses entrenando con constancia.</span></div>
+          <div class="field"><span class="lbl">Objetivo</span><div class="seg" data-campo="objetivo">${Object.entries(OBJETIVOS).map(([k, [n]]) => `<button type="button" data-v="${k}" aria-pressed="${p.objetivo === k}">${n}</button>`).join('')}</div></div>
+          <div class="grid-2">
+            <div class="field"><span class="lbl">Días por semana</span><div class="seg" data-campo="dias">${[2, 3, 4, 5, 6].map(n => `<button type="button" data-v="${n}" aria-pressed="${p.dias === n}">${n}</button>`).join('')}</div></div>
+            <div class="field"><span class="lbl">Minutos por sesión</span><div class="seg" data-campo="minutos">${[30, 45, 60, 75].map(n => `<button type="button" data-v="${n}" aria-pressed="${p.minutos === n}">${n}</button>`).join('')}</div></div>
+          </div>
+        </section>
+        <section class="card"><h3>¿Con qué cuentas?</h3>
+          <div class="chips" data-multi="equipo">${EQ_OPC.map(([k, n]) => `<button type="button" class="chip" data-v="${k}" aria-pressed="${k === 'pc' || p.equipo.includes(k)}" ${k === 'pc' ? 'disabled title="Siempre incluido"' : ''}><span class="dot" aria-hidden="true"></span>${n}</button>`).join('')}</div>
+        </section>
+        <section class="card"><h3>¿Tienes alguna lesión o dolor?</h3>
+          <p class="muted small">Marca todas las zonas. La rutina nunca incluirá un ejercicio que las cargue.</p>
+          <div class="chips" data-multi="lesiones">${LESIONES.map(([k, n]) => `<button type="button" class="chip veto" data-v="${k}" aria-pressed="${p.lesiones.includes(k)}"><span class="dot" aria-hidden="true"></span>${n}</button>`).join('')}</div>
+        </section>
+        <div class="row"><button class="btn primary" type="submit">${S.rutina ? 'Actualizar mi rutina' : 'Crear mi rutina'}</button>${S.rutina ? '<button class="btn ghost" type="button" id="cancelar">Cancelar</button>' : ''}</div>
+      </form></div>`;
+    const estado = { ...p, equipo: [...p.equipo], lesiones: [...p.lesiones] };
+    app.querySelectorAll('.seg[data-campo]').forEach(seg => seg.addEventListener('click', ev => {
+      const b = ev.target.closest('[data-v]'); if (!b) return;
+      const campo = seg.dataset.campo; const v = b.dataset.v;
+      estado[campo] = (campo === 'dias' || campo === 'minutos') ? +v : v;
+      seg.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    }));
+    app.querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', ev => {
+      const b = ev.target.closest('[data-v]'); if (!b || b.disabled) return;
+      const lista = estado[g.dataset.multi]; const v = b.dataset.v; const k = lista.indexOf(v);
+      if (k >= 0) lista.splice(k, 1); else lista.push(v);
+      b.setAttribute('aria-pressed', String(k < 0));
+    }));
+    if ($('cancelar')) $('cancelar').onclick = () => { editando = false; vRutina(); };
+    $('form').addEventListener('submit', ev => {
+      ev.preventDefault();
+      const edad = parseInt($('f-edad').value, 10);
+      const peso = $('f-peso').value ? parseFloat($('f-peso').value.replace(',', '.')) : '';
+      const altura = $('f-altura').value ? parseInt($('f-altura').value, 10) : '';
+      const err = $('f-error');
+      let msg = '';
+      if (!(edad >= 10 && edad <= 100)) msg = 'Ingresa una edad entre 10 y 100 años.';
+      else if (peso !== '' && !(peso >= 30 && peso <= 250)) msg = 'Ingresa un peso entre 30 y 250 kg, o déjalo vacío.';
+      else if (altura !== '' && !(altura >= 120 && altura <= 230)) msg = 'Ingresa una altura entre 120 y 230 cm, o déjala vacía.';
+      if (msg) { err.textContent = msg; err.hidden = false; $('f-edad').scrollIntoView({ block: 'center' }); return; }
+      const perfil = { ...estado, edad, peso, altura, deporte: $('f-deporte').value in DEPORTES ? $('f-deporte').value : 'ninguno', equipo: estado.equipo.filter(e => e !== 'pc') };
+      if (edad < 14) perfil.equipo = perfil.equipo.filter(e => e === 'banda');
+      S.perfil = perfil;
+      S.rutina = generarRutina(perfil);
+      if (peso !== '' && !S.pesos.some(x => x.fecha === hoyISO())) S.pesos.push({ fecha: hoyISO(), kg: peso });
+      guardar(); editando = false; vRutina(); window.scrollTo(0, 0);
+    });
+  }
+
+  // ═══════════════ IA ═══════════════
+  function contextoRutina() {
+    const r = S.rutina, p = r.perfil;
+    const dias = r.dias.map((d, k) => `Día ${k + 1} (${d.titulo}):\n` + d.ejercicios.map((e, n) =>
+      `  [${n}] id ${e.i}: ${nombreTxt(e.i)} — ${e.series}x${e.reps}, descanso ${e.descanso}s, músculos: ${musculos(D.ejercicios[e.i][4])}${e.extra ? ' (complemento deporte)' : ''}\n` +
+      `      alternativas seguras permitidas: ${e.alternativas.map(a => `${a}=${nombreTxt(a)}`).join('; ') || 'ninguna'}`).join('\n')).join('\n');
+    return `Perfil: ${p.edad} años${p.peso ? ', ' + p.peso + ' kg' : ''}${p.altura ? ', ' + p.altura + ' cm' : ''}. Deporte: ${DEPORTES[p.deporte][0]}. Nivel: ${p.nivel}. Objetivo: ${OBJETIVOS[r.objetivo][0]}. ${p.dias} días/semana, ${p.minutos} min por sesión. Equipamiento: peso corporal${p.equipo.length ? ', ' + p.equipo.map(e => EQ_OPC.find(x => x[0] === e)[1]).join(', ') : ''}. Lesiones/dolor: ${p.lesiones.length ? p.lesiones.map(k => LES[k].nombre).join(', ') : 'ninguna'}.\n\nRutina actual:\n${dias}`;
+  }
+  const REGLAS_IA = 'Eres un entrenador personal prudente que responde en español de Chile, claro y cercano, sin jerga. No haces diagnósticos médicos, no das dietas ni metas de calorías o de peso corporal, y ante dolor recomiendas consultar a un kinesiólogo o médico. Nunca sugieras ejercicios que carguen las zonas lesionadas.';
+  let iaCtl = null;
+  function conectarIA() {
+    if (!$('ia-card')) return;
+    if (S.rutina.ia) pintarIA(S.rutina.ia);
+    $('ia-mejorar').onclick = async () => {
+      const btn = $('ia-mejorar'), parar = $('ia-parar'), out = $('ia-res');
+      btn.disabled = true; parar.hidden = false; iaCtl = new AbortController();
+      parar.onclick = () => iaCtl?.abort();
+      out.innerHTML = '<p class="muted">Revisando tu rutina…</p>';
+      const prompt = `${REGLAS_IA}\n\n${contextoRutina()}\n\nTarea: revisa la rutina para esta persona y su deporte. Responde SOLO con un objeto JSON con esta forma:\n{"resumen": "2-3 frases sobre la rutina y por qué sirve", "consejos": ["hasta 5 consejos concretos y cortos"], "cambios": [{"dia": 1, "posicion": 0, "nuevo_id": 123, "motivo": "frase corta"}], "advertencias": ["opcional, frases cortas"]}\nReglas para "cambios": máximo 4; "dia" empieza en 1; "posicion" es el número entre corchetes; "nuevo_id" DEBE ser uno de los ids de "alternativas seguras permitidas" de ese mismo ejercicio. Si la rutina ya está bien, deja "cambios" vacío.`;
+      try {
+        const res = await IA.json(prompt, { signal: iaCtl.signal });
+        const limpio = validarIA(res);
+        S.rutina.ia = limpio; guardar(); pintarIA(limpio);
+      } catch (e) {
+        out.innerHTML = `<div class="aviso amber"><p>${esc(errIA(e))}</p></div>`;
+      } finally { btn.disabled = false; parar.hidden = true; }
+    };
+    $('ia-preguntar').onclick = async () => {
+      const q = $('ia-pregunta').value.trim(); const out = $('ia-resp'); const btn = $('ia-preguntar');
+      if (!q) { $('ia-pregunta').focus(); return; }
+      btn.disabled = true; out.textContent = 'Pensando…';
+      try {
+        const { text } = await IA(`${REGLAS_IA} Responde en máximo 150 palabras, en texto simple sin formato Markdown.\n\n${contextoRutina()}\n\nPregunta de la persona: ${q}`,
+          { cache: false, onText: ({ text }) => { out.textContent = text; } });
+        out.textContent = text;
+      } catch (e) { out.textContent = e?.text || ''; const p = document.createElement('p'); p.className = 'muted small'; p.textContent = errIA(e); out.appendChild(p); }
+      finally { btn.disabled = false; }
+    };
+  }
+  function validarIA(res) {
+    const r = S.rutina;
+    const txt = (v, n) => typeof v === 'string' ? v.slice(0, n) : '';
+    const lista = (v, n, m) => Array.isArray(v) ? v.map(x => txt(x, m)).filter(Boolean).slice(0, n) : [];
+    const cambios = [];
+    const vet = vetadasDe(r.perfil.lesiones);
+    for (const c of (Array.isArray(res?.cambios) ? res.cambios : []).slice(0, 4)) {
+      const d = parseInt(c?.dia, 10) - 1, pos = parseInt(c?.posicion, 10), nuevo = parseInt(c?.nuevo_id, 10);
+      const e = r.dias[d]?.ejercicios[pos];
+      if (!e || !e.alternativas.includes(nuevo) || !esSeguro(nuevo, vet)) continue; // solo cambios a alternativas ya validadas
+      cambios.push({ d, pos, de: e.i, a: nuevo, motivo: txt(c.motivo, 200) });
+    }
+    return { resumen: txt(res?.resumen, 700), consejos: lista(res?.consejos, 5, 300), advertencias: lista(res?.advertencias, 3, 300), cambios };
+  }
+  function pintarIA(ia) {
+    const out = $('ia-res'); if (!out) return;
+    out.innerHTML = `${ia.resumen ? `<p>${esc(ia.resumen)}</p>` : ''}
+      ${ia.consejos.length ? `<ul class="notas-rutina">${ia.consejos.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
+      ${ia.advertencias.map(a => `<div class="aviso amber"><p>${esc(a)}</p></div>`).join('')}
+      ${ia.cambios.length ? `<div style="display:grid;gap:8px"><span class="lbl">Cambios sugeridos</span>
+        ${ia.cambios.map((c, k) => `<label class="cambio"><input type="checkbox" data-cambio="${k}" checked><span>Día ${c.d + 1}: <b>${esc(nombreTxt(c.de))}</b> → <b>${esc(nombreTxt(c.a))}</b><br><span class="muted small">${esc(c.motivo)}</span></span></label>`).join('')}
+        <div class="row"><button class="btn primary" type="button" id="ia-aplicar">Aplicar seleccionados</button></div></div>` : '<p class="muted small">La IA no sugirió cambios de ejercicios.</p>'}
+      <p class="muted small">Respuesta generada por IA: puede equivocarse. Los cambios solo pueden usar ejercicios que ya pasaron el filtro de seguridad.</p>`;
+    $('ia-aplicar')?.addEventListener('click', () => {
+      const elegidos = [...out.querySelectorAll('[data-cambio]')].filter(x => x.checked).map(x => ia.cambios[+x.dataset.cambio]);
+      for (const c of elegidos) {
+        const e = S.rutina.dias[c.d].ejercicios[c.pos];
+        if (e.i !== c.de || !e.alternativas.includes(c.a)) continue;
+        e.alternativas = e.alternativas.filter(x => x !== c.a).concat(e.i); e.i = c.a;
+      }
+      S.rutina.ia = { ...ia, cambios: [] }; guardar(); vRutina();
+    });
+  }
+
+  // ═══════════════ ENTRENAR ═══════════════
+  let timerInt = null, timerFin = 0;
+  function iniciarDescanso(seg) {
+    timerFin = Date.now() + seg * 1000;
+    const t = $('timer'); t.hidden = false;
+    const pintar = () => {
+      const rest = Math.max(0, Math.round((timerFin - Date.now()) / 1000));
+      t.innerHTML = `<div class="in"><span>Descanso</span><span class="t" role="timer" aria-live="off">${Math.floor(rest / 60)}:${String(rest % 60).padStart(2, '0')}</span>
+        <span class="row" style="gap:8px"><button type="button" data-t="30">+30 s</button><button type="button" data-t="0">Saltar</button></span></div>`;
+      t.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { if (b.dataset.t === '0') return pararDescanso(); timerFin += 30000; pintar(); });
+      if (rest === 0) { pararDescanso(); try { navigator.vibrate?.(200); } catch (_) {} }
+    };
+    clearInterval(timerInt); pintar(); timerInt = setInterval(pintar, 500);
+  }
+  function pararDescanso() { clearInterval(timerInt); timerInt = null; $('timer').hidden = true; }
+  const ultimoRegistro = i => {
+    for (let k = S.sesiones.length - 1; k >= 0; k--) { const e = S.sesiones[k].ejercicios.find(x => x.i === i); if (e) return e; }
+    return null;
+  };
+  function nuevaSesion(d) {
+    const dia = S.rutina.dias[d];
+    return { dia: d, inicio: Date.now(), ejercicios: dia.ejercicios.map(e => {
+      const prev = ultimoRegistro(e.i);
+      const repsObj = parseInt(e.reps, 10) || 10;
+      return { i: e.i, iso: e.iso, descanso: e.descanso, series: Array.from({ length: e.series }, (_, k) => ({ kg: prev?.series[k]?.kg ?? prev?.series[0]?.kg ?? '', reps: e.iso ? 30 : repsObj, hecho: false })) };
+    }) };
+  }
+  function vEntrenar() {
+    if (!S.rutina) {
+      app.innerHTML = `<div class="vista"><div class="card plain"><h3>Primero crea tu rutina</h3><p class="muted">Con tus datos armamos los días de entrenamiento y aquí podrás seguirlos serie a serie.</p><div class="row"><a class="btn primary" href="#rutina">Crear mi rutina</a></div></div></div>`;
+      return;
+    }
+    if (!S.enCurso && !S.rutina.dias.length) { app.innerHTML = '<div class="vista"><div class="card plain"><h3>Tu rutina no tiene días de entrenamiento</h3><p class="muted">Con tus lesiones y equipamiento no encontramos ejercicios seguros. Revisa tus datos o consulta a un kinesiólogo.</p><div class="row"><a class="btn primary" href="#rutina">Ver mi rutina</a></div></div></div>'; return; }
+    if (!S.enCurso) return vElegirDia();
+    if (S.enCurso.finalizando) return vFinalizar();
+    const s = S.enCurso, dia = S.rutina.dias[s.dia];
+    const total = s.ejercicios.reduce((n, e) => n + e.series.length, 0), hechas = s.ejercicios.reduce((n, e) => n + e.series.filter(x => x.hecho).length, 0);
+    app.innerHTML = `<div class="vista">
+      <header style="display:grid;gap:8px"><div class="eyebrow">Entrenando · Día ${s.dia + 1}</div><h1 style="font-size:clamp(1.6rem,5vw,2.2rem)">${esc(dia?.titulo || 'Sesión')}</h1>
+        <div class="barra-prog" aria-hidden="true"><i style="width:${total ? hechas / total * 100 : 0}%"></i></div>
+        <p class="muted small num-tab">${hechas} de ${total} series</p></header>
+      ${s.ejercicios.map((e, k) => {
+        const ref = dia?.ejercicios.find(x => x.i === e.i);
+        return `<section class="card" aria-label="${esc(nombreTxt(e.i))}">
+          <div class="row" style="justify-content:space-between"><h3 class="nombre" style="font-size:1.1rem">${nombreHTML(e.i)}</h3><span class="pill amber num-tab">${ref ? ref.series + ' × ' + esc(ref.reps) : ''}</span></div>
+          <div class="serie-h"><span>Serie</span><span>${e.iso ? '—' : 'Kg'}</span><span>${e.iso ? 'Segundos' : 'Reps'}</span><span>✓</span></div>
+          ${e.series.map((x, n) => `<div class="serie ${x.hecho ? 'hecha' : ''}"><span class="n">${n + 1}</span>
+            <input type="number" inputmode="decimal" min="0" step="0.5" aria-label="Kilos serie ${n + 1}" data-kg="${k}-${n}" value="${esc(x.kg)}" ${e.iso ? 'disabled placeholder="—"' : 'placeholder="0"'}>
+            <input type="number" inputmode="numeric" min="0" aria-label="Repeticiones serie ${n + 1}" data-reps="${k}-${n}" value="${esc(x.reps)}">
+            <button type="button" class="check" data-hecho="${k}-${n}" aria-pressed="${x.hecho}" aria-label="Serie ${n + 1} hecha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></button></div>`).join('')}
+        </section>`;
+      }).join('')}
+      <div class="row"><button class="btn primary" type="button" id="terminar">Terminar sesión</button><button class="btn ghost danger" type="button" id="descartar">Descartar</button></div>
+      <div id="confirmar" hidden class="aviso red"><p><b>¿Descartar esta sesión?</b> No se guardará nada. <button class="btn danger" type="button" id="si-descartar">Sí, descartar</button> <button class="btn ghost" type="button" id="no-descartar">Volver</button></p></div>
+    </div>`;
+    const par = s2 => s2.split('-').map(Number);
+    app.querySelectorAll('[data-kg]').forEach(inp => inp.onchange = () => { const [k, n] = par(inp.dataset.kg); s.ejercicios[k].series[n].kg = inp.value === '' ? '' : Math.max(0, parseFloat(inp.value)); guardar(); });
+    app.querySelectorAll('[data-reps]').forEach(inp => inp.onchange = () => { const [k, n] = par(inp.dataset.reps); s.ejercicios[k].series[n].reps = Math.max(0, parseInt(inp.value, 10) || 0); guardar(); });
+    app.querySelectorAll('[data-hecho]').forEach(b => b.onclick = () => {
+      const [k, n] = par(b.dataset.hecho); const x = s.ejercicios[k].series[n];
+      x.hecho = !x.hecho; guardar();
+      if (x.hecho) iniciarDescanso(s.ejercicios[k].descanso);
+      const y = window.scrollY; vEntrenar(); window.scrollTo(0, y);
+    });
+    $('terminar').onclick = () => { s.finalizando = true; pararDescanso(); guardar(); vEntrenar(); window.scrollTo(0, 0); };
+    $('descartar').onclick = () => { $('confirmar').hidden = false; };
+    $('no-descartar').onclick = () => { $('confirmar').hidden = true; };
+    $('si-descartar').onclick = () => { S.enCurso = null; pararDescanso(); guardar(); vEntrenar(); };
+  }
+  function vElegirDia() {
+    const st = estadisticas();
+    const ultimo = S.sesiones[S.sesiones.length - 1];
+    const sugerido = ultimo ? (ultimo.dia + 1) % S.rutina.dias.length : 0;
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Entrenar</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">¿Qué día toca hoy?</h1>
+        <p class="lead num-tab">Llevas ${st.estaSemana} de ${st.objetivo} sesiones esta semana.</p></header>
+      <div class="entradas">${S.rutina.dias.map((d, k) => `<button type="button" class="entrada" data-dia="${k}" style="text-align:left;cursor:pointer;font:inherit">
+        <div class="row" style="justify-content:space-between"><h3>Día ${k + 1} · ${esc(d.titulo)}</h3>${k === sugerido ? '<span class="pill teal">Te toca</span>' : ''}</div>
+        <p>${esc(d.ejercicios.slice(0, 4).map(e => nombreTxt(e.i)).join(' · '))}${d.ejercicios.length > 4 ? '…' : ''}</p></button>`).join('')}</div>
+    </div>`;
+    app.querySelectorAll('[data-dia]').forEach(b => b.onclick = () => { S.enCurso = nuevaSesion(+b.dataset.dia); guardar(); vEntrenar(); window.scrollTo(0, 0); });
+  }
+  function vFinalizar() {
+    const s = S.enCurso, les = S.rutina.perfil.lesiones;
+    s.esfuerzo = s.esfuerzo ?? 6; s.dolor = s.dolor || Object.fromEntries(les.map(k => [k, 0]));
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Fin de la sesión</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">¿Cómo te fue?</h1></header>
+      <section class="card">
+        <div class="slider-row"><label for="r-esf" class="lbl">Esfuerzo</label><input id="r-esf" type="range" min="1" max="10" value="${s.esfuerzo}"><output id="o-esf">${s.esfuerzo}</output></div>
+        <p class="muted small">1 = muy fácil · 10 = no podía hacer ni una repetición más.</p>
+        ${les.length ? `<div style="display:grid;gap:10px;border-top:1px solid var(--line);padding-top:14px"><span class="lbl">Dolor durante o después (0 = nada, 10 = máximo)</span>
+          ${les.map(k => `<div class="slider-row"><label for="r-${k}">${esc(LES[k].nombre)}</label><input id="r-${k}" type="range" min="0" max="10" value="${s.dolor[k] ?? 0}" data-dolor="${k}"><output>${s.dolor[k] ?? 0}</output></div>`).join('')}</div>` : ''}
+        <div class="field"><label for="r-notas">Notas <span class="muted small">opcional</span></label><textarea id="r-notas" rows="2" placeholder="Ej: subí peso en sentadilla, molestia leve al final">${esc(s.notas || '')}</textarea></div>
+        <div id="alerta-dolor"></div>
+        <div class="row"><button class="btn primary" type="button" id="guardar-ses">Guardar sesión</button><button class="btn ghost" type="button" id="volver">Volver a la sesión</button></div>
+      </section></div>`;
+    const alerta = () => {
+      const max = Math.max(0, ...Object.values(s.dolor));
+      $('alerta-dolor').innerHTML = max >= 7 ? '<div class="aviso red"><p><b>Dolor alto.</b> No sigas entrenando esa zona y consulta a un kinesiólogo o médico antes de la próxima sesión.</p></div>'
+        : max >= 4 ? '<div class="aviso amber"><p><b>Dolor moderado.</b> En la próxima sesión baja el peso o cambia el ejercicio que lo provocó. Si persiste, consulta.</p></div>' : '';
+    };
+    alerta();
+    $('r-esf').oninput = ev => { s.esfuerzo = +ev.target.value; $('o-esf').textContent = s.esfuerzo; };
+    app.querySelectorAll('[data-dolor]').forEach(r => r.oninput = () => { s.dolor[r.dataset.dolor] = +r.value; r.nextElementSibling.textContent = r.value; alerta(); });
+    $('r-notas').oninput = ev => { s.notas = ev.target.value.slice(0, 500); };
+    $('volver').onclick = () => { s.finalizando = false; guardar(); vEntrenar(); };
+    $('guardar-ses').onclick = () => {
+      const min = Math.max(1, Math.round((Date.now() - s.inicio) / 60000));
+      S.sesiones.push({ fecha: hoyISO(), dia: s.dia, titulo: S.rutina.dias[s.dia]?.titulo || '', minutos: Math.min(min, 300), esfuerzo: s.esfuerzo,
+        dolor: s.dolor, notas: s.notas || '', ejercicios: s.ejercicios.map(e => ({ i: e.i, series: e.series.filter(x => x.hecho).map(x => ({ kg: x.kg === '' ? null : x.kg, reps: x.reps })) })).filter(e => e.series.length) });
+      S.enCurso = null; guardar(); location.hash = 'progreso';
+    };
+  }
+
+  // ═══════════════ PROGRESO ═══════════════
+  function grafBarras(valores, etiquetas, meta) {
+    const W = 560, H = 180, pl = 26, pb = 22, pt = 10, max = Math.max(meta || 0, ...valores, 1);
+    const bw = (W - pl) / valores.length;
+    const y = v => pt + (H - pt - pb) * (1 - v / max);
+    let s = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="Sesiones por semana">`;
+    for (let v = 0; v <= max; v += Math.max(1, Math.ceil(max / 4))) s += `<line x1="${pl}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${pl - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`;
+    if (meta) s += `<line x1="${pl}" x2="${W}" y1="${y(meta)}" y2="${y(meta)}" stroke="var(--amber)" stroke-dasharray="4 4"/>`;
+    valores.forEach((v, k) => {
+      const x = pl + k * bw + bw * 0.18, w = bw * 0.64;
+      s += `<rect x="${x}" y="${y(v)}" width="${w}" height="${Math.max(0, H - pb - y(v))}" rx="3" fill="${k === valores.length - 1 ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 55%, var(--surface))'}"/>`;
+      s += `<text x="${x + w / 2}" y="${H - 6}" text-anchor="middle">${etiquetas[k]}</text>`;
+    });
+    return s + '</svg>';
+  }
+  function grafLineas(series, etiquetasX, { yMax, sufijo = '' } = {}) {
+    const W = 560, H = 190, pl = 34, pr = 10, pb = 22, pt = 12;
+    const todos = series.flatMap(s => s.valores.filter(v => v !== null));
+    if (!todos.length) return '';
+    const mx = yMax ?? Math.max(...todos) * 1.1, mn = yMax !== undefined ? 0 : Math.min(...todos) * 0.9;
+    const n = etiquetasX.length;
+    const x = k => pl + (n === 1 ? (W - pl - pr) / 2 : k * (W - pl - pr) / (n - 1));
+    const y = v => pt + (H - pt - pb) * (1 - (v - mn) / ((mx - mn) || 1));
+    let s = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img">`;
+    for (let t = 0; t <= 4; t++) { const v = mn + (mx - mn) * t / 4; s += `<line x1="${pl}" x2="${W - pr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${pl - 6}" y="${y(v) + 3}" text-anchor="end">${Math.round(v * 10) / 10}${sufijo}</text>`; }
+    const paso = Math.max(1, Math.ceil(n / 6));
+    etiquetasX.forEach((e, k) => { if (k % paso === 0 || k === n - 1) s += `<text x="${x(k)}" y="${H - 6}" text-anchor="middle">${e}</text>`; });
+    for (const se of series) {
+      const pts = se.valores.map((v, k) => v === null ? null : [x(k), y(v)]).filter(Boolean);
+      if (pts.length > 1) s += `<polyline fill="none" stroke="${se.color}" stroke-width="2.2" stroke-linejoin="round" points="${pts.map(p => p.join(',')).join(' ')}"/>`;
+      pts.forEach((p, k) => s += `<circle cx="${p[0]}" cy="${p[1]}" r="${k === pts.length - 1 ? 4.5 : 3}" fill="${se.color}"/>`);
+    }
+    return s + '</svg>';
+  }
+  const COLORES = ['var(--veto)', 'var(--amber)', 'var(--accent)', '#9C8CF0', '#6FB4F0', '#F08CC8', 'var(--ok)', '#C9C26A'];
+  const corto = iso => { const d = new Date(iso + 'T12:00:00'); return d.getDate() + '/' + (d.getMonth() + 1); };
+  let ejProgreso = null, confirmarBorrar = null, msgDatos = '';
+  function vProgreso() {
+    const st = estadisticas(), ses = S.sesiones;
+    const sems = semanas(8);
+    const porSem = sems.map(w => ses.filter(s => lunes(s.fecha) === w).length);
+    const les = [...new Set(ses.flatMap(s => Object.keys(s.dolor || {})))].filter(k => LES[k]);
+    const conDolor = ses.filter(s => s.dolor && Object.keys(s.dolor).length).slice(-12);
+    const ejsReg = [...new Set(ses.flatMap(s => s.ejercicios.filter(e => e.series.some(x => x.kg)).map(e => e.i)))];
+    if (!ejsReg.includes(ejProgreso)) ejProgreso = ejsReg[0] ?? null;
+    const cargas = ejProgreso === null ? [] : ses.filter(s => s.ejercicios.some(e => e.i === ejProgreso && e.series.some(x => x.kg))).slice(-12)
+      .map(s => ({ fecha: s.fecha, kg: Math.max(...s.ejercicios.find(e => e.i === ejProgreso).series.map(x => +x.kg || 0)) }));
+    // Alerta de tendencia de dolor
+    const alertas = [];
+    for (const k of les) {
+      const v = ses.filter(s => s.dolor && s.dolor[k] !== undefined).map(s => s.dolor[k]);
+      if (!v.length) continue;
+      const ult = v[v.length - 1], prev = v.slice(-4, -1);
+      const prom = prev.length ? prev.reduce((a, b) => a + b, 0) / prev.length : null;
+      if (ult >= 7) alertas.push(['red', `${LES[k].nombre}: dolor alto (${ult}/10) en la última sesión.`, 'Pausa los ejercicios de esa zona y consulta a un profesional.']);
+      else if (prom !== null && ult - prom >= 2) alertas.push(['amber', `${LES[k].nombre}: el dolor está subiendo.`, 'Baja la carga o cambia los ejercicios que lo provocan. Si sigue subiendo, consulta.']);
+      else if (prom !== null && prom - ult >= 2) alertas.push(['teal', `${LES[k].nombre}: el dolor va bajando.`, 'Buena señal. Sigue progresando de a poco.']);
+    }
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Progreso</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Tu avance</h1>
+        <p class="lead">Se guarda en este dispositivo y navegador.${almacenOK ? '' : ' <b style="color:var(--veto)">Este navegador no permite guardar datos: tu progreso se perderá al cerrar.</b>'}</p></header>
+      <section class="resumen-inicio">
+        <div class="kpi"><span class="v num-tab">${st.estaSemana}/${st.objetivo}</span><span class="l">Sesiones esta semana</span></div>
+        <div class="kpi"><span class="v num-tab">${st.racha}</span><span class="l">Semanas seguidas</span></div>
+        <div class="kpi"><span class="v num-tab">${st.total}</span><span class="l">Sesiones en total</span></div>
+        <div class="kpi"><span class="v num-tab">${ses.length ? Math.round(ses.reduce((a, s) => a + (s.esfuerzo || 0), 0) / ses.length * 10) / 10 : '—'}</span><span class="l">Esfuerzo promedio (1–10)</span></div>
+      </section>
+      ${alertas.map(([c, b, t]) => `<div class="aviso ${c}"><p><b>${esc(b)}</b> ${esc(t)}</p></div>`).join('')}
+      ${!ses.length ? `<div class="card plain"><h3>Aún no hay sesiones</h3><p class="muted">Cuando termines tu primer entrenamiento aquí verás tu constancia, tus cargas y cómo evoluciona el dolor.</p><div class="row"><a class="btn primary" href="#${S.rutina ? 'entrenar' : 'rutina'}">${S.rutina ? 'Entrenar ahora' : 'Crear mi rutina'}</a></div></div>` : ''}
+      <section class="card"><div class="row" style="justify-content:space-between"><h3>Constancia</h3><span class="leyenda"><span style="--c:var(--amber)">Meta: ${st.objetivo} por semana</span></span></div>
+        ${grafBarras(porSem, sems.map(corto), st.objetivo)}<p class="muted small">Sesiones por semana, últimas 8 semanas (la fecha es el lunes).</p></section>
+      ${conDolor.length && les.length ? `<section class="card"><h3>Dolor por zona</h3>
+        <div class="leyenda">${les.map((k, n) => `<span style="--c:${COLORES[n % COLORES.length]}">${esc(LES[k].nombre)}</span>`).join('')}</div>
+        ${grafLineas(les.map((k, n) => ({ color: COLORES[n % COLORES.length], valores: conDolor.map(s => s.dolor[k] ?? null) })), conDolor.map(s => corto(s.fecha)), { yMax: 10 })}
+        <p class="muted small">Escala 0 a 10, últimas sesiones. Lo ideal es que se mantenga bajo 3.</p></section>` : ''}
+      ${ejsReg.length ? `<section class="card"><div class="row" style="justify-content:space-between"><h3>Carga por ejercicio</h3>
+          <select id="sel-ej" aria-label="Ejercicio" style="padding:8px 10px;border-radius:9px;border:1.5px solid var(--line);background:var(--surface-2);max-width:100%">${ejsReg.map(i => `<option value="${i}" ${i === ejProgreso ? 'selected' : ''}>${esc(nombreTxt(i))}</option>`).join('')}</select></div>
+        ${grafLineas([{ color: 'var(--accent)', valores: cargas.map(c => c.kg) }], cargas.map(c => corto(c.fecha)), { sufijo: '' })}
+        <p class="muted small num-tab">Kilos de la serie más pesada en cada sesión.${cargas.length > 1 ? ` Cambio: ${(cargas[cargas.length - 1].kg - cargas[0].kg) >= 0 ? '+' : ''}${Math.round((cargas[cargas.length - 1].kg - cargas[0].kg) * 10) / 10} kg.` : ''}</p></section>` : ''}
+      <section class="card"><h3>Peso corporal</h3>
+        <form id="f-pesaje" class="row"><div class="field" style="max-width:160px"><label for="p-kg" class="small">Registrar hoy (kg)</label><input id="p-kg" type="number" inputmode="decimal" min="30" max="250" step="0.1"></div><button class="btn" type="submit" style="align-self:end">Guardar</button></form>
+        ${S.pesos.length > 1 ? grafLineas([{ color: 'var(--amber)', valores: S.pesos.slice(-15).map(p => p.kg) }], S.pesos.slice(-15).map(p => corto(p.fecha))) : `<p class="muted small">${S.pesos.length ? 'Registra otro día para ver la evolución.' : 'Opcional. Útil si quieres seguir tu peso junto al entrenamiento.'}</p>`}
+      </section>
+      ${ses.length ? `<section style="display:grid;gap:10px"><h3>Historial</h3><ul class="historial">${ses.slice().reverse().slice(0, 20).map((s, n) => {
+        const idx = ses.length - 1 - n;
+        const vol = s.ejercicios.reduce((a, e) => a + e.series.length, 0);
+        return `<li><div><b>${esc(cap(fechaLarga(s.fecha)))}</b> · ${esc(s.titulo)}<br><span class="muted small num-tab">${s.ejercicios.length} ejercicios · ${vol} series · ${s.minutos} min · esfuerzo ${s.esfuerzo}/10${Object.keys(s.dolor || {}).length ? ' · dolor ' + Object.entries(s.dolor).map(([k, v]) => `${LES[k]?.nombre.toLowerCase()} ${v}`).join(', ') : ''}</span>${s.notas ? `<br><span class="small">${esc(s.notas)}</span>` : ''}</div>
+          ${confirmarBorrar === idx ? `<span class="row" style="gap:6px"><button class="btn danger" type="button" data-borrar-si="${idx}">Borrar</button><button class="btn ghost" type="button" data-borrar-no>Cancelar</button></span>` : `<button class="btn ghost small" type="button" data-borrar="${idx}" aria-label="Borrar sesión">Borrar</button>`}</li>`;
+      }).join('')}</ul></section>` : ''}
+      <section class="card plain"><h3>Respaldo de tus datos</h3><p class="muted small">Tu progreso vive solo en este navegador. Guarda un respaldo para no perderlo o para pasarlo a otro dispositivo.</p>
+        <div class="row">${DESC ? '<button class="btn" type="button" id="exportar">Guardar respaldo</button>' : ''}<label class="btn" for="importar" style="cursor:pointer">Cargar respaldo</label><input id="importar" type="file" accept="application/json,.json" hidden></div>
+        <p class="small" id="msg-datos" aria-live="polite">${esc(msgDatos)}</p></section>
+    </div>`;
+    msgDatos = '';
+    $('sel-ej')?.addEventListener('change', ev => { ejProgreso = +ev.target.value; vProgreso(); });
+    $('f-pesaje').addEventListener('submit', ev => {
+      ev.preventDefault(); const kg = parseFloat($('p-kg').value);
+      if (!(kg >= 30 && kg <= 250)) { $('p-kg').focus(); return; }
+      const hoy = hoyISO(); S.pesos = S.pesos.filter(p => p.fecha !== hoy).concat({ fecha: hoy, kg }).sort((a, b) => a.fecha.localeCompare(b.fecha)); guardar(); vProgreso();
+    });
+    app.querySelectorAll('[data-borrar]').forEach(b => b.onclick = () => { confirmarBorrar = +b.dataset.borrar; vProgreso(); });
+    app.querySelectorAll('[data-borrar-no]').forEach(b => b.onclick = () => { confirmarBorrar = null; vProgreso(); });
+    app.querySelectorAll('[data-borrar-si]').forEach(b => b.onclick = () => { S.sesiones.splice(+b.dataset.borrarSi, 1); confirmarBorrar = null; guardar(); vProgreso(); });
+    $('exportar')?.addEventListener('click', async () => {
+      try { await DESC.save({ filename: `sustituto-seguro-respaldo-${hoyISO()}.json`, data: JSON.stringify(S, null, 1) }); msgDatos = 'Respaldo guardado.'; }
+      catch (e) { msgDatos = e?.code === 'cancelled' || e?.code === 'declined' ? 'No se guardó el respaldo.' : 'No se pudo guardar el respaldo en este navegador.'; }
+      $('msg-datos').textContent = msgDatos; msgDatos = '';
+    });
+    $('importar').addEventListener('change', ev => {
+      const f = ev.target.files?.[0]; if (!f) return;
+      const rd = new FileReader();
+      rd.onload = () => {
+        try {
+          const x = JSON.parse(rd.result);
+          if (!x || !Array.isArray(x.sesiones)) throw new Error('formato');
+          S = { perfil: x.perfil || null, rutina: x.rutina || null, sesiones: x.sesiones, pesos: Array.isArray(x.pesos) ? x.pesos : [], enCurso: null };
+          guardar(); msgDatos = `Respaldo cargado: ${S.sesiones.length} sesiones.`;
+        } catch (_) { msgDatos = 'Ese archivo no es un respaldo válido de esta aplicación.'; }
+        vProgreso();
+      };
+      rd.readAsText(f);
+    });
+  }
+
+  // ═══════════════ CÓMO FUNCIONA ═══════════════
+  function vComo() {
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Cómo funciona</div><h1 style="font-size:clamp(1.8rem,5vw,2.6rem)">Seguridad primero, y después todo lo demás</h1>
+        <p class="lead">Esta aplicación nace de un proyecto de Machine Learning que modela cada ejercicio por su mecánica: qué músculos trabaja y qué articulaciones carga. Así puede evitar la zona lesionada sin dejar de entrenar el músculo.</p></header>
+      <section class="card"><h3>Cómo usarla</h3>
+        <ol class="como-pasos">
+          <li><h3>Arma tu rutina</h3><p>Ingresa edad, peso, deporte, nivel, días, minutos, equipamiento y lesiones. La rutina se crea al instante.</p></li>
+          <li><h3>Ajústala</h3><p>Cambia un ejercicio por otra opción segura con un toque, genera otra variante o, si tienes cuenta de Claude, pídele a la IA que la revise.</p></li>
+          <li><h3>Entrena con la app</h3><p>Elige el día, anota peso y repeticiones, marca cada serie y descansa con el cronómetro.</p></li>
+          <li><h3>Registra cómo te sentiste</h3><p>Al terminar anotas el esfuerzo y el dolor de cada zona lesionada. Si sube, la app te avisa.</p></li>
+          <li><h3>Mira tu progreso</h3><p>Constancia semanal, cargas por ejercicio, dolor y peso corporal en gráficos.</p></li>
+        </ol></section>
+      <section style="display:grid;gap:10px"><h3>Preguntas frecuentes</h3>
+        <details open><summary>¿Cómo sabe qué ejercicio es seguro?</summary><div>
+          <p>Cada ejercicio tiene registrados sus músculos principales y de apoyo, y cada músculo las articulaciones que cruza. Si un ejercicio carga una articulación que marcaste, queda fuera. Es un filtro estricto: no importa qué tan bueno sea el ejercicio.</p>
+          <p>Para lesiones usamos un criterio conservador. Por ejemplo, si marcas muñeca también evitamos los ejercicios que cargan el antebrazo, y si marcas zona lumbar evitamos los que cargan la espalda media.</p></div></details>
+        <details><summary>¿Por qué a veces me cambia el músculo?</summary><div>
+          <p>Algunos músculos cruzan la articulación lesionada. El cuádriceps cruza la rodilla: no existe forma de trabajarlo sin cargarla. En esos casos mantenemos los músculos que sí se pueden trabajar (por ejemplo, glúteos) y te lo explicamos.</p>
+          <p>Si ningún músculo principal se puede conservar, la aplicación no recomienda nada y te sugiere consultar a un kinesiólogo, en vez de inventar una alternativa.</p></div></details>
+        <details><summary>¿Cómo se ordenan las alternativas?</summary><div>
+          <p>Primero las del mismo tipo de movimiento (empuje, tracción, estiramiento). Después por parecido biomecánico, calculado con un grafo que conecta ejercicios, músculos y articulaciones (técnica Node2Vec, agrupada en 12 familias de movimiento). Si ninguna opción se hace con peso corporal, se agrega una al final para quien entrena en casa.</p></div></details>
+        <details><summary>¿Cómo se arma la rutina?</summary><div>
+          <p>Según los días: 2–3 días, cuerpo completo; 4 días, torso y piernas; 5–6 días, empuje, tracción y piernas. Los minutos definen cuántos ejercicios entran. El objetivo define series, repeticiones y descanso.</p>
+          <p>La edad ajusta la dificultad: con menos de 18 años se evitan series de muy pocas repeticiones; con 60 o más se evitan saltos y se suma equilibrio. El peso y la altura sirven para decidir si conviene empezar sin ejercicios de impacto. El deporte agrega ejercicios complementarios.</p></div></details>
+        <details><summary>¿Qué hace la IA?</summary><div>
+          <p>Revisa tu rutina, te explica por qué sirve, da consejos y propone cambios. Solo puede elegir entre ejercicios que ya pasaron el filtro de seguridad, y tú decides si aplicarlos. También puedes hacerle preguntas sobre tu entrenamiento.</p>
+          <p>Funciona con tu propia cuenta de Claude y te pide permiso la primera vez. Si no tienes cuenta, el resto de la aplicación funciona igual.</p></div></details>
+        <details><summary>¿Dónde quedan mis datos?</summary><div>
+          <p>En tu navegador, en este dispositivo. No hay cuentas ni servidor que los guarde. Si borras los datos del navegador o cambias de teléfono, se pierden: usa “Guardar respaldo” en la sección Progreso.</p></div></details>
+        <details><summary>¿Qué tan confiable es?</summary><div>
+          <p>Con 2.461 ejercicios de tres fuentes abiertas, el sistema encuentra al menos 3 alternativas para el 89 % de los ejercicios que se pueden sustituir. En rodilla y hombro la cobertura es menor. Los nombres en español están revisados para los ejercicios más comunes; el resto aparece con su nombre original en inglés.</p>
+          <p>Es una herramienta informativa basada en datos: no conoce tu lesión en detalle. Un kinesiólogo siempre tiene la última palabra.</p></div></details>
+      </section>
+      <div class="row"><a class="btn primary" href="#rutina">Crear mi rutina</a><a class="btn" href="#sustituir">Sustituir un ejercicio</a></div>
+    </div>`;
+  }
+
+  // Arranque
+  leerHash();
+})();
+</script>
