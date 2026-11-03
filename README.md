@@ -986,7 +986,8 @@ puntos 2 y 3 siguen fuera de alcance:
    entrega 33 puntos y Apple Vision 19 (2D) o 17 (3D): no son topologías
    intercambiables, y hay que comprometerse con una.
 3. **Despliegue Edge AI** — cuantización a Core ML e inferencia en el Apple Neural
-   Engine (§5.4).
+   Engine (§5.4). ⚠️ **Primera versión:** la app de iPhone (§17) ya predice el perfil de
+   exigencia en el teléfono, con las mismas probabilidades que scikit-learn; falta la pose.
 
 ---
 
@@ -1061,7 +1062,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 64 tests, ~12 s; corren sobre los artefactos versionados
+python -m pytest -q      # 74 tests, ~14 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
@@ -1073,6 +1074,7 @@ python -m pytest -q      # 64 tests, ~12 s; corren sobre los artefactos versiona
 | Dashboard | Las seis vistas se dibujan sin errores; la tabla de niveles marca las 102 coincidencias; la demo propone el Hip Thrust y se abstiene con la extensión de piernas (§8.7) |
 | Página web | Armada desde la fuente actual; sus ejercicios y recomendaciones son idénticos a los que da hoy el Sustituidor; ninguna alternativa carga la articulación vetada; los ejercicios en español existen (§15.3) |
 | MLflow | Las métricas registradas son las de los reportes versionados; el hook deja la corrida terminada y el modelo del registro predice igual que el `.pkl` (§8.8) |
+| App de iPhone | El modelo de la app es el del pipeline; la app y el importador usan las mismas columnas; el importador rechaza datos inválidos (§17) |
 | Ensambles | Mismos pliegues que el diagnóstico de la EV2; están las tres familias; la búsqueda mejora el boosting por defecto; `adoptar` sigue la regla y ningún ensamble la cumple (§16) |
 
 GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
@@ -1159,6 +1161,8 @@ proyecto_ejercicios/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
 │   ├── descargar_fuentes_externas.py    # Instantáneas de free-exercise-db y wger (requiere red)
 │   ├── registrar_huellas.py         # Registra o verifica la huella de los datos crudos
+│   ├── exportar_modelo_ios.py       # Modelos del perfil → JSON de la app de iPhone (§17)
+│   ├── importar_datos_ios.py        # CSV de la app → data/01_raw/app_ios/ (§17)
 │   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6.2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
@@ -1179,6 +1183,9 @@ proyecto_ejercicios/
 │   ├── probar_web.py                # Pruebas en navegador real (Playwright)
 │   └── capturas/                    # Capturas de la aplicación
 ├── docs/index.html                  # Aplicación web armada, lista para GitHub Pages (§15)
+├── ios/                             # App de iPhone (§17)
+│   ├── SustitutoSeguro/             # App SwiftUI, project.yml y SustitutoSeguro.xcodeproj
+│   └── SustitutoSeguroCore/         # Inferencia del perfil, recomendaciones y CSV en Swift
 ├── tests/                           # Tests unitarios, de datos, de modelo, del dashboard y de la web (§8.4)
 ├── .github/workflows/tests.yml      # CI: pytest en cada push
 ├── src/gym_exercises/
@@ -2252,3 +2259,78 @@ resultado.
 **Reproducir:** `kedro run --pipeline ensambles` (~11 minutos, después de
 `modelado_supervisado`), luego el notebook 04 (~1 minuto) y
 `pytest tests/test_ensambles.py`.
+
+---
+
+## 17. App de iPhone — entregar datos al modelo desde el teléfono
+
+La app nativa *Sustituto Seguro* (SwiftUI, iOS 17) pone el modelo en el teléfono y
+permite que una persona le entregue datos nuevos. Todo corre **en el dispositivo**:
+no hay servidor, y los datos solo salen del teléfono cuando se exportan. Es la primera
+versión del punto 3 de §7, Edge AI.
+
+### 17.1 Qué hace
+
+| Pestaña | Qué entrega la persona | Qué hace el modelo |
+|---|---|---|
+| **Sustituir** | Un ejercicio y la articulación lesionada; califica cada alternativa (buena, aceptable, mala, insegura) | Propone hasta 5 alternativas que no cargan la articulación, o se abstiene y explica por qué (las mismas de la web, §15) |
+| **Detalle del ejercicio** | Corrige una etiqueta del perfil (mecánica, fuerza, complejidad) | Muestra la etiqueta del pipeline, su origen y su confianza |
+| **Nuevo ejercicio** | Nombre, instrucciones, equipamiento y músculos de un ejercicio fuera del catálogo | Predice en el teléfono su perfil de exigencia, con abstención bajo el umbral |
+| **Entrenar** | Series (peso, repeticiones, esfuerzo) y dolor por zona | Avisa con un dolor de 7/10 o más |
+| **Mis datos** | — | Lista lo registrado y lo exporta a cinco CSV |
+
+### 17.2 El modelo en el teléfono
+
+`scripts/exportar_modelo_ios.py` exporta los tres modelos ganadores a
+`ios/SustitutoSeguro/Recursos/modelo_perfil.json` (2,8 MB): vocabularios e IDF de los
+TF-IDF, *one-hot*, `MaxAbsScaler`, coeficientes de la regresión logística, los 400 árboles
+del Random Forest, clases y umbrales de abstención. El paquete Swift
+`ios/SustitutoSeguroCore` reimplementa la inferencia, y `swift run verificar` la compara
+con scikit-learn:
+
+| Comprobación | Resultado |
+|---|---|
+| Normalización de nombres | 2.592 de 2.592 iguales a `nombre_norm` del pipeline |
+| Probabilidades en 300 ejercicios × 3 objetivos | Diferencia máxima 6 × 10⁻¹⁶ (0 en el Random Forest), 0 clases distintas |
+| Recomendaciones | 13.304 consultas, 0 alternativas que carguen la articulación vetada |
+| Tiempo | Carga del modelo 0,1 s; una predicción 0,2 ms (Mac) |
+
+Las recomendaciones vienen de `web/datos_web.json`, el mismo archivo de la web.
+
+### 17.3 Entregar los datos al pipeline
+
+En *Mis datos* → *Preparar los CSV* → *Compartir* (AirDrop o Archivos), y en el computador:
+
+```bash
+python scripts/importar_datos_ios.py ~/Downloads/sustituto_seguro_<fecha>
+```
+
+El importador valida cada fila contra el pipeline (ejercicios, músculos, articulaciones,
+clases de cada modelo, rangos) y, si todo es válido, agrega las filas nuevas a
+`data/01_raw/app_ios/` sin duplicar. Las nueve primeras columnas de
+`revisiones_recomendaciones.csv` son las de la revisión manual del equipo
+(`sustitucion_revision_manual.csv`), y `correcciones_etiquetas.csv` es la revisión manual de
+~100 etiquetas que recomienda §16.7. Reentrenar con estos datos es el paso siguiente.
+
+### 17.4 Compilar e instalar
+
+Requiere un Mac con **Xcode** (App Store) y un Apple ID.
+
+```bash
+cd ios/SustitutoSeguro
+xcodegen generate              # solo si se cambió project.yml; el .xcodeproj ya está versionado
+open SustitutoSeguro.xcodeproj
+```
+
+En Xcode: *Signing & Capabilities* → *Team* (tu Apple ID), conectar el iPhone, elegirlo
+como destino y ▶. Con una cuenta gratuita la app se instala por 7 días; hay que activar el
+modo desarrollador en el iPhone (*Ajustes → Privacidad y seguridad*).
+
+Después de cada `kedro run` que cambie los modelos: `python scripts/exportar_modelo_ios.py`.
+El test `test_la_app_lleva_el_modelo_actual_del_pipeline` falla si se olvida.
+
+| Prueba | Qué verifica | Dónde corre |
+|---|---|---|
+| `tests/test_app_ios.py` | El modelo de la app es el del pipeline; los casos de prueba siguen valiendo; la app y el importador usan las mismas columnas; el importador rechaza datos inválidos y no duplica | CI (Linux) |
+| `swift run verificar`, `swift test` | Paridad con scikit-learn, recomendador, CSV | CI (macOS) y cualquier Mac con Swift |
+| `xcodebuild … build` | La app compila para el simulador de iPhone | CI (macOS) |
