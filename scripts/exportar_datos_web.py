@@ -95,7 +95,8 @@ def exportar(fam: pd.DataFrame, emb: pd.DataFrame) -> dict:
                 if malas:
                     raise SystemExit(f"Alternativa insegura para {f['ejercicio_id'].iat[i]} / {articulaciones[a]}: {malas}")
 
-    return {"articulaciones": articulaciones, "familias": familias, "equipos": equipos,
+    # ids: la página identifica por ejercicio_id (no por posición) los ejercicios con nombre en español
+    return {"ids": f["ejercicio_id"].tolist(), "articulaciones": articulaciones, "familias": familias, "equipos": equipos,
             "musculos": musculos, "ejercicios": ejercicios, "rec": rec}
 
 

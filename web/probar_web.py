@@ -45,11 +45,12 @@ def check(c, m):
     print("OK   " if c else "FALLA", m)
     if not c: fallos.append(m)
 
-# 0. Los índices curados apuntan al ejercicio esperado
-esperado = {1382: 'bodyweight squat', 1570: 'leg press', 98: 'barbell bench press', 1059: 'pull-up', 1651: 'plank',
-            654: 'dumbbell romanian deadlift', 376: 'cable seated row', 553: 'dumbbell lateral raise', 2131: 'jumping jack hd', 1920: 'glute bridge'}
-check(all(D['ejercicios'][i][0].lower() == n for i, n in esperado.items()), "índices curados apuntan a los ejercicios correctos")
-ids = [int(x) for x in re.findall(r"\[(\d+), '", fuente.split('const CURADOS = [')[1].split('];')[0])]
+# 0. Los ejercicios curados (por ejercicio_id) apuntan al ejercicio esperado
+POS = {x: k for k, x in enumerate(D['ids'])}
+esperado = {'free_exercise_db:Bodyweight_Squat': 'bodyweight squat', 'free_exercise_db:Leg_Press': 'leg press', 'catalogo:0025': 'barbell bench press', 'catalogo:0652': 'pull-up', 'free_exercise_db:Plank': 'plank', 'catalogo:1459': 'dumbbell romanian deadlift', 'catalogo:0861': 'cable seated row', 'catalogo:0334': 'dumbbell lateral raise', 'wger:1314': 'jumping jack hd', 'wger:265': 'glute bridge'}
+check(all(D['ejercicios'][POS[x]][0].lower() == n for x, n in esperado.items()), "ejercicios curados apuntan a los ejercicios correctos")
+cur_ids = re.findall(r"\['([a-z_]+:[^']+)', '", fuente.split('const CURADOS = [')[1].split('];')[0])
+ids = [POS.get(x, -1) for x in cur_ids]
 check(all(0 <= i < len(D['ejercicios']) for i in ids) and len(ids) == len(set(ids)), f"{len(ids)} ejercicios curados válidos y sin duplicar")
 
 with sync_playwright() as p:
@@ -127,7 +128,7 @@ with sync_playwright() as p:
             for e in d['ejercicios']:
                 if vet & set(D['ejercicios'][e['i']][5]): malos += 1
                 if pf['edad'] >= 60 and e['grupo'] == 'potencia': malos += 1
-                if not pf['equipo'] and D['equipos'][D['ejercicios'][e['i']][3]] not in ('peso corporal',) and e['i'] not in (1920, 2159): malos += 1
+                if not pf['equipo'] and D['equipos'][D['ejercicios'][e['i']][3]] not in ('peso corporal',) and e['i'] not in (POS['wger:265'], POS['wger:1408']): malos += 1
                 for a in e['alternativas']:
                     if vet & set(D['ejercicios'][a][5]): malos += 1
     check(malos == 0, f"300 perfiles al azar: 0 ejercicios o alternativas que carguen lesiones (encontrados {malos})")

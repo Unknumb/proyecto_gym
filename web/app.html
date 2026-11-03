@@ -296,49 +296,56 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   const esSeguro = (i, vet) => !D.ejercicios[i][5].some(a => vet.has(a));
 
   // ═══════════════ Ejercicios conocidos, en español ═══════════════
-  // [índice, nombre en español, grupo, nivel 1-3, categoría de equipo (o null = la del dato), impacto, isométrico]
+  // [ejercicio_id, nombre en español, grupo, nivel 1-3, categoría de equipo (o null = la del dato), impacto, isométrico]
+  // Se identifican por el ejercicio_id del pipeline y no por su posición en los datos, para que
+  // regenerar la página después de un kedro run no cambie a qué ejercicio apunta cada nombre.
   const CURADOS = [
-    [1382, 'Sentadilla con peso corporal', 'rodilla', 1, null, 0, 0], [512, 'Sentadilla goblet con mancuerna', 'rodilla', 1, null, 0, 0],
-    [1361, 'Sentadilla con barra', 'rodilla', 2, null, 0, 0], [120, 'Sentadilla profunda con barra', 'rodilla', 3, null, 0, 0],
-    [1570, 'Prensa de piernas', 'rodilla', 1, null, 0, 0], [2040, 'Zancada hacia atrás', 'rodilla', 1, null, 0, 0],
-    [555, 'Zancada con mancuernas', 'rodilla', 2, null, 0, 0], [1276, 'Zancada caminando', 'rodilla', 2, null, 0, 0],
-    [727, 'Subida al cajón con mancuernas', 'rodilla', 2, null, 0, 0], [1987, 'Sentadilla sumo', 'rodilla', 1, null, 0, 0],
-    [79, 'Sentadilla dividida con banda', 'rodilla', 2, null, 0, 0], [954, 'Extensión de piernas en máquina', 'rodilla', 1, null, 0, 0],
-    [2159, 'Sentadilla isométrica en pared', 'rodilla', 1, 'pc', 0, 1],
-    [1920, 'Puente de glúteo', 'cadera', 1, 'pc', 0, 0], [1754, 'Puente de glúteo a una pierna', 'cadera', 2, null, 0, 0],
-    [1927, 'Hip thrust con barra', 'cadera', 2, null, 0, 0], [654, 'Peso muerto rumano con mancuernas', 'cadera', 2, null, 0, 0],
-    [182, 'Peso muerto rumano con barra', 'cadera', 2, null, 0, 0], [107, 'Peso muerto con barra', 'cadera', 3, null, 0, 0],
-    [1593, 'Curl femoral tumbado', 'cadera', 1, null, 0, 0], [905, 'Swing con kettlebell', 'cadera', 3, null, 0, 0],
-    [2340, 'Almeja (glúteo medio)', 'cadera', 1, null, 0, 0], [1829, 'Superman', 'cadera', 1, null, 0, 0],
-    [1063, 'Flexiones de brazos', 'pecho', 1, null, 0, 0], [473, 'Press de banca con mancuernas', 'pecho', 1, null, 0, 0],
-    [98, 'Press de banca con barra', 'pecho', 2, null, 0, 0], [519, 'Press inclinado con mancuernas', 'pecho', 2, null, 0, 0],
-    [936, 'Press de pecho en máquina', 'pecho', 1, null, 0, 0], [1395, 'Cruce de poleas', 'pecho', 2, null, 0, 0],
-    [506, 'Aperturas con mancuernas', 'pecho', 2, null, 0, 0], [431, 'Fondos en paralelas', 'pecho', 3, 'gym', 0, 0],
-    [1059, 'Dominadas', 'vertical', 3, 'gym', 0, 0], [436, 'Dominadas supinas', 'vertical', 3, 'gym', 0, 0],
-    [340, 'Jalón al pecho en polea', 'vertical', 1, null, 0, 0],
-    [376, 'Remo sentado en polea', 'horizontal', 1, null, 0, 0], [476, 'Remo inclinado con mancuernas', 'horizontal', 2, null, 0, 0],
-    [101, 'Remo con barra', 'horizontal', 2, null, 0, 0], [856, 'Remo invertido', 'horizontal', 2, 'gym', 0, 0],
-    [1351, 'Separación de banda', 'horizontal', 1, null, 0, 0], [1476, 'Face pull en polea', 'horizontal', 2, null, 0, 0],
-    [687, 'Press de hombros con mancuernas', 'hombro', 2, null, 0, 0], [190, 'Press militar con barra', 'hombro', 2, null, 0, 0],
-    [553, 'Elevaciones laterales', 'hombro', 1, null, 0, 0], [690, 'Encogimientos con mancuernas', 'hombro', 1, null, 0, 0],
-    [480, 'Curl de bíceps con mancuernas', 'biceps', 1, null, 0, 0], [106, 'Curl de bíceps con barra', 'biceps', 1, null, 0, 0],
-    [513, 'Curl martillo', 'biceps', 1, null, 0, 0],
-    [1846, 'Extensión de tríceps en polea', 'triceps', 1, null, 0, 0], [241, 'Fondos en banco', 'triceps', 1, null, 0, 0],
-    [580, 'Extensión de tríceps tumbado', 'triceps', 2, null, 0, 0],
-    [1651, 'Plancha', 'core', 1, null, 0, 1], [1974, 'Plancha lateral', 'core', 1, null, 0, 1], [454, 'Dead bug', 'core', 1, null, 0, 0],
-    [2241, 'Bird dog (cuadrupedia)', 'core', 1, null, 0, 0], [2163, 'Abdominal bicicleta', 'core', 1, null, 0, 0],
-    [830, 'Elevación de piernas colgado', 'core', 3, 'gym', 0, 0], [1112, 'Giro ruso', 'core', 2, null, 0, 0],
-    [1893, 'Leñador en polea', 'core', 2, null, 0, 0], [1643, 'Press Pallof', 'core', 2, null, 0, 0], [1023, 'Escalador', 'core', 2, null, 1, 0],
-    [256, 'Elevación de talones de pie', 'pantorrilla', 1, null, 0, 0], [993, 'Elevación de talones en máquina', 'pantorrilla', 1, null, 0, 0],
-    [974, 'Elevación de talones sentado', 'pantorrilla', 1, null, 0, 0],
-    [869, 'Sentadilla con salto', 'potencia', 2, null, 1, 0], [1152, 'Saltos de patinador', 'potencia', 2, null, 1, 0],
-    [1385, 'Saltos al cajón', 'potencia', 2, 'gym', 1, 0], [266, 'Burpee', 'potencia', 2, null, 1, 0], [2131, 'Jumping jacks', 'potencia', 1, null, 1, 0]
+    ['free_exercise_db:Bodyweight_Squat', 'Sentadilla con peso corporal', 'rodilla', 1, null, 0, 0], ['catalogo:1760', 'Sentadilla goblet con mancuerna', 'rodilla', 1, null, 0, 0],
+    ['free_exercise_db:Barbell_Squat', 'Sentadilla con barra', 'rodilla', 2, null, 0, 0], ['catalogo:0043', 'Sentadilla profunda con barra', 'rodilla', 3, null, 0, 0],
+    ['free_exercise_db:Leg_Press', 'Prensa de piernas', 'rodilla', 1, null, 0, 0], ['wger:999', 'Zancada hacia atrás', 'rodilla', 1, null, 0, 0],
+    ['catalogo:0336', 'Zancada con mancuernas', 'rodilla', 2, null, 0, 0], ['catalogo:1460', 'Zancada caminando', 'rodilla', 2, null, 0, 0],
+    ['catalogo:0431', 'Subida al cajón con mancuernas', 'rodilla', 2, null, 0, 0], ['wger:632', 'Sentadilla sumo', 'rodilla', 1, null, 0, 0],
+    ['catalogo:1001', 'Sentadilla dividida con banda', 'rodilla', 2, null, 0, 0], ['catalogo:0585', 'Extensión de piernas en máquina', 'rodilla', 1, null, 0, 0],
+    ['wger:1408', 'Sentadilla isométrica en pared', 'rodilla', 1, 'pc', 0, 1],
+    ['wger:265', 'Puente de glúteo', 'cadera', 1, 'pc', 0, 0], ['free_exercise_db:Single_Leg_Glute_Bridge', 'Puente de glúteo a una pierna', 'cadera', 2, null, 0, 0],
+    ['wger:294', 'Hip thrust con barra', 'cadera', 2, null, 0, 0], ['catalogo:1459', 'Peso muerto rumano con mancuernas', 'cadera', 2, null, 0, 0],
+    ['catalogo:0085', 'Peso muerto rumano con barra', 'cadera', 2, null, 0, 0], ['catalogo:0032', 'Peso muerto con barra', 'cadera', 3, null, 0, 0],
+    ['free_exercise_db:Lying_Leg_Curls', 'Curl femoral tumbado', 'cadera', 1, null, 0, 0], ['catalogo:0549', 'Swing con kettlebell', 'cadera', 3, null, 0, 0],
+    ['wger:1823', 'Almeja (glúteo medio)', 'cadera', 1, null, 0, 0], ['free_exercise_db:Superman', 'Superman', 'cadera', 1, null, 0, 0],
+    ['catalogo:0662', 'Flexiones de brazos', 'pecho', 1, null, 0, 0], ['catalogo:0289', 'Press de banca con mancuernas', 'pecho', 1, null, 0, 0],
+    ['catalogo:0025', 'Press de banca con barra', 'pecho', 2, null, 0, 0], ['catalogo:0314', 'Press inclinado con mancuernas', 'pecho', 2, null, 0, 0],
+    ['catalogo:0577', 'Press de pecho en máquina', 'pecho', 1, null, 0, 0], ['free_exercise_db:Cable_Crossover', 'Cruce de poleas', 'pecho', 2, null, 0, 0],
+    ['catalogo:0308', 'Aperturas con mancuernas', 'pecho', 2, null, 0, 0], ['catalogo:0251', 'Fondos en paralelas', 'pecho', 3, 'gym', 0, 0],
+    ['catalogo:0652', 'Dominadas', 'vertical', 3, 'gym', 0, 0], ['catalogo:1326', 'Dominadas supinas', 'vertical', 3, 'gym', 0, 0],
+    ['catalogo:0198', 'Jalón al pecho en polea', 'vertical', 1, null, 0, 0],
+    ['catalogo:0861', 'Remo sentado en polea', 'horizontal', 1, null, 0, 0], ['catalogo:0293', 'Remo inclinado con mancuernas', 'horizontal', 2, null, 0, 0],
+    ['catalogo:0027', 'Remo con barra', 'horizontal', 2, null, 0, 0], ['catalogo:0499', 'Remo invertido', 'horizontal', 2, 'gym', 0, 0],
+    ['free_exercise_db:Band_Pull_Apart', 'Separación de banda', 'horizontal', 1, null, 0, 0], ['free_exercise_db:Face_Pull', 'Face pull en polea', 'horizontal', 2, null, 0, 0],
+    ['catalogo:0405', 'Press de hombros con mancuernas', 'hombro', 2, null, 0, 0], ['catalogo:0091', 'Press militar con barra', 'hombro', 2, null, 0, 0],
+    ['catalogo:0334', 'Elevaciones laterales', 'hombro', 1, null, 0, 0], ['catalogo:0406', 'Encogimientos con mancuernas', 'hombro', 1, null, 0, 0],
+    ['catalogo:0294', 'Curl de bíceps con mancuernas', 'biceps', 1, null, 0, 0], ['catalogo:0031', 'Curl de bíceps con barra', 'biceps', 1, null, 0, 0],
+    ['catalogo:0313', 'Curl martillo', 'biceps', 1, null, 0, 0],
+    ['free_exercise_db:Triceps_Pushdown', 'Extensión de tríceps en polea', 'triceps', 1, null, 0, 0], ['catalogo:0129', 'Fondos en banco', 'triceps', 1, null, 0, 0],
+    ['catalogo:0351', 'Extensión de tríceps tumbado', 'triceps', 2, null, 0, 0],
+    ['free_exercise_db:Plank', 'Plancha', 'core', 1, null, 0, 1], ['wger:580', 'Plancha lateral', 'core', 1, null, 0, 1], ['catalogo:0276', 'Dead bug', 'core', 1, null, 0, 0],
+    ['wger:1572', 'Bird dog (cuadrupedia)', 'core', 1, null, 0, 0], ['wger:1412', 'Abdominal bicicleta', 'core', 1, null, 0, 0],
+    ['catalogo:0472', 'Elevación de piernas colgado', 'core', 3, 'gym', 0, 0], ['catalogo:0687', 'Giro ruso', 'core', 2, null, 0, 0],
+    ['wger:145', 'Leñador en polea', 'core', 2, null, 0, 0], ['free_exercise_db:Pallof_Press', 'Press Pallof', 'core', 2, null, 0, 0], ['catalogo:0630', 'Escalador', 'core', 2, null, 1, 0],
+    ['catalogo:1373', 'Elevación de talones de pie', 'pantorrilla', 1, null, 0, 0], ['catalogo:0605', 'Elevación de talones en máquina', 'pantorrilla', 1, null, 0, 0],
+    ['catalogo:0594', 'Elevación de talones sentado', 'pantorrilla', 1, null, 0, 0],
+    ['catalogo:0514', 'Sentadilla con salto', 'potencia', 2, null, 1, 0], ['catalogo:3361', 'Saltos de patinador', 'potencia', 2, null, 1, 0],
+    ['free_exercise_db:Box_Jump_Multiple_Response', 'Saltos al cajón', 'potencia', 2, 'gym', 1, 0], ['catalogo:1160', 'Burpee', 'potencia', 2, null, 1, 0], ['wger:1314', 'Jumping jacks', 'potencia', 1, null, 1, 0]
   ];
   const CATEG = { 'peso corporal': 'pc', 'peso libre': 'pesas', 'maquina': 'gym', 'cable': 'gym', 'asistido': 'gym', 'maquina de cardio': 'gym',
     'banda elastica': 'banda', 'balon o rodillo': 'balon', 'otro': 'gym' };
-  const CUR = {};
-  for (const [i, es, grupo, nivel, eq, imp, iso] of CURADOS) {
+  const IDX = Object.fromEntries(D.ids.map((id, k) => [id, k]));
+  const ix = id => IDX[id] ?? -1;
+  const CUR = {}, CUR_LISTA = [];
+  for (const [id, es, grupo, nivel, eq, imp, iso] of CURADOS) {
+    const i = ix(id);
+    if (i < 0) { console.warn('Ejercicio curado ausente de los datos:', id); continue; }
     CUR[i] = { i, es, grupo, nivel, eq: eq || CATEG[D.equipos[D.ejercicios[i][3]]], imp: !!imp, iso: !!iso };
+    CUR_LISTA.push(CUR[i]);
   }
   const nombreEs = i => CUR[i]?.es || null;
   const nombreHTML = i => {
@@ -614,15 +621,15 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   // ═══════════════ RUTINA: generador ═══════════════
   const DEPORTES = {
     ninguno: ['Ninguno / solo gimnasio', []],
-    futbol: ['Fútbol', [['cadera', [1593, 654, 1754]], ['potencia', [1152, 869]], ['core', [1643, 1974]]]],
-    running: ['Running / trote', [['pantorrilla', [256, 974]], ['cadera', [2340, 1754]], ['rodilla', [2040, 727]]]],
-    ciclismo: ['Ciclismo', [['cadera', [1920, 654]], ['core', [2241, 1651]], ['horizontal', [1351, 476]]]],
-    natacion: ['Natación', [['horizontal', [1476, 1351]], ['core', [454, 1651]], ['vertical', [340, 1059]]]],
-    basquet: ['Básquetbol / vóleibol', [['potencia', [1385, 869]], ['pantorrilla', [256, 993]], ['core', [1974, 1643]]]],
-    tenis: ['Tenis / pádel', [['core', [1893, 1643]], ['horizontal', [1476, 1351]], ['rodilla', [2040, 555]]]],
-    combate: ['Artes marciales / boxeo', [['core', [1112, 1893]], ['cadera', [1754, 905]], ['potencia', [266, 1152]]]],
-    escalada: ['Escalada', [['horizontal', [1476, 1351]], ['vertical', [1059, 340]], ['core', [454, 830]]]],
-    otro: ['Otro deporte', [['core', [1643, 1974]], ['cadera', [1754, 1920]]]]
+    futbol: ['Fútbol', [['cadera', ['free_exercise_db:Lying_Leg_Curls', 'catalogo:1459', 'free_exercise_db:Single_Leg_Glute_Bridge']], ['potencia', ['catalogo:3361', 'catalogo:0514']], ['core', ['free_exercise_db:Pallof_Press', 'wger:580']]]],
+    running: ['Running / trote', [['pantorrilla', ['catalogo:1373', 'catalogo:0594']], ['cadera', ['wger:1823', 'free_exercise_db:Single_Leg_Glute_Bridge']], ['rodilla', ['wger:999', 'catalogo:0431']]]],
+    ciclismo: ['Ciclismo', [['cadera', ['wger:265', 'catalogo:1459']], ['core', ['wger:1572', 'free_exercise_db:Plank']], ['horizontal', ['free_exercise_db:Band_Pull_Apart', 'catalogo:0293']]]],
+    natacion: ['Natación', [['horizontal', ['free_exercise_db:Face_Pull', 'free_exercise_db:Band_Pull_Apart']], ['core', ['catalogo:0276', 'free_exercise_db:Plank']], ['vertical', ['catalogo:0198', 'catalogo:0652']]]],
+    basquet: ['Básquetbol / vóleibol', [['potencia', ['free_exercise_db:Box_Jump_Multiple_Response', 'catalogo:0514']], ['pantorrilla', ['catalogo:1373', 'catalogo:0605']], ['core', ['wger:580', 'free_exercise_db:Pallof_Press']]]],
+    tenis: ['Tenis / pádel', [['core', ['wger:145', 'free_exercise_db:Pallof_Press']], ['horizontal', ['free_exercise_db:Face_Pull', 'free_exercise_db:Band_Pull_Apart']], ['rodilla', ['wger:999', 'catalogo:0336']]]],
+    combate: ['Artes marciales / boxeo', [['core', ['catalogo:0687', 'wger:145']], ['cadera', ['free_exercise_db:Single_Leg_Glute_Bridge', 'catalogo:0549']], ['potencia', ['catalogo:1160', 'catalogo:3361']]]],
+    escalada: ['Escalada', [['horizontal', ['free_exercise_db:Face_Pull', 'free_exercise_db:Band_Pull_Apart']], ['vertical', ['catalogo:0652', 'catalogo:0198']], ['core', ['catalogo:0276', 'catalogo:0472']]]],
+    otro: ['Otro deporte', [['core', ['free_exercise_db:Pallof_Press', 'wger:580']], ['cadera', ['free_exercise_db:Single_Leg_Glute_Bridge', 'wger:265']]]]
   };
   const OBJETIVOS = {
     salud: ['Salud general', { series: 3, reps: '10–12', descanso: 75 }],
@@ -681,7 +688,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
 
   function candidatos(grupo, p, aj, vet) {
     const eqs = new Set(p.equipo.concat('pc'));
-    return CURADOS.map(c => CUR[c[0]]).filter(c => c.grupo === grupo && eqs.has(c.eq) && c.nivel <= aj.nivelMax && (aj.impacto || !c.imp) && esSeguro(c.i, vet));
+    return CUR_LISTA.filter(c => c.grupo === grupo && eqs.has(c.eq) && c.nivel <= aj.nivelMax && (aj.impacto || !c.imp) && esSeguro(c.i, vet));
   }
   function respaldo(grupo, p, aj, vet, usados) {
     // Si no queda ningún ejercicio conocido seguro, se busca en el catálogo completo con las mismas reglas
@@ -740,7 +747,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       const dia = dias[k % dias.length];
       const cands = candidatos(grupo, p, aj, vet).map(c => c.i);
       const usados = new Set(dia.ejercicios.map(e => e.i));
-      const i = preferidos.find(x => cands.includes(x) && !usados.has(x)) ?? cands.find(x => !usados.has(x));
+      const i = preferidos.map(ix).find(x => cands.includes(x) && !usados.has(x)) ?? cands.find(x => !usados.has(x));
       if (i !== undefined) dia.ejercicios.push(item(i, grupo, aj, cands.filter(x => x !== i), true));
     });
     if (aj.impacto === false && p.edad >= 60) {
