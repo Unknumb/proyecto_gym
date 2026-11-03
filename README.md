@@ -1213,10 +1213,12 @@ los reportes, y el README las incrusta desde ahí.
 | `agrupar_embeddings` | `embeddings_node2vec`, `grafo_nodos_ejercicio` | `clusters_kmeans` (memoria), `kmeans_barrido` |
 | `consolidar_familias` | nodos, comunidades, clusters, embeddings, grafo | `model_output_familias_movimiento`, `familias_perfiles`, `clustering_comparacion` |
 | `evaluar_sustitucion` | `model_output_familias_movimiento`, `embeddings_node2vec`, `primary_musculo_articulacion` | `sustitucion_cobertura`, `sustitucion_contexto` |
+| `comparar_ensambles` | `model_input_tabla_modelado`, `modelos_supervisados`, `params:modelado_supervisado` | `ensambles_busqueda_boosting`, `ensambles_cv_repetida`, `ensambles_comparacion` |
 
 `preparar_megagym`, `emparejar_con_megagym` y `enrich_with_external_metadata` forman el
 pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11); los cuatro
-siguientes, `modelado_supervisado` (§12), y los seis últimos, `grafo_biomecanico` (§13).
+siguientes, `modelado_supervisado` (§12); los seis siguientes, `grafo_biomecanico` (§13), y
+`comparar_ensambles` forma el pipeline `ensambles` (EV3, §16), que solo produce informes.
 El entorno `conf/databricks/` no los reapunta todavía a Delta: con `--env=databricks`
 leen y escriben las rutas locales de `conf/base/`.
 

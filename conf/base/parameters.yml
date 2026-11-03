@@ -45,6 +45,19 @@ modelado_supervisado:
     pliegues_minimos_mejora: 0.8    # gana en al menos el 80 % de los pliegues
     t_minimo_mejora: 2.0            # ≈ dos errores estándar corregidos (Nadeau-Bengio)
     repeticiones_permutacion: 10    # importancia por permutación, por pliegue
+  # Ensambles (EV3, pipeline ensambles): solo informan, no cambian los modelos. Un
+  # ensamble se adoptaría solo si cumple los tres criterios de `diagnosticos`.
+  ensambles:
+    n_arboles_extra: 400            # Extra Trees, con los hiperparámetros del Random Forest
+    busqueda_boosting:              # RandomizedSearchCV con GroupKFold, como la EV2
+      n_iter: 20
+      espacio:
+        learning_rate: [0.03, 0.1, 0.3]
+        max_leaf_nodes: [7, 15, 31]
+        min_samples_leaf: [5, 10, 20]
+        l2_regularization: [0.0, 1.0, 10.0]
+        max_features: [0.1, 0.3, 1.0]   # fracción de variables por división
+        max_iter: [100, 300]
 
 # Grafo biomecánico no supervisado (docs/plan_ev2.md, fase 3).
 grafo_biomecanico:
