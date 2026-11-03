@@ -167,6 +167,38 @@ with sync_playwright() as p:
     pg.goto(url + "#inicio"); pg.wait_for_timeout(300)
     pg.screenshot(path=str(carpeta / "inicio.png"))
 
+    # Respaldo: uno legítimo se recupera completo; uno alterado no inserta HTML ni ejercicios inseguros
+    pg.goto(url + "#progreso"); pg.wait_for_timeout(300)
+    antes_r = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1'))")
+    pg.set_input_files("#importar", files=[{"name": "r.json", "mimeType": "application/json", "buffer": json.dumps(antes_r).encode()}])
+    pg.wait_for_timeout(300)
+    despues_r = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1'))")
+    check(despues_r["sesiones"] == antes_r["sesiones"] and despues_r["pesos"] == antes_r["pesos"] and despues_r["perfil"] == antes_r["perfil"]
+          and [[e["i"] for e in d["ejercicios"]] for d in despues_r["rutina"]["dias"]] == [[e["i"] for e in d["ejercicios"]] for d in antes_r["rutina"]["dias"]],
+          "respaldo legítimo: se recupera sin perder datos")
+    xss = '<img src=x onerror="window.__xss=1">'
+    hombro = D['articulaciones'].index('hombro')
+    inseguro = next(k for k, e in enumerate(D['ejercicios']) if hombro in e[5])
+    malo = {"perfil": {"edad": 30, "dias": xss, "minutos": xss, "lesiones": ["hombro"], "equipo": [xss]},
+            "rutina": {"creada": xss, "objetivo": "salud", "avisos": [["red", xss, xss]], "huecos": [xss],
+                       "perfil": {"edad": 30, "lesiones": ["hombro"], "minutos": xss},
+                       "dias": [{"titulo": xss, "ejercicios": [{"i": inseguro, "series": xss, "reps": xss, "descanso": xss, "alternativas": [inseguro]},
+                                                               {"i": POS['free_exercise_db:Bodyweight_Squat'], "series": xss, "reps": xss,
+                                                                "descanso": xss, "alternativas": [inseguro, xss]}]}]},
+            "sesiones": [{"fecha": "2026-01-05", "dia": xss, "titulo": xss, "minutos": xss, "esfuerzo": xss, "notas": xss,
+                          "dolor": {"hombro": xss, xss: 3}, "ejercicios": [{"i": xss, "series": []}]}],
+            "pesos": [{"fecha": "2026-01-05", "kg": xss}]}
+    pg.set_input_files("#importar", files=[{"name": "m.json", "mimeType": "application/json", "buffer": json.dumps(malo).encode()}])
+    pg.wait_for_timeout(300)
+    check("Respaldo cargado: 1 sesiones" in pg.inner_text("#msg-datos"), "respaldo alterado: se carga lo válido")
+    for v in ["progreso", "rutina", "entrenar", "inicio"]:
+        pg.goto(url + "#" + v); pg.wait_for_timeout(200)
+    r_mala = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1')).rutina")
+    usados_m = [e["i"] for d in r_mala["dias"] for e in d["ejercicios"]] + [a for d in r_mala["dias"] for e in d["ejercicios"] for a in e["alternativas"]]
+    check(not pg.evaluate("window.__xss") and pg.locator("img[src=x]").count() == 0, "respaldo alterado: no inserta HTML")
+    check(inseguro not in usados_m and usados_m, "respaldo alterado: descarta ejercicios que cargan la lesión")
+    pg.evaluate("localStorage.clear()")
+
     # IA simulada
     pi = pagina_nueva(url_ia)
     pi.evaluate("localStorage.clear()"); pi.goto(url_ia + "#rutina"); pi.reload(); pi.wait_for_timeout(400)

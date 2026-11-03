@@ -1171,7 +1171,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       ${ses.length ? `<section style="display:grid;gap:10px"><h3>Historial</h3><ul class="historial">${ses.slice().reverse().slice(0, 20).map((s, n) => {
         const idx = ses.length - 1 - n;
         const vol = s.ejercicios.reduce((a, e) => a + e.series.length, 0);
-        return `<li><div><b>${esc(cap(fechaLarga(s.fecha)))}</b> · ${esc(s.titulo)}<br><span class="muted small num-tab">${s.ejercicios.length} ejercicios · ${vol} series · ${s.minutos} min · esfuerzo ${s.esfuerzo}/10${Object.keys(s.dolor || {}).length ? ' · dolor ' + Object.entries(s.dolor).map(([k, v]) => `${LES[k]?.nombre.toLowerCase()} ${v}`).join(', ') : ''}</span>${s.notas ? `<br><span class="small">${esc(s.notas)}</span>` : ''}</div>
+        return `<li><div><b>${esc(cap(fechaLarga(s.fecha)))}</b> · ${esc(s.titulo)}<br><span class="muted small num-tab">${s.ejercicios.length} ejercicios · ${vol} series · ${esc(s.minutos)} min · esfuerzo ${esc(s.esfuerzo)}/10${Object.keys(s.dolor || {}).length ? ' · dolor ' + esc(Object.entries(s.dolor).map(([k, v]) => `${LES[k]?.nombre.toLowerCase()} ${v}`).join(', ')) : ''}</span>${s.notas ? `<br><span class="small">${esc(s.notas)}</span>` : ''}</div>
           ${confirmarBorrar === idx ? `<span class="row" style="gap:6px"><button class="btn danger" type="button" data-borrar-si="${idx}">Borrar</button><button class="btn ghost" type="button" data-borrar-no>Cancelar</button></span>` : `<button class="btn ghost small" type="button" data-borrar="${idx}" aria-label="Borrar sesión">Borrar</button>`}</li>`;
       }).join('')}</ul></section>` : ''}
       <section class="card plain"><h3>Respaldo de tus datos</h3><p class="muted small">Tu progreso vive solo en este navegador. Guarda un respaldo para no perderlo o para pasarlo a otro dispositivo.</p>
@@ -1198,15 +1198,67 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       const rd = new FileReader();
       rd.onload = () => {
         try {
-          const x = JSON.parse(rd.result);
-          if (!x || !Array.isArray(x.sesiones)) throw new Error('formato');
-          S = { perfil: x.perfil || null, rutina: x.rutina || null, sesiones: x.sesiones, pesos: Array.isArray(x.pesos) ? x.pesos : [], enCurso: null };
+          S = sanearRespaldo(JSON.parse(rd.result));
           guardar(); msgDatos = `Respaldo cargado: ${S.sesiones.length} sesiones.`;
         } catch (_) { msgDatos = 'Ese archivo no es un respaldo válido de esta aplicación.'; }
         vProgreso();
       };
       rd.readAsText(f);
     });
+  }
+
+  // ═══════════════ Respaldo: validación al cargar ═══════════════
+  // Un respaldo es un archivo externo: se reconstruye campo a campo con tipos y valores conocidos,
+  // así un archivo alterado no puede insertar HTML en la página ni romper las vistas.
+  const ent = (v, min, max, def = null) => { const n = Math.round(Number(v)); return Number.isFinite(n) && n >= min && n <= max ? n : def; };
+  const dec = (v, min, max, def = null) => { const n = Number(v); return v !== '' && v !== null && Number.isFinite(n) && n >= min && n <= max ? n : def; };
+  const txt = (v, max) => typeof v === 'string' ? v.slice(0, max) : '';
+  const fecha = v => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null;
+  const lista = v => Array.isArray(v) ? v : [];
+  const ejValido = i => Number.isInteger(i) && i >= 0 && i < D.ejercicios.length;
+  const COLOR_AVISO = new Set(['amber', 'red', 'teal']);
+  function sanearPerfil(p) {
+    if (!p || typeof p !== 'object') return null;
+    const edad = ent(p.edad, 10, 100);
+    if (edad === null) return null;
+    return { edad, peso: dec(p.peso, 30, 250, ''), altura: ent(p.altura, 120, 230, ''),
+      deporte: p.deporte in DEPORTES ? p.deporte : 'ninguno', nivel: ['principiante', 'intermedio', 'avanzado'].includes(p.nivel) ? p.nivel : 'principiante',
+      objetivo: p.objetivo in OBJETIVOS ? p.objetivo : 'salud', dias: ent(p.dias, 2, 6, 3), minutos: [30, 45, 60, 75].includes(p.minutos) ? p.minutos : 45,
+      equipo: [...new Set(lista(p.equipo).filter(e => EQ_OPC.some(([k]) => k === e && k !== 'pc')))],
+      lesiones: [...new Set(lista(p.lesiones).filter(k => k in LES))] };
+  }
+  function sanearRutina(r) {
+    if (!r || typeof r !== 'object') return null;
+    const perfil = sanearPerfil(r.perfil);
+    if (!perfil) return null;
+    const vet = vetadasDe(perfil.lesiones);
+    const dias = lista(r.dias).slice(0, 6).map(d => ({
+      titulo: txt(d?.titulo, 60), equilibrio: d?.equilibrio === true,
+      ejercicios: lista(d?.ejercicios).slice(0, 12).filter(e => ejValido(e?.i) && esSeguro(e.i, vet)).map(e => ({
+        i: e.i, grupo: e.grupo in GRUPO_NOMBRE ? e.grupo : 'core', series: ent(e.series, 1, 6, 3), reps: txt(e.reps, 12) || '10',
+        descanso: ent(e.descanso, 15, 300, 60), iso: e.iso === true, extra: e.extra === true,
+        alternativas: lista(e.alternativas).filter(a => ejValido(a) && esSeguro(a, vet)).slice(0, 8) }))
+    })).filter(d => d.ejercicios.length);
+    if (!dias.length) return null;
+    return { creada: fecha(r.creada) || hoyISO(), perfil, objetivo: r.objetivo in OBJETIVOS ? r.objetivo : perfil.objetivo,
+      avisos: lista(r.avisos).filter(a => Array.isArray(a) && COLOR_AVISO.has(a[0])).slice(0, 8).map(a => [a[0], txt(a[1], 80), txt(a[2], 300)]),
+      huecos: lista(r.huecos).filter(g => g in GRUPO_NOMBRE), dias, ia: null };
+  }
+  function sanearRespaldo(x) {
+    if (!x || typeof x !== 'object' || !Array.isArray(x.sesiones)) throw new Error('formato');
+    const rutina = sanearRutina(x.rutina);
+    const sesiones = x.sesiones.map(s => {
+      const f = fecha(s?.fecha); if (!f) return null;
+      const dolor = {};
+      for (const [k, v] of Object.entries(s.dolor && typeof s.dolor === 'object' ? s.dolor : {})) { const n = ent(v, 0, 10); if (k in LES && n !== null) dolor[k] = n; }
+      return { fecha: f, dia: ent(s.dia, 0, 5, 0), titulo: txt(s.titulo, 60), minutos: ent(s.minutos, 1, 300, 1), esfuerzo: ent(s.esfuerzo, 1, 10, 6),
+        dolor, notas: txt(s.notas, 500),
+        ejercicios: lista(s.ejercicios).filter(e => ejValido(e?.i)).map(e => ({ i: e.i,
+          series: lista(e.series).slice(0, 10).map(z => ({ kg: dec(z?.kg, 0, 1000), reps: ent(z?.reps, 0, 1000, 0) })) })).filter(e => e.series.length) };
+    }).filter(Boolean).sort((a, b) => a.fecha.localeCompare(b.fecha));
+    const pesos = lista(x.pesos).map(p => ({ fecha: fecha(p?.fecha), kg: dec(p?.kg, 30, 250) })).filter(p => p.fecha && p.kg !== null)
+      .sort((a, b) => a.fecha.localeCompare(b.fecha));
+    return { perfil: sanearPerfil(x.perfil) || rutina?.perfil || null, rutina, sesiones, pesos, enCurso: null };
   }
 
   // ═══════════════ CÓMO FUNCIONA ═══════════════
