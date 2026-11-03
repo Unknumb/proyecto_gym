@@ -18,3 +18,21 @@ jobs:
         run: pip install -r requirements-lock.txt
       - name: Tests unitarios, de datos y de modelo
         run: python -m pytest -q
+
+  # App de iPhone (ios/): misma predicción que scikit-learn y que la app compile.
+  ios:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Paridad del modelo en Swift con scikit-learn
+        working-directory: ios/SustitutoSeguroCore
+        run: swift run -c release verificar
+      - name: Tests de Swift
+        working-directory: ios/SustitutoSeguroCore
+        run: swift test
+      - name: Compilar la app para el simulador de iPhone
+        run: |
+          set -o pipefail
+          xcodebuild -project ios/SustitutoSeguro/SustitutoSeguro.xcodeproj -scheme SustitutoSeguro \
+            -destination 'generic/platform=iOS Simulator' -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO build | tail -25
