@@ -59,3 +59,10 @@ web/capturas/app_ia.html
 # MLflow (seguimiento local de experimentos, README §8.8)
 mlflow.db
 mlruns/
+
+# App de iPhone (ios/): compilación de Swift y de Xcode
+ios/**/.build/
+ios/**/.swiftpm/
+ios/**/*.xcodeproj/
+ios/**/xcuserdata/
+ios/**/DerivedData/
