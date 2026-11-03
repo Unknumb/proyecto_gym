@@ -1010,6 +1010,7 @@ python scripts/registrar_huellas.py --verificar   # falla si algún archivo crud
 jupyter lab notebooks/01_exploratory_data_analysis.ipynb   # EDA (EV1)
 jupyter lab notebooks/02_modelado_supervisado.ipynb        # Modelado supervisado (EV2, §12)
 jupyter lab notebooks/03_modelado_no_supervisado.ipynb     # Grafo biomecánico no supervisado (EV2, §13)
+jupyter lab notebooks/04_optimizacion_y_ensambles.ipynb    # Optimización y ensambles (EV3, §16)
 ```
 
 El notebook está versionado **con todas las salidas ejecutadas y visibles**. Se ejecuta
