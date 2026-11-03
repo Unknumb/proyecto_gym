@@ -496,34 +496,41 @@ def _cv_repetida(candidatos: dict[str, Pipeline], train: pd.DataFrame, objetivo:
     return pd.DataFrame(filas)
 
 
-def _contraste_pareado(cv_repetida: pd.DataFrame, simple: str,
-                       parametros: dict[str, Any]) -> dict[str, Any]:
-    """¿La mejora del modelo complejo sobre el ``simple`` es más que ruido?
+def prueba_pareada(diferencia: pd.Series, parametros: dict[str, Any]) -> dict[str, Any]:
+    """¿Una diferencia de F1 pliegue a pliegue (complejo − simple) es más que ruido?
 
-    Diferencia pliegue a pliegue y prueba t corregida de Nadeau y Bengio (2003): la
-    varianza se infla por ``1/n + n_test/n_train`` porque los pliegues comparten
-    datos de entrenamiento. Se informa si la mejora cumple tres condiciones: un
-    mínimo relevante de F1, ganar en la mayoría de los pliegues y superar dos
-    errores estándar corregidos.
+    Prueba t corregida de Nadeau y Bengio (2003): la varianza se infla por
+    ``1/n + n_test/n_train`` porque los pliegues comparten datos de entrenamiento.
+    Se informa si la mejora cumple tres condiciones: un mínimo relevante de F1,
+    ganar en la mayoría de los pliegues y superar dos errores estándar corregidos.
+    La usan el diagnóstico de la EV2 y la comparación de ensambles de la EV3.
     """
     criterio = parametros["diagnosticos"]
-    tabla = cv_repetida.pivot_table(index=["repeticion", "pliegue"], columns="modelo",
-                                    values="f1_macro")
-    complejo = tabla.columns.drop(simple)[0]
-    diferencia = tabla[complejo] - tabla[simple]
     n, k = len(diferencia), int(parametros["n_folds"])
     error = np.sqrt((1 / n + 1 / (k - 1)) * diferencia.var(ddof=1))
     t = float(diferencia.mean() / error) if error > 0 else 0.0
     return {
-        "simple": simple, "complejo": complejo,
-        "f1_simple": float(tabla[simple].mean()), "sd_simple": float(tabla[simple].std()),
-        "f1_complejo": float(tabla[complejo].mean()), "sd_complejo": float(tabla[complejo].std()),
         "diferencia_media": float(diferencia.mean()), "diferencia_sd": float(diferencia.std()),
         "pct_pliegues_complejo_mejor": float((diferencia > 0).mean() * 100),
         "t_nadeau_bengio": t, "p_valor": float(2 * stats.t.sf(abs(t), n - 1)),
         "cumple_mejora_minima": bool(diferencia.mean() >= float(criterio["mejora_minima_f1"])),
         "cumple_pliegues": bool((diferencia > 0).mean() >= float(criterio["pliegues_minimos_mejora"])),
         "cumple_significancia": bool(t >= float(criterio["t_minimo_mejora"])),
+    }
+
+
+def _contraste_pareado(cv_repetida: pd.DataFrame, simple: str,
+                       parametros: dict[str, Any]) -> dict[str, Any]:
+    """¿La mejora del modelo complejo sobre el ``simple`` es más que ruido?
+    (``prueba_pareada`` sobre la CV repetida de los dos candidatos)."""
+    tabla = cv_repetida.pivot_table(index=["repeticion", "pliegue"], columns="modelo",
+                                    values="f1_macro")
+    complejo = tabla.columns.drop(simple)[0]
+    return {
+        "simple": simple, "complejo": complejo,
+        "f1_simple": float(tabla[simple].mean()), "sd_simple": float(tabla[simple].std()),
+        "f1_complejo": float(tabla[complejo].mean()), "sd_complejo": float(tabla[complejo].std()),
+        **prueba_pareada(tabla[complejo] - tabla[simple], parametros),
     }
 
 

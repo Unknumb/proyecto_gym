@@ -1,9 +1,9 @@
 # Sistema de Recomendación Biomecánica — Catálogo de Ejercicios
 
 **Asignatura:** MLY1101 Machine Learning — Duoc UC
-**Evaluación:** EV2 — Modelado y evaluación (sobre la base de la EV1: comprensión del
-negocio, comprensión de los datos y preparación)
-**Metodología:** CRISP-DM (fases 1 a 5)
+**Evaluación:** EV3 — Optimización, ensambles y selección de la solución (sobre la base de
+la EV1, comprensión y preparación de los datos, y la EV2, modelado y evaluación)
+**Metodología:** CRISP-DM (fases 1 a 5, con una primera versión de la fase 6)
 **Repositorio:** `Unknumb/proyecto_gym`
 
 ---
@@ -18,6 +18,29 @@ negocio, comprensión de los datos y preparación)
 > - **Fase 6 (despliegue): primera versión web (§15).** La aplicación web *Sustituto
 >   Seguro* pone el sustituidor en manos del público, junto con un generador de rutinas y el
 >   seguimiento del progreso. La aplicación móvil con análisis de postura (§7) sigue pendiente.
+> - **EV3 (§16): segunda iteración de las fases 4 y 5.** Ajusta los hiperparámetros de un
+>   boosting, compara las tres familias de ensamble (*bagging*, *boosting*, *voting* y
+>   *stacking*) con los modelos de la EV2 y selecciona la solución con una regla fijada antes
+>   de mirar los resultados. Ningún ensamble mejora más allá del ruido: se mantienen los
+>   modelos de la EV2.
+
+### Guía de lectura para la EV3
+
+| Lo que pide la pauta | Dónde está |
+|---|---|
+| Problema de negocio, objetivos y KPIs | §1.1, §1.2, §1.3 |
+| Fuentes de datos | §2.1, §11.1 |
+| Preparación y análisis exploratorio (EDA) | §3, §4, §11 · `notebooks/01_exploratory_data_analysis.ipynb` |
+| Metodología CRISP-DM | §1.4 |
+| Desarrollo de los modelos (supervisados y no supervisados) | §12, §13 · notebooks 02 y 03 |
+| **Optimización de hiperparámetros (IE9)** | §12.2 (logística y Random Forest), §16.3 (boosting) · notebook 04 §3 |
+| **Técnicas de ensamble (IE10)** | §16.2, §16.4 · notebook 04 §2, §4–6 |
+| **Capacidad de generalización (IE11)** | §16.5, §12.6 · notebook 04 §5, §7 |
+| **Selección y justificación de la solución (IE12)** | §16.6, §16.7 · notebook 04 §8 |
+| Evaluación con métricas apropiadas | §12.3–§12.6, §13.3–§13.5, §16.4–§16.5 |
+| Sesgos, limitaciones y ética | §5, §6, §14.3, §16.7 |
+| Conclusiones y recomendaciones para el negocio | §14, §16.6, §16.7 |
+| Reproducibilidad y estructura del proyecto | §8 |
 
 ### Guía de lectura para la EV2
 
@@ -112,9 +135,9 @@ estándar de facto para estructurar un proyecto de ciencia de datos en seis fase
 | 1. Comprensión del negocio | Definir el problema, los objetivos y los KPIs de éxito | **Cerrada** (EV1, actualizada en EV2) — §1 |
 | 2. Comprensión de los datos | Relevar las fuentes, su estructura, calidad y limitaciones | **Cerrada** — §2, §4, §11.5 |
 | 3. Preparación de los datos | Limpiar, transformar e integrar los datos para el modelamiento | **Cerrada** — §3, §11 |
-| 4. Modelado | Entrenar y ajustar modelos | **Cerrada (EV2)** — supervisado §12, no supervisado §13 |
-| 5. Evaluación | Validar los modelos contra los KPIs de negocio | **Cerrada (EV2)** — §12.3–§12.5, §13.3–§13.5, §14 |
-| 6. Despliegue | Poner el modelo en producción y monitorearlo | Fuera de alcance — diseño en §7 |
+| 4. Modelado | Entrenar y ajustar modelos | **Cerrada (EV2), segunda iteración en la EV3** — supervisado §12, no supervisado §13, ensambles §16 |
+| 5. Evaluación | Validar los modelos contra los KPIs de negocio | **Cerrada (EV2), segunda iteración en la EV3** — §12.3–§12.5, §13.3–§13.5, §14, §16.5–§16.6 |
+| 6. Despliegue | Poner el modelo en producción y monitorearlo | Primera versión web — §15; diseño completo en §7 |
 
 **Por qué la EV1 no saltó a la fase 4.** La entrega respeta el orden secuencial de CRISP-DM
 a propósito: modelar antes de cerrar las fases 1–3 es el *"salto al vacío"* señalado en
@@ -144,6 +167,12 @@ medir después de modelar (§14.3).
    `chest` / `shoulders` de free-exercise-db no se alinean con el catálogo. Se probó una
    corrección en el grafo (*fan-out*), empeoró el KPI y se descartó: la corrección de
    fondo vuelve a la ontología (§13.4).
+
+**Cómo iteró en la EV3.** La evaluación de la EV2 (§12.6) mostró que la logística y el
+Random Forest empatan dentro del ruido. La EV3 volvió a la fase 4 con más candidatos
+(boosting ajustado y tres familias de ensamble) y a la fase 5 con la misma regla de
+decisión. El resultado confirma los modelos de la EV2 y ubica el techo en los datos, no en
+el algoritmo (§16.6).
 
 ---
 
@@ -503,7 +532,7 @@ $$IQR = Q_3 - Q_1 \qquad \text{L. inferior} = Q_1 - 1.5 \times IQR \qquad \text{
 Se eligió el IQR sobre el *z-score* porque es **robusto**: los cuartiles no se ven
 arrastrados por los propios valores extremos, y ninguna de estas variables es normal.
 
-![Boxplots IQR](data/08_reporting/figures/boxplots_iqr.png)
+![Boxplots IQR](images/boxplots_iqr.png)
 
 **287 valores atípicos** en 8 de 10 variables. `n_pasos` es la más afectada (92 casos,
 6,95 %); `frecuencia_equipamiento` y `frecuencia_musculo_primario` no presentan ninguno.
@@ -517,7 +546,7 @@ arrastrados por los propios valores extremos, y ninguna de estas variables es no
 
 ### 4.2 Análisis de forma — histogramas con KDE
 
-![Histogramas KDE](data/08_reporting/figures/histogramas_kde.png)
+![Histogramas KDE](images/histogramas_kde.png)
 
 **Sesgo positivo generalizado.** Siete de diez variables presentan asimetría positiva
 moderada (+0,55 a +0,83), con media > mediana en todas. El catálogo se compone
@@ -532,7 +561,7 @@ en §5.1.
 
 ### 4.3 Matriz de correlación de Pearson
 
-![Matriz de correlación](data/08_reporting/figures/matriz_correlacion.png)
+![Matriz de correlación](images/matriz_correlacion.png)
 
 **Redundancia crítica (|r| > 0,9):**
 
@@ -581,7 +610,7 @@ reproducible sin conexión. Sobre 38 animaciones:
 | Etiquetas temporales | **ninguna** | Sin campos de fase, tempo ni ángulo: cero supervisión |
 | Energía de movimiento | 7,4 % de píxeles por fotograma | Hay movimiento real, pero mezclado con el de las estelas |
 
-![Fotogramas de un GIF](data/08_reporting/figures/media_fotogramas.png)
+![Fotogramas de un GIF](images/media_fotogramas.png)
 
 Dos propiedades que ninguna métrica captura y que la evidencia visual muestra de
 inmediato: el material son **ilustraciones anatómicas sin piel** —no personas—, con el
@@ -609,7 +638,7 @@ fotogramas hay dos figuras humanas simultáneas.
 Parte III del notebook (§14–17). Antes de analizar la unión se auditó la unión misma
 (§3.5):
 
-![Emparejamiento](data/08_reporting/figures/megagym_emparejamiento.png)
+![Emparejamiento](images/megagym_emparejamiento.png)
 
 **Dificultad.** Con solo las fichas curadas, **327 ejercicios (24,7 %)** tienen nivel
 fiable: **41 % *Beginner*, 58 % *Intermediate* y 2 *Expert*** (`barbell hack squat`,
@@ -617,7 +646,7 @@ fiable: **41 % *Beginner*, 58 % *Intermediate* y 2 *Expert*** (`barbell hack squ
 `Rating` tiene efecto techo (mediana 8,4/10); además mide popularidad, el criterio que
 §1.1 descarta para recomendar, así que se conserva solo como descriptor.
 
-![Dificultad](data/08_reporting/figures/dificultad_nivel.png)
+![Dificultad](images/dificultad_nivel.png)
 
 **Dificultad frente a complejidad.** No hay diferencia entre *Beginner* e
 *Intermediate* en pasos de instrucción (medianas 6 y 5; Mann-Whitney p = 0,16) ni en
@@ -625,7 +654,7 @@ músculos implicados (3 y 3; p = 0,14), con tamaños de efecto despreciables
 (|r| < 0,1). La dificultad es un **eje propio**, igual que §4.3 mostró para la
 complejidad textual y la biomecánica, y confirma que no era imputable (§3.4).
 
-![Dificultad vs complejidad](data/08_reporting/figures/dificultad_vs_complejidad.png)
+![Dificultad vs complejidad](images/dificultad_vs_complejidad.png)
 
 **Articulación × equipamiento.** El tren superior depende del gimnasio: en `codo`
 (73 %), `muñeca` / `radiocubital` (79 %), `escapulotorácica` (74 %) y `hombro` (68 %) la
@@ -636,7 +665,7 @@ de §5.1: la cuota de alternativas sin equipamiento es viable en cadera, columna
 rodilla, pero en codo, muñeca y hombro tendrá pocos candidatos y el sistema recurrirá
 más a la abstención.
 
-![Articulación × equipamiento](data/08_reporting/figures/articulacion_equipamiento.png)
+![Articulación × equipamiento](images/articulacion_equipamiento.png)
 
 ---
 
@@ -644,7 +673,7 @@ más a la abstención.
 
 ### 5.1 Sesgo de muestreo
 
-![Evidencia de sesgo](data/08_reporting/figures/sesgo_muestreo.png)
+![Evidencia de sesgo](images/sesgo_muestreo.png)
 
 El catálogo **no es una muestra representativa del ejercicio físico**: es un inventario
 de gimnasio comercial orientado a hipertrofia. La evidencia es cuantitativa, medida con
@@ -704,7 +733,7 @@ insuficiente en lugar de una sugerencia poco fundamentada.
 neutral. megaGymDataset proviene de un sitio de musculación, y eso se nota en quién
 recibe una dificultad fiable:
 
-![Sesgo del enriquecimiento](data/08_reporting/figures/sesgo_enriquecimiento.png)
+![Sesgo del enriquecimiento](images/sesgo_enriquecimiento.png)
 
 | Contexto | Ejercicios | % con dificultad curada |
 |---|---|---|
@@ -980,12 +1009,13 @@ biomecánico (§13), no compila todavía en Python 3.14.
 ### 8.2 Ejecución del pipeline
 
 ```bash
-kedro run                              # pipeline completo (30 nodos, ~3 min)
+kedro run                              # pipeline completo (31 nodos, ~14 min; ~3 min sin ensambles)
 kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
 kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
 kedro run --pipeline=integracion_fuentes  # 8 nodos: free-exercise-db + wger (EV2, §11; requiere los dos anteriores)
 kedro run --pipeline=modelado_supervisado # 4 nodos: modelos del perfil de exigencia y su diagnóstico (EV2, §12; requiere el anterior)
 kedro run --pipeline=grafo_biomecanico    # 6 nodos: grafo, Louvain, Node2Vec + K-Means, sustitución (EV2, §13; ~1 min)
+kedro run --pipeline=ensambles            # 1 nodo: búsqueda del boosting y comparación de ensambles (EV3, §16; ~11 min; requiere modelado_supervisado)
 ```
 
 Las instantáneas de free-exercise-db y wger ya están versionadas en `data/01_raw/`.
@@ -1010,6 +1040,7 @@ python scripts/registrar_huellas.py --verificar   # falla si algún archivo crud
 jupyter lab notebooks/01_exploratory_data_analysis.ipynb   # EDA (EV1)
 jupyter lab notebooks/02_modelado_supervisado.ipynb        # Modelado supervisado (EV2, §12)
 jupyter lab notebooks/03_modelado_no_supervisado.ipynb     # Grafo biomecánico no supervisado (EV2, §13)
+jupyter lab notebooks/04_optimizacion_y_ensambles.ipynb    # Optimización y ensambles (EV3, §16)
 ```
 
 El notebook está versionado **con todas las salidas ejecutadas y visibles**. Se ejecuta
@@ -1025,23 +1056,24 @@ VS Code y nbviewer.
 > **Nota:** la previsualización de `.ipynb` en la web de GitHub no ejecuta JavaScript y
 > por tanto **no muestra los gráficos interactivos**. Para revisarlos hay que abrir el
 > notebook en Jupyter o VS Code. Las versiones estáticas en PNG están en
-> `data/08_reporting/figures/` y son las que se incrustan en este README.
+> `images/` y son las que se incrustan en este README.
 
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 56 tests, ~12 s; corren sobre los artefactos versionados
+python -m pytest -q      # 64 tests, ~12 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
 |---|---|
-| Unitarios | Emparejamiento (veto de `abduction`/`adduction`, modificadores opuestos), reglas del perfil, regla de un error estándar, umbral de abstención, contraste pareado |
+| Unitarios | Emparejamiento (veto de `abduction`/`adduction`, modificadores opuestos), reglas del perfil, regla de un error estándar, umbral de abstención, contraste pareado, pliegues por grupo del *stacking* |
 | Datos | 2.592 ejercicios únicos, `id` con ceros a la izquierda (el defecto de §3.3), esquema y dominios de las etiquetas, partición sin grupos compartidos, datos crudos sin cambios |
 | Modelo | F1 al menos 0,2 sobre el azar y KPI de F1 ≥ 0,85; invariancia (cambiar barra por mancuernas casi no cambia la mecánica); dirección (más articulaciones, más probabilidad de compuesto) |
 | Sustituidor | Ninguna alternativa carga la articulación vetada; abstención sin sustituto anatómico; demostración sentadilla → Hip Thrust |
 | Dashboard | Las seis vistas se dibujan sin errores; la tabla de niveles marca las 102 coincidencias; la demo propone el Hip Thrust y se abstiene con la extensión de piernas (§8.7) |
 | Página web | Armada desde la fuente actual; sus ejercicios y recomendaciones son idénticos a los que da hoy el Sustituidor; ninguna alternativa carga la articulación vetada; los ejercicios en español existen (§15.3) |
 | MLflow | Las métricas registradas son las de los reportes versionados; el hook deja la corrida terminada y el modelo del registro predice igual que el `.pkl` (§8.8) |
+| Ensambles | Mismos pliegues que el diagnóstico de la EV2; están las tres familias; la búsqueda mejora el boosting por defecto; `adoptar` sigue la regla y ningún ensamble la cumple (§16) |
 
 GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
 
@@ -1119,7 +1151,10 @@ proyecto_ejercicios/
 │       ├── familias_perfiles.csv        # Perfil de cada familia de movimiento
 │       ├── sustitucion_cobertura.csv    # KPI de sustitución por articulación y método
 │       ├── sustitucion_contexto.csv     # KPI de sustitución por contexto
-│       └── figures/                 # Exportación PNG de los gráficos
+│       ├── ensambles_busqueda_boosting.csv  # EV3 (§16): configuraciones del boosting probadas
+│       ├── ensambles_cv_repetida.csv    # F1 por pliegue de los siete candidatos
+│       └── ensambles_comparacion.csv    # CV, train, test, externa, contraste y adoptar
+├── images/                          # Los 37 gráficos en PNG, exportados por los notebooks
 ├── scripts/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
 │   ├── descargar_fuentes_externas.py    # Instantáneas de free-exercise-db y wger (requiere red)
@@ -1129,6 +1164,7 @@ proyecto_ejercicios/
 │   ├── 01_exploratory_data_analysis.ipynb
 │   ├── 02_modelado_supervisado.ipynb    # EV2: modelos, interpretación y abstención (§12)
 │   ├── 03_modelado_no_supervisado.ipynb # EV2: grafo, familias de movimiento y sustitución (§13)
+│   ├── 04_optimizacion_y_ensambles.ipynb # EV3: búsqueda, ensambles y selección (§16)
 │   └── databricks/                  # Notebooks de la migración a Delta (§2.3)
 │       ├── 01_bronze_ingesta_delta.py
 │       └── 02_silver_gold_medallion.py
@@ -1161,8 +1197,11 @@ proyecto_ejercicios/
 │       ├── modelado_supervisado/
 │       │   ├── nodes.py             # 4 nodos: tabla de modelado, entrenamiento y comparación, diagnóstico, predicción
 │       │   └── pipeline.py
-│       └── grafo_biomecanico/
-│           ├── nodes.py             # 6 nodos: grafo, Louvain, Node2Vec, K-Means, familias, sustitución
+│       ├── grafo_biomecanico/
+│       │   ├── nodes.py             # 6 nodos: grafo, Louvain, Node2Vec, K-Means, familias, sustitución
+│       │   └── pipeline.py
+│       └── ensambles/
+│           ├── nodes.py             # 1 nodo: búsqueda del boosting y comparación de siete candidatos (EV3)
 │           └── pipeline.py
 ├── models/
 │   ├── modelos_supervisados.pkl     # Modelos ganadores por objetivo, con su umbral de abstención
@@ -1174,10 +1213,10 @@ proyecto_ejercicios/
 ```
 
 **Estructura exigida por la pauta.** La pauta pide `data/`, `notebooks/`, `models/`,
-`images/` y `README.md`. Los cuatro primeros existen con ese nombre. Las imágenes viven
-en `data/08_reporting/figures/`, la convención de Kedro para las salidas de reporte: así
-cada `kedro run` y cada notebook regeneran las figuras en el mismo lugar que el resto de
-los reportes, y el README las incrusta desde ahí.
+`images/` y `README.md`, y las cinco existen con ese nombre. Los gráficos se exportan
+directamente a `images/` cada vez que se ejecuta un notebook, y el README y el dashboard
+los incrustan desde ahí. Las tablas que los alimentan siguen en `data/08_reporting/`, la
+convención de Kedro para los reportes.
 
 ### 8.6 Nodos del pipeline
 
@@ -1213,10 +1252,12 @@ los reportes, y el README las incrusta desde ahí.
 | `agrupar_embeddings` | `embeddings_node2vec`, `grafo_nodos_ejercicio` | `clusters_kmeans` (memoria), `kmeans_barrido` |
 | `consolidar_familias` | nodos, comunidades, clusters, embeddings, grafo | `model_output_familias_movimiento`, `familias_perfiles`, `clustering_comparacion` |
 | `evaluar_sustitucion` | `model_output_familias_movimiento`, `embeddings_node2vec`, `primary_musculo_articulacion` | `sustitucion_cobertura`, `sustitucion_contexto` |
+| `comparar_ensambles` | `model_input_tabla_modelado`, `modelos_supervisados`, `params:modelado_supervisado` | `ensambles_busqueda_boosting`, `ensambles_cv_repetida`, `ensambles_comparacion` |
 
 `preparar_megagym`, `emparejar_con_megagym` y `enrich_with_external_metadata` forman el
 pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11); los cuatro
-siguientes, `modelado_supervisado` (§12), y los seis últimos, `grafo_biomecanico` (§13).
+siguientes, `modelado_supervisado` (§12); los seis siguientes, `grafo_biomecanico` (§13), y
+`comparar_ensambles` forma el pipeline `ensambles` (EV3, §16), que solo produce informes.
 El entorno `conf/databricks/` no los reapunta todavía a Delta: con `--env=databricks`
 leen y escriben las rutas locales de `conf/base/`.
 
@@ -1256,7 +1297,7 @@ kedro run                                      # registra la corrida automática
 mlflow ui --backend-store-uri sqlite:///mlflow.db   # abre http://127.0.0.1:5000
 ```
 
-Cada `kedro run` que incluya `modelado_supervisado` o `grafo_biomecanico` crea una
+Cada `kedro run` que incluya `modelado_supervisado`, `grafo_biomecanico` o `ensambles` crea una
 corrida en el experimento `gym_exercises` con:
 
 | Qué | Contenido |
@@ -1264,7 +1305,7 @@ corrida en el experimento `gym_exercises` con:
 | Parámetros | Los bloques `modelado_supervisado` y `grafo_biomecanico` (con los `--params` ya aplicados), el modelo ganador y el umbral de abstención por objetivo |
 | Etiquetas | Pipeline, commit y rama de git, y si había cambios sin commitear |
 | Dataset | `tabla_modelado` con su huella: dos corridas con la misma huella usaron los mismos datos |
-| Métricas | F1 macro, *accuracy*, Brier y PR-AUC por objetivo, modelo y conjunto (`fuerza/random_forest/externa_catalogo/f1_macro`); CV; contraste pareado; métricas de los agrupamientos; KPI `kpi/cobertura_sustitucion` |
+| Métricas | F1 macro, *accuracy*, Brier y PR-AUC por objetivo, modelo y conjunto (`fuerza/random_forest/externa_catalogo/f1_macro`); CV; contraste pareado; comparación de ensambles (`ensambles/fuerza/stacking/cv_f1_media`); métricas de los agrupamientos; KPI `kpi/cobertura_sustitucion` |
 | Curvas | Los barridos de *k* (K-Means) y de resolución (Louvain, paso = resolución × 10) como curvas |
 | Modelos | El ganador de cada objetivo con firma y ejemplo de entrada, en el **Model Registry** como `gym_perfil_<objetivo>`, alias `candidato` |
 | Artefactos | Los CSV de `data/08_reporting/` que produjo la corrida |
@@ -1539,7 +1580,7 @@ no tienen aterrizaje.
 | Fuerza | Random Forest | 0,918 | 0,883 | **0,892** | 0,335 |
 | Complejidad técnica | Regresión logística, `C` = 1 | 0,747 | 0,744 | 0,670 | 0,489 |
 
-![Comparación de modelos](data/08_reporting/figures/modelos_comparacion.png)
+![Comparación de modelos](images/modelos_comparacion.png)
 
 - **Mecánica** es un empate técnico con Random Forest (0,9004 frente a 0,9010 en CV). Gana
   la logística por simplicidad, y en el catálogo rinde igual o mejor (0,81 vs. 0,80).
@@ -1550,7 +1591,7 @@ no tienen aterrizaje.
 
 **Qué aprendió cada modelo** (importancia por permutación agrupada, en test):
 
-![Importancia de variables](data/08_reporting/figures/modelos_importancia_variables.png)
+![Importancia de variables](images/modelos_importancia_variables.png)
 
 - **Mecánica se decide por la anatomía**: sinergistas y articulaciones. Es la definición
   biomecánica de "compuesto", y la mejor evidencia de que el modelo aprendió biomecánica
@@ -1561,7 +1602,7 @@ no tienen aterrizaje.
 
 ### 12.4 Abstención y KPIs
 
-![Abstención](data/08_reporting/figures/modelos_abstencion.png)
+![Abstención](images/modelos_abstencion.png)
 
 | KPI | Resultado |
 |---|---|
@@ -1646,7 +1687,7 @@ segunda pregunta es el KPI *Cobertura de sustitución* de §1.3 (meta ≥ 85 %).
 
 ### 13.2 El grafo
 
-![Vecindad de la sentadilla](data/08_reporting/figures/grafo_ego_sentadilla.png)
+![Vecindad de la sentadilla](images/grafo_ego_sentadilla.png)
 
 Grafo heterogéneo de **2.529 nodos y 13.907 aristas**: 2.461 ejercicios (se excluyen 131
 sin músculos), 41 músculos y regiones, 13 articulaciones, 9 familias de equipamiento y
@@ -1685,7 +1726,7 @@ quita, y no cambia las aristas del grafo: las familias de movimiento son las mis
 | AMI con la fuente (↓ mejor) | 0,17 | **0,08** |
 | Cobertura de sustitución, misma familia | 57,1 % | **89,4 %** |
 
-![Elección de k](data/08_reporting/figures/kmeans_barrido.png)
+![Elección de k](images/kmeans_barrido.png)
 
 **k = 12** es el último k antes de que caiga la *silhouette* (0,23 → 0,20 en k = 14), con
 estabilidad de 0,91 entre semillas (ARI). Reentrenando Node2Vec con otras semillas, la
@@ -1699,13 +1740,13 @@ y mezcla las fuentes.
 
 ### 13.4 Las 12 familias de movimiento
 
-![Familias en UMAP](data/08_reporting/figures/familias_umap.png)
+![Familias en UMAP](images/familias_umap.png)
 
 Cuádriceps-glúteo de empuje, isquiotibiales-glúteo de tracción, pecho, tríceps-hombro de
 empuje, hombro de empuje, hombro-trapecio de tracción, dorsal, espalda alta, bíceps,
 core y dos familias de estiramiento. Casi todas mezclan al menos dos fuentes:
 
-![Mezcla de fuentes](data/08_reporting/figures/familias_mezcla_fuentes.png)
+![Mezcla de fuentes](images/familias_mezcla_fuentes.png)
 
 Los dos huecos son de **vocabulario**, no de movimiento: free-exercise-db anota `chest` y
 `shoulders` (regiones), y sus ejercicios de pecho caen en la familia vecina de
@@ -1721,7 +1762,7 @@ ejercicios (§5.1 b); (4) fuerza por fuerza, estiramiento por estiramiento; (5) 
 misma familia; (6) ordenar por similitud del embedding; (7) cuota de al menos una
 alternativa de peso corporal en el top 5 (§5.1 a).
 
-![Cobertura por articulación](data/08_reporting/figures/sustitucion_cobertura.png)
+![Cobertura por articulación](images/sustitucion_cobertura.png)
 
 | KPI | Resultado |
 |---|---|
@@ -1990,3 +2031,224 @@ disponible para quien tenga cuenta de Claude.
 - **Reparto con la aplicación móvil.** La web cubre la recomendación, la planificación y
   el seguimiento. El análisis de postura con la cámara y la inferencia en el dispositivo
   (§7, puntos 2 y 3) corresponden a la aplicación móvil, en desarrollo aparte.
+
+---
+
+## 16. EV3 — Optimización de hiperparámetros, ensambles y selección de la solución
+
+Pipeline `ensambles` (§8.6). El desarrollo completo, con gráficos e interpretación, está
+en [`notebooks/04_optimizacion_y_ensambles.ipynb`](notebooks/04_optimizacion_y_ensambles.ipynb).
+
+### 16.1 Pregunta y regla de decisión
+
+La EV2 dejó tres modelos que etiquetan el perfil de exigencia del catálogo (§12): regresión
+logística para mecánica y complejidad técnica, y Random Forest para fuerza. La EV3
+responde una pregunta concreta: **¿un ensamble los mejora lo suficiente como para
+reemplazarlos?**
+
+La regla se fijó **antes de mirar los resultados** y es la misma con que la EV2 comparó la
+logística con el Random Forest (§12.6). Un ensamble reemplaza al modelo actual solo si, en
+una validación cruzada repetida 5 × 5 con **los mismos pliegues** para todos los
+candidatos, cumple las tres condiciones:
+
+| Condición | Umbral (`parameters.yml`) | Por qué |
+|---|---|---|
+| Mejora del F1 macro | ≥ +0,02 | Por debajo, la mejora no cambia lo que recibe el usuario |
+| Pliegues en que gana | ≥ 80 % de 25 | Una mejora real se repite pliegue a pliegue |
+| t corregida de Nadeau-Bengio | ≥ 2 | La t común subestima la varianza porque los pliegues comparten datos de entrenamiento |
+
+Una diferencia menor que el ruido entre pliegues no justifica un modelo más caro y menos
+interpretable. Es la regla de un error estándar (§12.2) llevada a la elección entre
+algoritmos.
+
+### 16.2 Candidatos: las tres familias de ensamble
+
+| Familia | Idea | Error que reduce | Candidatos |
+|---|---|---|---|
+| **Bagging** | Muchos árboles profundos, cada uno con una muestra *bootstrap* y un subconjunto de variables, promediados | Varianza | Random Forest (el de la EV2) y Extra Trees |
+| **Boosting** | Árboles chicos en secuencia; cada uno corrige los residuos del anterior | Sesgo | `HistGradientBoostingClassifier`, por defecto y ajustado (§16.3) |
+| **Voting / stacking** | Combinar modelos **distintos**: regresión logística + Random Forest + boosting | Errores que no coinciden entre modelos | *Voting* suave (promedio de probabilidades) y *stacking* (una regresión logística aprende cuánto pesa cada modelo) |
+
+Son siete candidatos por objetivo, con las mismas variables de la EV2 (§12.2), el mismo
+test y la misma validación externa. Dos cuidados propios de estos datos:
+
+- **El stacking también necesita pliegues por grupo.** Su meta-modelo aprende con
+  predicciones fuera de muestra. Si las variantes de un ejercicio quedaran a ambos lados de
+  un pliegue interno, premiaría al modelo que mejor memoriza nombres. `StackingClassifier`
+  no reenvía los grupos a su validación interna; `PliegesPorGrupo` los lee de la columna
+  `grupo`.
+- **El boosting descarta las variables que no puede usar.** Con hojas de al menos 5
+  ejercicios, una palabra presente en menos de 5 no admite una división válida.
+  `VariablesFrecuentes` deja 922 de las 2.633 columnas sin cambiar lo que el árbol puede
+  aprender, y el ajuste baja de 665 s a 5 s.
+
+### 16.3 Optimización de hiperparámetros (IE9)
+
+La logística y el Random Forest se ajustaron en la EV2 con `GridSearchCV` (§12.2). El
+boosting tiene seis hiperparámetros: una grilla completa serían 486 combinaciones × 5
+pliegues. Se usa `RandomizedSearchCV` con 20 combinaciones al azar, que explora todos los
+ejes a la vez (Bergstra y Bengio, 2012), con el mismo `GroupKFold` de 5 pliegues sobre
+*train* y F1 macro.
+
+| Hiperparámetro | Valores | Qué controla |
+|---|---|---|
+| `learning_rate`, `max_iter` | 0,03 / 0,1 / 0,3 · 100 / 300 | Cuánto corrige cada árbol y cuántos se suman |
+| `max_leaf_nodes`, `min_samples_leaf` | 7 / 15 / 31 · 5 / 10 / 20 | Tamaño de cada árbol: el boosting necesita modelos débiles |
+| `l2_regularization` | 0 / 1 / 10 | Penaliza hojas con valores extremos |
+| `max_features` | 0,1 / 0,3 / 1,0 | Fracción de variables por corte: evita que unas pocas palabras dominen |
+
+![Búsqueda del boosting](images/ensambles_busqueda_boosting.png)
+
+| Objetivo | Boosting por defecto | Boosting ajustado | Mejora | Modelo actual (mismos pliegues) |
+|---|---|---|---|---|
+| Mecánica | 0,878 | 0,898 | +0,020 | 0,900 (logística) |
+| Fuerza | 0,905 | 0,921 | +0,016 | 0,918 (Random Forest) |
+| Complejidad técnica | 0,707 | 0,729 | +0,021 | 0,747 (logística) |
+
+- **La optimización mejora el boosting en los tres objetivos**, en la misma magnitud que
+  la mejora mínima que se le exige a un ensamble.
+- **Lo que funciona es regularizar**: árboles de 15 hojas en mecánica y fuerza, L2 ≥ 1 y
+  30 % de las variables por corte. Con ~650 filas y miles de variables de texto, un modelo
+  que aprende demasiado aprende ruido.
+- **Complejidad técnica elige el modelo más conservador** (paso 0,03 con 100 iteraciones).
+  Es coherente con su etiqueta ruidosa: el 23,5 % de los grupos de variantes tiene
+  etiquetas discordantes (§12.6).
+- **Solo en fuerza el boosting alcanza al modelo actual.** La cifra es optimista: es la
+  mejor de 20 configuraciones medidas en los mismos pliegues que sirvieron para elegirla.
+  Con pliegues nuevos (§16.4) queda en 0,917 frente a 0,911.
+
+### 16.4 Comparación de los candidatos (IE10)
+
+CV repetida 5 × 5 con los mismos pliegues que el diagnóstico de la EV2: las filas de la
+logística y del Random Forest reproducen `modelos_cv_repetida.csv` pliegue a pliegue, y
+un test lo verifica.
+
+![Comparación de ensambles](images/ensambles_comparacion.png)
+
+| F1 macro, CV 5 × 5 | Mecánica | Fuerza | Complejidad técnica |
+|---|---|---|---|
+| Regresión logística | **0,901** (actual) | 0,896 | **0,747** (actual) |
+| Random Forest (*bagging*) | 0,896 | **0,911** (actual) | 0,738 |
+| Extra Trees (*bagging*) | 0,907 | 0,916 | 0,745 |
+| Boosting por defecto | 0,887 | 0,903 | 0,723 |
+| Boosting ajustado | 0,892 | 0,917 | 0,727 |
+| *Voting* suave | 0,907 | 0,918 | 0,751 |
+| *Stacking* | **0,909** | **0,921** | **0,755** |
+
+![Contraste pareado](images/ensambles_contraste.png)
+
+| Mejor alternativa: *stacking* | Mecánica | Fuerza | Complejidad técnica |
+|---|---|---|---|
+| Diferencia con el modelo actual | +0,008 | +0,010 | +0,008 |
+| Pliegues en que gana | 64 % | 56 % | 68 % |
+| t de Nadeau-Bengio (p) | 1,20 (0,24) | 1,14 (0,27) | 0,72 (0,48) |
+| ¿Cumple la regla? | No | No | No |
+
+- **Ningún candidato cumple la regla.** Todos los intervalos del 95 % cruzan el cero y
+  ninguna diferencia llega a +0,02.
+- **El *stacking* es el mejor en los tres objetivos**, pero por menos que el ruido: en el
+  mejor caso razonable (extremo superior del intervalo, +0,02 a +0,03) aportaría del orden
+  de un ejercicio mejor etiquetado de cada cien.
+- **El boosting solo no conviene aquí**: queda bajo el modelo actual en mecánica y en
+  complejidad. Con pocas filas y muchas variables dispersas, un modelo lineal regularizado
+  o un *bagging* suelen ganarle.
+- ***Voting* y *stacking* quedan siempre sobre el mejor de sus modelos base**, aunque por
+  poco: es lo esperable de un ensamble bien construido.
+
+**Qué aprende el *stacking*.** Los pesos de su meta-modelo (suma de coeficientes en valor
+absoluto por modelo base) dicen en quién confía:
+
+| Objetivo | Logística | Random Forest | Boosting |
+|---|---|---|---|
+| Mecánica | **44 %** | 39 % | 17 % |
+| Fuerza | 29 % | **43 %** | 28 % |
+| Complejidad técnica | **49 %** | 38 % | 12 % |
+
+Confía más en el modelo que gana solo: es una confirmación independiente de la elección
+de la EV2. El *stacking* mejora poco porque los tres modelos **se equivocan en los mismos
+ejercicios**: los ambiguos (*pullover*, *windmill*) y los mal etiquetados en
+free-exercise-db (§12.6). Combinar modelos no corrige un error que está en los datos.
+
+### 16.5 Capacidad de generalización (IE11)
+
+Cuatro mediciones por candidato, de la más optimista a la más exigente. La externa son los
+ejercicios del catálogo cuyo gemelo en free-exercise-db quedó en test (~60 por objetivo,
+con su intervalo *bootstrap*):
+
+| Objetivo | Modelo | Train | CV 5 × 5 | Test | Externa (IC 95 %) |
+|---|---|---|---|---|---|
+| Mecánica | Logística (actual) | 0,998 | 0,901 | 0,882 | 0,811 (0,68–0,91) |
+| | *Stacking* | 0,998 | 0,909 | 0,876 | 0,835 (0,71–0,92) |
+| Fuerza | Random Forest (actual) | 1,000 | 0,911 | 0,883 | 0,892 (0,79–0,96) |
+| | *Stacking* | 1,000 | 0,921 | 0,888 | 0,892 (0,79–0,96) |
+| Complejidad técnica | Logística (actual) | 0,924 | 0,747 | 0,744 | 0,670 (0,53–0,80) |
+| | *Stacking* | 0,987 | 0,755 | 0,765 | 0,735 (0,60–0,84) |
+
+- **Los árboles memorizan *train* (F1 = 1,0), y eso no es un problema en sí**: en un
+  *bagging*, cada árbol se ajusta a fondo a su muestra y el promedio generaliza. Lo que
+  importa es que CV, test y validación externa sean coherentes, y lo son.
+- **Mecánica y fuerza generalizan**: la brecha entre train y CV es de 0,08 a 0,11 en todos
+  los candidatos, y el test queda cerca de la CV. El Random Forest de fuerza **no pierde
+  nada en el catálogo**.
+- **Complejidad técnica tiene la brecha mayor** (0,18 en la logística, 0,23 a 0,28 en los
+  ensambles de árboles), coherente con una etiqueta ruidosa. Es el único objetivo en que
+  el *stacking* sube en el catálogo (0,670 → 0,735), pero con 63 casos los intervalos se
+  solapan casi por completo.
+- **La selección se hace en CV, nunca en test.** El *voting* tiene el mejor test en fuerza
+  (0,898) y en complejidad (0,801). Elegirlo por eso sería ajustar al conjunto de prueba,
+  que perdería su valor como estimación honesta.
+
+La EV2 ya había medido la generalización con más pruebas: intervalos *bootstrap*,
+calibración, curva de aprendizaje, objetivo barajado y validación adversarial (§12.6).
+
+### 16.6 Selección de la solución analítica (IE12)
+
+**Decisión: se mantienen los modelos de la EV2.** Regresión logística para mecánica y
+complejidad técnica, Random Forest (un ensamble de *bagging*) para fuerza.
+
+| Criterio | Modelo actual | Mejor ensamble (*stacking*) |
+|---|---|---|
+| F1 macro CV 5 × 5 (mecánica / fuerza / complejidad) | 0,901 / 0,911 / 0,747 | 0,909 / 0,921 / 0,755 |
+| ¿Mejora más allá del ruido? | — | No: +0,008 a +0,010, p de 0,24 a 0,48 |
+| Validación externa (catálogo) | 0,811 / 0,892 / 0,670 | 0,835 / 0,892 / 0,735, con intervalos solapados |
+| Costo de entrenamiento | 1 ajuste | 19 ajustes (3 modelos × 6, más el meta-modelo) |
+| Interpretabilidad | Coeficientes de la logística, importancia del Random Forest (§12.3) | Pesos del meta-modelo sobre otros modelos |
+| Umbral de abstención | Fijado y validado (§12.4) | Habría que recalcularlo |
+
+**Por qué es la decisión correcta para el negocio.** El KPI que importa es el acierto de lo
+que se etiqueta en el catálogo (≥ 90 %), porque una etiqueta falsa es el error grave:
+sustituir un ejercicio por otro de distinto patrón de movimiento (§1.3). Ese KPI lo
+controla el umbral de abstención, no unas milésimas de F1. Cambiar de modelo por una mejora
+que no se distingue del ruido obligaría a recalibrar el umbral y a regenerar el grafo y la
+web, sin evidencia de que el usuario reciba mejores recomendaciones.
+
+**Qué aportó la EV3**, aunque no cambie el modelo:
+
+1. **Confirma la elección de la EV2 por tres vías independientes**: el contraste pareado,
+   los pesos del meta-modelo y la coherencia entre CV, test y validación externa.
+2. **Acota el techo**: con estas variables y estas etiquetas, ningún ensamble aporta más
+   de ~0,01 de F1. Para mejorar hay que cambiar los **datos**, no el algoritmo.
+3. **Deja la comparación automatizada**: `kedro run` vuelve a comparar los siete
+   candidatos, y `test_adoptar_sigue_la_regla_y_ningun_ensamble_la_cumple` falla si la
+   evidencia cambia y la decisión deja de valer.
+
+### 16.7 Recomendaciones y límites
+
+1. **Revisar a mano ~100 ejercicios del catálogo** (ya recomendado en §12.5). Además de
+   certificar el KPI del 90 %, decide el único caso abierto: si el *stacking* mantiene su
+   ventaja en complejidad técnica con más casos, adoptarlo solo para ese objetivo.
+2. **Corregir las etiquetas discordantes de free-exercise-db** antes de reentrenar: sube el
+   techo de todos los modelos, ensambles incluidos.
+3. **No usar boosting solo** mientras el conjunto tenga ~650 filas: es de los candidatos
+   más caros y pierde frente al modelo actual en mecánica y en complejidad técnica.
+
+**Límites.** Los hiperparámetros del boosting se eligieron con la CV de *train*, y la CV
+repetida usa el mismo *train*: eso favorece levemente al boosting, igual que a la
+logística y al Random Forest ajustados en la EV2, así que la comparación es pareja. No se
+probaron XGBoost ni LightGBM: `HistGradientBoostingClassifier` sigue el mismo enfoque de
+histogramas que LightGBM sin agregar dependencias, y el boosting no es lo que limita el
+resultado.
+
+**Reproducir:** `kedro run --pipeline ensambles` (~11 minutos, después de
+`modelado_supervisado`), luego el notebook 04 (~1 minuto) y
+`pytest tests/test_ensambles.py`.

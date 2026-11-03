@@ -29,7 +29,7 @@ sys.path.insert(0, str(RAIZ / "src"))   # el pickle de modelos referencia módul
 from gym_exercises.pipelines.grafo_biomecanico.nodes import Sustituidor  # noqa: E402
 
 REPORTE = RAIZ / "data/08_reporting"
-FIGURAS = REPORTE / "figures"
+FIGURAS = RAIZ / "images"
 META_COBERTURA = 85.0
 SENTADILLA = "catalogo:0043"
 METODO = "kmeans_node2vec"

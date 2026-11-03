@@ -55,6 +55,11 @@ METRICAS_MODELOS = ["f1_macro", "accuracy", "balanced_accuracy", "f1_ic95_inf", 
 METRICAS_CONTRASTE = ["diferencia_media", "pct_pliegues_complejo_mejor", "t_nadeau_bengio",
                       "p_valor"]
 
+#: Métricas por objetivo y candidato de ``ensambles_comparacion`` (EV3).
+METRICAS_ENSAMBLES = ["cv_f1_media", "cv_f1_sd", "f1_train", "f1_test", "f1_externa",
+                      "brecha_train_cv", "diferencia_media", "pct_pliegues_mejor",
+                      "t_nadeau_bengio", "p_valor"]
+
 #: Métricas por método de ``clustering_comparacion``.
 METRICAS_CLUSTERING = ["n_grupos", "silhouette_embedding", "davies_bouldin_embedding",
                        "modularidad_proyeccion", "ami_fuente", "ami_agonista_principal",
@@ -109,6 +114,12 @@ def metricas_modelos(comparacion: pd.DataFrame) -> dict[str, float]:
 
 def metricas_contraste(contraste: pd.DataFrame) -> dict[str, float]:
     return _filas_a_metricas(contraste, ["objetivo"], METRICAS_CONTRASTE, "contraste")
+
+
+def metricas_ensambles(comparacion: pd.DataFrame) -> dict[str, float]:
+    """``ensambles/fuerza/stacking/cv_f1_media``; la diferencia, el t y el p solo
+    existen para las alternativas al modelo actual."""
+    return _filas_a_metricas(comparacion, ["objetivo", "modelo"], METRICAS_ENSAMBLES, "ensambles")
 
 
 def metricas_clustering(comparacion: pd.DataFrame) -> dict[str, float]:
@@ -245,6 +256,9 @@ class MlflowHook:
         if "modelos_contraste_pareado" in outputs:
             with self._sin_romper("el contraste pareado"):
                 mlflow.log_metrics(metricas_contraste(outputs["modelos_contraste_pareado"]))
+        if "ensambles_comparacion" in outputs:
+            with self._sin_romper("la comparación de ensambles"):
+                mlflow.log_metrics(metricas_ensambles(outputs["ensambles_comparacion"]))
         if "clustering_comparacion" in outputs:
             with self._sin_romper("las métricas de agrupamiento"):
                 mlflow.log_metrics(metricas_clustering(outputs["clustering_comparacion"]))

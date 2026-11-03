@@ -295,3 +295,17 @@ sustitucion_cobertura:
 sustitucion_contexto:
   type: pandas.CSVDataset
   filepath: data/08_reporting/sustitucion_contexto.csv
+
+# ── EV3: Ensambles (pipeline ensambles) ─────────────────────────────────────
+# Solo informes: los modelos y las etiquetas siguen saliendo de modelado_supervisado.
+ensambles_busqueda_boosting:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/ensambles_busqueda_boosting.csv
+
+ensambles_cv_repetida:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/ensambles_cv_repetida.csv
+
+ensambles_comparacion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/ensambles_comparacion.csv
