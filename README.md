@@ -15,7 +15,9 @@ negocio, comprensión de los datos y preparación)
 > - **EV2 (§11–§14): fases 4 (modelado) y 5 (evaluación).** Integra dos fuentes nuevas
 >   (§11), entrena y compara dos modelos supervisados (§12) y dos técnicas no supervisadas
 >   (§13), y evalúa el resultado contra los KPIs de negocio (§14).
-> - **Fase 6 (despliegue): fuera de alcance.** §7 describe su diseño.
+> - **Fase 6 (despliegue): primera versión web (§15).** La aplicación web *Sustituto
+>   Seguro* pone el sustituidor en manos del público, junto con un generador de rutinas y el
+>   seguimiento del progreso. La aplicación móvil con análisis de postura (§7) sigue pendiente.
 
 ### Guía de lectura para la EV2
 
@@ -30,6 +32,7 @@ negocio, comprensión de los datos y preparación)
 | Modelos no supervisados (IE7) | §13 · `notebooks/03_modelado_no_supervisado.ipynb` |
 | Interpretación y recomendaciones de negocio (IE8) | §12.3–§12.6, §13.3–§13.6, §14 |
 | Reproducibilidad y estructura del proyecto | §8 |
+| Aplicación web (despliegue, fase 6) | §15 · `docs/index.html` · `web/` |
 
 ---
 
@@ -1132,7 +1135,12 @@ proyecto_ejercicios/
 │   ├── registro_decisiones.md       # Qué se probó, qué se descartó y por qué
 │   └── ficha_modelo.md              # Uso previsto, métricas por subgrupo y limitaciones
 ├── app/dashboard.py                 # Dashboard de la presentación, Streamlit (§8.7)
-├── tests/                           # Tests unitarios, de datos, de modelo y del dashboard (§8.4)
+├── web/
+│   ├── app.html                     # Fuente de la aplicación web Sustituto Seguro (§15)
+│   ├── probar_web.py                # Pruebas en navegador real (Playwright)
+│   └── capturas/                    # Capturas de la aplicación
+├── docs/index.html                  # Aplicación web armada, lista para GitHub Pages (§15)
+├── tests/                           # Tests unitarios, de datos, de modelo, del dashboard y de la web (§8.4)
 ├── .github/workflows/tests.yml      # CI: pytest en cada push
 ├── src/gym_exercises/
 │   ├── pipeline_registry.py
@@ -1842,4 +1850,91 @@ Ordenadas por cuándo deben hacerse.
 | Validación clínica del mapeo articular | Prerrequisito de seguridad para producción | 2–3 (datos) |
 | Revisión humana de etiquetas y recomendaciones | Certificar los KPIs de acierto con una muestra real | 5 (evaluación) |
 | Subir hombro, rodilla y cadera sobre el 85 % | Las tres articulaciones más consultadas están en 69–84 % | 4 (modelado) |
-| API de recomendación y aplicación con pose en el dispositivo | Medir los KPIs de latencia y privacidad, hoy sin medir | 6 (despliegue), §7 |
+| Aplicación móvil con pose en el dispositivo | Medir los KPIs de latencia y privacidad, hoy sin medir. La web ya está (§15) | 6 (despliegue), §7 |
+
+---
+
+## 15. Aplicación web — *Sustituto Seguro* (fase 6, primera versión)
+
+La EV2 dejó el sustituidor funcionando en un notebook y en el dashboard de la
+presentación. Esta fase lo pone en manos de una persona cualquiera: alguien con una
+lesión que quiere seguir entrenando sin cargar la zona que le duele.
+
+**Archivos:** fuente en `web/app.html`, página armada en `docs/index.html`.
+Funciona en computador y celular, sin servidor y sin cuentas.
+
+| Inicio | Sustituir (celular) | Rutina con IA |
+|---|---|---|
+| ![Inicio](web/capturas/inicio.png) | ![Sustituir](web/capturas/movil_sustituir.png) | ![Rutina](web/capturas/rutina_ia.png) |
+
+### 15.1 Qué hace
+
+| Sección | Qué ofrece | De dónde sale |
+|---|---|---|
+| **Sustituir** | Eliges un ejercicio y la articulación lesionada; recibes hasta 5 alternativas que trabajan el mismo músculo sin cargarla, o una abstención explicada | El mismo `Sustituidor` del pipeline (§13.5), precalculado para las 13.304 combinaciones ejercicio × articulación × perfil |
+| **Mi rutina** | Rutina semanal según edad, peso, altura, deporte, nivel, objetivo, días, minutos, equipamiento y lesiones | Reglas de programación sobre 68 ejercicios conocidos con nombre en español, con el mismo filtro duro de seguridad |
+| **Mejorar con IA** | Revisa la rutina, explica el porqué, propone cambios y responde preguntas | Claude, con la cuenta de quien usa la página; solo puede elegir entre alternativas ya validadas |
+| **Entrenar** | Series para marcar, peso y repeticiones, cronómetro de descanso; al final, esfuerzo y dolor por zona | Registro local en el navegador |
+| **Progreso** | Constancia semanal, dolor por zona, carga por ejercicio, peso corporal, historial y respaldo | Gráficos sobre el registro; avisos si el dolor llega a 7/10 o sube 2 puntos |
+| **Cómo funciona** | Explicación en lenguaje simple: seguridad, abstención, orden, IA, privacidad y límites | §5, §13 y §14 de este README |
+
+### 15.2 Seguridad
+
+La regla de §13.5 se respeta en todas las secciones: **ningún ejercicio que cargue una
+articulación vetada aparece nunca**, ni como recomendación, ni en la rutina, ni como
+cambio propuesto por la IA.
+
+- **Sustituir:** las alternativas son las del pipeline. `scripts/exportar_datos_web.py`
+  se detiene si alguna carga la articulación vetada.
+- **Rutina:** cada lesión se traduce a sus articulaciones con un criterio conservador.
+  Por ejemplo, muñeca también veta el antebrazo (radiocubital) y zona lumbar veta la
+  columna torácico-lumbar. Si no queda un ejercicio seguro para un grupo muscular, el
+  hueco se informa y se sugiere consultar a un kinesiólogo, igual que la abstención de §5.1 b.
+- **IA:** la respuesta se valida en la página. Un cambio solo se acepta si el ejercicio
+  nuevo está en la lista de alternativas seguras de ese ejercicio. La IA no puede inventar
+  uno.
+- **Edad e impacto:** con menos de 18 años se evitan series de muy pocas repeticiones y se
+  pide supervisión. Con 60 o más se excluyen saltos y técnica compleja, y se suma
+  equilibrio. Con un IMC de 30 o más se empieza sin impacto. La aplicación no da dietas
+  ni metas de peso.
+
+### 15.3 Pruebas
+
+| Prueba | Qué verifica | Cómo se corre |
+|---|---|---|
+| `tests/test_web.py` (CI) | La página está armada desde la fuente actual, sus datos coinciden con el pipeline, ninguna alternativa carga la articulación vetada y los ejercicios en español existen | `python -m pytest tests/test_web.py` |
+| `web/probar_web.py` | 38 pruebas en un navegador real, en escritorio y celular: búsqueda en español, abstención, validación del formulario, 300 rutinas con perfiles al azar sin ejercicios inseguros, modo entrenamiento, alertas de dolor, IA simulada, sin scroll horizontal y sin errores de JavaScript | `python web/probar_web.py` (requiere Playwright) |
+
+### 15.4 Regenerar y publicar
+
+```bash
+python scripts/exportar_datos_web.py   # corre el Sustituidor → web/datos_web.json
+python scripts/armar_web.py            # inserta los datos en web/app.html → docs/index.html
+```
+
+Hay que regenerar la página cada vez que cambien las salidas de `kedro run`. El test
+`test_datos_coinciden_con_el_pipeline` falla si se olvida.
+
+**GitHub Pages:** en *Settings → Pages*, elegir la rama `main` y la carpeta `/docs`. La
+página queda en `https://unknumb.github.io/proyecto_gym/`. Ahí funciona todo menos la IA
+y el botón de guardar respaldo, que dependen de Claude. Ambos se ocultan solos y cargar
+un respaldo sigue funcionando. Publicada como artefacto en claude.ai, la IA está
+disponible para quien tenga cuenta de Claude.
+
+### 15.5 Decisiones y límites
+
+- **Sin servidor.** Las recomendaciones se precalculan (≈0,8 MB). La página carga una vez
+  y funciona sin conexión a una API, así que no hay costo de operación ni datos personales
+  en un servidor.
+- **Privacidad (§5.4).** Edad, peso, lesiones y progreso viven solo en el navegador de
+  cada persona (`localStorage`). El costo es que se pierden al cambiar de dispositivo, y
+  para eso está el respaldo.
+- **Nombres en español** solo para los 68 ejercicios de las rutinas; los otros 2.393
+  conservan el nombre original en inglés. La búsqueda acepta términos en español
+  ("sentadilla", "peso muerto", "dominadas").
+- **No es un dispositivo médico.** Hereda los límites de §6 y §13.6: el mapeo
+  músculo → articulación aún no tiene validación clínica, y hombro y rodilla quedan bajo
+  la meta de cobertura.
+- **Reparto con la aplicación móvil.** La web cubre la recomendación, la planificación y
+  el seguimiento. El análisis de postura con la cámara y la inferencia en el dispositivo
+  (§7, puntos 2 y 3) corresponden a la aplicación móvil, en desarrollo aparte.
