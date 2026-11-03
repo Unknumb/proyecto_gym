@@ -32,7 +32,7 @@ BASE = "https://raw.githubusercontent.com/Unknumb/dataset_ejercicios/main/"
 RAIZ = Path(__file__).resolve().parent.parent
 ORIGEN = RAIZ / "data" / "01_raw" / "exercises.json"
 DESTINO = RAIZ / "data" / "08_reporting" / "media_sample_audit.csv"
-FIGURAS = RAIZ / "data" / "08_reporting" / "figures"
+FIGURAS = RAIZ / "images"
 
 #: Ejercicio usado como muestra visual: su ciclo excéntrico-concéntrico es nítido.
 EJEMPLO_VISUAL = "barbell full squat"

@@ -532,7 +532,7 @@ $$IQR = Q_3 - Q_1 \qquad \text{L. inferior} = Q_1 - 1.5 \times IQR \qquad \text{
 Se eligió el IQR sobre el *z-score* porque es **robusto**: los cuartiles no se ven
 arrastrados por los propios valores extremos, y ninguna de estas variables es normal.
 
-![Boxplots IQR](data/08_reporting/figures/boxplots_iqr.png)
+![Boxplots IQR](images/boxplots_iqr.png)
 
 **287 valores atípicos** en 8 de 10 variables. `n_pasos` es la más afectada (92 casos,
 6,95 %); `frecuencia_equipamiento` y `frecuencia_musculo_primario` no presentan ninguno.
@@ -546,7 +546,7 @@ arrastrados por los propios valores extremos, y ninguna de estas variables es no
 
 ### 4.2 Análisis de forma — histogramas con KDE
 
-![Histogramas KDE](data/08_reporting/figures/histogramas_kde.png)
+![Histogramas KDE](images/histogramas_kde.png)
 
 **Sesgo positivo generalizado.** Siete de diez variables presentan asimetría positiva
 moderada (+0,55 a +0,83), con media > mediana en todas. El catálogo se compone
@@ -561,7 +561,7 @@ en §5.1.
 
 ### 4.3 Matriz de correlación de Pearson
 
-![Matriz de correlación](data/08_reporting/figures/matriz_correlacion.png)
+![Matriz de correlación](images/matriz_correlacion.png)
 
 **Redundancia crítica (|r| > 0,9):**
 
@@ -610,7 +610,7 @@ reproducible sin conexión. Sobre 38 animaciones:
 | Etiquetas temporales | **ninguna** | Sin campos de fase, tempo ni ángulo: cero supervisión |
 | Energía de movimiento | 7,4 % de píxeles por fotograma | Hay movimiento real, pero mezclado con el de las estelas |
 
-![Fotogramas de un GIF](data/08_reporting/figures/media_fotogramas.png)
+![Fotogramas de un GIF](images/media_fotogramas.png)
 
 Dos propiedades que ninguna métrica captura y que la evidencia visual muestra de
 inmediato: el material son **ilustraciones anatómicas sin piel** —no personas—, con el
@@ -638,7 +638,7 @@ fotogramas hay dos figuras humanas simultáneas.
 Parte III del notebook (§14–17). Antes de analizar la unión se auditó la unión misma
 (§3.5):
 
-![Emparejamiento](data/08_reporting/figures/megagym_emparejamiento.png)
+![Emparejamiento](images/megagym_emparejamiento.png)
 
 **Dificultad.** Con solo las fichas curadas, **327 ejercicios (24,7 %)** tienen nivel
 fiable: **41 % *Beginner*, 58 % *Intermediate* y 2 *Expert*** (`barbell hack squat`,
@@ -646,7 +646,7 @@ fiable: **41 % *Beginner*, 58 % *Intermediate* y 2 *Expert*** (`barbell hack squ
 `Rating` tiene efecto techo (mediana 8,4/10); además mide popularidad, el criterio que
 §1.1 descarta para recomendar, así que se conserva solo como descriptor.
 
-![Dificultad](data/08_reporting/figures/dificultad_nivel.png)
+![Dificultad](images/dificultad_nivel.png)
 
 **Dificultad frente a complejidad.** No hay diferencia entre *Beginner* e
 *Intermediate* en pasos de instrucción (medianas 6 y 5; Mann-Whitney p = 0,16) ni en
@@ -654,7 +654,7 @@ músculos implicados (3 y 3; p = 0,14), con tamaños de efecto despreciables
 (|r| < 0,1). La dificultad es un **eje propio**, igual que §4.3 mostró para la
 complejidad textual y la biomecánica, y confirma que no era imputable (§3.4).
 
-![Dificultad vs complejidad](data/08_reporting/figures/dificultad_vs_complejidad.png)
+![Dificultad vs complejidad](images/dificultad_vs_complejidad.png)
 
 **Articulación × equipamiento.** El tren superior depende del gimnasio: en `codo`
 (73 %), `muñeca` / `radiocubital` (79 %), `escapulotorácica` (74 %) y `hombro` (68 %) la
@@ -665,7 +665,7 @@ de §5.1: la cuota de alternativas sin equipamiento es viable en cadera, columna
 rodilla, pero en codo, muñeca y hombro tendrá pocos candidatos y el sistema recurrirá
 más a la abstención.
 
-![Articulación × equipamiento](data/08_reporting/figures/articulacion_equipamiento.png)
+![Articulación × equipamiento](images/articulacion_equipamiento.png)
 
 ---
 
@@ -673,7 +673,7 @@ más a la abstención.
 
 ### 5.1 Sesgo de muestreo
 
-![Evidencia de sesgo](data/08_reporting/figures/sesgo_muestreo.png)
+![Evidencia de sesgo](images/sesgo_muestreo.png)
 
 El catálogo **no es una muestra representativa del ejercicio físico**: es un inventario
 de gimnasio comercial orientado a hipertrofia. La evidencia es cuantitativa, medida con
@@ -733,7 +733,7 @@ insuficiente en lugar de una sugerencia poco fundamentada.
 neutral. megaGymDataset proviene de un sitio de musculación, y eso se nota en quién
 recibe una dificultad fiable:
 
-![Sesgo del enriquecimiento](data/08_reporting/figures/sesgo_enriquecimiento.png)
+![Sesgo del enriquecimiento](images/sesgo_enriquecimiento.png)
 
 | Contexto | Ejercicios | % con dificultad curada |
 |---|---|---|
@@ -1056,7 +1056,7 @@ VS Code y nbviewer.
 > **Nota:** la previsualización de `.ipynb` en la web de GitHub no ejecuta JavaScript y
 > por tanto **no muestra los gráficos interactivos**. Para revisarlos hay que abrir el
 > notebook en Jupyter o VS Code. Las versiones estáticas en PNG están en
-> `data/08_reporting/figures/` y son las que se incrustan en este README.
+> `images/` y son las que se incrustan en este README.
 
 ### 8.4 Tests
 
@@ -1153,8 +1153,8 @@ proyecto_ejercicios/
 │       ├── sustitucion_contexto.csv     # KPI de sustitución por contexto
 │       ├── ensambles_busqueda_boosting.csv  # EV3 (§16): configuraciones del boosting probadas
 │       ├── ensambles_cv_repetida.csv    # F1 por pliegue de los siete candidatos
-│       ├── ensambles_comparacion.csv    # CV, train, test, externa, contraste y adoptar
-│       └── figures/                 # Exportación PNG de los gráficos
+│       └── ensambles_comparacion.csv    # CV, train, test, externa, contraste y adoptar
+├── images/                          # Los 37 gráficos en PNG, exportados por los notebooks
 ├── scripts/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
 │   ├── descargar_fuentes_externas.py    # Instantáneas de free-exercise-db y wger (requiere red)
@@ -1213,10 +1213,10 @@ proyecto_ejercicios/
 ```
 
 **Estructura exigida por la pauta.** La pauta pide `data/`, `notebooks/`, `models/`,
-`images/` y `README.md`. Los cuatro primeros existen con ese nombre. Las imágenes viven
-en `data/08_reporting/figures/`, la convención de Kedro para las salidas de reporte: así
-cada `kedro run` y cada notebook regeneran las figuras en el mismo lugar que el resto de
-los reportes, y el README las incrusta desde ahí.
+`images/` y `README.md`, y las cinco existen con ese nombre. Los gráficos se exportan
+directamente a `images/` cada vez que se ejecuta un notebook, y el README y el dashboard
+los incrustan desde ahí. Las tablas que los alimentan siguen en `data/08_reporting/`, la
+convención de Kedro para los reportes.
 
 ### 8.6 Nodos del pipeline
 
@@ -1580,7 +1580,7 @@ no tienen aterrizaje.
 | Fuerza | Random Forest | 0,918 | 0,883 | **0,892** | 0,335 |
 | Complejidad técnica | Regresión logística, `C` = 1 | 0,747 | 0,744 | 0,670 | 0,489 |
 
-![Comparación de modelos](data/08_reporting/figures/modelos_comparacion.png)
+![Comparación de modelos](images/modelos_comparacion.png)
 
 - **Mecánica** es un empate técnico con Random Forest (0,9004 frente a 0,9010 en CV). Gana
   la logística por simplicidad, y en el catálogo rinde igual o mejor (0,81 vs. 0,80).
@@ -1591,7 +1591,7 @@ no tienen aterrizaje.
 
 **Qué aprendió cada modelo** (importancia por permutación agrupada, en test):
 
-![Importancia de variables](data/08_reporting/figures/modelos_importancia_variables.png)
+![Importancia de variables](images/modelos_importancia_variables.png)
 
 - **Mecánica se decide por la anatomía**: sinergistas y articulaciones. Es la definición
   biomecánica de "compuesto", y la mejor evidencia de que el modelo aprendió biomecánica
@@ -1602,7 +1602,7 @@ no tienen aterrizaje.
 
 ### 12.4 Abstención y KPIs
 
-![Abstención](data/08_reporting/figures/modelos_abstencion.png)
+![Abstención](images/modelos_abstencion.png)
 
 | KPI | Resultado |
 |---|---|
@@ -1687,7 +1687,7 @@ segunda pregunta es el KPI *Cobertura de sustitución* de §1.3 (meta ≥ 85 %).
 
 ### 13.2 El grafo
 
-![Vecindad de la sentadilla](data/08_reporting/figures/grafo_ego_sentadilla.png)
+![Vecindad de la sentadilla](images/grafo_ego_sentadilla.png)
 
 Grafo heterogéneo de **2.529 nodos y 13.907 aristas**: 2.461 ejercicios (se excluyen 131
 sin músculos), 41 músculos y regiones, 13 articulaciones, 9 familias de equipamiento y
@@ -1726,7 +1726,7 @@ quita, y no cambia las aristas del grafo: las familias de movimiento son las mis
 | AMI con la fuente (↓ mejor) | 0,17 | **0,08** |
 | Cobertura de sustitución, misma familia | 57,1 % | **89,4 %** |
 
-![Elección de k](data/08_reporting/figures/kmeans_barrido.png)
+![Elección de k](images/kmeans_barrido.png)
 
 **k = 12** es el último k antes de que caiga la *silhouette* (0,23 → 0,20 en k = 14), con
 estabilidad de 0,91 entre semillas (ARI). Reentrenando Node2Vec con otras semillas, la
@@ -1740,13 +1740,13 @@ y mezcla las fuentes.
 
 ### 13.4 Las 12 familias de movimiento
 
-![Familias en UMAP](data/08_reporting/figures/familias_umap.png)
+![Familias en UMAP](images/familias_umap.png)
 
 Cuádriceps-glúteo de empuje, isquiotibiales-glúteo de tracción, pecho, tríceps-hombro de
 empuje, hombro de empuje, hombro-trapecio de tracción, dorsal, espalda alta, bíceps,
 core y dos familias de estiramiento. Casi todas mezclan al menos dos fuentes:
 
-![Mezcla de fuentes](data/08_reporting/figures/familias_mezcla_fuentes.png)
+![Mezcla de fuentes](images/familias_mezcla_fuentes.png)
 
 Los dos huecos son de **vocabulario**, no de movimiento: free-exercise-db anota `chest` y
 `shoulders` (regiones), y sus ejercicios de pecho caen en la familia vecina de
@@ -1762,7 +1762,7 @@ ejercicios (§5.1 b); (4) fuerza por fuerza, estiramiento por estiramiento; (5) 
 misma familia; (6) ordenar por similitud del embedding; (7) cuota de al menos una
 alternativa de peso corporal en el top 5 (§5.1 a).
 
-![Cobertura por articulación](data/08_reporting/figures/sustitucion_cobertura.png)
+![Cobertura por articulación](images/sustitucion_cobertura.png)
 
 | KPI | Resultado |
 |---|---|
@@ -2097,7 +2097,7 @@ ejes a la vez (Bergstra y Bengio, 2012), con el mismo `GroupKFold` de 5 pliegues
 | `l2_regularization` | 0 / 1 / 10 | Penaliza hojas con valores extremos |
 | `max_features` | 0,1 / 0,3 / 1,0 | Fracción de variables por corte: evita que unas pocas palabras dominen |
 
-![Búsqueda del boosting](data/08_reporting/figures/ensambles_busqueda_boosting.png)
+![Búsqueda del boosting](images/ensambles_busqueda_boosting.png)
 
 | Objetivo | Boosting por defecto | Boosting ajustado | Mejora | Modelo actual (mismos pliegues) |
 |---|---|---|---|---|
@@ -2123,7 +2123,7 @@ CV repetida 5 × 5 con los mismos pliegues que el diagnóstico de la EV2: las fi
 logística y del Random Forest reproducen `modelos_cv_repetida.csv` pliegue a pliegue, y
 un test lo verifica.
 
-![Comparación de ensambles](data/08_reporting/figures/ensambles_comparacion.png)
+![Comparación de ensambles](images/ensambles_comparacion.png)
 
 | F1 macro, CV 5 × 5 | Mecánica | Fuerza | Complejidad técnica |
 |---|---|---|---|
@@ -2135,7 +2135,7 @@ un test lo verifica.
 | *Voting* suave | 0,907 | 0,918 | 0,751 |
 | *Stacking* | **0,909** | **0,921** | **0,755** |
 
-![Contraste pareado](data/08_reporting/figures/ensambles_contraste.png)
+![Contraste pareado](images/ensambles_contraste.png)
 
 | Mejor alternativa: *stacking* | Mecánica | Fuerza | Complejidad técnica |
 |---|---|---|---|
