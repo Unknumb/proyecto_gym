@@ -55,3 +55,7 @@ conf/local/*
 # Página web: datos intermedios y archivos de prueba (se regeneran)
 web/datos_web.json
 web/capturas/app_ia.html
+
+# MLflow (seguimiento local de experimentos, README §8.8)
+mlflow.db
+mlruns/
