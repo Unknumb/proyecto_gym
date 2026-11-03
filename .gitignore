@@ -63,6 +63,5 @@ mlruns/
 # App de iPhone (ios/): compilación de Swift y de Xcode
 ios/**/.build/
 ios/**/.swiftpm/
-ios/**/*.xcodeproj/
 ios/**/xcuserdata/
 ios/**/DerivedData/

@@ -82,6 +82,15 @@ public final class Perfilador {
 
     public func normalizar(_ nombre: String) -> String { normalizador.normalizar(nombre) }
 
+    /// Clases del modelo de un objetivo, en el orden de scikit-learn.
+    public func clases(_ objetivo: String) -> [String] { modelo.modelos[objetivo]?.clases ?? [] }
+
+    /// Confianza mínima para etiquetar (umbral de abstención del pipeline).
+    public func umbral(_ objetivo: String) -> Double { modelo.modelos[objetivo]?.umbralAbstencion ?? 1 }
+
+    /// Algoritmo ganador de un objetivo (`regresion_logistica` o `random_forest`).
+    public func algoritmo(_ objetivo: String) -> String { modelo.modelos[objetivo]?.algoritmo ?? "" }
+
     public func reglas(nombreNormalizado n: String, familia: String) -> PerfilReglas {
         let r = modelo.reglas
         let esInestable = inestable.aparece(en: n) || r.familiasInestable.contains(familia)
