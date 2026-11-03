@@ -1030,7 +1030,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 52 tests, ~6 s; corren sobre los artefactos versionados
+python -m pytest -q      # 56 tests, ~12 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
@@ -1040,6 +1040,7 @@ python -m pytest -q      # 52 tests, ~6 s; corren sobre los artefactos versionad
 | Modelo | F1 al menos 0,2 sobre el azar y KPI de F1 ≥ 0,85; invariancia (cambiar barra por mancuernas casi no cambia la mecánica); dirección (más articulaciones, más probabilidad de compuesto) |
 | Sustituidor | Ninguna alternativa carga la articulación vetada; abstención sin sustituto anatómico; demostración sentadilla → Hip Thrust |
 | Dashboard | Las seis vistas se dibujan sin errores; la tabla de niveles marca las 102 coincidencias; la demo propone el Hip Thrust y se abstiene con la extensión de piernas (§8.7) |
+| Página web | Armada desde la fuente actual; sus ejercicios y recomendaciones son idénticos a los que da hoy el Sustituidor; ninguna alternativa carga la articulación vetada; los ejercicios en español existen (§15.3) |
 | MLflow | Las métricas registradas son las de los reportes versionados; el hook deja la corrida terminada y el modelo del registro predice igual que el `.pkl` (§8.8) |
 
 GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
@@ -1946,8 +1947,8 @@ cambio propuesto por la IA.
 
 | Prueba | Qué verifica | Cómo se corre |
 |---|---|---|
-| `tests/test_web.py` (CI) | La página está armada desde la fuente actual, sus datos coinciden con el pipeline, ninguna alternativa carga la articulación vetada y los ejercicios en español existen | `python -m pytest tests/test_web.py` |
-| `web/probar_web.py` | 38 pruebas en un navegador real, en escritorio y celular: búsqueda en español, abstención, validación del formulario, 300 rutinas con perfiles al azar sin ejercicios inseguros, modo entrenamiento, alertas de dolor, IA simulada, sin scroll horizontal y sin errores de JavaScript | `python web/probar_web.py` (requiere Playwright) |
+| `tests/test_web.py` (CI) | La página está armada desde la fuente actual; sus datos son idénticos a los que da hoy el Sustituidor (vuelve a calcular las 13.304 consultas y compara ejercicios y recomendaciones); ninguna alternativa carga la articulación vetada; los 68 ejercicios en español y los complementos por deporte existen en los datos | `python -m pytest tests/test_web.py` |
+| `web/probar_web.py` | 42 pruebas en un navegador real, en escritorio y celular: búsqueda en español, abstención, validación del formulario, 300 rutinas con perfiles al azar sin ejercicios inseguros, modo entrenamiento, alertas de dolor, IA simulada, respaldo legítimo y alterado, sin scroll horizontal y sin errores de JavaScript | `python web/probar_web.py` (requiere Playwright) |
 
 ### 15.4 Regenerar y publicar
 
@@ -1967,7 +1968,7 @@ disponible para quien tenga cuenta de Claude.
 
 ### 15.5 Decisiones y límites
 
-- **Sin servidor.** Las recomendaciones se precalculan (≈0,8 MB). La página carga una vez
+- **Sin servidor.** Las recomendaciones se precalculan (≈0,9 MB). La página carga una vez
   y funciona sin conexión a una API, así que no hay costo de operación ni datos personales
   en un servidor.
 - **Privacidad (§5.4).** Edad, peso, lesiones y progreso viven solo en el navegador de
@@ -1976,6 +1977,13 @@ disponible para quien tenga cuenta de Claude.
 - **Nombres en español** solo para los 68 ejercicios de las rutinas; los otros 2.393
   conservan el nombre original en inglés. La búsqueda acepta términos en español
   ("sentadilla", "peso muerto", "dominadas").
+- **Ejercicios por `ejercicio_id`.** Los 68 ejercicios con nombre en español y los
+  complementos por deporte se identifican por su `ejercicio_id` del pipeline, no por su
+  posición en los datos. Si un `kedro run` cambia el orden, cada nombre sigue apuntando al
+  mismo ejercicio; si un ejercicio desaparece, el test lo informa.
+- **Respaldo validado.** Al cargar un respaldo, cada campo se reconstruye con tipos y valores
+  conocidos: un archivo alterado no puede insertar HTML en la página, y los ejercicios que
+  cargan una lesión registrada se descartan igual que en la rutina.
 - **No es un dispositivo médico.** Hereda los límites de §6 y §13.6: el mapeo
   músculo → articulación aún no tiene validación clínica, y hombro y rodilla quedan bajo
   la meta de cobertura.
