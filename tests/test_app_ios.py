@@ -20,6 +20,7 @@ import exportar_modelo_ios as exportador  # noqa: E402
 import importar_datos_ios as importador  # noqa: E402
 
 MODELO = RAIZ / "ios/SustitutoSeguro/Recursos/modelo_perfil.json"
+RECOMENDACIONES = RAIZ / "ios/SustitutoSeguro/Recursos/recomendaciones.json"
 CASOS = RAIZ / "ios/SustitutoSeguroCore/Tests/SustitutoSeguroCoreTests/Recursos/casos_prueba.json"
 SWIFT_EXPORTACION = RAIZ / "ios/SustitutoSeguroCore/Sources/SustitutoSeguroCore/Exportacion.swift"
 
@@ -35,6 +36,15 @@ def test_la_app_lleva_el_modelo_actual_del_pipeline(modelos, ejercicios, perfil,
     actual = json.loads(json.dumps(exportador.exportar_modelo(modelos, ejercicios, perfil, musculo_articulacion),
                                    ensure_ascii=False, allow_nan=False))
     assert actual == modelo_app
+
+
+def test_la_app_recomienda_lo_mismo_que_la_web():
+    """La copia de la app es idéntica a los datos de ``docs/index.html``, que
+    ``tests/test_web.py`` compara con el ``Sustituidor`` del pipeline."""
+    html = (RAIZ / "docs/index.html").read_text(encoding="utf-8")
+    web = re.search(r'<script type="application/json" id="datos">(.*?)</script>', html, re.S).group(1)
+    assert json.loads(RECOMENDACIONES.read_text(encoding="utf-8")) == json.loads(web.replace("<\\/", "</")), (
+        "recomendaciones de la app desactualizadas: corre scripts/exportar_modelo_ios.py")
 
 
 def test_casos_de_prueba_con_las_probabilidades_actuales(modelos, tabla_modelado):

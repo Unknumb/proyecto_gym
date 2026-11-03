@@ -9,6 +9,9 @@ free-exercise-db), todo lo que el pipeline de scikit-learn aprendió:
 - los coeficientes de la regresión logística o los 400 árboles del Random Forest;
 - las clases y el umbral de abstención.
 
+Escribe también ``recomendaciones.json``: las recomendaciones precalculadas por
+el ``Sustituidor``, las mismas de la web (``scripts/exportar_datos_web.py``).
+
 Además lleva la ontología (músculo → articulaciones), las reglas del perfil
 (impacto, estabilidad, carga graduable), la normalización de nombres y el perfil
 ya calculado de cada ejercicio del grafo, para mostrarlo y corregirlo.
@@ -19,7 +22,7 @@ comprueba que Swift da las mismas probabilidades.
 
 Uso, desde la raíz del repositorio::
 
-    python scripts/exportar_modelo_ios.py           # escribe los dos JSON de ios/
+    python scripts/exportar_modelo_ios.py           # escribe los tres JSON de ios/
 """
 from __future__ import annotations
 
@@ -42,6 +45,9 @@ from gym_exercises.pipelines.modelado_supervisado import nodes as modelado  # no
 pd.set_option("compute.use_numexpr", False)
 
 SALIDA_MODELO = RAIZ / "ios/SustitutoSeguro/Recursos/modelo_perfil.json"
+#: Copia versionada de las recomendaciones de la web: ``web/datos_web.json`` es un
+#: intermedio ignorado por git, y la app debe compilar desde un clon limpio.
+SALIDA_RECOMENDACIONES = RAIZ / "ios/SustitutoSeguro/Recursos/recomendaciones.json"
 SALIDA_CASOS = RAIZ / "ios/SustitutoSeguroCore/Tests/SustitutoSeguroCoreTests/Recursos/casos_prueba.json"
 
 
@@ -165,7 +171,11 @@ def main() -> None:
     tabla = pd.read_parquet(RAIZ / "data/05_model_input/tabla_modelado.parquet")
     musculo_articulacion = pd.read_csv(RAIZ / "data/03_primary/musculo_articulacion.csv")
 
+    sys.path.insert(0, str(RAIZ / "scripts"))
+    import exportar_datos_web  # noqa: PLC0415
+
     for ruta, datos in [(SALIDA_MODELO, exportar_modelo(modelos, ejercicios, perfil, musculo_articulacion)),
+                        (SALIDA_RECOMENDACIONES, exportar_datos_web.exportar(*exportar_datos_web.cargar(None))),
                         (SALIDA_CASOS, exportar_casos(modelos, ejercicios, tabla, args.casos, 2026))]:
         ruta.parent.mkdir(parents=True, exist_ok=True)
         ruta.write_text(json.dumps(datos, ensure_ascii=False, separators=(",", ":"), allow_nan=False),

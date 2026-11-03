@@ -58,7 +58,7 @@ public struct Recomendacion {
     public let alternativas: [Alternativa]
 }
 
-/// Las recomendaciones precalculadas de `web/datos_web.json`: las mismas que da el
+/// Las recomendaciones precalculadas (`recomendaciones.json`, copia de las de la web): las mismas que da el
 /// `Sustituidor` del pipeline para cada ejercicio, articulación y perfil (los tests
 /// de la web las comparan con el pipeline).
 public final class Recomendador {

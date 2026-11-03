@@ -53,9 +53,9 @@ print("Probabilidades: \(casos.casos.count) ejercicios × 3 objetivos; mayor dif
 for objetivo in Perfilador.objetivos { print("  \(objetivo): \(peor[objetivo] ?? .nan)") }
 print("Clases más probables distintas: \(etiquetasDistintas)")
 print(String(format: "Carga del modelo: %.2f s · predicción: %.1f ms por ejercicio (Mac)", carga, porEjercicio))
-// Recomendaciones precalculadas (web/datos_web.json), con los nombres en español.
-let recomendador = try Recomendador(datos: Data(contentsOf: raiz.deletingLastPathComponent().deletingLastPathComponent()
-    .appendingPathComponent("web/datos_web.json")), nombresEspanol: perfilador.modelo.nombresEs)
+// Recomendaciones precalculadas (las de la web), con los nombres en español.
+let recomendador = try Recomendador(datos: Data(contentsOf: raiz.deletingLastPathComponent()
+    .appendingPathComponent("SustitutoSeguro/Recursos/recomendaciones.json")), nombresEspanol: perfilador.modelo.nombresEs)
 func comprobar(_ ok: Bool, _ texto: String) { print(ok ? "  ✓ \(texto)" : "  ✗ \(texto)"); if !ok { fallas += 1 } }
 print("Recomendador: \(recomendador.ejercicios.count) ejercicios, \(recomendador.articulaciones.count) articulaciones")
 let sentadilla = recomendador.ejercicio(id: "catalogo:0043")!

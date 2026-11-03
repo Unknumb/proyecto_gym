@@ -20,9 +20,6 @@ targets:
       - path: Recursos
         type: folder
         buildPhase: resources
-      # Las recomendaciones precalculadas son las mismas de la web: un solo archivo.
-      - path: ../../web/datos_web.json
-        buildPhase: resources
     dependencies:
       - package: SustitutoSeguroCore
     settings:

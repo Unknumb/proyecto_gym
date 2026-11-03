@@ -3,7 +3,7 @@ import Observation
 import SustitutoSeguroCore
 
 /// El modelo del perfil (`modelo_perfil.json`) y las recomendaciones precalculadas
-/// (`datos_web.json`), cargados desde el paquete de la app. Todo corre en el
+/// (`recomendaciones.json`, las mismas de la web), cargados desde el paquete de la app. Todo corre en el
 /// teléfono: no hay servidor.
 @Observable
 final class Catalogo {
@@ -16,7 +16,7 @@ final class Catalogo {
         do {
             let (perfilador, recomendador) = try await Task.detached(priority: .userInitiated) {
                 let perfilador = try Perfilador(datos: try Self.recurso("modelo_perfil"))
-                let recomendador = try Recomendador(datos: try Self.recurso("datos_web"),
+                let recomendador = try Recomendador(datos: try Self.recurso("recomendaciones"),
                                                     nombresEspanol: perfilador.modelo.nombresEs)
                 return (perfilador, recomendador)
             }.value
