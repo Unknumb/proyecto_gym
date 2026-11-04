@@ -122,6 +122,7 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					3F2E0393A96947EB1E69EE13 = {
+						DevelopmentTeam = G7P9JBT7N7;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -186,6 +187,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G7P9JBT7N7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sustituto Seguro";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
@@ -332,6 +334,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G7P9JBT7N7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sustituto Seguro";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;

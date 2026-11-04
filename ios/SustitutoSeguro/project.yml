@@ -31,6 +31,8 @@ targets:
         SWIFT_VERSION: "5.0"
         TARGETED_DEVICE_FAMILY: "1"
         CODE_SIGN_STYLE: Automatic
+        # Equipo de firma (Personal Team de Álvaro). Otra persona pone aquí el suyo.
+        DEVELOPMENT_TEAM: G7P9JBT7N7
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Sustituto Seguro
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
