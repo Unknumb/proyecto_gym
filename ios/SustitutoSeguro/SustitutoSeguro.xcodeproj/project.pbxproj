@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F5DC0BD08A37BC958325D23 /* modelo_perfil.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A480B36312FC7C4DFAAEBA6 /* modelo_perfil.json */; };
 		1B987458E5CE3ABCE149CD87 /* NuevoEjercicioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108EFC2BB3C151F90E439320 /* NuevoEjercicioView.swift */; };
 		26C88DB5BF91358776E91FAB /* SustitutoSeguroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA55E5EA4B79ED804913A166 /* SustitutoSeguroApp.swift */; };
+		4A9050FAFA0CA90AD2C81A75 /* recomendaciones.json in Resources */ = {isa = PBXBuildFile; fileRef = 45829446B5B07C2D4C8C2FC0 /* recomendaciones.json */; };
 		65F451B74A3E0FF164541BDE /* Catalogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C45AF3C1B79DE6EE435769 /* Catalogo.swift */; };
-		859420C4E41FD4539C7C22E0 /* Recursos in Resources */ = {isa = PBXBuildFile; fileRef = 6213DEF6AC33020C41290E27 /* Recursos */; };
 		86C36F56331C5B14B5E2EFC7 /* SustitutoSeguroCore in Frameworks */ = {isa = PBXBuildFile; productRef = 537312C840EA39C42C4B6D34 /* SustitutoSeguroCore */; };
 		979BA3B31F77CE3808ACF8F8 /* Textos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B046E82646EE39DC91CFBE /* Textos.swift */; };
 		DC311FA6A4AF2ADC493CB3B1 /* EntrenarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B991D8456EC5337A6BBCE49 /* EntrenarView.swift */; };
@@ -24,8 +25,9 @@
 		108EFC2BB3C151F90E439320 /* NuevoEjercicioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuevoEjercicioView.swift; sourceTree = "<group>"; };
 		134D78AE479ECE640D51AB4F /* Almacen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Almacen.swift; sourceTree = "<group>"; };
 		1E91F79512ED92518CBF2A11 /* MisDatosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MisDatosView.swift; sourceTree = "<group>"; };
+		45829446B5B07C2D4C8C2FC0 /* recomendaciones.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recomendaciones.json; sourceTree = "<group>"; };
 		59C45AF3C1B79DE6EE435769 /* Catalogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalogo.swift; sourceTree = "<group>"; };
-		6213DEF6AC33020C41290E27 /* Recursos */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Recursos; sourceTree = SOURCE_ROOT; };
+		5A480B36312FC7C4DFAAEBA6 /* modelo_perfil.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = modelo_perfil.json; sourceTree = "<group>"; };
 		641B2C0626C29FB461658C62 /* SustitutoSeguroCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SustitutoSeguroCore; path = ../SustitutoSeguroCore; sourceTree = SOURCE_ROOT; };
 		7B991D8456EC5337A6BBCE49 /* EntrenarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrenarView.swift; sourceTree = "<group>"; };
 		98723819AA411E9F98D8CECA /* DetalleEjercicioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetalleEjercicioView.swift; sourceTree = "<group>"; };
@@ -47,6 +49,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0746CA6507A3CA4C18710682 /* Recursos */ = {
+			isa = PBXGroup;
+			children = (
+				5A480B36312FC7C4DFAAEBA6 /* modelo_perfil.json */,
+				45829446B5B07C2D4C8C2FC0 /* recomendaciones.json */,
+			);
+			path = Recursos;
+			sourceTree = "<group>";
+		};
 		0A3503C7CDAEA95BCD211B94 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -58,9 +69,9 @@
 		51A1FBBC59362859E7D69E3F = {
 			isa = PBXGroup;
 			children = (
-				6213DEF6AC33020C41290E27 /* Recursos */,
 				7E7DDA612C368B964FD9E158 /* App */,
 				0A3503C7CDAEA95BCD211B94 /* Packages */,
+				0746CA6507A3CA4C18710682 /* Recursos */,
 				D5C868B5CA91D9C7498AD5D7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -154,7 +165,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				859420C4E41FD4539C7C22E0 /* Recursos in Resources */,
+				0F5DC0BD08A37BC958325D23 /* modelo_perfil.json in Resources */,
+				4A9050FAFA0CA90AD2C81A75 /* recomendaciones.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

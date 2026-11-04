@@ -17,8 +17,9 @@ targets:
     platform: iOS
     sources:
       - path: App
+      # Cada archivo como recurso suelto (no como carpeta de referencia): la app los
+      # busca en la raíz del paquete con Bundle.main.url(forResource:).
       - path: Recursos
-        type: folder
         buildPhase: resources
     dependencies:
       - package: SustitutoSeguroCore

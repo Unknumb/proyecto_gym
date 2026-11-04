@@ -34,5 +34,11 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild -project ios/SustitutoSeguro/SustitutoSeguro.xcodeproj -scheme SustitutoSeguro \
-            -destination 'generic/platform=iOS Simulator' -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' -configuration Debug -derivedDataPath build-ios \
             CODE_SIGNING_ALLOWED=NO build | tail -25
+      - name: La app lleva el modelo y las recomendaciones en la raíz del paquete
+        run: |
+          app="build-ios/Build/Products/Debug-iphonesimulator/Sustituto Seguro.app"
+          for archivo in modelo_perfil.json recomendaciones.json; do
+            test -f "$app/$archivo" || { echo "Falta $archivo en la raíz de la app"; ls -R "$app" | head -40; exit 1; }
+          done
