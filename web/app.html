@@ -1404,7 +1404,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
           ${confirmarBorrar === idx ? `<span class="row" style="gap:6px"><button class="btn danger" type="button" data-borrar-si="${idx}">Borrar</button><button class="btn ghost" type="button" data-borrar-no>Cancelar</button></span>` : `<button class="btn ghost small" type="button" data-borrar="${idx}" aria-label="Borrar sesión">Borrar</button>`}</li>`;
       }).join('')}</ul></section>` : ''}
       <section class="card plain"><h3>Respaldo de tus datos</h3><p class="muted small">Tu progreso vive solo en este navegador. Guarda un respaldo para no perderlo o para pasarlo a otro dispositivo.</p>
-        <div class="row">${DESC ? '<button class="btn" type="button" id="exportar">Guardar respaldo</button>' : ''}<label class="btn" for="importar" style="cursor:pointer">Cargar respaldo</label><input id="importar" type="file" accept="application/json,.json" hidden></div>
+        <div class="row"><button class="btn" type="button" id="exportar">Guardar respaldo</button><label class="btn" for="importar" style="cursor:pointer">Cargar respaldo</label><input id="importar" type="file" accept="application/json,.json" hidden></div>
         <p class="small" id="msg-datos" aria-live="polite">${esc(msgDatos)}</p></section>
     </div>`;
     msgDatos = '';
@@ -1418,7 +1418,8 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     app.querySelectorAll('[data-borrar-no]').forEach(b => b.onclick = () => { confirmarBorrar = null; vProgreso(); });
     app.querySelectorAll('[data-borrar-si]').forEach(b => b.onclick = () => { S.sesiones.splice(+b.dataset.borrarSi, 1); confirmarBorrar = null; guardar(); vProgreso(); });
     $('exportar')?.addEventListener('click', async () => {
-      try { await DESC.save({ filename: `sustituto-seguro-respaldo-${hoyISO()}.json`, data: JSON.stringify(S, null, 1) }); msgDatos = 'Respaldo guardado.'; }
+      // Dentro de Claude usa su capacidad de descargas; abierta en local o en GitHub Pages, una descarga normal del navegador
+      try { await descargar(`sustituto-seguro-respaldo-${hoyISO()}.json`, JSON.stringify(S, null, 1)); msgDatos = 'Respaldo guardado en tus descargas.'; }
       catch (e) { msgDatos = e?.code === 'cancelled' || e?.code === 'declined' ? 'No se guardó el respaldo.' : 'No se pudo guardar el respaldo en este navegador.'; }
       $('msg-datos').textContent = msgDatos; msgDatos = '';
     });

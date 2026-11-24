@@ -2025,9 +2025,10 @@ Hay que regenerar la página cada vez que cambien las salidas de `kedro run`. El
 `test_datos_coinciden_con_el_pipeline` falla si se olvida.
 
 **GitHub Pages:** en *Settings → Pages*, elegir la rama `main` y la carpeta `/docs`. La
-página queda en `https://unknumb.github.io/proyecto_gym/`. Ahí funciona todo menos la IA
-y el botón de guardar respaldo, que dependen de Claude. Ambos se ocultan solos y cargar
-un respaldo sigue funcionando. Publicada como artefacto en claude.ai, la IA está
+página queda en `https://unknumb.github.io/proyecto_gym/`. Ahí funciona todo menos la IA,
+que depende de Claude y se oculta sola. Guardar un respaldo o los aportes usa la
+capacidad de descargas de Claude si está, y si no, una descarga normal del navegador.
+Publicada como artefacto en claude.ai, la IA está
 disponible para quien tenga cuenta de Claude.
 
 ### 15.5 Decisiones y límites
