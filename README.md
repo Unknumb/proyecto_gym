@@ -41,7 +41,7 @@ la EV1, comprensión y preparación de los datos, y la EV2, modelado y evaluaci�
 | Sesgos, limitaciones y ética | §5, §6, §14.3, §16.7 |
 | Conclusiones y recomendaciones para el negocio | §14, §16.6, §16.7 |
 | Reproducibilidad y estructura del proyecto | §8 |
-| La EV3 en la página (vista «El modelo») | §15.1 · `docs/index.html#modelo` |
+| La EV3 en la página (vista «El modelo»: datos, EDA, preparación, modelos y ensambles) | §15.1 · `docs/index.html#modelo` |
 | El modelo aprende de los usuarios | §18 · notebook 05 · `scripts/aprender_de_usuarios.py` |
 
 ### Guía de lectura para la EV2
@@ -1981,7 +1981,7 @@ Funciona en computador y celular, sin servidor y sin cuentas.
 | **Mi rutina** | Rutina semanal según edad, peso, altura, deporte, nivel, objetivo, días, minutos, equipamiento y lesiones. **Tipo de rutina**: cuerpo completo, torso / pierna, Push / Pull / Legs, Arnold o un grupo por día; «Recomendada para ti» lo elige según días, nivel y edad (3 días con experiencia → Push / Pull / Legs) | Reglas de programación sobre 68 ejercicios conocidos con nombre en español, con el mismo filtro duro de seguridad |
 | **Qué trabaja** | En cada ejercicio (original, alternativas y rutina): músculos principales y de apoyo, articulaciones que carga con sus ligamentos y tendones principales, y mecánica, fuerza y complejidad con su origen (fuente, gemelo, modelo con su confianza, usuarios) | `familias_movimiento` y `perfil_exigencia`; los ligamentos son referencia anatómica general de cada articulación, no una medición por ejercicio |
 | **Enseña al modelo** | Corregir una etiqueta o calificar una alternativa (buena, aceptable, mala, insegura); descargar los aportes | Formato y columnas de la app de iPhone; solo correcciones y calificaciones, nunca edad, peso, sesiones ni dolor (§18) |
-| **El modelo** | La EV3 en la página: siete candidatos con los mismos pliegues, la regla de adopción, la optimización (cifra optimista y real), la generalización y la curva de aprendizaje con usuarios | `ensambles_comparacion`, `ensambles_busqueda_boosting`, `aprendizaje_simulacion` y `aprendizaje_usuarios_informe` |
+| **El modelo** | El recorrido completo en la página. *De los datos al modelo*: las tres fuentes, tres hallazgos del EDA (nivel de dificultad con kappa −0,01, clases desbalanceadas, sesgo hacia el gimnasio) y la preparación (ontología, emparejamiento, variables, grupos de variantes, validación externa). *Qué predice cada modelo*: clases y su peso, modelo elegido y F1 contra el azar. Después, la EV3: siete candidatos con los mismos pliegues, la regla de adopción, la optimización (cifra optimista y real), la generalización y la curva de aprendizaje con usuarios | Calculado de las salidas del pipeline: `integracion_fuentes_resumen`, `sustitucion_contexto`, `ejercicios`, `tabla_base`, `modelos_comparacion`, `ensambles_comparacion`, `ensambles_busqueda_boosting`, `aprendizaje_simulacion` y `aprendizaje_usuarios_informe` |
 | **Mejorar con IA** | Revisa la rutina, explica el porqué, propone cambios y responde preguntas | Claude, con la cuenta de quien usa la página; solo puede elegir entre alternativas ya validadas |
 | **Entrenar** | Series para marcar, peso y repeticiones, cronómetro de descanso; al final, esfuerzo y dolor por zona | Registro local en el navegador |
 | **Progreso** | Constancia semanal, dolor por zona, carga por ejercicio, peso corporal, historial y respaldo | Gráficos sobre el registro; avisos si el dolor llega a 7/10 o sube 2 puntos |
@@ -2012,7 +2012,7 @@ cambio propuesto por la IA.
 | Prueba | Qué verifica | Cómo se corre |
 |---|---|---|
 | `tests/test_web.py` (CI) | La página está armada desde la fuente actual; sus datos son idénticos a los que da hoy el Sustituidor (vuelve a calcular las 13.304 consultas y compara ejercicios y recomendaciones); ninguna alternativa carga la articulación vetada; los 68 ejercicios en español y los complementos por deporte existen en los datos | `python -m pytest tests/test_web.py` |
-| `web/probar_web.py` | 66 pruebas en un navegador real, en escritorio y celular: búsqueda en español, abstención, qué trabaja cada ejercicio, validación del formulario, 300 rutinas con perfiles y tipos de rutina al azar sin ejercicios inseguros, tipos de rutina, corregir y calificar, descarga importada con el importador real, vista «El modelo», modo entrenamiento, alertas de dolor, IA simulada, respaldo legítimo y alterado (también con aportes maliciosos), sin scroll horizontal y sin errores de JavaScript | `python web/probar_web.py [ruta de Chrome]` (requiere Playwright) |
+| `web/probar_web.py` | 68 pruebas en un navegador real, en escritorio y celular: búsqueda en español, abstención, qué trabaja cada ejercicio, validación del formulario, 300 rutinas con perfiles y tipos de rutina al azar sin ejercicios inseguros, tipos de rutina, corregir y calificar, descarga importada con el importador real, vista «El modelo» (datos, EDA, preparación y modelos), modo entrenamiento, alertas de dolor, IA simulada, respaldo legítimo y alterado (también con aportes maliciosos), sin scroll horizontal y sin errores de JavaScript | `python web/probar_web.py [ruta de Chrome]` (requiere Playwright) |
 
 ### 15.4 Regenerar y publicar
 

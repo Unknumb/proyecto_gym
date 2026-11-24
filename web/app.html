@@ -253,6 +253,14 @@ details.corregir { background: var(--surface-2); }
 .criterios .si { color: var(--ok); font-weight: 700; } .criterios .no { color: var(--veto); font-weight: 700; }
 .criterios .v { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .graf .eje { fill: var(--muted); }
+.paso-datos { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-top: 6px; }
+.modelos-lista { display: grid; gap: 10px; }
+.modelo-fila { display: grid; grid-template-columns: minmax(180px, 1.1fr) minmax(200px, 1.6fr) auto; gap: 8px 18px; align-items: center; padding: 12px 14px; border-radius: 12px; background: var(--surface-2); }
+.modelo-fila .f1 { text-align: right; white-space: nowrap; }
+.modelo-fila .f1 .v { font-family: var(--display); font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.barra-clases { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--line); }
+.barra-clases i { display: block; height: 100%; }
+@media (max-width: 640px) { .modelo-fila { grid-template-columns: 1fr; } .modelo-fila .f1 { text-align: left; } }
 .graf text.fuerte { fill: var(--fg); font-weight: 600; }
 footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 28px; }
 
@@ -1507,6 +1515,49 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   const SIMULACION = filasDe(D.aprendizaje.simulacion);
   const INFORME_APRENDIZAJE = filasDe(D.aprendizaje.informe);
   const MEJORA_MINIMA = 0.02, PLIEGUES_MINIMOS = 80, T_MINIMO = 2;
+  const DATOS = D.datos;
+  const COLOR_CLASE = ['var(--accent)', 'var(--amber)', '#9C8CF0'];
+  const PREGUNTA_OBJ = { mecanica: '¿Mueve varias articulaciones o una sola?', fuerza: '¿Empuja, tira o sostiene una posición?',
+    complejidad_tecnica: '¿Es fácil de aprender o pide técnica?' };
+  const miles = n => n.toLocaleString('es-CL');
+  const pct = (v, d = 0) => (100 * v).toFixed(d).replace('.', ',') + ' %';
+  function seccionDatos() {
+    const f = DATOS.fuentes, n = DATOS.nivel, g = DATOS.gimnasio, pr = DATOS.preparacion;
+    const ext = Object.values(pr.externa), extTxt = Math.min(...ext) === Math.max(...ext) ? ext[0] : `${Math.min(...ext)}–${Math.max(...ext)}`;
+    const estatico = DATOS.clases.fuerza.static;
+    return `<section class="card" id="datos-modelo"><h3>De los datos al modelo</h3>
+      <p class="muted small">Antes de entrenar: de dónde salen los ejercicios, qué encontró el análisis exploratorio y cómo los preparamos.</p>
+      <div class="paso-datos">1 · Tres fuentes abiertas</div>
+      <div class="resumen-inicio">
+        <div class="kpi"><span class="v">${miles(f.catalogo)}</span><span class="l"><b style="color:var(--fg)">Catálogo del proyecto</b> (EV1). No trae mecánica ni fuerza: es lo que hay que predecir.</span></div>
+        <div class="kpi"><span class="v">${miles(f.free_exercise_db)}</span><span class="l"><b style="color:var(--fg)">free-exercise-db</b>. Trae las etiquetas: con estos ejercicios aprende el modelo (${miles(f.free_exercise_db_nuevos)} eran nuevos).</span></div>
+        <div class="kpi"><span class="v">${miles(f.wger_nuevos)}</span><span class="l"><b style="color:var(--fg)">wger</b>, ejercicios nuevos. Aporta músculos con nombre anatómico.</span></div>
+      </div>
+      <p class="small">Sin duplicados quedan <b>${miles(f.total)} ejercicios</b>, con un vocabulario común de <b>${f.musculos} músculos</b> y <b>${f.articulaciones} articulaciones</b>.</p>
+      <div class="paso-datos">2 · Lo que encontró el análisis exploratorio (EDA)</div>
+      <ul class="notas-rutina">
+        <li><b>El nivel de dificultad no es objetivo.</b> En ${n.n} ejercicios con nivel en dos fuentes, coinciden en el ${pct(n.acuerdo, 1)}, igual que al azar (kappa ${num(n.kappa, 2).replace('-', '−')}). Por eso no lo predecimos: lo reemplazamos por mecánica, fuerza y complejidad técnica.</li>
+        <li><b>Las clases están desbalanceadas:</b> «estático» es solo el ${pct(estatico)} de la fuerza (barras de abajo). Por eso medimos con F1 macro y no con accuracy.</li>
+        <li><b>El catálogo está sesgado al gimnasio:</b> ${pct(g.pct_catalogo)} de sus ejercicios. Sin corrección, solo el ${Math.round(g.sin_equipamiento_antes)} % de las listas traía una opción sin equipamiento; con una cuota, el ${Math.round(g.sin_equipamiento_despues)} %.</li>
+      </ul>
+      <div class="paso-datos">3 · Preparación para el modelo</div>
+      <ol class="como-pasos">
+        <li><h3>Ontología común</h3><p>Los músculos de las tres fuentes se traducen a un mismo vocabulario, y cada músculo a las articulaciones que cruza. Así se sabe qué zona carga cada ejercicio.</p></li>
+        <li><h3>Emparejamiento entre fuentes</h3><p>Cada ejercicio del catálogo se busca por nombre en free-exercise-db. Si tiene un gemelo, hereda su etiqueta: es lo que la ficha muestra como «De un ejercicio gemelo».</p></li>
+        <li><h3>Variables iguales en las tres fuentes</h3><p>Nombre (palabras y pares de palabras), instrucciones, ${pr.musculos_modelo} músculos principales y de apoyo, ${f.articulaciones} articulaciones, equipamiento, estabilidad e impacto. Nada exclusivo de una fuente, para que el modelo aprenda el movimiento y no la fuente.</p></li>
+        <li><h3>Grupos de variantes, sin fuga</h3><p>«Bench Press» y «Bench Press con agarre neutro» son casi el mismo ejercicio. Los ${miles(pr.ejercicios)} ejercicios forman ${miles(pr.grupos)} grupos, y cada grupo queda entero en entrenamiento (${pr.train}) o en prueba (${pr.test}).</p></li>
+        <li><h3>Validación externa</h3><p>Además, ${extTxt} ejercicios del catálogo por objetivo cuyo gemelo quedó en prueba: otra redacción y otro vocabulario, para medir si el modelo generaliza.</p></li>
+      </ol></section>
+    <section class="card" id="que-predice"><h3>Qué predice cada modelo</h3>
+      <p class="muted small">Un modelo por cada dato que el catálogo no trae. Se eligió en validación cruzada; si dos empatan dentro del ruido, gana el más simple. La barra muestra cuánto pesa cada clase en los datos de entrenamiento.</p>
+      <div class="modelos-lista">${OBJ.map(o => {
+        const a = actualDe(o), cl = Object.entries(DATOS.clases[o]);
+        return `<div class="modelo-fila"><div><b>${OBJ_NOMBRE[o]}</b> · ${esc(MODELO_ES[a.modelo])}<br><span class="muted small">${PREGUNTA_OBJ[o]}</span></div>
+          <div><div class="barra-clases" role="img" aria-label="${esc(cl.map(([c, v]) => `${CLASE_ES[c] || c} ${pct(v)}`).join(', '))}">${cl.map(([c, v], k) => `<i style="width:${100 * v}%;background:${COLOR_CLASE[k]}"></i>`).join('')}</div>
+            <div class="leyenda" style="margin-top:6px">${cl.map(([c, v], k) => `<span style="--c:${COLOR_CLASE[k]}">${CLASE_ES[c] || c} ${pct(v)}</span>`).join('')}</div></div>
+          <div class="f1"><span class="v">${num(a.f1_test, 2)}</span><br><span class="muted small">F1 en prueba · azar ${num(AZAR[o], 2)}</span></div></div>`;
+      }).join('')}</div></section>`;
+  }
   const actualDe = o => CANDIDATOS.find(f => f.objetivo === o && f.es_modelo_actual);
   let objModelo = 'mecanica', objAprende = 'mecanica';
 
@@ -1568,8 +1619,8 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     app.innerHTML = `<div class="vista">
       <header class="hero" style="padding-top:0"><div class="eyebrow">El modelo por dentro · Evaluación 3</div>
         <h1 style="font-size:clamp(1.8rem,5vw,2.6rem)">Por qué confiar en lo que te recomendamos</h1>
-        <p class="lead">Tres modelos supervisados describen cada ejercicio: su mecánica, su tipo de fuerza y su complejidad técnica. Con eso la app decide qué alternativa es parecida y segura. En la evaluación 3 los enfrentamos a siete candidatos, incluidos tres tipos de ensamble, con una regla fijada antes de ver los resultados.</p></header>
-      <section class="resumen-inicio" aria-label="Modelos en uso">${OBJ.map(o => { const a = actualDe(o); return `<div class="kpi"><span class="v">${num(a.f1_test, 2)}</span><span class="l"><b style="color:var(--fg)">${OBJ_NOMBRE[o]}</b> · ${esc(MODELO_ES[a.modelo])}<br>F1 en ejercicios que nunca vio (azar: ${num(AZAR[o], 2)})</span></div>`; }).join('')}</section>
+        <p class="lead">Tres modelos supervisados describen cada ejercicio: su mecánica, su tipo de fuerza y su complejidad técnica. Con eso la app decide qué alternativa es parecida y segura. Aquí está el recorrido completo: los datos, los modelos y, en la evaluación 3, siete candidatos enfrentados con una regla fijada antes de ver los resultados.</p></header>
+      ${seccionDatos()}
 
       <section class="card"><div class="row" style="justify-content:space-between"><h3>Siete candidatos, los mismos pliegues</h3>${selector(objModelo, 'data-obj-modelo')}</div>
         <p class="muted small">Bagging (Random Forest, Extra Trees), boosting y voting o stacking, que combinan regresión logística, Random Forest y boosting. Todos medidos con la misma validación cruzada repetida 5 × 5, con pliegues por grupo de variantes para que «Bench Press» y su variante nunca queden en lados distintos.</p>
