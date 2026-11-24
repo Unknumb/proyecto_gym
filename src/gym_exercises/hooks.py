@@ -60,6 +60,11 @@ METRICAS_ENSAMBLES = ["cv_f1_media", "cv_f1_sd", "f1_train", "f1_test", "f1_exte
                       "brecha_train_cv", "diferencia_media", "pct_pliegues_mejor",
                       "t_nadeau_bengio", "p_valor"]
 
+#: Métricas por objetivo de ``aprendizaje_usuarios_informe`` (README §18).
+METRICAS_APRENDIZAJE = ["n_aportes", "f1_test_sin_aportes", "f1_test_con_aportes",
+                        "f1_externa_sin_aportes", "f1_externa_con_aportes", "coincide_antes",
+                        "coincide_fuera_de_muestra", "coincide_despues"]
+
 #: Métricas por método de ``clustering_comparacion``.
 METRICAS_CLUSTERING = ["n_grupos", "silhouette_embedding", "davies_bouldin_embedding",
                        "modularidad_proyeccion", "ami_fuente", "ami_agonista_principal",
@@ -120,6 +125,11 @@ def metricas_ensambles(comparacion: pd.DataFrame) -> dict[str, float]:
     """``ensambles/fuerza/stacking/cv_f1_media``; la diferencia, el t y el p solo
     existen para las alternativas al modelo actual."""
     return _filas_a_metricas(comparacion, ["objetivo", "modelo"], METRICAS_ENSAMBLES, "ensambles")
+
+
+def metricas_aprendizaje(informe: pd.DataFrame) -> dict[str, float]:
+    """``aprendizaje/mecanica/n_aportes`` y, con aportes, F1 con y sin ellos."""
+    return _filas_a_metricas(informe, ["objetivo"], METRICAS_APRENDIZAJE, "aprendizaje")
 
 
 def metricas_clustering(comparacion: pd.DataFrame) -> dict[str, float]:
@@ -251,11 +261,15 @@ class MlflowHook:
                 mlflow.log_metrics(metricas_modelos(outputs["modelos_comparacion"]))
         if "modelos_supervisados" in outputs:
             with self._sin_romper("los modelos supervisados"):
-                self._registrar_modelos(outputs["modelos_supervisados"],
-                                        inputs["model_input_tabla_modelado"])
+                tabla = outputs.get("model_input_tabla_modelado",
+                                    inputs.get("model_input_tabla_modelado"))
+                self._registrar_modelos(outputs["modelos_supervisados"], tabla)
         if "modelos_contraste_pareado" in outputs:
             with self._sin_romper("el contraste pareado"):
                 mlflow.log_metrics(metricas_contraste(outputs["modelos_contraste_pareado"]))
+        if "aprendizaje_usuarios_informe" in outputs:
+            with self._sin_romper("el aprendizaje de los usuarios"):
+                mlflow.log_metrics(metricas_aprendizaje(outputs["aprendizaje_usuarios_informe"]))
         if "ensambles_comparacion" in outputs:
             with self._sin_romper("la comparación de ensambles"):
                 mlflow.log_metrics(metricas_ensambles(outputs["ensambles_comparacion"]))

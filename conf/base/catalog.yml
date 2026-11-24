@@ -193,9 +193,33 @@ fuentes_match_validacion:
   filepath: data/01_raw/fuentes_match_validacion_manual.csv
 
 # ── EV2: Modelado supervisado (pipeline modelado_supervisado) ────────────────
+# Tabla antes de los aportes de usuarios (README §18).
+model_input_tabla_base:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/tabla_base.parquet
+
+# Tabla con la que se entrenaron los modelos publicados: la base más los aportes
+# de usuarios que pasaron el control de evaluar_aprendizaje. Sin aportes = base.
 model_input_tabla_modelado:
   type: pandas.ParquetDataset
   filepath: data/05_model_input/tabla_modelado.parquet
+
+# Aportes de usuarios: correcciones de etiquetas de la página web y de la app de
+# iPhone, importadas con scripts/importar_aportes.py. Crece con el uso; no está en
+# huellas_sha256.txt porque no es un dato crudo inmutable.
+aportes_correcciones_etiquetas:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/aportes_usuarios/correcciones_etiquetas.csv
+  load_args:
+    dtype: str
+
+aportes_consolidados:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/aportes_consolidados.csv
+
+aprendizaje_usuarios_informe:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/aprendizaje_usuarios_informe.csv
 
 # Por objetivo: estimador final (reentrenado con todo free-exercise-db), modelo
 # entrenado solo con train (para interpretar en test), umbral de abstención.
@@ -309,3 +333,9 @@ ensambles_cv_repetida:
 ensambles_comparacion:
   type: pandas.CSVDataset
   filepath: data/08_reporting/ensambles_comparacion.csv
+
+# ── Aprender de los usuarios (pipeline aprendizaje_usuarios, README §18) ─────
+# Solo informe: curva de aprendizaje con aportes simulados.
+aprendizaje_simulacion:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/aprendizaje_simulacion.csv

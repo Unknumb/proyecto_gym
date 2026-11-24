@@ -1,28 +1,40 @@
-"""Importa al proyecto los datos registrados en la app de iPhone (``ios/``).
+"""
+Importa al proyecto los aportes de los usuarios: los de la página web y los de la
+app de iPhone (``ios/``). Con ellos el modelo vuelve a entrenarse (README §18).
 
-La app exporta cinco CSV (pestaña *Mis datos* → *Preparar los CSV*). Este script
-los valida contra los datos del pipeline y los agrega, sin duplicar filas, a
-``data/01_raw/app_ios/``:
+- **Página web** (*Enseña al modelo* → *Descargar mis aportes*): un archivo
+  ``sustituto-seguro-aportes-<fecha>.json``.
+- **App de iPhone** (*Mis datos* → *Preparar los CSV*): una carpeta con hasta cinco CSV.
+
+Valida cada fila contra los datos del pipeline y la agrega, sin duplicar, a
+``data/01_raw/aportes_usuarios/``:
 
 =============================== ======================================================
+``correcciones_etiquetas``      Etiquetas del perfil corregidas o confirmadas. Son las
+                                que **reentrenan el modelo** (``incorporar_aportes``).
 ``revisiones_recomendaciones``  Calificación de alternativas. Las nueve primeras
                                 columnas son las de la revisión manual del equipo
                                 (``data/01_raw/sustitucion_revision_manual.csv``).
-``correcciones_etiquetas``      Etiquetas del perfil corregidas a mano.
-``ejercicios_nuevos``           Ejercicios fuera del catálogo, con lo que predijo el
-                                modelo en el teléfono y la etiqueta final.
-``entrenamiento_series``        Series de entrenamiento.
-``entrenamiento_dolor``         Dolor por zona al terminar cada sesión.
+``ejercicios_nuevos``           Ejercicios fuera del catálogo (solo la app), con lo que
+                                predijo el modelo en el teléfono y la etiqueta final.
+``entrenamiento_series``        Series de entrenamiento (solo la app).
+``entrenamiento_dolor``         Dolor por zona al terminar cada sesión (solo la app).
 =============================== ======================================================
+
+La página web nunca exporta edad, peso, sesiones ni dolor: solo correcciones y
+calificaciones de ejercicios.
 
 Uso, desde la raíz del repositorio::
 
-    python scripts/importar_datos_ios.py ~/Downloads/sustituto_seguro_1762200000
-    python scripts/importar_datos_ios.py <carpeta> --solo-validar
+    python scripts/importar_aportes.py ~/Downloads/sustituto-seguro-aportes-2026-11-24.json
+    python scripts/importar_aportes.py ~/Downloads/sustituto_seguro_1762200000   # carpeta de la app
+    python scripts/importar_aportes.py <archivo o carpeta> --solo-validar
+    kedro run                                                                   # reentrena
 """
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -30,7 +42,9 @@ import joblib
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[1]
-DESTINO = RAIZ / "data/01_raw/app_ios"
+DESTINO = RAIZ / "data/01_raw/aportes_usuarios"
+#: Formato del archivo que descarga la página web (``web/app.html``, vista *Enseña al modelo*).
+FORMATO_WEB = "sustituto-seguro-aportes"
 
 #: Mismas columnas que ``TablaExportable.columnas`` en
 #: ``ios/SustitutoSeguroCore/Sources/SustitutoSeguroCore/Exportacion.swift``
@@ -107,16 +121,30 @@ def validar(tabla: str, df: pd.DataFrame, ref: dict) -> list[str]:
     return problemas
 
 
-def importar(carpeta: Path, destino: Path = DESTINO, solo_validar: bool = False) -> dict[str, int]:
-    """Valida los CSV de ``carpeta`` y agrega a ``destino`` las filas nuevas. Si
-    alguna tabla tiene problemas, no se importa ninguna."""
+def leer(origen: Path) -> dict[str, pd.DataFrame]:
+    """Tablas de un archivo JSON de la página web o de una carpeta de CSV de la app."""
+    if origen.is_file():
+        contenido = json.loads(origen.read_text(encoding="utf-8"))
+        if not isinstance(contenido, dict) or contenido.get("formato") != FORMATO_WEB:
+            raise SystemExit(f"{origen.name} no es un archivo de aportes de la página web.")
+        tablas = contenido.get("tablas") or {}
+        desconocidas = set(tablas) - set(COLUMNAS)
+        if desconocidas:
+            raise SystemExit(f"Tablas desconocidas en {origen.name}: {sorted(desconocidas)}")
+        # Una lista de objetos por tabla, con las mismas columnas y en el mismo orden que la app
+        return {t: pd.DataFrame(filas) if filas else pd.DataFrame(columns=COLUMNAS[t])
+                for t, filas in tablas.items()}
+    return {t: pd.read_csv(origen / f"{t}.csv", dtype={"comentario": str, "instrucciones_en": str})
+            for t in COLUMNAS if (origen / f"{t}.csv").is_file()}
+
+
+def importar(origen: Path, destino: Path = DESTINO, solo_validar: bool = False) -> dict[str, int]:
+    """Valida las tablas de ``origen`` (archivo de la web o carpeta de la app) y
+    agrega a ``destino`` las filas nuevas. Si alguna tabla tiene problemas, no se
+    importa ninguna."""
     ref = _referencias()
     tablas, errores = {}, {}
-    for tabla in COLUMNAS:
-        ruta = carpeta / f"{tabla}.csv"
-        if not ruta.is_file():
-            continue
-        df = pd.read_csv(ruta, dtype={"comentario": str, "instrucciones_en": str})
+    for tabla, df in leer(origen).items():
         if problemas := validar(tabla, df, ref):
             errores[tabla] = problemas
         tablas[tabla] = df
@@ -126,14 +154,18 @@ def importar(carpeta: Path, destino: Path = DESTINO, solo_validar: bool = False)
                 print(f"✗ {tabla}: {problema}")
         raise SystemExit("No se importó nada: corrige los datos y vuelve a intentarlo.")
     if not tablas:
-        raise SystemExit(f"No hay CSV de la app en {carpeta}.")
+        raise SystemExit(f"No hay aportes en {origen}.")
 
     nuevas = {}
     destino.mkdir(parents=True, exist_ok=True)
     for tabla, df in tablas.items():
         ruta = destino / f"{tabla}.csv"
-        previo = pd.read_csv(ruta, dtype=str) if ruta.is_file() else pd.DataFrame(columns=COLUMNAS[tabla])
-        combinado = pd.concat([previo, df.astype(str).where(df.notna(), None)], ignore_index=True)
+        # Todo como texto y las celdas vacías como "": así una fila ya importada se
+        # reconoce aunque venga de la web (JSON) o de la app (CSV)
+        previo = (pd.read_csv(ruta, dtype=str, keep_default_na=False) if ruta.is_file()
+                  else pd.DataFrame(columns=COLUMNAS[tabla]))
+        combinado = pd.concat([previo, df.astype(object).where(df.notna(), "").astype(str)],
+                              ignore_index=True)
         combinado = combinado.drop_duplicates(keep="first")
         nuevas[tabla] = len(combinado) - len(previo)
         if not solo_validar:
@@ -145,10 +177,11 @@ def importar(carpeta: Path, destino: Path = DESTINO, solo_validar: bool = False)
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("carpeta", type=Path, help="carpeta con los CSV que exportó la app")
+    ap.add_argument("origen", type=Path,
+                    help="archivo .json que descargó la página web o carpeta con los CSV de la app")
     ap.add_argument("--solo-validar", action="store_true", help="validar sin escribir nada")
     args = ap.parse_args()
-    importar(args.carpeta.expanduser(), solo_validar=args.solo_validar)
+    importar(args.origen.expanduser(), solo_validar=args.solo_validar)
 
 
 if __name__ == "__main__":
