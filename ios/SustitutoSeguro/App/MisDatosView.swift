@@ -2,7 +2,7 @@ import SwiftUI
 import SustitutoSeguroCore
 
 /// Todo lo registrado en el teléfono, y su exportación a CSV para entregárselo al
-/// pipeline (`python scripts/importar_datos_ios.py <carpeta>`).
+/// pipeline (`python scripts/importar_aportes.py <carpeta>`).
 struct MisDatosView: View {
     @Environment(Almacen.self) private var almacen
     @State private var archivos: [URL] = []
@@ -37,7 +37,7 @@ struct MisDatosView: View {
             } header: {
                 Text("Entregar los datos al modelo")
             } footer: {
-                Text("Envíalos al computador (AirDrop o Archivos) y corre «python scripts/importar_datos_ios.py <carpeta>» en el repositorio.")
+                Text("Envíalos al computador (AirDrop o Archivos) y corre «python scripts/importar_aportes.py <carpeta>» en el repositorio.")
             }
             .onChange(of: almacen.total) { archivos = [] }
 

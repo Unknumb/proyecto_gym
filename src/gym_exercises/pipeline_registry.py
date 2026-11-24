@@ -4,6 +4,9 @@ from __future__ import annotations
 
 from kedro.pipeline import Pipeline
 
+from gym_exercises.pipelines.aprendizaje_usuarios.pipeline import (
+    create_pipeline as create_aprendizaje_usuarios_pipeline,
+)
 from gym_exercises.pipelines.data_enrichment.pipeline import (
     create_pipeline as create_data_enrichment_pipeline,
 )
@@ -36,6 +39,7 @@ def register_pipelines() -> dict[str, Pipeline]:
     modelado_supervisado = create_modelado_supervisado_pipeline()
     grafo_biomecanico = create_grafo_biomecanico_pipeline()
     ensambles = create_ensambles_pipeline()
+    aprendizaje_usuarios = create_aprendizaje_usuarios_pipeline()
 
     return {
         "data_understanding": data_understanding,
@@ -44,6 +48,8 @@ def register_pipelines() -> dict[str, Pipeline]:
         "modelado_supervisado": modelado_supervisado,
         "grafo_biomecanico": grafo_biomecanico,
         "ensambles": ensambles,
+        "aprendizaje_usuarios": aprendizaje_usuarios,
         "__default__": (data_understanding + data_enrichment + integracion_fuentes
-                        + modelado_supervisado + grafo_biomecanico + ensambles),
+                        + modelado_supervisado + grafo_biomecanico + ensambles
+                        + aprendizaje_usuarios),
     }

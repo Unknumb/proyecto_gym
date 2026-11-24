@@ -54,7 +54,7 @@ nav.tabs {
   padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
   display: flex; justify-content: center;
 }
-nav.tabs .in { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; width: 100%; max-width: 720px; }
+nav.tabs .in { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; width: 100%; max-width: 760px; }
 nav.tabs a {
   display: grid; justify-items: center; gap: 2px; padding: 6px 2px; border-radius: 10px;
   color: var(--muted); text-decoration: none; font-size: 0.74rem; font-weight: 600;
@@ -65,7 +65,7 @@ nav.tabs a[aria-current="page"] { color: var(--accent); background: var(--accent
   body { padding-bottom: 32px; }
   body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--surface); }
   nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); bottom: auto; border-top: 0; border-bottom: 1px solid var(--line); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); }
-  nav.tabs .in { grid-template-columns: repeat(5, auto); justify-content: center; gap: 6px; }
+  nav.tabs .in { grid-template-columns: repeat(6, auto); justify-content: center; gap: 6px; }
   nav.tabs a { grid-auto-flow: column; gap: 8px; padding: 8px 14px; font-size: 0.92rem; }
   nav.tabs a svg { width: 18px; height: 18px; }
 }
@@ -223,6 +223,37 @@ details summary { cursor: pointer; padding: 14px 0; font-weight: 600; list-style
 details summary::after { content: "+"; color: var(--accent); font-family: var(--mono); }
 details[open] summary::after { content: "–"; }
 details > div { padding-bottom: 14px; color: var(--muted); display: grid; gap: 8px; }
+/* Qué trabaja cada ejercicio */
+.trabajo { display: grid; gap: 12px; color: var(--fg); }
+.trabajo .lbl-mini { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.estructuras, .perfil-mov { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.estructuras li { display: grid; gap: 1px; }
+.estructuras li span { font-size: 0.88rem; }
+.perfil-mov li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; align-items: baseline; }
+.perfil-mov .que { color: var(--muted); font-size: 0.88rem; }
+details.mini { border: 0; background: none; padding: 0; grid-column: 1 / -1; }
+details.mini > summary { padding: 4px 0; font-weight: 600; font-size: 0.9rem; color: var(--accent); justify-content: flex-start; }
+details.mini > summary::after { margin-left: 6px; }
+details.mini > div { padding: 8px 0 4px; color: var(--fg); }
+details.corregir { background: var(--surface-2); }
+.califica { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; grid-column: 2; font-size: 0.88rem; }
+.califica button { border: 1px solid var(--line); background: var(--surface-2); border-radius: 999px; padding: 3px 11px; cursor: pointer; font-size: 0.85rem; }
+.califica button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.califica button[data-v="inseguro"][aria-pressed="true"], .califica button[data-v="malo"][aria-pressed="true"] { background: var(--veto-soft); border-color: var(--veto); color: var(--veto); }
+.alt details.mini { grid-column: 2; }
+/* El modelo por dentro */
+.tabla { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.tabla th, .tabla td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.tabla th { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.tabla td.n, .tabla th.n { text-align: right; font-variant-numeric: tabular-nums; }
+.tabla tr.actual td { color: var(--accent); font-weight: 600; }
+.scroll-x { overflow-x: auto; }
+.criterios { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.criterios li { display: grid; grid-template-columns: 1.6rem 1fr auto; gap: 10px; align-items: baseline; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); }
+.criterios .si { color: var(--ok); font-weight: 700; } .criterios .no { color: var(--veto); font-weight: 700; }
+.criterios .v { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.graf .eje { fill: var(--muted); }
+.graf text.fuerte { fill: var(--fg); font-weight: 600; }
 footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 28px; }
 
 @media (max-width: 480px) {
@@ -279,6 +310,34 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   const nomArt = k => ARTIC[D.articulaciones[k]] || D.articulaciones[k];
   const musculos = ids => ids.map(m => MUSCULO[D.musculos[m]] || D.musculos[m]).join(', ');
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  const tiene = (obj, k) => typeof k === 'string' && Object.prototype.hasOwnProperty.call(obj, k);
+
+  // Perfil del movimiento: lo que predicen los modelos supervisados (README §12)
+  const OBJ = ['mecanica', 'fuerza', 'complejidad_tecnica'];
+  const OBJ_NOMBRE = { mecanica: 'Mecánica', fuerza: 'Tipo de fuerza', complejidad_tecnica: 'Complejidad técnica' };
+  const CLASE_ES = { compound: 'Compuesto', isolation: 'Aislado', push: 'Empuje', pull: 'Tracción', static: 'Estático', alta: 'Alta', baja: 'Baja' };
+  const CLASE_AYUDA = { compound: 'mueve varias articulaciones a la vez', isolation: 'mueve una sola articulación', push: 'alejas el peso del cuerpo',
+    pull: 'acercas el peso al cuerpo', static: 'sostienes una posición sin moverte', alta: 'pide técnica y coordinación', baja: 'fácil de aprender' };
+  const ORIGEN = { f: ['Dato de la fuente', 'teal'], t: ['De un ejercicio gemelo', 'teal'], m: ['Predicho por el modelo', 'amber'], u: ['Aportado por usuarios', 'teal'] };
+  const ORIGEN_PIPELINE = { f: 'fuente', t: 'transferida', m: 'modelo', u: 'usuarios' };
+  // Ligamentos y tendones principales de cada articulación: referencia anatómica general, no medida por ejercicio
+  const ESTRUCTURAS = {
+    'cadera': 'ligamentos iliofemoral, isquiofemoral y pubofemoral; labrum de la cadera',
+    'rodilla': 'ligamentos cruzados anterior (LCA) y posterior (LCP), colaterales medial y lateral, meniscos y tendón rotuliano',
+    'tobillo': 'ligamentos laterales (peroneoastragalinos), ligamento deltoideo y tendón de Aquiles',
+    'pie (intertarsal)': 'fascia plantar y ligamentos del arco del pie',
+    'hombro': 'tendones del manguito rotador, ligamentos glenohumerales y labrum',
+    'escapulotorácica': 'sin ligamentos propios: la sostienen músculos (serrato anterior, trapecio y romboides)',
+    'codo': 'ligamentos colaterales cubital y radial, y tendones de los epicóndilos',
+    'radiocubital': 'ligamento anular y membrana interósea del antebrazo',
+    'muñeca': 'ligamentos radiocarpianos, ligamento escafolunar y fibrocartílago triangular',
+    'muñeca/dedos': 'tendones flexores y extensores de los dedos y sus poleas',
+    'columna (cervical)': 'discos intervertebrales y ligamentos longitudinales del cuello',
+    'columna (lumbar)': 'discos intervertebrales, ligamentos longitudinales e interespinosos',
+    'columna (torácico-lumbar)': 'discos intervertebrales y fascia toracolumbar'
+  };
+  const perfilDe = i => D.ejercicios[i][11] || [];
+  const claseEs = (o, k) => k >= 0 ? (CLASE_ES[D.clases[o][k]] || D.clases[o][k]) : '';
 
   // Lesiones tal como las entiende una persona → articulaciones del modelo (criterio conservador)
   const LESIONES = [
@@ -353,6 +412,42 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     return CUR[i] ? `${esc(CUR[i].es)}<span class="en">${esc(en)}</span>` : `<span style="text-transform:capitalize">${esc(en)}</span>`;
   };
   const nombreTxt = i => CUR[i]?.es || cap(D.ejercicios[i][0]);
+
+  // ═══════════════ Qué trabaja cada ejercicio ═══════════════
+  function filaPerfil(i, o, k) {
+    const [final, origen, pred, conf] = perfilDe(i)[k] || [-1, '', -1, 0];
+    const mia = correccionDe(D.ids[i], o);
+    const etiqueta = final >= 0 ? claseEs(o, final) : 'Sin etiqueta';
+    const ayuda = final >= 0 ? CLASE_AYUDA[D.clases[o][final]] : `el modelo cree «${claseEs(o, pred).toLowerCase()}» con ${conf} % de confianza, bajo su umbral: prefiere no adivinar`;
+    const [txtOrigen, color] = ORIGEN[origen] || ['Sin etiqueta', 'red'];
+    const detalleOrigen = origen === 'm' ? `${txtOrigen} · ${conf} %` : txtOrigen;
+    return `<li><span><b>${OBJ_NOMBRE[o]}:</b> ${esc(etiqueta)} <span class="que">— ${esc(ayuda)}</span></span>
+      <span class="pill ${color}" title="De dónde sale esta etiqueta">${esc(detalleOrigen)}</span>
+      ${mia ? `<span class="small" style="flex-basis:100%;color:var(--accent)">Tu corrección: ${esc(claseEs(o, mia.k))} (se usará cuando se reentrene el modelo)</span>` : ''}</li>`;
+  }
+  function fichaTrabajo(i, { corregir = false } = {}) {
+    const e = D.ejercicios[i];
+    const apoyo = e[10] || [];
+    return `<div class="trabajo">
+      <div><span class="lbl-mini">Músculos principales</span>${esc(cap(musculos(e[4])) || '—')}</div>
+      ${apoyo.length ? `<div><span class="lbl-mini">Músculos de apoyo</span>${esc(cap(musculos(apoyo)))}</div>` : ''}
+      <div><span class="lbl-mini">Articulaciones que carga y sus ligamentos</span><ul class="estructuras">${e[5].map(a => `<li><b>${esc(nomArt(a))}</b><span class="muted">${esc(cap(ESTRUCTURAS[D.articulaciones[a]] || ''))}</span></li>`).join('')}</ul></div>
+      <div><span class="lbl-mini">Cómo es el movimiento (modelos de Machine Learning)</span><ul class="perfil-mov">${OBJ.map((o, k) => filaPerfil(i, o, k)).join('')}</ul></div>
+      ${corregir ? formCorreccion(i) : ''}
+      <p class="muted small">Los ligamentos y tendones son la referencia anatómica de cada articulación, no una medición de este ejercicio. Si tienes una lesión en alguno, marca esa articulación como lesionada.</p>
+    </div>`;
+  }
+  function formCorreccion(i) {
+    const id = D.ids[i];
+    return `<details class="corregir"><summary>¿Algo no cuadra? Enseña al modelo</summary><div>
+      <p class="small">Marca lo que crees correcto. Se guarda en este dispositivo; cuando descargas tus aportes y el equipo reentrena, el modelo aprende de ellos. <a href="#aportes">Cómo funciona</a></p>
+      ${OBJ.map((o, k) => {
+        const mia = correccionDe(id, o);
+        return `<div class="field"><span class="lbl">${OBJ_NOMBRE[o]}</span><div class="seg" role="group" aria-label="${OBJ_NOMBRE[o]}" data-corr-obj="${o}">${D.clases[o].map((c, n) => `<button type="button" data-v="${n}" aria-pressed="${mia?.k === n}">${CLASE_ES[c] || c}</button>`).join('')}</div></div>`;
+      }).join('')}
+      <div class="row"><button class="btn primary" type="button" data-guardar-corr="${i}">Guardar corrección</button><span class="small" data-msg-corr aria-live="polite"></span></div>
+    </div></details>`;
+  }
   const GRUPO_MUSC = { rodilla: ['quadriceps'], cadera: ['glutes', 'hamstrings'], pecho: ['pectorals', 'chest'], vertical: ['latissimus dorsi'],
     horizontal: ['upper back', 'rhomboids', 'rear deltoids'], hombro: ['deltoids', 'shoulders'], biceps: ['biceps'], triceps: ['triceps'],
     core: ['abdominals', 'obliques'], pantorrilla: ['calves'], potencia: ['quadriceps', 'glutes'] };
@@ -366,6 +461,51 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   let almacenOK = true;
   function guardar() {
     try { localStorage.setItem(CLAVE, JSON.stringify(S)); almacenOK = true; } catch (_) { almacenOK = false; }
+  }
+
+  // ═══════════════ Aportes para el modelo (README §18) ═══════════════
+  // Correcciones de etiquetas y calificaciones de alternativas. Se identifican por ejercicio_id y
+  // nombre de articulación (no por posición), para seguir valiendo después de regenerar la página.
+  const VEREDICTOS = ['bueno', 'aceptable', 'malo', 'inseguro'];
+  const VEREDICTO_ES = { bueno: 'Buena', aceptable: 'Aceptable', malo: 'Mala', inseguro: 'Insegura' };
+  const aportes = () => S.aportes || (S.aportes = { correcciones: [], revisiones: [] });
+  const correccionDe = (id, o) => aportes().correcciones.find(c => c.id === id && c.o === o);
+  const revisionDe = (orig, alt, art, perfil) => aportes().revisiones.find(r => r.orig === orig && r.alt === alt && r.art === art && r.perfil === perfil);
+  function guardarCorreccion(i, o, k) {
+    // Un voto por persona, ejercicio y objetivo: corregir otra vez reemplaza el anterior
+    const [final, origen, , conf] = perfilDe(i)[OBJ.indexOf(o)];
+    const ap = aportes();
+    ap.correcciones = ap.correcciones.filter(c => !(c.id === D.ids[i] && c.o === o));
+    ap.correcciones.push({ id: D.ids[i], o, k, previa: final >= 0 ? D.clases[o][final] : '', origen, conf, fecha: new Date().toISOString() });
+  }
+  function calificar(i, j, art, perfil, v, sim, misma) {
+    const ap = aportes(), orig = D.ids[i], alt = D.ids[j], nombre = D.articulaciones[art];
+    const previa = revisionDe(orig, alt, nombre, perfil);
+    ap.revisiones = ap.revisiones.filter(r => r !== previa);
+    if (previa?.v !== v) ap.revisiones.push({ orig, alt, art: nombre, perfil, v, sim: sim / 1000, misma: !!misma, fecha: new Date().toISOString() });
+    guardar();
+    return previa?.v !== v;
+  }
+  function archivoAportes() {
+    const ap = aportes();
+    const correcciones = ap.correcciones.map(c => ({ ejercicio_id: c.id, nombre: D.ejercicios[IDX[c.id]][0], objetivo: c.o,
+      etiqueta_pipeline: c.previa, origen_pipeline: ORIGEN_PIPELINE[c.origen] || '', confianza_pipeline: c.conf / 100,
+      etiqueta_corregida: D.clases[c.o][c.k], comentario: '', fecha: c.fecha }));
+    const revisiones = ap.revisiones.map(r => {
+      const a = D.ejercicios[IDX[r.orig]], b = D.ejercicios[IDX[r.alt]];
+      return { articulacion_vetada: r.art, original: a[0], familia_original: D.familias[a[2]], alternativa: b[0], familia_alternativa: D.familias[b[2]],
+        misma_familia: r.misma, similitud: r.sim, veredicto: r.v, comentario: '', original_id: r.orig, alternativa_id: r.alt,
+        perfil: r.perfil ? 'principiante' : 'cualquiera', fecha: r.fecha };
+    });
+    // Mismo formato y columnas que la app de iPhone: scripts/importar_aportes.py lee los dos
+    return JSON.stringify({ formato: 'sustituto-seguro-aportes', version: 1, origen: 'web', creado: new Date().toISOString(),
+      tablas: { correcciones_etiquetas: correcciones, revisiones_recomendaciones: revisiones } }, null, 1);
+  }
+  async function descargar(nombre, texto) {
+    if (DESC) return DESC.save({ filename: nombre, data: texto });
+    const url = URL.createObjectURL(new Blob([texto], { type: 'application/json' }));
+    const a = document.createElement('a'); a.href = url; a.download = nombre; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
   }
 
   // ═══════════════ Capacidades (IA y descargas) ═══════════════
@@ -389,11 +529,13 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     rutina: '<rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 2v4M16 2v4M4 10h16"/>',
     entrenar: '<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>',
     progreso: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
-    como: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/>'
+    como: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/>',
+    modelo: '<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M8.3 7.2 15.7 10.8M8.3 16.8l7.4-3.6M6 8.5v7"/>',
+    aportes: '<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>'
   };
   const svgIco = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
-  const TABS = [['inicio', 'Inicio'], ['sustituir', 'Sustituir'], ['rutina', 'Mi rutina'], ['entrenar', 'Entrenar'], ['progreso', 'Progreso']];
-  const VISTAS = ['inicio', 'sustituir', 'rutina', 'entrenar', 'progreso', 'como-funciona'];
+  const TABS = [['inicio', 'Inicio'], ['sustituir', 'Sustituir'], ['rutina', 'Mi rutina'], ['entrenar', 'Entrenar'], ['progreso', 'Progreso'], ['modelo', 'El modelo']];
+  const VISTAS = ['inicio', 'sustituir', 'rutina', 'entrenar', 'progreso', 'como-funciona', 'modelo', 'aportes'];
   let vista = 'inicio';
   $('tabs').innerHTML = TABS.map(([k, t]) => `<a href="#${k}" data-tab="${k}">${svgIco(k)}<span>${t}</span></a>`).join('');
 
@@ -410,10 +552,10 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
 
   function render() {
     document.querySelectorAll('#tabs a').forEach(a => {
-      const activa = a.dataset.tab === vista || (vista === 'como-funciona' && a.dataset.tab === 'inicio');
+      const activa = a.dataset.tab === vista || (vista === 'como-funciona' && a.dataset.tab === 'inicio') || (vista === 'aportes' && a.dataset.tab === 'modelo');
       if (activa) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
-    ({ inicio: vInicio, sustituir: vSustituir, rutina: vRutina, entrenar: vEntrenar, progreso: vProgreso, 'como-funciona': vComo })[vista]();
+    ({ inicio: vInicio, sustituir: vSustituir, rutina: vRutina, entrenar: vEntrenar, progreso: vProgreso, 'como-funciona': vComo, modelo: vModelo, aportes: vAportes })[vista]();
   }
 
   // ═══════════════ Fechas ═══════════════
@@ -461,6 +603,8 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
         <a class="entrada" href="#rutina"><span class="ico">${svgIco('rutina')}</span><h3>Rutina personalizada</h3><p>Según tu edad, peso, deporte, nivel, tiempo y equipamiento. Las lesiones se excluyen siempre.</p></a>
         <a class="entrada" href="#entrenar"><span class="ico">${svgIco('entrenar')}</span><h3>Modo entrenamiento</h3><p>Marca cada serie, anota el peso y descansa con cronómetro. Al final registras cómo se sintió tu lesión.</p></a>
         <a class="entrada" href="#progreso"><span class="ico">${svgIco('progreso')}</span><h3>Tu progreso</h3><p>Constancia, cargas por ejercicio y evolución del dolor. Si el dolor sube, te avisamos.</p></a>
+        <a class="entrada" href="#modelo"><span class="ico">${svgIco('modelo')}</span><h3>El modelo por dentro</h3><p>Qué modelos de Machine Learning hay detrás, cómo los elegimos y qué tan bien funcionan con ejercicios que nunca vieron.</p></a>
+        <a class="entrada" href="#aportes"><span class="ico">${svgIco('aportes')}</span><h3>Enseña al modelo</h3><p>Corrige cómo describimos un ejercicio o califica una alternativa. Con tus datos el modelo se vuelve a entrenar.</p></a>
       </section>
       <div class="aviso amber" role="note"><span aria-hidden="true">⚕</span><p><b>Herramienta informativa.</b> No reemplaza la evaluación de un kinesiólogo o médico. Si un ejercicio te causa dolor agudo, detente y consulta.</p></div>
     </div>`;
@@ -533,6 +677,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
           <div class="dato"><dt>Músculo principal</dt><dd>${esc(cap(musculos(ej[4])) || '—')}</dd></div>
           <div class="dato"><dt>Equipamiento</dt><dd>${esc(EQUIPO[D.equipos[ej[3]]])}</dd></div>
         </dl>
+        <details class="mini" id="ficha-original"><summary>Qué trabaja este ejercicio y cómo lo ve el modelo</summary><div>${fichaTrabajo(sust.ej, { corregir: true })}</div></details>
         <p class="muted small">Este ejercicio carga ${ej[5].length} articulaci${ej[5].length === 1 ? 'ón' : 'ones'}:</p>
         <div class="chips" role="group" aria-label="Articulación lesionada">
           ${ej[5].map(a => `<button type="button" class="chip veto" data-art="${a}" aria-pressed="${a === sust.art}"><span class="dot" aria-hidden="true"></span>${esc(nomArt(a))}</button>`).join('')}
@@ -586,7 +731,11 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
             <span class="pill ${misma ? 'teal' : 'amber'}">${misma ? 'Mismo movimiento' : 'Otro movimiento'}</span></div>
           <p class="muted small">${esc(cap(musculos(a[4])))} · ${esc(EQUIPO[D.equipos[a[3]]])}</p>
           <div class="alt-pie"><span class="parecido" title="Qué tan parecido es al original">${[1, 2, 3].map(k => `<i class="${k <= nivel ? 'on' : ''}"></i>`).join('')}&nbsp;${['', 'Algo parecido', 'Parecido', 'Muy parecido'][nivel]}</span>
-            <a href="${yt}" target="_blank" rel="noopener">Ver cómo se hace ↗</a></div></li>`;
+            <a href="${yt}" target="_blank" rel="noopener">Ver cómo se hace ↗</a></div>
+          <details class="mini"><summary>Qué trabaja y por qué es segura</summary><div>
+            <p class="porque small">No carga ${esc(nomArt(sust.art).toLowerCase())}: ninguno de sus músculos cruza esa articulación.${misma ? ' Es del mismo tipo de movimiento que el original.' : ''}</p>
+            ${fichaTrabajo(j, { corregir: true })}</div></details>
+          <div class="califica" role="group" aria-label="¿Te sirve esta alternativa?"><span class="muted">¿Te sirve?</span>${VEREDICTOS.map(v => `<button type="button" data-veredicto="${v}" data-alt="${j}" data-sim="${sim}" data-misma="${misma ? 1 : 0}" aria-pressed="${revisionDe(D.ids[sust.ej], D.ids[j], D.articulaciones[sust.art], sust.perfil)?.v === v}">${VEREDICTO_ES[v]}</button>`).join('')}</div></li>`;
       }).join('') + '</ol>';
     }
     $('resultado').innerHTML = html;
@@ -654,8 +803,57 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       ['Empuje', ['pecho', 'hombro', 'pecho', 'triceps', 'hombro', 'core', 'triceps']],
       ['Tracción', ['vertical', 'horizontal', 'horizontal', 'biceps', 'cadera', 'core', 'biceps']],
       ['Piernas', ['rodilla', 'cadera', 'rodilla', 'cadera', 'pantorrilla', 'core', 'core']]
+    ],
+    arnold: [
+      ['Pecho y espalda', ['pecho', 'horizontal', 'vertical', 'pecho', 'horizontal', 'core', 'core']],
+      ['Hombros y brazos', ['hombro', 'biceps', 'triceps', 'hombro', 'biceps', 'triceps', 'core']],
+      ['Piernas', ['rodilla', 'cadera', 'rodilla', 'cadera', 'pantorrilla', 'core', 'core']]
+    ],
+    weider: [
+      ['Pecho', ['pecho', 'pecho', 'pecho', 'triceps', 'core', 'pecho', 'core']],
+      ['Espalda', ['vertical', 'horizontal', 'horizontal', 'vertical', 'biceps', 'core', 'horizontal']],
+      ['Piernas', ['rodilla', 'cadera', 'rodilla', 'cadera', 'pantorrilla', 'core', 'pantorrilla']],
+      ['Hombros', ['hombro', 'hombro', 'horizontal', 'hombro', 'core', 'core', 'hombro']],
+      ['Brazos', ['biceps', 'triceps', 'biceps', 'triceps', 'biceps', 'triceps', 'core']]
     ]
   };
+  // Tipos de rutina: la persona elige o deja que la app recomiende según días, nivel y edad
+  const TIPOS = {
+    auto: ['Recomendada para ti', 'Elegimos el tipo según tus días, nivel y edad.'],
+    full: ['Cuerpo completo', 'Todo el cuerpo en cada sesión.'],
+    tp: ['Torso / Pierna', 'Un día tren superior y otro tren inferior.'],
+    epp: ['Push / Pull / Legs', 'Empuje (pecho, hombros, tríceps), tracción (espalda, bíceps) y piernas.'],
+    arnold: ['Arnold', 'Pecho y espalda, hombros y brazos, y piernas.'],
+    weider: ['Un grupo por día', 'Pecho, espalda, piernas, hombros y brazos, uno por sesión (Weider).']
+  };
+  const MIN_DIAS = { full: 2, tp: 2, epp: 3, arnold: 3, weider: 5 };
+  function tipoRecomendado(p) {
+    const cuidado = p.nivel === 'principiante' || (p.edad && (p.edad < 18 || p.edad >= 60));
+    if (p.dias <= 2) return ['full', 'Con 2 días, cuerpo completo entrena cada músculo dos veces por semana.'];
+    if (p.dias === 3) return cuidado
+      ? ['full', 'Con 3 días y ' + (p.nivel === 'principiante' ? 'nivel principiante' : 'tu edad') + ', cuerpo completo repite cada movimiento tres veces por semana: se aprende la técnica más rápido.']
+      : ['epp', 'Con 3 días y experiencia, Push / Pull / Legs da más volumen a cada músculo por sesión.'];
+    if (p.dias === 4) return ['tp', 'Con 4 días, torso y pierna entrena cada músculo dos veces por semana.'];
+    return ['epp', `Con ${p.dias} días, Push / Pull / Legs ${p.dias === 6 ? 'se repite dos veces: cada músculo dos veces por semana' : 'y se repiten empuje y tracción'}.`];
+  }
+  function plantillaDe(tipo, dias) { return tipo === 'full' ? PLANTILLAS.full.slice(0, Math.max(2, Math.min(3, dias))) : PLANTILLAS[tipo]; }
+  function frecuenciaTxt(tipo, dias) {
+    // Cuántas veces por semana se entrena cada grupo principal con este tipo y estos días
+    const pl = plantillaDe(tipo, dias);
+    const veces = ['pecho', 'horizontal', 'rodilla', 'cadera'].map(g => Array.from({ length: dias }, (_, d) => pl[d % pl.length][1].includes(g)).filter(Boolean).length);
+    const mn = Math.min(...veces), mx = Math.max(...veces);
+    return `Cada grupo muscular se entrena ${mn === mx ? mn : mn + '–' + mx} ${mx === 1 ? 'vez' : 'veces'} por semana.`;
+  }
+  function elegirTipo(p) {
+    const avisos = [];
+    if (!p.tipo || p.tipo === 'auto' || !tiene(MIN_DIAS, p.tipo)) return [...tipoRecomendado(p), avisos];
+    if (p.dias < MIN_DIAS[p.tipo]) {
+      const [t, porque] = tipoRecomendado(p);
+      avisos.push(['amber', `${TIPOS[p.tipo][0]} necesita al menos ${MIN_DIAS[p.tipo]} días:`, `con ${p.dias} usamos ${TIPOS[t][0].toLowerCase()}.`]);
+      return [t, porque, avisos];
+    }
+    return [p.tipo, 'Elegiste este tipo de rutina.' + (p.tipo === 'epp' && p.dias === 3 && p.nivel === 'principiante' ? ' Siendo principiante, cuerpo completo suele dar mejores resultados al comienzo.' : ''), avisos];
+  }
   function ejerciciosPorTiempo(min) { return min <= 30 ? 4 : min <= 45 ? 5 : min <= 60 ? 6 : 7; }
 
   function ajustesPorPerfil(p) {
@@ -701,6 +899,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       if (!eqs.has(CATEG[D.equipos[e[3]]]) || D.equipos[e[3]] === 'otro') return;
       if (!e[4].some(m => objetivo.has(D.musculos[m]))) return;
       if (/suspen|trx|ring|smith|machine|lever|cable|band|ball|bosu|sled|wheel|roller|wall|towel|assisted/i.test(e[0]) && !(eqs.has('gym') || eqs.has('banda') || eqs.has('balon'))) return;
+      if (/boxing|punch|jab|hook|uppercut|kick|shadow/i.test(e[0])) return; // golpes de combate: no son ejercicios de fuerza
       if (aj.nivelMax === 1 && e[6] !== 'baja') return;
       if (aj.nivelMax === 2 && e[6] === 'alta') return;
       out.push([(e[1] === 'catalogo' ? 0 : 5) + (e[6] === 'baja' ? 0 : 3) + e[0].length / 10, i]);
@@ -711,7 +910,9 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   function generarRutina(p) {
     const aj = ajustesPorPerfil(p);
     const vet = vetadasDe(p.lesiones);
-    const plantilla = p.dias <= 3 ? PLANTILLAS.full.slice(0, Math.max(2, p.dias)) : p.dias === 4 ? PLANTILLAS.tp : PLANTILLAS.epp;
+    const [tipo, porqueTipo, avisosTipo] = elegirTipo(p);
+    aj.avisos.push(...avisosTipo);
+    const plantilla = plantillaDe(tipo, p.dias);
     const nDias = p.dias;
     const n = ejerciciosPorTiempo(p.minutos);
     const usadosSemana = new Map();
@@ -756,7 +957,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     const llenos = dias.filter(d => d.ejercicios.length);
     if (llenos.length < dias.length) aj.avisos.push(['amber', llenos.length ? `Tu rutina queda en ${llenos.length} día${llenos.length > 1 ? 's' : ''}:` : 'No pudimos armar una rutina segura:',
       llenos.length ? 'con tus lesiones y equipamiento no hay ejercicios seguros suficientes para más días. Sumar equipamiento puede abrir más opciones.' : 'con tus lesiones y equipamiento ningún ejercicio del catálogo es seguro. Consulta a un kinesiólogo para un plan de rehabilitación.']);
-    return { creada: hoyISO(), perfil: { ...p }, avisos: aj.avisos, objetivo: aj.objetivo, dias: llenos, huecos, ia: null };
+    return { creada: hoyISO(), perfil: { ...p }, avisos: aj.avisos, objetivo: aj.objetivo, tipo, porqueTipo, dias: llenos, huecos, ia: null };
   }
   function item(i, grupo, aj, alternativas, extra) {
     const c = CUR[i];
@@ -778,6 +979,8 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       <header class="hero" style="padding-top:0"><div class="eyebrow">Mi rutina · creada el ${esc(fechaLarga(r.creada))}</div>
         <h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">${r.dias.length} día${r.dias.length === 1 ? '' : 's'} por semana · ${esc(OBJETIVOS[r.objetivo][0].toLowerCase())}</h1>
         <p class="lead">${esc(p.edad)} años${p.peso ? ' · ' + esc(p.peso) + ' kg' : ''} · ${esc(DEPORTES[p.deporte][0])} · nivel ${esc(p.nivel)} · sesiones de ${p.minutos} min</p>
+        ${r.tipo ? `<p><b>${esc(TIPOS[r.tipo][0])}</b> · ${esc(r.porqueTipo || TIPOS[r.tipo][1])} ${esc(frecuenciaTxt(r.tipo, p.dias))}</p>` : ''}
+        <div class="row" role="group" aria-label="Tipo de rutina"><span class="muted small">Tipo de rutina:</span><div class="chips">${Object.entries(TIPOS).map(([k, [n]]) => `<button type="button" class="chip" data-tipo="${k}" aria-pressed="${(p.tipo || 'auto') === k}" ${MIN_DIAS[k] > p.dias ? `disabled title="Necesita al menos ${MIN_DIAS[k]} días"` : ''}>${esc(n)}</button>`).join('')}</div></div>
         <div class="row"><a class="btn primary" href="#entrenar">Empezar a entrenar</a><button class="btn" id="editar" type="button">Cambiar mis datos</button><button class="btn ghost" id="regenerar" type="button">Generar otra variante</button></div>
       </header>
       ${r.avisos.map(([c, b, t]) => `<div class="aviso ${c}"><p><b>${esc(b)}</b> ${esc(t)}</p></div>`).join('')}
@@ -801,6 +1004,9 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
           <div class="pres">${e.series} × ${esc(e.reps)}<br><span class="muted">descanso ${e.descanso % 60 === 0 ? e.descanso / 60 + ' min' : e.descanso + ' s'}</span></div>
           <div class="sub">${e.extra ? '<span class="pill amber">Para tu deporte</span> ' : ''}${esc(cap(musculos(D.ejercicios[e.i][4])))} · ${esc(EQUIPO[D.equipos[D.ejercicios[e.i][3]]])} · <a href="${yt(e.i)}" target="_blank" rel="noopener">Ver cómo se hace ↗</a>
             ${e.alternativas.length ? ` · <button type="button" class="linkbtn" style="font-size:inherit;font-weight:600;color:var(--accent)" data-cambiar="${k}-${n}">Cambiar ejercicio</button>` : ''}</div>
+          <details class="mini"><summary>Qué trabaja: músculos, articulaciones y ligamentos</summary><div>
+            <p class="porque small">${e.extra ? 'Complemento para tu deporte' : 'En esta rutina cubre: ' + esc(GRUPO_NOMBRE[e.grupo])}.${p.lesiones.length ? ` No carga ${esc(p.lesiones.map(l => LES[l].nombre.toLowerCase()).join(' ni '))}.` : ''}</p>
+            ${fichaTrabajo(e.i, { corregir: true })}</div></details>
         </li>`).join('')}</ul>
         ${d.equilibrio ? '<p class="muted small" style="padding:12px 16px;border-top:1px solid var(--line)">Equilibrio: al final, 2 × 30 s parado en un pie por lado, cerca de una pared o silla.</p>' : ''}
       </section>`).join('')}
@@ -815,6 +1021,10 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     </div>`;
     $('editar').onclick = () => { editando = true; vRutina(); window.scrollTo(0, 0); };
     $('regenerar').onclick = () => { const nueva = generarRutinaVariante(r.perfil); S.rutina = nueva; guardar(); vRutina(); };
+    app.querySelectorAll('[data-tipo]').forEach(b => b.onclick = () => {
+      const perfil = { ...r.perfil, tipo: b.dataset.tipo };
+      S.perfil = { ...(S.perfil || perfil), tipo: b.dataset.tipo }; S.rutina = generarRutina(perfil); guardar(); vRutina();
+    });
     app.querySelectorAll('[data-cambiar]').forEach(b => b.onclick = () => {
       const [d, n] = b.dataset.cambiar.split('-').map(Number);
       const e = S.rutina.dias[d].ejercicios[n];
@@ -854,6 +1064,8 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
             <div class="field"><span class="lbl">Días por semana</span><div class="seg" data-campo="dias">${[2, 3, 4, 5, 6].map(n => `<button type="button" data-v="${n}" aria-pressed="${p.dias === n}">${n}</button>`).join('')}</div></div>
             <div class="field"><span class="lbl">Minutos por sesión</span><div class="seg" data-campo="minutos">${[30, 45, 60, 75].map(n => `<button type="button" data-v="${n}" aria-pressed="${p.minutos === n}">${n}</button>`).join('')}</div></div>
           </div>
+          <div class="field"><span class="lbl">Tipo de rutina</span><div class="seg" data-campo="tipo">${Object.entries(TIPOS).map(([k, [n]]) => `<button type="button" data-v="${k}" aria-pressed="${(p.tipo || 'auto') === k}">${n}</button>`).join('')}</div>
+            <span class="muted small" id="tipo-ayuda" aria-live="polite"></span></div>
         </section>
         <section class="card"><h3>¿Con qué cuentas?</h3>
           <div class="chips" data-multi="equipo">${EQ_OPC.map(([k, n]) => `<button type="button" class="chip" data-v="${k}" aria-pressed="${k === 'pc' || p.equipo.includes(k)}" ${k === 'pc' ? 'disabled title="Siempre incluido"' : ''}><span class="dot" aria-hidden="true"></span>${n}</button>`).join('')}</div>
@@ -864,13 +1076,22 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
         </section>
         <div class="row"><button class="btn primary" type="submit">${S.rutina ? 'Actualizar mi rutina' : 'Crear mi rutina'}</button>${S.rutina ? '<button class="btn ghost" type="button" id="cancelar">Cancelar</button>' : ''}</div>
       </form></div>`;
-    const estado = { ...p, equipo: [...p.equipo], lesiones: [...p.lesiones] };
+    const estado = { ...p, tipo: p.tipo || 'auto', equipo: [...p.equipo], lesiones: [...p.lesiones] };
+    const ayudaTipo = () => {
+      const edad = parseInt($('f-edad').value, 10) || 30;
+      const [t, porque, avisos] = elegirTipo({ ...estado, edad });
+      $('tipo-ayuda').textContent = (estado.tipo === 'auto' ? `Te recomendamos ${TIPOS[t][0]}. ${porque} ` : `${TIPOS[t][1]} `)
+        + frecuenciaTxt(t, estado.dias) + (avisos.length ? ` ${avisos[0][1]} ${avisos[0][2]}` : '');
+    };
     app.querySelectorAll('.seg[data-campo]').forEach(seg => seg.addEventListener('click', ev => {
       const b = ev.target.closest('[data-v]'); if (!b) return;
       const campo = seg.dataset.campo; const v = b.dataset.v;
       estado[campo] = (campo === 'dias' || campo === 'minutos') ? +v : v;
       seg.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      ayudaTipo();
     }));
+    $('f-edad').addEventListener('input', ayudaTipo);
+    ayudaTipo();
     app.querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', ev => {
       const b = ev.target.closest('[data-v]'); if (!b || b.disabled) return;
       const lista = estado[g.dataset.multi]; const v = b.dataset.v; const k = lista.indexOf(v);
@@ -889,7 +1110,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       else if (peso !== '' && !(peso >= 30 && peso <= 250)) msg = 'Ingresa un peso entre 30 y 250 kg, o déjalo vacío.';
       else if (altura !== '' && !(altura >= 120 && altura <= 230)) msg = 'Ingresa una altura entre 120 y 230 cm, o déjala vacía.';
       if (msg) { err.textContent = msg; err.hidden = false; $('f-edad').scrollIntoView({ block: 'center' }); return; }
-      const perfil = { ...estado, edad, peso, altura, deporte: $('f-deporte').value in DEPORTES ? $('f-deporte').value : 'ninguno', equipo: estado.equipo.filter(e => e !== 'pc') };
+      const perfil = { ...estado, edad, peso, altura, deporte: tiene(DEPORTES, $('f-deporte').value) ? $('f-deporte').value : 'ninguno', equipo: estado.equipo.filter(e => e !== 'pc') };
       if (edad < 14) perfil.equipo = perfil.equipo.filter(e => e === 'banda');
       S.perfil = perfil;
       S.rutina = generarRutina(perfil);
@@ -904,7 +1125,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     const dias = r.dias.map((d, k) => `Día ${k + 1} (${d.titulo}):\n` + d.ejercicios.map((e, n) =>
       `  [${n}] id ${e.i}: ${nombreTxt(e.i)} — ${e.series}x${e.reps}, descanso ${e.descanso}s, músculos: ${musculos(D.ejercicios[e.i][4])}${e.extra ? ' (complemento deporte)' : ''}\n` +
       `      alternativas seguras permitidas: ${e.alternativas.map(a => `${a}=${nombreTxt(a)}`).join('; ') || 'ninguna'}`).join('\n')).join('\n');
-    return `Perfil: ${p.edad} años${p.peso ? ', ' + p.peso + ' kg' : ''}${p.altura ? ', ' + p.altura + ' cm' : ''}. Deporte: ${DEPORTES[p.deporte][0]}. Nivel: ${p.nivel}. Objetivo: ${OBJETIVOS[r.objetivo][0]}. ${p.dias} días/semana, ${p.minutos} min por sesión. Equipamiento: peso corporal${p.equipo.length ? ', ' + p.equipo.map(e => EQ_OPC.find(x => x[0] === e)[1]).join(', ') : ''}. Lesiones/dolor: ${p.lesiones.length ? p.lesiones.map(k => LES[k].nombre).join(', ') : 'ninguna'}.\n\nRutina actual:\n${dias}`;
+    return `Perfil: ${p.edad} años${p.peso ? ', ' + p.peso + ' kg' : ''}${p.altura ? ', ' + p.altura + ' cm' : ''}. Deporte: ${DEPORTES[p.deporte][0]}. Nivel: ${p.nivel}. Objetivo: ${OBJETIVOS[r.objetivo][0]}. Tipo de rutina: ${r.tipo ? TIPOS[r.tipo][0] : 'automática'}. ${p.dias} días/semana, ${p.minutos} min por sesión. Equipamiento: peso corporal${p.equipo.length ? ', ' + p.equipo.map(e => EQ_OPC.find(x => x[0] === e)[1]).join(', ') : ''}. Lesiones/dolor: ${p.lesiones.length ? p.lesiones.map(k => LES[k].nombre).join(', ') : 'ninguna'}.\n\nRutina actual:\n${dias}`;
   }
   const REGLAS_IA = 'Eres un entrenador personal prudente que responde en español de Chile, claro y cercano, sin jerga. No haces diagnósticos médicos, no das dietas ni metas de calorías o de peso corporal, y ante dolor recomiendas consultar a un kinesiólogo o médico. Nunca sugieras ejercicios que carguen las zonas lesionadas.';
   let iaCtl = null;
@@ -1222,10 +1443,11 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     const edad = ent(p.edad, 10, 100);
     if (edad === null) return null;
     return { edad, peso: dec(p.peso, 30, 250, ''), altura: ent(p.altura, 120, 230, ''),
-      deporte: p.deporte in DEPORTES ? p.deporte : 'ninguno', nivel: ['principiante', 'intermedio', 'avanzado'].includes(p.nivel) ? p.nivel : 'principiante',
-      objetivo: p.objetivo in OBJETIVOS ? p.objetivo : 'salud', dias: ent(p.dias, 2, 6, 3), minutos: [30, 45, 60, 75].includes(p.minutos) ? p.minutos : 45,
+      deporte: tiene(DEPORTES, p.deporte) ? p.deporte : 'ninguno', nivel: ['principiante', 'intermedio', 'avanzado'].includes(p.nivel) ? p.nivel : 'principiante',
+      objetivo: tiene(OBJETIVOS, p.objetivo) ? p.objetivo : 'salud', dias: ent(p.dias, 2, 6, 3), minutos: [30, 45, 60, 75].includes(p.minutos) ? p.minutos : 45,
+      tipo: tiene(TIPOS, p.tipo) ? p.tipo : 'auto',
       equipo: [...new Set(lista(p.equipo).filter(e => EQ_OPC.some(([k]) => k === e && k !== 'pc')))],
-      lesiones: [...new Set(lista(p.lesiones).filter(k => k in LES))] };
+      lesiones: [...new Set(lista(p.lesiones).filter(k => tiene(LES, k)))] };
   }
   function sanearRutina(r) {
     if (!r || typeof r !== 'object') return null;
@@ -1235,14 +1457,15 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     const dias = lista(r.dias).slice(0, 6).map(d => ({
       titulo: txt(d?.titulo, 60), equilibrio: d?.equilibrio === true,
       ejercicios: lista(d?.ejercicios).slice(0, 12).filter(e => ejValido(e?.i) && esSeguro(e.i, vet)).map(e => ({
-        i: e.i, grupo: e.grupo in GRUPO_NOMBRE ? e.grupo : 'core', series: ent(e.series, 1, 6, 3), reps: txt(e.reps, 12) || '10',
+        i: e.i, grupo: tiene(GRUPO_NOMBRE, e.grupo) ? e.grupo : 'core', series: ent(e.series, 1, 6, 3), reps: txt(e.reps, 12) || '10',
         descanso: ent(e.descanso, 15, 300, 60), iso: e.iso === true, extra: e.extra === true,
         alternativas: lista(e.alternativas).filter(a => ejValido(a) && esSeguro(a, vet)).slice(0, 8) }))
     })).filter(d => d.ejercicios.length);
     if (!dias.length) return null;
-    return { creada: fecha(r.creada) || hoyISO(), perfil, objetivo: r.objetivo in OBJETIVOS ? r.objetivo : perfil.objetivo,
+    return { creada: fecha(r.creada) || hoyISO(), perfil, objetivo: tiene(OBJETIVOS, r.objetivo) ? r.objetivo : perfil.objetivo,
+      tipo: tiene(MIN_DIAS, r.tipo) ? r.tipo : undefined, porqueTipo: txt(r.porqueTipo, 200),
       avisos: lista(r.avisos).filter(a => Array.isArray(a) && COLOR_AVISO.has(a[0])).slice(0, 8).map(a => [a[0], txt(a[1], 80), txt(a[2], 300)]),
-      huecos: lista(r.huecos).filter(g => g in GRUPO_NOMBRE), dias, ia: null };
+      huecos: lista(r.huecos).filter(g => tiene(GRUPO_NOMBRE, g)), dias, ia: null };
   }
   function sanearRespaldo(x) {
     if (!x || typeof x !== 'object' || !Array.isArray(x.sesiones)) throw new Error('formato');
@@ -1250,7 +1473,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     const sesiones = x.sesiones.map(s => {
       const f = fecha(s?.fecha); if (!f) return null;
       const dolor = {};
-      for (const [k, v] of Object.entries(s.dolor && typeof s.dolor === 'object' ? s.dolor : {})) { const n = ent(v, 0, 10); if (k in LES && n !== null) dolor[k] = n; }
+      for (const [k, v] of Object.entries(s.dolor && typeof s.dolor === 'object' ? s.dolor : {})) { const n = ent(v, 0, 10); if (tiene(LES, k) && n !== null) dolor[k] = n; }
       return { fecha: f, dia: ent(s.dia, 0, 5, 0), titulo: txt(s.titulo, 60), minutos: ent(s.minutos, 1, 300, 1), esfuerzo: ent(s.esfuerzo, 1, 10, 6),
         dolor, notas: txt(s.notas, 500),
         ejercicios: lista(s.ejercicios).filter(e => ejValido(e?.i)).map(e => ({ i: e.i,
@@ -1258,7 +1481,185 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     }).filter(Boolean).sort((a, b) => a.fecha.localeCompare(b.fecha));
     const pesos = lista(x.pesos).map(p => ({ fecha: fecha(p?.fecha), kg: dec(p?.kg, 30, 250) })).filter(p => p.fecha && p.kg !== null)
       .sort((a, b) => a.fecha.localeCompare(b.fecha));
-    return { perfil: sanearPerfil(x.perfil) || rutina?.perfil || null, rutina, sesiones, pesos, enCurso: null };
+    return { perfil: sanearPerfil(x.perfil) || rutina?.perfil || null, rutina, sesiones, pesos, enCurso: null, aportes: sanearAportes(x.aportes) };
+  }
+  function sanearAportes(a) {
+    const correcciones = lista(a?.correcciones).filter(c => c && tiene(IDX, c.id) && OBJ.includes(c.o) && Number.isInteger(c.k) && c.k >= 0 && c.k < D.clases[c.o].length)
+      .map(c => ({ id: c.id, o: c.o, k: c.k, previa: D.clases[c.o].includes(c.previa) ? c.previa : '', origen: tiene(ORIGEN, c.origen) ? c.origen : '',
+        conf: ent(c.conf, 0, 100, 0), fecha: txt(c.fecha, 40) || new Date().toISOString() }));
+    const revisiones = lista(a?.revisiones).filter(r => r && tiene(IDX, r.orig) && tiene(IDX, r.alt) && tiene(A, r.art) && (r.perfil === 0 || r.perfil === 1) && VEREDICTOS.includes(r.v))
+      .map(r => ({ orig: r.orig, alt: r.alt, art: r.art, perfil: r.perfil, v: r.v, sim: dec(r.sim, 0, 1, 0), misma: r.misma === true, fecha: txt(r.fecha, 40) || new Date().toISOString() }));
+    return { correcciones: correcciones.slice(-2000), revisiones: revisiones.slice(-2000) };
+  }
+
+
+  // ═══════════════ EL MODELO POR DENTRO (EV3) ═══════════════
+  const filasDe = t => t.filas.map(f => Object.fromEntries(t.columnas.map((c, k) => [c, f[k]])));
+  const MODELO_ES = { regresion_logistica: 'Regresión logística', random_forest: 'Random Forest', extra_trees: 'Extra Trees',
+    boosting_por_defecto: 'Boosting por defecto', boosting: 'Boosting ajustado', voting: 'Voting', stacking: 'Stacking' };
+  const FAMILIA_ES = { individual: 'modelo simple', bagging: 'bagging', boosting: 'boosting', voting: 'voting', stacking: 'stacking' };
+  const ESCENARIO_ES = { honestos: ['Usuarios honestos', 'var(--accent)'], con_errores: ['30 % de errores', 'var(--amber)'], maliciosos: ['Usuarios maliciosos', 'var(--veto)'] };
+  const num = (v, d = 3) => v === null || v === undefined || Number.isNaN(v) ? '—' : v.toFixed(d).replace('.', ',');
+  const signo = (v, d = 3) => v === null || v === undefined ? '—' : (v >= 0 ? '+' : '−') + num(Math.abs(v), d);
+  const CANDIDATOS = filasDe(D.modelo.candidatos);
+  const AZAR = Object.fromEntries(filasDe(D.modelo.azar).map(f => [f.objetivo, f.f1_macro]));
+  const BUSQUEDA = Object.fromEntries(filasDe(D.modelo.busqueda_boosting).map(f => [f.objetivo, f.cv_f1_macro]));
+  const SIMULACION = filasDe(D.aprendizaje.simulacion);
+  const INFORME_APRENDIZAJE = filasDe(D.aprendizaje.informe);
+  const MEJORA_MINIMA = 0.02, PLIEGUES_MINIMOS = 80, T_MINIMO = 2;
+  const actualDe = o => CANDIDATOS.find(f => f.objetivo === o && f.es_modelo_actual);
+  let objModelo = 'mecanica', objAprende = 'mecanica';
+
+  function grafCandidatos(filas, actual) {
+    // Punto = F1 medio en CV repetida 5×5; bigote = ± 1 desviación estándar entre pliegues
+    const W = 680, alto = 30, pl = 250, pr = 70, pt = 22, H = pt + filas.length * alto + 24;
+    const extremos = filas.flatMap(f => [f.cv_f1_media - f.cv_f1_sd, f.cv_f1_media + f.cv_f1_sd]).concat(actual.cv_f1_media + MEJORA_MINIMA);
+    const mn = Math.floor(Math.min(...extremos) * 50) / 50, mx = Math.ceil(Math.max(...extremos) * 50) / 50;
+    const x = v => pl + (W - pl - pr) * (v - mn) / (mx - mn);
+    let g = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="F1 macro en validación cruzada de ${filas.length} candidatos">`;
+    for (let v = mn; v <= mx + 1e-9; v += 0.02) g += `<line x1="${x(v)}" x2="${x(v)}" y1="${pt - 6}" y2="${H - 22}" stroke="var(--line)"/><text x="${x(v)}" y="${H - 6}" text-anchor="middle">${num(v, 2)}</text>`;
+    const meta = x(actual.cv_f1_media + MEJORA_MINIMA);
+    g += `<line x1="${x(actual.cv_f1_media)}" x2="${x(actual.cv_f1_media)}" y1="${pt - 6}" y2="${H - 22}" stroke="var(--accent)" stroke-dasharray="2 3"/>`;
+    g += `<line x1="${meta}" x2="${meta}" y1="${pt - 6}" y2="${H - 22}" stroke="var(--amber)" stroke-dasharray="5 4"/><text x="${meta}" y="${pt - 10}" text-anchor="middle" style="fill:var(--amber)">mejora mínima +0,02</text>`;
+    filas.forEach((f, k) => {
+      const y = pt + k * alto + alto / 2, color = f.es_modelo_actual ? 'var(--accent)' : 'var(--fg)';
+      g += `<text x="${pl - 10}" y="${y + 4}" text-anchor="end" class="${f.es_modelo_actual ? 'fuerte' : ''}" style="font-size:12px;font-family:var(--body)${f.es_modelo_actual ? ';fill:var(--accent)' : ''}">${esc(MODELO_ES[f.modelo] || f.modelo)}${f.es_modelo_actual ? ' (actual)' : ''}</text>`;
+      g += `<line x1="${x(f.cv_f1_media - f.cv_f1_sd)}" x2="${x(f.cv_f1_media + f.cv_f1_sd)}" y1="${y}" y2="${y}" stroke="${color}" stroke-width="2" opacity="0.55"/>`;
+      g += `<circle cx="${x(f.cv_f1_media)}" cy="${y}" r="5.5" fill="${color}"/><text x="${W - pr + 8}" y="${y + 4}" class="fuerte">${num(f.cv_f1_media)}</text>`;
+    });
+    return g + '</svg>';
+  }
+  function grafCurva(series, xs, etiqueta) {
+    // Eje x categórico (número de aportes); eje y = F1 macro en la validación externa
+    const W = 640, H = 230, pl = 44, pr = 16, pt = 12, pb = 34;
+    const todos = series.flatMap(s => s.valores).filter(v => v !== null);
+    const mn = Math.max(0, Math.floor((Math.min(...todos) - 0.02) * 10) / 10), mx = Math.min(1, Math.ceil((Math.max(...todos) + 0.02) * 10) / 10);
+    const x = k => pl + k * (W - pl - pr) / (xs.length - 1), y = v => pt + (H - pt - pb) * (1 - (v - mn) / (mx - mn));
+    let g = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(etiqueta)}">`;
+    for (let v = mn; v <= mx + 1e-9; v += 0.1) g += `<line x1="${pl}" x2="${W - pr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${pl - 6}" y="${y(v) + 3}" text-anchor="end">${num(v, 1)}</text>`;
+    xs.forEach((v, k) => g += `<text x="${x(k)}" y="${H - 16}" text-anchor="middle">${v}</text>`);
+    g += `<text x="${(pl + W - pr) / 2}" y="${H - 2}" text-anchor="middle">aportes de usuarios</text>`;
+    for (const se of series) {
+      const pts = se.valores.map((v, k) => v === null ? null : [x(k), y(v)]).filter(Boolean);
+      g += `<polyline fill="none" stroke="${se.color}" stroke-width="2.4" stroke-linejoin="round" points="${pts.map(q => q.join(',')).join(' ')}"/>`;
+      pts.forEach(q => g += `<circle cx="${q[0]}" cy="${q[1]}" r="3.6" fill="${se.color}"/>`);
+    }
+    return g + '</svg>';
+  }
+
+  function vModelo() {
+    const candidatos = CANDIDATOS.filter(f => f.objetivo === objModelo).sort((a, b) => b.cv_f1_media - a.cv_f1_media);
+    const actual = actualDe(objModelo);
+    const rival = candidatos.filter(f => !f.es_modelo_actual).sort((a, b) => b.cv_f1_media - a.cv_f1_media)[0];
+    const criterios = [
+      ['Mejora media de F1 de al menos +0,02', signo(rival.diferencia_media), rival.diferencia_media >= MEJORA_MINIMA],
+      ['Gana en al menos el 80 % de los 25 pliegues', `${Math.round(rival.pct_pliegues_mejor)} %`, rival.pct_pliegues_mejor >= PLIEGUES_MINIMOS],
+      ['t corregida de Nadeau-Bengio de al menos 2', `t = ${num(rival.t_nadeau_bengio, 2)} · p = ${num(rival.p_valor, 2)}`, rival.t_nadeau_bengio >= T_MINIMO]
+    ];
+    const boosting = OBJ.map(o => [o, CANDIDATOS.find(f => f.objetivo === o && f.modelo === 'boosting_por_defecto'), CANDIDATOS.find(f => f.objetivo === o && f.modelo === 'boosting')]);
+    const xs = [...new Set(SIMULACION.filter(f => f.objetivo === objAprende).map(f => f.n_aportes))].sort((a, b) => a - b);
+    const curva = escenario => xs.map(n => SIMULACION.find(f => f.objetivo === objAprende && f.escenario === escenario && f.n_aportes === n)?.f1_externa ?? null);
+    const honestos = curva('honestos');
+    const malos = SIMULACION.filter(f => f.objetivo === objAprende && f.escenario === 'maliciosos' && f.n_aportes >= 25);
+    const rechazo = malos.length ? 1 - malos.reduce((a, f) => a + f.adoptado, 0) / malos.length : null;
+    const conAportes = INFORME_APRENDIZAJE.filter(f => f.n_aportes > 0);
+    const selector = (estado, attr) => `<div class="seg" role="group" aria-label="Objetivo">${OBJ.map(o => `<button type="button" ${attr}="${o}" aria-pressed="${estado === o}">${OBJ_NOMBRE[o]}</button>`).join('')}</div>`;
+
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">El modelo por dentro · Evaluación 3</div>
+        <h1 style="font-size:clamp(1.8rem,5vw,2.6rem)">Por qué confiar en lo que te recomendamos</h1>
+        <p class="lead">Tres modelos supervisados describen cada ejercicio: su mecánica, su tipo de fuerza y su complejidad técnica. Con eso la app decide qué alternativa es parecida y segura. En la evaluación 3 los enfrentamos a siete candidatos, incluidos tres tipos de ensamble, con una regla fijada antes de ver los resultados.</p></header>
+      <section class="resumen-inicio" aria-label="Modelos en uso">${OBJ.map(o => { const a = actualDe(o); return `<div class="kpi"><span class="v">${num(a.f1_test, 2)}</span><span class="l"><b style="color:var(--fg)">${OBJ_NOMBRE[o]}</b> · ${esc(MODELO_ES[a.modelo])}<br>F1 en ejercicios que nunca vio (azar: ${num(AZAR[o], 2)})</span></div>`; }).join('')}</section>
+
+      <section class="card"><div class="row" style="justify-content:space-between"><h3>Siete candidatos, los mismos pliegues</h3>${selector(objModelo, 'data-obj-modelo')}</div>
+        <p class="muted small">Bagging (Random Forest, Extra Trees), boosting y voting o stacking, que combinan regresión logística, Random Forest y boosting. Todos medidos con la misma validación cruzada repetida 5 × 5, con pliegues por grupo de variantes para que «Bench Press» y su variante nunca queden en lados distintos.</p>
+        <div class="scroll-x">${grafCandidatos(candidatos, actual)}</div>
+        <p class="muted small">Punto: F1 macro medio en validación cruzada. Bigote: ± 1 desviación estándar entre pliegues. Línea punteada verde: modelo actual. Línea ámbar: la mejora mínima que exigimos para cambiarlo.</p></section>
+
+      <section class="card"><h3>La regla para cambiar de modelo</h3>
+        <p class="muted small">El mejor rival en ${esc(OBJ_NOMBRE[objModelo].toLowerCase())} es <b style="color:var(--fg)">${esc(MODELO_ES[rival.modelo])}</b>. Para reemplazar al modelo actual debía cumplir las tres condiciones:</p>
+        <ul class="criterios">${criterios.map(([t, v, ok]) => `<li><span class="${ok ? 'si' : 'no'}" aria-label="${ok ? 'Cumple' : 'No cumple'}">${ok ? '✓' : '✗'}</span><span>${t}</span><span class="v">${esc(v)}</span></li>`).join('')}</ul>
+        <div class="aviso teal"><p><b>Decisión: mantenemos ${esc(MODELO_ES[actual.modelo].toLowerCase())}.</b> La ventaja del ensamble es menor que el ruido entre pliegues. Además es más difícil de explicar y obligaría a recalibrar el umbral con que el modelo se abstiene, sin evidencia de que alguien reciba mejores recomendaciones.</p></div></section>
+
+      <section class="card"><h3>Optimización de hiperparámetros</h3>
+        <p class="muted small">Regresión logística y Random Forest: búsqueda en grilla (GridSearchCV) con la regla de un error estándar, que prefiere el modelo más simple si la diferencia es menor que el ruido. Boosting: búsqueda aleatoria (RandomizedSearchCV) de 20 combinaciones entre 486, con los mismos pliegues.</p>
+        <div class="scroll-x"><table class="tabla"><thead><tr><th>Objetivo</th><th class="n">Ajustado, en su búsqueda</th><th class="n">Por defecto</th><th class="n">Ajustado</th><th class="n">Mejora real</th><th class="n">Modelo actual</th></tr></thead>
+          <tbody>${boosting.map(([o, a, b]) => `<tr><td>${OBJ_NOMBRE[o]}</td><td class="n">${num(BUSQUEDA[o])}</td><td class="n">${num(a.cv_f1_media)}</td><td class="n">${num(b.cv_f1_media)}</td><td class="n">${signo(b.cv_f1_media - a.cv_f1_media)}</td><td class="n">${num(actualDe(o).cv_f1_media)}</td></tr>`).join('')}</tbody></table></div>
+        <p class="muted small">F1 macro. La primera columna es la mejor de las 20 configuraciones en los mismos pliegues con que se eligió: es optimista. Las demás son la validación cruzada repetida 5 × 5, con pliegues nuevos e iguales para todos. Lo que funcionó fue regularizar: árboles chicos, penalización L2 y menos variables por corte. Aun ajustado, el boosting no supera al modelo actual.</p></section>
+
+      <section class="card"><h3>¿Funciona con ejercicios que nunca vio?</h3>
+        <div class="scroll-x"><table class="tabla"><thead><tr><th>Objetivo · modelo actual</th><th class="n">Entrenamiento</th><th class="n">Validación cruzada</th><th class="n">Prueba</th><th class="n">Catálogo externo</th></tr></thead>
+          <tbody>${OBJ.map(o => { const a = actualDe(o); return `<tr><td>${OBJ_NOMBRE[o]} · ${esc(MODELO_ES[a.modelo])}</td><td class="n">${num(a.f1_train)}</td><td class="n">${num(a.cv_f1_media)}</td><td class="n">${num(a.f1_test)}</td><td class="n">${num(a.f1_externa)}</td></tr>`; }).join('')}</tbody></table></div>
+        <p class="muted small">De la medición más optimista a la más exigente. El catálogo externo son ejercicios escritos por otra fuente, con otro vocabulario. Mecánica y fuerza generalizan; complejidad técnica es más difícil porque las propias etiquetas discrepan entre variantes. Elegimos siempre en validación cruzada, nunca mirando la prueba.</p></section>
+
+      <section class="card"><div class="row" style="justify-content:space-between"><h3>El modelo aprende de los usuarios</h3>${selector(objAprende, 'data-obj-aprende')}</div>
+        <p class="muted small">Cada corrección que alguien hace en la app es una etiqueta nueva. Antes de reentrenar pasa por tres controles: consenso entre usuarios, sin mezclar variantes entre entrenamiento y prueba, y no empeorar: si el modelo con aportes cae más de 0,02 de F1, se descartan.</p>
+        <div class="scroll-x">${grafCurva(Object.keys(ESCENARIO_ES).map(k => ({ valores: curva(k), color: ESCENARIO_ES[k][1] })), xs, 'F1 en el catálogo externo según el número de aportes')}</div>
+        <div class="leyenda">${Object.values(ESCENARIO_ES).map(([n, c]) => `<span style="--c:${c}">${n}</span>`).join('')}</div>
+        <p>${honestos[0] !== null && honestos.at(-1) !== null ? `Con ${xs.at(-1)} correcciones honestas, el F1 en ejercicios nuevos del catálogo pasa de <b>${num(honestos[0])}</b> a <b>${num(honestos.at(-1))}</b> (${signo(honestos.at(-1) - honestos[0])}).` : ''} ${rechazo !== null ? `Desde 25 aportes maliciosos, el control rechazó el <b>${Math.round(100 * rechazo)} %</b> de los intentos.` : ''}</p>
+        <p class="muted small">Simulación con 5 repeticiones por punto: las etiquetas «honestas» son las del ejercicio gemelo de free-exercise-db, y se mide en ejercicios cuyo gemelo quedó en prueba, así ninguna respuesta se filtra.</p>
+        ${conAportes.length ? `<div class="scroll-x"><table class="tabla"><thead><tr><th>Versión publicada</th><th class="n">Aportes</th><th class="n">F1 prueba sin / con</th><th class="n">F1 externa sin / con</th><th class="n">Coincide con usuarios antes / después</th><th>Decisión</th></tr></thead>
+          <tbody>${conAportes.map(f => `<tr><td>${OBJ_NOMBRE[f.objetivo]}</td><td class="n">${f.n_aportes}</td><td class="n">${num(f.f1_test_sin_aportes)} / ${num(f.f1_test_con_aportes)}</td><td class="n">${num(f.f1_externa_sin_aportes)} / ${num(f.f1_externa_con_aportes)}</td><td class="n">${Math.round(100 * f.coincide_antes)} % / ${Math.round(100 * f.coincide_despues)} %</td><td>${esc(f.decision)}</td></tr>`).join('')}</tbody></table></div>`
+          : '<div class="aviso amber"><p><b>La versión publicada todavía no incluye aportes de usuarios.</b> Cuando el equipo importe correcciones y reentrene, aquí verás cuántas entraron y qué cambió.</p></div>'}
+        <div class="row"><a class="btn primary" href="#aportes">Enseña al modelo</a></div></section>
+
+      <section class="card plain"><h3>Lo que todavía no sabemos</h3>
+        <ul class="notas-rutina">
+          <li>Las etiquetas no están validadas por un kinesiólogo: la seguridad descansa en el mapa músculo–articulación.</li>
+          <li>La validación externa tiene unos 60 ejercicios por objetivo: su margen es de ± 8 puntos.</li>
+          <li>La curva de aprendizaje usa usuarios simulados; con usuarios reales hay que volver a medirla.</li>
+        </ul></section>
+    </div>`;
+    app.querySelectorAll('[data-obj-modelo]').forEach(b => b.onclick = () => { objModelo = b.dataset.objModelo; vModelo(); });
+    app.querySelectorAll('[data-obj-aprende]').forEach(b => b.onclick = () => { objAprende = b.dataset.objAprende; vModelo(); });
+  }
+
+  // ═══════════════ ENSEÑA AL MODELO ═══════════════
+  let msgAportes = '';
+  function vAportes() {
+    const ap = aportes();
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Enseña al modelo</div>
+        <h1 style="font-size:clamp(1.8rem,5vw,2.6rem)">Tus correcciones lo hacen aprender</h1>
+        <p class="lead">Si ves que un ejercicio está mal descrito, o una alternativa no te sirve, dilo. Cada respuesta es un dato nuevo con el que el modelo se vuelve a entrenar.</p></header>
+      <section class="resumen-inicio" aria-label="Tus aportes">
+        <div class="kpi"><span class="v">${ap.correcciones.length}</span><span class="l">Etiquetas corregidas</span></div>
+        <div class="kpi"><span class="v">${ap.revisiones.length}</span><span class="l">Alternativas calificadas</span></div>
+      </section>
+      <section class="card"><h3>Cómo aprende</h3>
+        <ol class="como-pasos">
+          <li><h3>Corrige o califica</h3><p>En Sustituir o en tu rutina, abre «Qué trabaja» y marca la mecánica, la fuerza o la complejidad correctas. En las alternativas, responde «¿Te sirve?».</p></li>
+          <li><h3>Descarga tus aportes</h3><p>Un archivo con tus correcciones y calificaciones. Nunca incluye tu edad, peso, sesiones ni dolor.</p></li>
+          <li><h3>El equipo reentrena</h3><p>Importa los archivos y vuelve a entrenar el modelo con ellos: <code>python scripts/importar_aportes.py</code> y <code>kedro run</code>.</p></li>
+          <li><h3>Control de calidad</h3><p>Una etiqueta entra si los usuarios coinciden. Y si el modelo con aportes empeora en los ejercicios de prueba, se descartan: así una corrección equivocada o malintencionada no lo daña.</p></li>
+          <li><h3>Nueva versión</h3><p>La página se regenera con el modelo nuevo. Lo que enseñaron los usuarios aparece como «Aportado por usuarios».</p></li>
+        </ol></section>
+      <section class="card"><h3>Tus correcciones</h3>
+        ${ap.correcciones.length ? `<div class="scroll-x"><table class="tabla"><thead><tr><th>Ejercicio</th><th>Qué</th><th>Antes</th><th>Tu respuesta</th><th></th></tr></thead><tbody>
+          ${ap.correcciones.map((c, n) => `<tr><td>${esc(nombreTxt(IDX[c.id]))}</td><td>${OBJ_NOMBRE[c.o]}</td><td>${esc(CLASE_ES[c.previa] || 'Sin etiqueta')}${c.origen ? ` <span class="muted small">(${esc((ORIGEN[c.origen] || [''])[0].toLowerCase())})</span>` : ''}</td><td><b>${esc(claseEs(c.o, c.k))}</b></td><td><button class="btn ghost small" type="button" data-quitar-corr="${n}">Quitar</button></td></tr>`).join('')}
+          </tbody></table></div>` : '<p class="muted">Todavía no corriges ninguna etiqueta. Abre «Qué trabaja este ejercicio» en <a href="#sustituir">Sustituir</a>.</p>'}</section>
+      <section class="card"><h3>Tus calificaciones de alternativas</h3>
+        ${ap.revisiones.length ? `<div class="scroll-x"><table class="tabla"><thead><tr><th>Original</th><th>Alternativa</th><th>Zona lesionada</th><th>Tu respuesta</th><th></th></tr></thead><tbody>
+          ${ap.revisiones.map((r, n) => `<tr><td>${esc(nombreTxt(IDX[r.orig]))}</td><td>${esc(nombreTxt(IDX[r.alt]))}</td><td>${esc(nomArt(A[r.art]))}</td><td><b>${VEREDICTO_ES[r.v]}</b></td><td><button class="btn ghost small" type="button" data-quitar-rev="${n}">Quitar</button></td></tr>`).join('')}
+          </tbody></table></div>` : '<p class="muted">Todavía no calificas alternativas. En <a href="#sustituir">Sustituir</a>, responde «¿Te sirve?» bajo cada una.</p>'}</section>
+      <section class="card plain"><h3>Entrega tus aportes</h3>
+        <p class="muted small">Descarga el archivo y envíaselo al equipo. Se guarda como <code>sustituto-seguro-aportes-${hoyISO()}.json</code>.</p>
+        <div class="row"><button class="btn primary" type="button" id="descargar-aportes" ${ap.correcciones.length + ap.revisiones.length ? '' : 'disabled'}>Descargar mis aportes</button>
+          <button class="btn ghost danger" type="button" id="borrar-aportes" ${ap.correcciones.length + ap.revisiones.length ? '' : 'disabled'}>Borrar todos</button>
+          <a class="btn ghost" href="#modelo">Ver cuánto aprende el modelo</a></div>
+        <p class="small" id="msg-aportes" aria-live="polite">${esc(msgAportes)}</p></section>
+    </div>`;
+    msgAportes = '';
+    app.querySelectorAll('[data-quitar-corr]').forEach(b => b.onclick = () => { ap.correcciones.splice(+b.dataset.quitarCorr, 1); guardar(); vAportes(); });
+    app.querySelectorAll('[data-quitar-rev]').forEach(b => b.onclick = () => { ap.revisiones.splice(+b.dataset.quitarRev, 1); guardar(); vAportes(); });
+    $('descargar-aportes').onclick = async () => {
+      try { await descargar(`sustituto-seguro-aportes-${hoyISO()}.json`, archivoAportes()); $('msg-aportes').textContent = 'Archivo descargado. Envíaselo al equipo para reentrenar el modelo.'; }
+      catch (e) { $('msg-aportes').textContent = e?.code === 'cancelled' || e?.code === 'declined' ? 'No se descargó el archivo.' : 'No se pudo descargar el archivo en este navegador.'; }
+    };
+    $('borrar-aportes').onclick = () => {
+      if ($('borrar-aportes').dataset.confirmar) { S.aportes = { correcciones: [], revisiones: [] }; guardar(); msgAportes = 'Aportes borrados.'; vAportes(); return; }
+      $('borrar-aportes').dataset.confirmar = '1'; $('borrar-aportes').textContent = '¿Seguro? Toca otra vez para borrar';
+    };
   }
 
   // ═══════════════ CÓMO FUNCIONA ═══════════════
@@ -1284,8 +1685,12 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
         <details><summary>¿Cómo se ordenan las alternativas?</summary><div>
           <p>Primero las del mismo tipo de movimiento (empuje, tracción, estiramiento). Después por parecido biomecánico, calculado con un grafo que conecta ejercicios, músculos y articulaciones (técnica Node2Vec, agrupada en 12 familias de movimiento). Si ninguna opción se hace con peso corporal, se agrega una al final para quien entrena en casa.</p></div></details>
         <details><summary>¿Cómo se arma la rutina?</summary><div>
-          <p>Según los días: 2–3 días, cuerpo completo; 4 días, torso y piernas; 5–6 días, empuje, tracción y piernas. Los minutos definen cuántos ejercicios entran. El objetivo define series, repeticiones y descanso.</p>
+          <p>Puedes elegir el tipo: cuerpo completo, torso / pierna, Push / Pull / Legs (empuje, tracción y piernas), Arnold o un grupo por día. Si dejas «Recomendada para ti», lo elegimos según tus días y tu nivel: con 2 días, cuerpo completo; con 3, cuerpo completo para principiantes y Push / Pull / Legs con experiencia; con 4, torso y pierna; con 5 o 6, Push / Pull / Legs. Los minutos definen cuántos ejercicios entran. El objetivo define series, repeticiones y descanso.</p>
           <p>La edad ajusta la dificultad: con menos de 18 años se evitan series de muy pocas repeticiones; con 60 o más se evitan saltos y se suma equilibrio. El peso y la altura sirven para decidir si conviene empezar sin ejercicios de impacto. El deporte agrega ejercicios complementarios.</p></div></details>
+        <details><summary>¿Qué músculos y ligamentos trabaja cada ejercicio?</summary><div>
+          <p>Abre «Qué trabaja» en cualquier ejercicio: verás sus músculos principales y de apoyo, las articulaciones que carga con sus ligamentos y tendones principales, y cómo lo describe el modelo (mecánica, fuerza y complejidad), con el origen de cada dato y la confianza del modelo.</p></div></details>
+        <details><summary>¿El modelo aprende de mí?</summary><div>
+          <p>Sí, si quieres. Cuando corriges cómo describimos un ejercicio o calificas una alternativa, se guarda como aporte. Descárgalo en <a href="#aportes">Enseña al modelo</a> y envíalo: el equipo reentrena con los aportes de todos, y solo los adopta si el modelo no empeora. Puedes ver el efecto en <a href="#modelo">El modelo por dentro</a>.</p></div></details>
         <details><summary>¿Qué hace la IA?</summary><div>
           <p>Revisa tu rutina, te explica por qué sirve, da consejos y propone cambios. Solo puede elegir entre ejercicios que ya pasaron el filtro de seguridad, y tú decides si aplicarlos. También puedes hacerle preguntas sobre tu entrenamiento.</p>
           <p>Funciona con tu propia cuenta de Claude y te pide permiso la primera vez. Si no tienes cuenta, el resto de la aplicación funciona igual.</p></div></details>
@@ -1299,7 +1704,36 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     </div>`;
   }
 
+  // Corregir etiquetas y calificar alternativas, en cualquier vista (delegación en #app)
+  app.addEventListener('click', ev => {
+    const opcion = ev.target.closest('[data-corr-obj] [data-v]');
+    if (opcion) {
+      const ya = opcion.getAttribute('aria-pressed') === 'true';
+      opcion.parentElement.querySelectorAll('[data-v]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      opcion.setAttribute('aria-pressed', String(!ya));
+      return;
+    }
+    const boton = ev.target.closest('[data-guardar-corr]');
+    if (boton) {
+      const i = +boton.dataset.guardarCorr, caja = boton.closest('details'), msg = caja.querySelector('[data-msg-corr]');
+      const elegidas = [...caja.querySelectorAll('[data-corr-obj]')].map(seg => [seg.dataset.corrObj, seg.querySelector('[aria-pressed="true"]')]).filter(([, b]) => b);
+      if (!elegidas.length) { msg.textContent = 'Marca al menos una opción.'; return; }
+      elegidas.forEach(([o, b]) => guardarCorreccion(i, o, +b.dataset.v));
+      guardar();
+      const lista = caja.closest('.trabajo')?.querySelector('.perfil-mov');
+      if (lista) lista.innerHTML = OBJ.map((o, k) => filaPerfil(i, o, k)).join('');
+      msg.innerHTML = `Guardado. Llevas ${aportes().correcciones.length} correcci${aportes().correcciones.length === 1 ? 'ón' : 'ones'}. <a href="#aportes">Ver y descargar mis aportes</a>`;
+      return;
+    }
+    const cal = ev.target.closest('[data-veredicto]');
+    if (cal) {
+      const activo = calificar(sust.ej, +cal.dataset.alt, sust.art, sust.perfil, cal.dataset.veredicto, +cal.dataset.sim, cal.dataset.misma === '1');
+      cal.parentElement.querySelectorAll('[data-veredicto]').forEach(b => b.setAttribute('aria-pressed', String(activo && b === cal)));
+    }
+  });
+
   // Arranque
+  S.aportes = sanearAportes(S.aportes);
   leerHash();
 })();
 </script>

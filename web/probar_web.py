@@ -1,8 +1,10 @@
 """Pruebas de usuario de la página web en un navegador real (README §15).
 
 Recorren todas las secciones en escritorio y móvil, con la IA simulada, y generan
-300 rutinas con perfiles al azar para verificar que ninguna incluya un ejercicio
-que cargue una zona lesionada.
+300 rutinas con perfiles y tipos de rutina al azar para verificar que ninguna
+incluya un ejercicio que cargue una zona lesionada. También prueban «Qué trabaja»,
+los tipos de rutina, los aportes para el modelo (corregir, calificar, descargar e
+importar) y la vista «El modelo por dentro» (README §18).
 
 Requiere Playwright y Chrome/Chromium::
 
@@ -13,11 +15,14 @@ import json
 import random
 import re
 import sys
+import tempfile
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
 RAIZ = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(RAIZ / "scripts"))
+import importar_aportes  # noqa: E402
 pagina = RAIZ / "docs/index.html"
 carpeta = RAIZ / "web/capturas"
 carpeta.mkdir(exist_ok=True)
@@ -78,6 +83,56 @@ with sync_playwright() as p:
     pg.click("text=Extensión de piernas · rodilla"); pg.wait_for_timeout(250)
     check("no hay un sustituto seguro" in pg.inner_text("#resultado").lower(), "abstención anatómica")
 
+    # Qué trabaja: músculos, articulaciones con sus ligamentos y perfil del modelo
+    pg.click("text=Sentadilla · rodilla"); pg.wait_for_timeout(250)
+    pg.click("#ficha-original summary"); pg.wait_for_timeout(100)
+    ficha = pg.inner_text("#ficha-original")
+    check("Músculos de apoyo".upper() in ficha.upper() and "LCA" in ficha and "Mecánica:" in ficha, "qué trabaja: músculos de apoyo, ligamentos y perfil")
+    check(pg.locator("#ficha-original .perfil-mov .pill").count() == 3, "qué trabaja: origen de cada etiqueta")
+    pg.locator("#resultado details.mini summary").first.click(); pg.wait_for_timeout(100)
+    check("No carga rodilla" in pg.locator("#resultado details.mini").first.inner_text(), "alternativa: explica por qué es segura")
+
+    # Aportes: corregir una etiqueta y calificar alternativas
+    pg.evaluate("localStorage.removeItem('sustituto-seguro-v1')"); pg.reload(); pg.wait_for_timeout(300)
+    pg.click("#ficha-original summary"); pg.click("#ficha-original details.corregir summary")
+    pg.click("#ficha-original [data-guardar-corr]"); pg.wait_for_timeout(50)
+    check("Marca al menos" in pg.inner_text("#ficha-original [data-msg-corr]"), "corregir: pide marcar algo")
+    pg.click("#ficha-original [data-corr-obj=mecanica] [data-v='1']"); pg.click("#ficha-original [data-guardar-corr]"); pg.wait_for_timeout(100)
+    check("Tu corrección" in pg.inner_text("#ficha-original .perfil-mov"), "corregir: muestra la corrección")
+    pg.click("#ficha-original [data-corr-obj=mecanica] [data-v='0']"); pg.click("#ficha-original [data-guardar-corr]"); pg.wait_for_timeout(100)
+    ap = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1')).aportes")
+    check(len(ap["correcciones"]) == 1 and ap["correcciones"][0]["k"] == 0 and ap["correcciones"][0]["id"] == "catalogo:0043",
+          "corregir otra vez reemplaza el voto (por ejercicio_id)")
+    pg.locator("#resultado [data-veredicto=bueno]").first.click(); pg.locator("#resultado [data-veredicto=inseguro]").nth(1).click()
+    pg.locator("#resultado [data-veredicto=inseguro]").nth(1).click(); pg.wait_for_timeout(100)
+    ap = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1')).aportes")
+    check([r["v"] for r in ap["revisiones"]] == ["bueno"] and ap["revisiones"][0]["art"] == "rodilla", "calificar: guarda y se puede desmarcar")
+    pg.goto(url + "#aportes"); pg.wait_for_timeout(300)
+    check("Sentadilla profunda con barra" in pg.inner_text("#app") and "Buena" in pg.inner_text("#app"), "enseña al modelo: lista los aportes")
+    with pg.expect_download() as descarga:
+        pg.click("#descargar-aportes")
+    with tempfile.TemporaryDirectory() as tmp:
+        archivo = Path(tmp) / "aportes.json"
+        descarga.value.save_as(archivo)
+        contenido = json.loads(archivo.read_text(encoding="utf-8"))
+        tablas = contenido["tablas"]
+        check(contenido["formato"] == importar_aportes.FORMATO_WEB
+              and all(list(f) == importar_aportes.COLUMNAS[t] for t, filas in tablas.items() for f in filas),
+              "descarga: mismo formato y columnas que la app de iPhone")
+        nuevas = importar_aportes.importar(archivo, Path(tmp) / "destino")
+        check(nuevas == {"correcciones_etiquetas": 1, "revisiones_recomendaciones": 1}, "descarga: el importador la acepta")
+        check("edad" not in json.dumps(contenido) and "dolor" not in json.dumps(contenido),
+              "descarga: no incluye edad ni dolor")
+
+    # El modelo por dentro (EV3)
+    pg.click("#tabs a[data-tab=modelo]"); pg.wait_for_timeout(300)
+    t = pg.inner_text("#app")
+    check("Siete candidatos" in t and "Decisión: mantenemos" in t and "aprende de los usuarios" in t.lower(), "el modelo: candidatos, regla y aprendizaje")
+    check(pg.locator("svg.graf").first.locator("circle").count() == 7, "el modelo: 7 candidatos en el gráfico")
+    pg.click("[data-obj-modelo=fuerza]"); pg.wait_for_timeout(150)
+    check("random forest" in pg.inner_text("#app").lower(), "el modelo: cambia de objetivo")
+    pg.screenshot(path=str(carpeta / "modelo.png"), full_page=True)
+
     # Rutina: validación
     pg.click("#tabs a[data-tab=rutina]"); pg.wait_for_timeout(200)
     pg.click("button[type=submit]"); pg.wait_for_timeout(150)
@@ -109,6 +164,7 @@ with sync_playwright() as p:
                  "deporte": random.choice(['ninguno', 'futbol', 'running', 'natacion', 'combate', 'escalada', 'basquet']),
                  "nivel": random.choice(['principiante', 'intermedio', 'avanzado']), "objetivo": random.choice(['salud', 'fuerza', 'musculo', 'resistencia']),
                  "dias": random.choice([2, 3, 4, 5, 6]), "minutos": random.choice([30, 45, 60, 75]),
+                 "tipo": random.choice(['auto', 'full', 'tp', 'epp', 'arnold', 'weider']),
                  "equipo": random.sample(['pesas', 'gym', 'banda', 'balon'], random.randint(0, 3)),
                  "lesiones": random.sample(lesiones, random.randint(0, 3))} for _ in range(300)]
     LES = {'hombro': ['hombro', 'escapulotorácica'], 'codo': ['codo', 'radiocubital'], 'muneca': ['muñeca', 'muñeca/dedos', 'radiocubital'],
@@ -131,7 +187,21 @@ with sync_playwright() as p:
                 if not pf['equipo'] and D['equipos'][D['ejercicios'][e['i']][3]] not in ('peso corporal',) and e['i'] not in (POS['wger:265'], POS['wger:1408']): malos += 1
                 for a in e['alternativas']:
                     if vet & set(D['ejercicios'][a][5]): malos += 1
-    check(malos == 0, f"300 perfiles al azar: 0 ejercicios o alternativas que carguen lesiones (encontrados {malos})")
+    check(malos == 0, f"300 perfiles y tipos de rutina al azar: 0 ejercicios o alternativas que carguen lesiones (encontrados {malos})")
+
+    # Tipos de rutina
+    pg.evaluate("localStorage.clear()"); pg.goto(url + "#rutina"); pg.reload(); pg.wait_for_timeout(300)
+    pg.fill("#f-edad", "25"); pg.click("[data-campo=nivel] [data-v=intermedio]"); pg.click("[data-campo=dias] [data-v='3']")
+    check("Push / Pull / Legs" in pg.inner_text("#tipo-ayuda"), "tipo: 3 días con experiencia recomienda Push / Pull / Legs")
+    pg.click("[data-campo=nivel] [data-v=principiante]")
+    check("Cuerpo completo" in pg.inner_text("#tipo-ayuda"), "tipo: 3 días principiante recomienda cuerpo completo")
+    pg.click("[data-campo=tipo] [data-v=epp]"); pg.click("button[type=submit]"); pg.wait_for_timeout(300)
+    check(pg.locator(".dia-h h3").all_inner_texts() == ["Día 1 · Empuje", "Día 2 · Tracción", "Día 3 · Piernas"], "tipo: la persona elige Push / Pull / Legs")
+    pg.click("[data-tipo=arnold]"); pg.wait_for_timeout(200)
+    check(pg.locator(".dia-h h3").all_inner_texts()[1] == "Día 2 · Hombros y brazos", "tipo: cambio rápido a Arnold")
+    check(pg.locator("[data-tipo=weider]").is_disabled(), "tipo: un grupo por día necesita 5 días")
+    pg.locator(".ej details.mini summary").first.click(); pg.wait_for_timeout(100)
+    check("En esta rutina cubre" in pg.locator(".ej details.mini").first.inner_text(), "rutina: qué trabaja cada ejercicio")
     print("     días sin ejercicios:", vacios)
 
     # Entrenar → progreso
@@ -196,6 +266,16 @@ with sync_playwright() as p:
     r_mala = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1')).rutina")
     usados_m = [e["i"] for d in r_mala["dias"] for e in d["ejercicios"]] + [a for d in r_mala["dias"] for e in d["ejercicios"] for a in e["alternativas"]]
     check(not pg.evaluate("window.__xss") and pg.locator("img[src=x]").count() == 0, "respaldo alterado: no inserta HTML")
+    pg.goto(url + "#progreso"); pg.wait_for_timeout(200)
+    aportes_malos = dict(malo, aportes={"correcciones": [{"id": xss, "o": "mecanica", "k": 0}, {"id": "catalogo:0043", "o": "toString", "k": 0},
+                                                         {"id": "catalogo:0043", "o": "fuerza", "k": 1, "previa": xss, "origen": xss}],
+                                        "revisiones": [{"orig": "catalogo:0043", "alt": xss, "art": "rodilla", "perfil": 0, "v": "bueno"}]})
+    pg.set_input_files("#importar", files=[{"name": "a.json", "mimeType": "application/json", "buffer": json.dumps(aportes_malos).encode()}])
+    pg.wait_for_timeout(300)
+    ap = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1')).aportes")
+    check(len(ap["correcciones"]) == 1 and ap["correcciones"][0]["previa"] == "" and not ap["revisiones"], "respaldo alterado: solo aportes válidos")
+    pg.goto(url + "#aportes"); pg.wait_for_timeout(200)
+    check(not pg.evaluate("window.__xss"), "respaldo alterado: aportes no insertan HTML")
     check(inseguro not in usados_m and usados_m, "respaldo alterado: descarta ejercicios que cargan la lesión")
     pg.evaluate("localStorage.clear()")
 
@@ -218,7 +298,7 @@ with sync_playwright() as p:
 
     # Móvil
     m = pagina_nueva(url, viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
-    for v in ["inicio", "sustituir", "rutina", "entrenar", "progreso", "como-funciona"]:
+    for v in ["inicio", "sustituir", "rutina", "entrenar", "progreso", "como-funciona", "modelo", "aportes"]:
         m.goto(url + "#" + v); m.wait_for_timeout(250)
         w = m.evaluate("document.documentElement.scrollWidth")
         check(w <= 390, f"móvil sin scroll horizontal en #{v} ({w}px)")

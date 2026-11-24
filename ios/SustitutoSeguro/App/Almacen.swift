@@ -148,7 +148,7 @@ final class Almacen {
 
     /// Escribe los cinco CSV en una carpeta temporal y devuelve sus rutas, para
     /// compartirlos (AirDrop, Archivos, correo) y pasarlos al proyecto con
-    /// `python scripts/importar_datos_ios.py <carpeta>`.
+    /// `python scripts/importar_aportes.py <carpeta>`.
     func exportar() throws -> [URL] {
         let carpeta = URL.temporaryDirectory.appending(path: "sustituto_seguro_\(Int(Date().timeIntervalSince1970))")
         try FileManager.default.createDirectory(at: carpeta, withIntermediateDirectories: true)

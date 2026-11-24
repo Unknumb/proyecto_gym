@@ -16,7 +16,7 @@ public enum Veredicto: String, CaseIterable, Codable, Identifiable {
 }
 
 /// Tablas que la app exporta para el pipeline. Cada una es un CSV con encabezado
-/// que `scripts/importar_datos_ios.py` valida y copia a `data/01_raw/app_ios/`.
+/// que `scripts/importar_aportes.py` valida y copia a `data/01_raw/aportes_usuarios/`.
 public enum TablaExportable: String, CaseIterable {
     case revisiones = "revisiones_recomendaciones"
     case correcciones = "correcciones_etiquetas"

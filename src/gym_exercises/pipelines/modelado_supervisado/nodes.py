@@ -208,6 +208,26 @@ def construir_tabla_modelado(
     return tabla.drop(columns=["musculos_primarios", "musculos_secundarios"])
 
 
+def filas_entrenamiento(tabla: pd.DataFrame, objetivo: str) -> pd.DataFrame:
+    """Ejemplos etiquetados de ``objetivo``: free-exercise-db más los aportes de
+    usuarios aceptados para ese objetivo (columna ``<objetivo>_aporte``)."""
+    etiquetada = tabla["rol"] == "entrenamiento"
+    if f"{objetivo}_aporte" in tabla:
+        etiquetada |= tabla[f"{objetivo}_aporte"].fillna(False).astype(bool)
+    return tabla.loc[etiquetada & tabla[objetivo].notna()]
+
+
+def filas_externa(tabla: pd.DataFrame, objetivo: str, test: pd.DataFrame) -> pd.DataFrame:
+    """Validación externa: ejercicios del catálogo cuyo gemelo de free-exercise-db
+    quedó en *test*. Se excluyen los que un usuario etiquetó para ``objetivo``:
+    el modelo ya vio su respuesta."""
+    externa = ((tabla["rol"] == "prediccion") & tabla[f"{objetivo}_referencia"].notna()
+               & tabla["gemelo_fedb"].isin(test["ejercicio_id"]))
+    if f"{objetivo}_aporte" in tabla:
+        externa &= ~tabla[f"{objetivo}_aporte"].fillna(False).astype(bool)
+    return tabla.loc[externa]
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. Entrenamiento y comparación
 # ─────────────────────────────────────────────────────────────────────────────
@@ -345,6 +365,18 @@ def _elegir_ganador(resultados: dict[str, GridSearchCV], preferido: str) -> str:
     return mejor
 
 
+def _ajustar_final(mejor: Pipeline, train: pd.DataFrame, datos: pd.DataFrame, objetivo: str,
+                   cv: GroupKFold, precision_objetivo: float) -> tuple[Pipeline, float]:
+    """Umbral de abstención con predicciones fuera de muestra sobre *train* y modelo
+    final reentrenado con todos los datos etiquetados (*train* + *test*)."""
+    probas_oof = cross_val_predict(clone(mejor), train, train[objetivo],
+                                   groups=train["grupo"], cv=cv, method="predict_proba")
+    clases = np.sort(train[objetivo].unique())
+    umbral = _umbral_abstencion(train[objetivo].to_numpy(), probas_oof, clases,
+                                precision_objetivo)
+    return clone(mejor).fit(datos, datos[objetivo]), umbral
+
+
 def entrenar_modelos(
     tabla: pd.DataFrame, parametros: dict[str, Any],
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any]]:
@@ -374,12 +406,10 @@ def entrenar_modelos(
     filas, predicciones, modelos = [], [], {}
 
     for objetivo in OBJETIVOS:
-        datos = tabla.loc[(tabla["rol"] == "entrenamiento") & tabla[objetivo].notna()]
+        datos = filas_entrenamiento(tabla, objetivo)
         train = datos.loc[datos["particion"] == "train"]
         test = datos.loc[datos["particion"] == "test"]
-        externa = tabla.loc[(tabla["rol"] == "prediccion")
-                            & tabla[f"{objetivo}_referencia"].notna()
-                            & tabla["gemelo_fedb"].isin(test["ejercicio_id"])]
+        externa = filas_externa(tabla, objetivo, test)
 
         resultados = {}
         for nombre, (clf, grilla, refit) in _candidatos(parametros).items():
@@ -423,12 +453,7 @@ def entrenar_modelos(
 
         ganador = _elegir_ganador(resultados, parametros["modelo_preferido_en_empate"])
         mejor = resultados[ganador].best_estimator_
-        probas_oof = cross_val_predict(clone(mejor), train, train[objetivo],
-                                       groups=train["grupo"], cv=cv, method="predict_proba")
-        clases = np.sort(train[objetivo].unique())
-        umbral = _umbral_abstencion(train[objetivo].to_numpy(), probas_oof, clases,
-                                    precision_objetivo)
-        final = clone(mejor).fit(datos, datos[objetivo])
+        final, umbral = _ajustar_final(mejor, train, datos, objetivo, cv, precision_objetivo)
         modelos[objetivo] = {"estimador": final, "modelo": ganador, "umbral": umbral,
                              "clases": list(final.classes_),
                              "modelo_train": mejor,
@@ -641,7 +666,7 @@ def diagnosticar_modelos(
     repetidas, contrastes, calibracion, aprendizaje, fuga, importancia = [], [], [], [], [], []
 
     for objetivo in OBJETIVOS:
-        datos = tabla.loc[(tabla["rol"] == "entrenamiento") & tabla[objetivo].notna()]
+        datos = filas_entrenamiento(tabla, objetivo)
         train = datos.loc[datos["particion"] == "train"]
         y, grupos = train[objetivo].to_numpy(), train["grupo"].to_numpy()
         ganador = modelos[objetivo]["modelo_train"]
@@ -694,10 +719,12 @@ def predecir_etiquetas(tabla: pd.DataFrame, ejercicios: pd.DataFrame,
 
     Por objetivo, la etiqueta final sigue un orden de confianza:
 
-    1. ``fuente``: la trae la propia ficha (nodos de free-exercise-db).
-    2. ``transferida``: viene del gemelo en free-exercise-db (README §11.3).
-    3. ``modelo``: predicción con confianza ≥ umbral de abstención.
-    4. Nulo, si el modelo no alcanza el umbral. Se prefiere un nulo honesto
+    1. ``usuarios``: la corrigieron o confirmaron personas que usan la página o
+       la app, y el control de ``evaluar_aprendizaje`` la aceptó (README §18).
+    2. ``fuente``: la trae la propia ficha (nodos de free-exercise-db).
+    3. ``transferida``: viene del gemelo en free-exercise-db (README §11.3).
+    4. ``modelo``: predicción con confianza ≥ umbral de abstención.
+    5. Nulo, si el modelo no alcanza el umbral. Se prefiere un nulo honesto
        a una etiqueta dudosa (README §5.3).
 
     ``<objetivo>_prediccion`` y ``<objetivo>_confianza`` se guardan siempre,
@@ -715,16 +742,249 @@ def predecir_etiquetas(tabla: pd.DataFrame, ejercicios: pd.DataFrame,
         confianza = probas.max(axis=1)
         propia = nodos[objetivo].astype(object)
         transferida = nodos[f"{objetivo}_referencia"].astype(object)
-        condiciones = [propia.notna().to_numpy(), transferida.notna().to_numpy(),
-                       confianza >= modelo["umbral"]]
+        aporte = (nodos[f"{objetivo}_aporte"].fillna(False).astype(bool).to_numpy()
+                  if f"{objetivo}_aporte" in nodos else np.zeros(len(nodos), dtype=bool))
+        condiciones = [aporte & propia.notna().to_numpy(), propia.notna().to_numpy(),
+                       transferida.notna().to_numpy(), confianza >= modelo["umbral"]]
 
         perfil[f"{objetivo}_prediccion"] = prediccion
         perfil[f"{objetivo}_confianza"] = confianza.round(3)
         perfil[objetivo] = np.select(
-            condiciones, [propia.to_numpy(), transferida.to_numpy(), prediccion], default=None)
+            condiciones, [propia.to_numpy(), propia.to_numpy(), transferida.to_numpy(), prediccion],
+            default=None)
         perfil[f"{objetivo}_origen"] = np.select(
-            condiciones, ["fuente", "transferida", "modelo"], default=None)
+            condiciones, ["usuarios", "fuente", "transferida", "modelo"], default=None)
 
     resumen = {o: perfil[f"{o}_origen"].value_counts(dropna=False).to_dict() for o in modelos}
     logger.info("Origen de las etiquetas finales: %s", resumen)
     return perfil
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. Aprender de los usuarios (README §18)
+# ─────────────────────────────────────────────────────────────────────────────
+# Las personas que usan la página web o la app de iPhone corrigen o confirman la
+# mecánica, la fuerza o la complejidad de un ejercicio. Esas correcciones entran al
+# entrenamiento como etiquetas nuevas, con tres controles:
+#
+# 1. **Consenso** (``consolidar_aportes``): una etiqueta entra solo con
+#    ``votos_minimos`` correcciones y ``acuerdo_minimo`` de ellas coincidiendo.
+# 2. **Sin fuga** (``incorporar_aportes``): un ejercicio aportado hereda el grupo de
+#    variantes y la partición de su gemelo en free-exercise-db, así que nunca queda
+#    una variante en *train* y otra en *test*.
+# 3. **No empeorar** (``evaluar_aprendizaje``): el modelo con aportes se compara con
+#    el mismo modelo sin ellos en *test* y en la validación externa; si cae más de
+#    ``tolerancia_f1`` en alguno, se descartan los aportes de ese objetivo y se
+#    publica el modelo anterior. Protege de correcciones erróneas o malintencionadas.
+#
+# Sin aportes, la tabla y los modelos son idénticos a los de la EV2 y la EV3.
+
+ESTADOS_APORTE = ["aceptada", "faltan votos", "sin acuerdo", "ejercicio desconocido",
+                  "objetivo desconocido", "etiqueta desconocida"]
+
+
+def consolidar_aportes(correcciones: pd.DataFrame, tabla: pd.DataFrame,
+                       config: dict[str, Any]) -> pd.DataFrame:
+    """Una fila por ejercicio y objetivo: la etiqueta más votada, sus votos, el
+    acuerdo y si se acepta. Cada fila de ``correcciones`` es un voto."""
+    columnas = ["ejercicio_id", "nombre", "objetivo", "etiqueta", "etiqueta_anterior",
+                "votos", "votos_totales", "acuerdo", "cambia", "estado"]
+    votos = correcciones.reindex(columns=["ejercicio_id", "objetivo", "etiqueta_corregida"])
+    votos = votos.dropna().astype(str)
+    if votos.empty:
+        return pd.DataFrame(columns=columnas)
+    conteo = (votos.groupby(["ejercicio_id", "objetivo", "etiqueta_corregida"]).size()
+              .rename("votos").reset_index())
+    conteo["votos_totales"] = conteo.groupby(["ejercicio_id", "objetivo"])["votos"].transform("sum")
+    conteo = (conteo.sort_values(["votos", "etiqueta_corregida"], ascending=[False, True])
+              .drop_duplicates(["ejercicio_id", "objetivo"])
+              .rename(columns={"etiqueta_corregida": "etiqueta"}))
+    conteo["acuerdo"] = (conteo["votos"] / conteo["votos_totales"]).round(3)
+
+    fichas = tabla.set_index("ejercicio_id")
+    clases = {o: set(tabla.loc[tabla["rol"] == "entrenamiento", o].dropna().astype(str))
+              for o in OBJETIVOS}
+    conocido = conteo["ejercicio_id"].isin(fichas.index)
+    conteo["nombre"] = conteo["ejercicio_id"].map(fichas["nombre"])
+    conteo["etiqueta_anterior"] = [
+        fichas.at[e, o] if c and o in OBJETIVOS else None
+        for e, o, c in zip(conteo["ejercicio_id"], conteo["objetivo"], conocido)]
+    conteo["cambia"] = conteo["etiqueta"] != conteo["etiqueta_anterior"].astype(object).fillna("")
+    conteo["estado"] = np.select(
+        [~conocido,
+         ~conteo["objetivo"].isin(OBJETIVOS),
+         [e not in clases.get(o, set()) for e, o in zip(conteo["etiqueta"], conteo["objetivo"])],
+         conteo["votos_totales"] < int(config["votos_minimos"]),
+         conteo["acuerdo"] < float(config["acuerdo_minimo"])],
+        ["ejercicio desconocido", "objetivo desconocido", "etiqueta desconocida",
+         "faltan votos", "sin acuerdo"], default="aceptada")
+    return conteo[columnas].sort_values(["objetivo", "ejercicio_id"]).reset_index(drop=True)
+
+
+def _asignar_grupos(tabla: pd.DataFrame, ids: list[str], umbral: float) -> dict[str, tuple[float, str]]:
+    """Grupo de variantes y partición de cada ejercicio aportado que no es de
+    free-exercise-db: el de su gemelo emparejado (README §11.3) o, si no tiene, el
+    del ejercicio de free-exercise-db de nombre casi idéntico (``token_sort_ratio``
+    ≥ ``umbral``, el mismo criterio de los grupos). Los que no se parecen a ninguno
+    forman grupos nuevos, en *train*."""
+    fedb = tabla.loc[tabla["rol"] == "entrenamiento"].set_index("ejercicio_id")
+    nombres_fedb = fedb["nombre_norm"].tolist()
+    fichas = tabla.set_index("ejercicio_id")
+    asignacion, sueltos = {}, []
+    for eid in ids:
+        gemelo = fichas.at[eid, "gemelo_fedb"]
+        if isinstance(gemelo, str) and gemelo in fedb.index:
+            asignacion[eid] = (fedb.at[gemelo, "grupo"], fedb.at[gemelo, "particion"])
+            continue
+        parecido = process.extractOne(fichas.at[eid, "nombre_norm"], nombres_fedb,
+                                      scorer=fuzz.token_sort_ratio, score_cutoff=umbral)
+        if parecido is not None:
+            fila = fedb.iloc[parecido[2]]
+            asignacion[eid] = (fila["grupo"], fila["particion"])
+        else:
+            sueltos.append(eid)
+    if sueltos:
+        componentes = _agrupar_variantes(fichas.loc[sueltos, "nombre_norm"], umbral)
+        siguiente = float(np.nanmax(tabla["grupo"].to_numpy(dtype=float))) + 1
+        for eid, c in zip(sueltos, componentes):
+            asignacion[eid] = (siguiente + c, "train")
+    return asignacion
+
+
+def incorporar_aportes(tabla: pd.DataFrame, correcciones: pd.DataFrame,
+                       parametros: dict[str, Any]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Suma a la tabla de modelado las etiquetas que aportaron los usuarios.
+
+    - Ejercicio de free-exercise-db: la etiqueta aceptada reemplaza a la de la
+      fuente (corrige el ruido de etiquetado, README §16.5).
+    - Ejercicio del catálogo o de wger: pasa a ser un ejemplo de entrenamiento de
+      ese objetivo, con el grupo y la partición de su gemelo (``_asignar_grupos``).
+
+    Returns:
+        La tabla con ``<objetivo>_aporte`` (``True`` donde la etiqueta viene de un
+        usuario) y la consolidación de los aportes (``consolidar_aportes``).
+    """
+    config = parametros["aportes_usuarios"]
+    consolidado = consolidar_aportes(correcciones, tabla, config)
+    tabla = tabla.copy()
+    for objetivo in OBJETIVOS:
+        tabla[f"{objetivo}_aporte"] = False
+    aceptadas = consolidado.loc[consolidado["estado"] == "aceptada"]
+    if aceptadas.empty:
+        return tabla, consolidado
+
+    posicion = pd.Series(tabla.index, index=tabla["ejercicio_id"])
+    nuevos = [e for e in aceptadas["ejercicio_id"].unique()
+              if tabla.at[posicion[e], "rol"] != "entrenamiento"]
+    for eid, (grupo, particion) in _asignar_grupos(
+            tabla, nuevos, float(parametros["umbral_variantes"])).items():
+        tabla.loc[posicion[eid], ["grupo", "particion"]] = [grupo, particion]
+    for fila in aceptadas.itertuples():
+        tabla.at[posicion[fila.ejercicio_id], fila.objetivo] = fila.etiqueta
+        tabla.at[posicion[fila.ejercicio_id], f"{fila.objetivo}_aporte"] = True
+    logger.info("Aportes de usuarios: %d etiquetas aceptadas de %d (%d ejercicios nuevos para "
+                "el entrenamiento).", len(aceptadas), len(consolidado), len(nuevos))
+    return tabla, consolidado
+
+
+def _coincidencia(modelo: Pipeline, filas: pd.DataFrame, objetivo: str) -> float:
+    return float((modelo.predict(filas) == filas[objetivo].to_numpy()).mean()) if len(filas) else np.nan
+
+
+def evaluar_aprendizaje(
+    tabla_base: pd.DataFrame, correcciones: pd.DataFrame, tabla_aportes: pd.DataFrame,
+    modelos: dict[str, Any], parametros: dict[str, Any],
+) -> tuple[pd.DataFrame, dict[str, Any], pd.DataFrame]:
+    """¿Aprendió el modelo de los usuarios, y sin empeorar? Decide qué se publica.
+
+    Por objetivo con aportes, compara el modelo entrenado con ellos contra el mismo
+    modelo (mismos hiperparámetros) entrenado sin ellos, en los mismos *test* y
+    validación externa, y mide cuánto coincide cada uno con lo que enseñaron los
+    usuarios:
+
+    - ``coincide_antes``: el modelo sin aportes, que nunca vio esas respuestas.
+    - ``coincide_fuera_de_muestra``: el modelo con aportes sobre aportes que no vio
+      (validación cruzada por grupos): ¿generaliza lo aprendido a otros ejercicios?
+    - ``coincide_despues``: el modelo final, que ya las incluye.
+
+    Si el F1 macro con aportes cae más de ``tolerancia_f1`` en *test* o en la
+    validación externa, se publica el modelo sin aportes y sus etiquetas no se usan.
+
+    Returns:
+        El informe (una fila por objetivo), los modelos que se publican y la tabla
+        de modelado definitiva (con los aportes adoptados).
+    """
+    tolerancia = float(parametros["aportes_usuarios"]["tolerancia_f1"])
+    cv = GroupKFold(n_splits=int(parametros["n_folds"]))
+    precision_objetivo = float(parametros["precision_objetivo_abstencion"])
+    filas, finales, adoptados = [], {}, []
+
+    for objetivo in OBJETIVOS:
+        marca = tabla_aportes[f"{objetivo}_aporte"].fillna(False).astype(bool)
+        aportados = tabla_aportes.loc[marca]
+        fila = {"objetivo": objetivo, "modelo": modelos[objetivo]["modelo"],
+                "n_aportes": int(marca.sum()),
+                "n_corrigen_fuente": int((aportados["rol"] == "entrenamiento").sum()),
+                "n_ejercicios_nuevos": int((aportados["rol"] != "entrenamiento").sum())}
+        if not marca.any():
+            finales[objetivo] = modelos[objetivo]
+            filas.append({**fila, "decision": "sin aportes"})
+            continue
+
+        datos = filas_entrenamiento(tabla_aportes, objetivo)
+        train = datos.loc[datos["particion"] == "train"]
+        test = datos.loc[datos["particion"] == "test"]
+        externa = filas_externa(tabla_aportes, objetivo, test)
+        con = modelos[objetivo]["modelo_train"]
+        datos_base = filas_entrenamiento(tabla_base, objetivo)
+        train_base = datos_base.loc[datos_base["particion"] == "train"]
+        sin = clone(con).fit(train_base, train_base[objetivo])
+
+        # Aportes que el modelo con aportes no vio: los de test, y los de train
+        # predichos fuera de muestra con los mismos pliegues por grupo.
+        oof = pd.Series(cross_val_predict(clone(con), train, train[objetivo],
+                                          groups=train["grupo"], cv=cv), index=train.index)
+        en_train = aportados.index.intersection(train.index)
+        en_test = aportados.index.intersection(test.index)
+        aciertos = list(oof.loc[en_train] == train.loc[en_train, objetivo])
+        if len(en_test):
+            aciertos += list(con.predict(test.loc[en_test]) == test.loc[en_test, objetivo])
+
+        f1 = {(nombre, conjunto): f1_score(df[columna], modelo.predict(df), average="macro")
+              for nombre, modelo in [("sin", sin), ("con", con)]
+              for conjunto, df, columna in [("test", test, objetivo),
+                                            ("externa", externa, f"{objetivo}_referencia")]}
+        adoptar = (f1["con", "test"] >= f1["sin", "test"] - tolerancia
+                   and f1["con", "externa"] >= f1["sin", "externa"] - tolerancia)
+        fila.update({
+            "f1_test_sin_aportes": f1["sin", "test"], "f1_test_con_aportes": f1["con", "test"],
+            "f1_externa_sin_aportes": f1["sin", "externa"],
+            "f1_externa_con_aportes": f1["con", "externa"],
+            "n_test": len(test), "n_externa": len(externa),
+            "coincide_antes": _coincidencia(sin, aportados, objetivo),
+            "coincide_fuera_de_muestra": float(np.mean(aciertos)) if aciertos else np.nan,
+            "coincide_despues": _coincidencia(modelos[objetivo]["estimador"], aportados, objetivo),
+            "decision": "adoptar" if adoptar else "descartar: empeora el modelo"})
+        filas.append(fila)
+        if adoptar:
+            finales[objetivo] = modelos[objetivo]
+            adoptados.append(objetivo)
+        else:
+            final, umbral = _ajustar_final(sin, train_base, datos_base, objetivo, cv,
+                                           precision_objetivo)
+            finales[objetivo] = {**modelos[objetivo], "estimador": final, "umbral": umbral,
+                                 "modelo_train": sin, "clases": list(final.classes_)}
+            logger.warning("%s: los aportes empeoran el modelo; se publica el modelo sin ellos.",
+                           objetivo)
+
+    con_aportes = [o for o in OBJETIVOS if tabla_aportes[f"{o}_aporte"].any()]
+    if set(adoptados) == set(con_aportes):
+        tabla_final = tabla_aportes
+    else:
+        solo = correcciones.loc[correcciones["objetivo"].isin(adoptados)]
+        tabla_final, _ = incorporar_aportes(tabla_base, solo, parametros)
+    informe = pd.DataFrame(filas)
+    numericas = informe.select_dtypes("number").columns.difference(
+        ["n_aportes", "n_corrigen_fuente", "n_ejercicios_nuevos", "n_test", "n_externa"])
+    informe[numericas] = informe[numericas].round(4)
+    return informe, finales, tabla_final

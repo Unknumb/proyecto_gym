@@ -17,7 +17,7 @@ import pytest
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / "scripts"))
 import exportar_modelo_ios as exportador  # noqa: E402
-import importar_datos_ios as importador  # noqa: E402
+import importar_aportes as importador  # noqa: E402
 
 MODELO = RAIZ / "ios/SustitutoSeguro/Recursos/modelo_perfil.json"
 RECOMENDACIONES = RAIZ / "ios/SustitutoSeguro/Recursos/recomendaciones.json"

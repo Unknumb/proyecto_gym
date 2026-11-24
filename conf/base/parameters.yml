@@ -45,6 +45,19 @@ modelado_supervisado:
     pliegues_minimos_mejora: 0.8    # gana en al menos el 80 % de los pliegues
     t_minimo_mejora: 2.0            # ≈ dos errores estándar corregidos (Nadeau-Bengio)
     repeticiones_permutacion: 10    # importancia por permutación, por pliegue
+  # Aprender de los usuarios (README §18): correcciones de etiquetas hechas en la
+  # página web y en la app de iPhone (data/01_raw/aportes_usuarios/).
+  aportes_usuarios:
+    votos_minimos: 1                # correcciones que necesita una etiqueta (con más usuarios: 3)
+    acuerdo_minimo: 0.6             # fracción de esos votos que coincide (2 de 3, 3 de 5; no un empate)
+    tolerancia_f1: 0.02             # caída máxima de F1 (test o externa) para adoptar los aportes
+    simulacion:                     # pipeline aprendizaje_usuarios: solo informa
+      tamanos: [0, 10, 25, 50, 100, 200]
+      repeticiones: 5
+      escenarios:                   # fracción de etiquetas incorrectas
+        honestos: 0.0
+        con_errores: 0.3
+        maliciosos: 1.0
   # Ensambles (EV3, pipeline ensambles): solo informan, no cambian los modelos. Un
   # ensamble se adoptaría solo si cumple los tres criterios de `diagnosticos`.
   ensambles:

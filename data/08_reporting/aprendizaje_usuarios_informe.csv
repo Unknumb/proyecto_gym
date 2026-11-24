@@ -1,0 +1,4 @@
+objetivo,modelo,n_aportes,n_corrigen_fuente,n_ejercicios_nuevos,decision
+mecanica,regresion_logistica,0,0,0,sin aportes
+fuerza,random_forest,0,0,0,sin aportes
+complejidad_tecnica,regresion_logistica,0,0,0,sin aportes
