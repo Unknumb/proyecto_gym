@@ -41,6 +41,8 @@ la EV1, comprensión y preparación de los datos, y la EV2, modelado y evaluaci�
 | Sesgos, limitaciones y ética | §5, §6, §14.3, §16.7 |
 | Conclusiones y recomendaciones para el negocio | §14, §16.6, §16.7 |
 | Reproducibilidad y estructura del proyecto | §8 |
+| La EV3 en la página (vista «El modelo») | §15.1 · `docs/index.html#modelo` |
+| El modelo aprende de los usuarios | §18 · notebook 05 · `scripts/aprender_de_usuarios.py` |
 
 ### Guía de lectura para la EV2
 
@@ -1014,9 +1016,10 @@ kedro run                              # pipeline completo (31 nodos, ~14 min; ~
 kedro run --pipeline=data_understanding   # 9 nodos: auditoría, features y EDA diagnóstico
 kedro run --pipeline=data_enrichment      # 3 nodos: megaGymDataset (requiere el anterior)
 kedro run --pipeline=integracion_fuentes  # 8 nodos: free-exercise-db + wger (EV2, §11; requiere los dos anteriores)
-kedro run --pipeline=modelado_supervisado # 4 nodos: modelos del perfil de exigencia y su diagnóstico (EV2, §12; requiere el anterior)
+kedro run --pipeline=modelado_supervisado # 6 nodos: modelos del perfil, aportes de usuarios y diagnóstico (EV2, §12, §18; requiere el anterior)
 kedro run --pipeline=grafo_biomecanico    # 6 nodos: grafo, Louvain, Node2Vec + K-Means, sustitución (EV2, §13; ~1 min)
 kedro run --pipeline=ensambles            # 1 nodo: búsqueda del boosting y comparación de ensambles (EV3, §16; ~11 min; requiere modelado_supervisado)
+kedro run --pipeline=aprendizaje_usuarios # 1 nodo: simulación de aportes de usuarios (§18; ~1 min; requiere modelado_supervisado)
 ```
 
 Las instantáneas de free-exercise-db y wger ya están versionadas en `data/01_raw/`.
@@ -1042,6 +1045,7 @@ jupyter lab notebooks/01_exploratory_data_analysis.ipynb   # EDA (EV1)
 jupyter lab notebooks/02_modelado_supervisado.ipynb        # Modelado supervisado (EV2, §12)
 jupyter lab notebooks/03_modelado_no_supervisado.ipynb     # Grafo biomecánico no supervisado (EV2, §13)
 jupyter lab notebooks/04_optimizacion_y_ensambles.ipynb    # Optimización y ensambles (EV3, §16)
+jupyter lab notebooks/05_aprendizaje_usuarios.ipynb        # Aprender de los usuarios (§18)
 ```
 
 El notebook está versionado **con todas las salidas ejecutadas y visibles**. Se ejecuta
@@ -1062,7 +1066,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 74 tests, ~14 s; corren sobre los artefactos versionados
+python -m pytest -q      # 82 tests, ~14 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
@@ -1076,6 +1080,7 @@ python -m pytest -q      # 74 tests, ~14 s; corren sobre los artefactos versiona
 | MLflow | Las métricas registradas son las de los reportes versionados; el hook deja la corrida terminada y el modelo del registro predice igual que el `.pkl` (§8.8) |
 | App de iPhone | El modelo de la app es el del pipeline; la app y el importador usan las mismas columnas; el importador rechaza datos inválidos (§17) |
 | Ensambles | Mismos pliegues que el diagnóstico de la EV2; están las tres familias; la búsqueda mejora el boosting por defecto; `adoptar` sigue la regla y ningún ensamble la cumple (§16) |
+| Aprendizaje de usuarios | Sin aportes todo queda como en la EV2 y la EV3; consenso; los aportes heredan grupo y partición de su gemelo (sin fuga); el perfil los marca como «usuarios»; el control descarta etiquetas invertidas; la simulación muestra aprendizaje; el importador lee el archivo de la página (§18) |
 
 GitHub Actions corre los tests en cada *push* (`.github/workflows/tests.yml`).
 
@@ -1155,20 +1160,25 @@ proyecto_ejercicios/
 │       ├── sustitucion_contexto.csv     # KPI de sustitución por contexto
 │       ├── ensambles_busqueda_boosting.csv  # EV3 (§16): configuraciones del boosting probadas
 │       ├── ensambles_cv_repetida.csv    # F1 por pliegue de los siete candidatos
-│       └── ensambles_comparacion.csv    # CV, train, test, externa, contraste y adoptar
-├── images/                          # Los 37 gráficos en PNG, exportados por los notebooks
+│       ├── ensambles_comparacion.csv    # CV, train, test, externa, contraste y adoptar
+│       ├── aportes_consolidados.csv     # §18: votos, acuerdo y estado de cada aporte
+│       ├── aprendizaje_usuarios_informe.csv # Con y sin aportes, y la decisión de publicar
+│       └── aprendizaje_simulacion.csv   # Curva de aprendizaje con usuarios simulados
+├── images/                          # Los 38 gráficos en PNG, exportados por los notebooks
 ├── scripts/
 │   ├── auditar_media_fisica.py      # Auditoría de GIF (requiere red)
 │   ├── descargar_fuentes_externas.py    # Instantáneas de free-exercise-db y wger (requiere red)
 │   ├── registrar_huellas.py         # Registra o verifica la huella de los datos crudos
 │   ├── exportar_modelo_ios.py       # Modelos del perfil → JSON de la app de iPhone (§17)
-│   ├── importar_datos_ios.py        # CSV de la app → data/01_raw/app_ios/ (§17)
+│   ├── importar_aportes.py          # Aportes de la página (.json) o de la app (CSV) → data/01_raw/aportes_usuarios/ (§18)
+│   ├── aprender_de_usuarios.py      # Importa, reentrena, regenera la página y resume qué aprendió (§18)
 │   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6.2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
 │   ├── 02_modelado_supervisado.ipynb    # EV2: modelos, interpretación y abstención (§12)
 │   ├── 03_modelado_no_supervisado.ipynb # EV2: grafo, familias de movimiento y sustitución (§13)
 │   ├── 04_optimizacion_y_ensambles.ipynb # EV3: búsqueda, ensambles y selección (§16)
+│   ├── 05_aprendizaje_usuarios.ipynb    # Aportes de usuarios, simulación y control de calidad (§18)
 │   └── databricks/                  # Notebooks de la migración a Delta (§2.3)
 │       ├── 01_bronze_ingesta_delta.py
 │       └── 02_silver_gold_medallion.py
@@ -1249,8 +1259,10 @@ convención de Kedro para los reportes.
 | `emparejar_wger` | esquemas comunes, ontología, `params:emparejamiento_fuentes` | `match_wger_report` |
 | `consolidar_ejercicios` | esquemas comunes, reportes de emparejamiento | `primary_ejercicios`, `primary_ejercicio_musculo` |
 | `resumir_integracion` | `primary_ejercicios`, `primary_ejercicio_musculo`, `primary_musculo_articulacion` | `integracion_fuentes_resumen` |
-| `construir_tabla_modelado` | `intermediate_free_exercise_db`, `primary_ejercicios`, `match_free_exercise_db_report`, `primary_musculo_articulacion`, `params:modelado_supervisado` | `model_input_tabla_modelado` |
-| `entrenar_modelos` | `model_input_tabla_modelado`, `params:modelado_supervisado` | `modelos_comparacion`, `modelos_predicciones_test`, `modelos_supervisados` |
+| `construir_tabla_modelado` | `intermediate_free_exercise_db`, `primary_ejercicios`, `match_free_exercise_db_report`, `primary_musculo_articulacion`, `params:modelado_supervisado` | `model_input_tabla_base` |
+| `incorporar_aportes` | `model_input_tabla_base`, `aportes_correcciones_etiquetas`, `params:modelado_supervisado` | `model_input_tabla_con_aportes` (memoria), `aportes_consolidados` |
+| `entrenar_modelos` | `model_input_tabla_con_aportes`, `params:modelado_supervisado` | `modelos_comparacion`, `modelos_predicciones_test`, `modelos_candidatos` (memoria) |
+| `evaluar_aprendizaje` | `model_input_tabla_base`, `aportes_correcciones_etiquetas`, `model_input_tabla_con_aportes`, `modelos_candidatos`, `params:modelado_supervisado` | `aprendizaje_usuarios_informe`, `modelos_supervisados`, `model_input_tabla_modelado` |
 | `diagnosticar_modelos` | `model_input_tabla_modelado`, `modelos_supervisados`, `params:modelado_supervisado` | `modelos_cv_repetida`, `modelos_contraste_pareado`, `modelos_calibracion`, `modelos_curva_aprendizaje`, `modelos_control_fuga`, `modelos_importancia`, `validacion_adversarial` |
 | `predecir_etiquetas` | `model_input_tabla_modelado`, `primary_ejercicios`, `modelos_supervisados` | `model_output_perfil_exigencia` |
 | `construir_grafo` | `primary_ejercicios`, `model_output_perfil_exigencia`, `primary_ejercicio_musculo`, `primary_musculo_articulacion`, `regiones_compuestas`, `params:grafo_biomecanico` | `grafo_biomecanico`, `grafo_nodos_ejercicio` |
@@ -1260,6 +1272,7 @@ convención de Kedro para los reportes.
 | `consolidar_familias` | nodos, comunidades, clusters, embeddings, grafo | `model_output_familias_movimiento`, `familias_perfiles`, `clustering_comparacion` |
 | `evaluar_sustitucion` | `model_output_familias_movimiento`, `embeddings_node2vec`, `primary_musculo_articulacion` | `sustitucion_cobertura`, `sustitucion_contexto` |
 | `comparar_ensambles` | `model_input_tabla_modelado`, `modelos_supervisados`, `params:modelado_supervisado` | `ensambles_busqueda_boosting`, `ensambles_cv_repetida`, `ensambles_comparacion` |
+| `simular_aprendizaje` | `model_input_tabla_base`, `modelos_supervisados`, `params:modelado_supervisado` | `aprendizaje_simulacion` |
 
 `preparar_megagym`, `emparejar_con_megagym` y `enrich_with_external_metadata` forman el
 pipeline `data_enrichment`; los ocho siguientes, `integracion_fuentes` (§11); los cuatro
@@ -1965,7 +1978,10 @@ Funciona en computador y celular, sin servidor y sin cuentas.
 | Sección | Qué ofrece | De dónde sale |
 |---|---|---|
 | **Sustituir** | Eliges un ejercicio y la articulación lesionada; recibes hasta 5 alternativas que trabajan el mismo músculo sin cargarla, o una abstención explicada | El mismo `Sustituidor` del pipeline (§13.5), precalculado para las 13.304 combinaciones ejercicio × articulación × perfil |
-| **Mi rutina** | Rutina semanal según edad, peso, altura, deporte, nivel, objetivo, días, minutos, equipamiento y lesiones | Reglas de programación sobre 68 ejercicios conocidos con nombre en español, con el mismo filtro duro de seguridad |
+| **Mi rutina** | Rutina semanal según edad, peso, altura, deporte, nivel, objetivo, días, minutos, equipamiento y lesiones. **Tipo de rutina**: cuerpo completo, torso / pierna, Push / Pull / Legs, Arnold o un grupo por día; «Recomendada para ti» lo elige según días, nivel y edad (3 días con experiencia → Push / Pull / Legs) | Reglas de programación sobre 68 ejercicios conocidos con nombre en español, con el mismo filtro duro de seguridad |
+| **Qué trabaja** | En cada ejercicio (original, alternativas y rutina): músculos principales y de apoyo, articulaciones que carga con sus ligamentos y tendones principales, y mecánica, fuerza y complejidad con su origen (fuente, gemelo, modelo con su confianza, usuarios) | `familias_movimiento` y `perfil_exigencia`; los ligamentos son referencia anatómica general de cada articulación, no una medición por ejercicio |
+| **Enseña al modelo** | Corregir una etiqueta o calificar una alternativa (buena, aceptable, mala, insegura); descargar los aportes | Formato y columnas de la app de iPhone; solo correcciones y calificaciones, nunca edad, peso, sesiones ni dolor (§18) |
+| **El modelo** | La EV3 en la página: siete candidatos con los mismos pliegues, la regla de adopción, la optimización (cifra optimista y real), la generalización y la curva de aprendizaje con usuarios | `ensambles_comparacion`, `ensambles_busqueda_boosting`, `aprendizaje_simulacion` y `aprendizaje_usuarios_informe` |
 | **Mejorar con IA** | Revisa la rutina, explica el porqué, propone cambios y responde preguntas | Claude, con la cuenta de quien usa la página; solo puede elegir entre alternativas ya validadas |
 | **Entrenar** | Series para marcar, peso y repeticiones, cronómetro de descanso; al final, esfuerzo y dolor por zona | Registro local en el navegador |
 | **Progreso** | Constancia semanal, dolor por zona, carga por ejercicio, peso corporal, historial y respaldo | Gráficos sobre el registro; avisos si el dolor llega a 7/10 o sube 2 puntos |
@@ -1996,7 +2012,7 @@ cambio propuesto por la IA.
 | Prueba | Qué verifica | Cómo se corre |
 |---|---|---|
 | `tests/test_web.py` (CI) | La página está armada desde la fuente actual; sus datos son idénticos a los que da hoy el Sustituidor (vuelve a calcular las 13.304 consultas y compara ejercicios y recomendaciones); ninguna alternativa carga la articulación vetada; los 68 ejercicios en español y los complementos por deporte existen en los datos | `python -m pytest tests/test_web.py` |
-| `web/probar_web.py` | 42 pruebas en un navegador real, en escritorio y celular: búsqueda en español, abstención, validación del formulario, 300 rutinas con perfiles al azar sin ejercicios inseguros, modo entrenamiento, alertas de dolor, IA simulada, respaldo legítimo y alterado, sin scroll horizontal y sin errores de JavaScript | `python web/probar_web.py` (requiere Playwright) |
+| `web/probar_web.py` | 66 pruebas en un navegador real, en escritorio y celular: búsqueda en español, abstención, qué trabaja cada ejercicio, validación del formulario, 300 rutinas con perfiles y tipos de rutina al azar sin ejercicios inseguros, tipos de rutina, corregir y calificar, descarga importada con el importador real, vista «El modelo», modo entrenamiento, alertas de dolor, IA simulada, respaldo legítimo y alterado (también con aportes maliciosos), sin scroll horizontal y sin errores de JavaScript | `python web/probar_web.py [ruta de Chrome]` (requiere Playwright) |
 
 ### 15.4 Regenerar y publicar
 
@@ -2302,15 +2318,15 @@ Las recomendaciones vienen de `web/datos_web.json`, el mismo archivo de la web.
 En *Mis datos* → *Preparar los CSV* → *Compartir* (AirDrop o Archivos), y en el computador:
 
 ```bash
-python scripts/importar_datos_ios.py ~/Downloads/sustituto_seguro_<fecha>
+python scripts/importar_aportes.py ~/Downloads/sustituto_seguro_<fecha>
 ```
 
 El importador valida cada fila contra el pipeline (ejercicios, músculos, articulaciones,
 clases de cada modelo, rangos) y, si todo es válido, agrega las filas nuevas a
-`data/01_raw/app_ios/` sin duplicar. Las nueve primeras columnas de
+`data/01_raw/aportes_usuarios/` sin duplicar. Las nueve primeras columnas de
 `revisiones_recomendaciones.csv` son las de la revisión manual del equipo
 (`sustitucion_revision_manual.csv`), y `correcciones_etiquetas.csv` es la revisión manual de
-~100 etiquetas que recomienda §16.7. Reentrenar con estos datos es el paso siguiente.
+~100 etiquetas que recomienda §16.7. Con esas correcciones el modelo se reentrena (§18).
 
 ### 17.4 Compilar e instalar
 
@@ -2334,3 +2350,93 @@ El test `test_la_app_lleva_el_modelo_actual_del_pipeline` falla si se olvida.
 | `tests/test_app_ios.py` | El modelo de la app es el del pipeline; los casos de prueba siguen valiendo; la app y el importador usan las mismas columnas; el importador rechaza datos inválidos y no duplica | CI (Linux) |
 | `swift run verificar`, `swift test` | Paridad con scikit-learn, recomendador, CSV | CI (macOS) y cualquier Mac con Swift |
 | `xcodebuild … build` | La app compila para el simulador de iPhone | CI (macOS) |
+
+---
+
+## 18. El modelo aprende de los usuarios
+
+Hasta la EV3 los modelos aprendían de una sola fuente, free-exercise-db. Ahora las
+personas que usan la página web (§15) o la app de iPhone (§17) también les enseñan:
+corrigen o confirman la mecánica, la fuerza o la complejidad de un ejercicio, y el
+modelo se reentrena con esas etiquetas. Es la vuelta de la fase 6 (despliegue) a la
+fase 4 (modelado) de CRISP-DM.
+
+```
+ Página / app                 Computador del equipo                       Página / app
+ «Qué trabaja» →        importar_aportes.py → kedro run                → «Aportado por usuarios»
+ corregir etiqueta      (valida)            incorporar_aportes            y «El modelo» muestra
+ calificar alternativa                      → entrenar_modelos            qué cambió
+ → descargar .json                          → evaluar_aprendizaje
+                                              (adopta o descarta)
+```
+
+### 18.1 Tres controles antes de aprender
+
+| Control | Nodo | Qué evita |
+|---|---|---|
+| **Consenso** | `consolidar_aportes` | Una etiqueta entra con `votos_minimos` correcciones y al menos 60 % de acuerdo (2 de 3; un empate no entra). La página guarda un voto por persona, ejercicio y objetivo. Hoy `votos_minimos` es 1 porque hay pocos usuarios; con más, conviene 3 |
+| **Sin fuga** | `incorporar_aportes` | Un ejercicio aportado hereda el grupo de variantes y la partición de su gemelo de free-exercise-db (o del ejercicio de nombre casi idéntico): una variante nunca queda en *train* y otra en *test*. La validación externa excluye lo aportado |
+| **No empeorar** | `evaluar_aprendizaje` | Compara el modelo con aportes contra el mismo modelo sin ellos, con la misma prueba y la misma validación externa. Si el F1 macro cae más de 0,02 en alguna, los aportes de ese objetivo se descartan y se publica el modelo anterior |
+
+Un aporte sobre un ejercicio del catálogo o de wger lo vuelve un ejemplo de entrenamiento;
+uno sobre free-exercise-db reemplaza la etiqueta de la fuente (corrige el ruido que midió
+la EV3). El perfil (`predecir_etiquetas`) marca esas etiquetas con origen `usuarios`, el
+primero en el orden de confianza. **Sin aportes, la tabla y los modelos son idénticos a
+los de la EV2 y la EV3**: mismas métricas y mismo perfil (`tests/test_aprendizaje.py`).
+
+### 18.2 ¿Cuánto aprende? Simulación
+
+Todavía no hay usuarios reales en cantidad, así que el pipeline `aprendizaje_usuarios`
+los simula. Un usuario honesto etiqueta un ejercicio del catálogo con la etiqueta de su
+gemelo de free-exercise-db, solo si el gemelo quedó en *train*; se mide en la validación
+externa, cuyos gemelos están en *test*. Cinco repeticiones por punto, con el modelo
+publicado y sus mismos hiperparámetros.
+
+![Aprendizaje con usuarios](images/aprendizaje_usuarios.png)
+
+| F1 macro en el catálogo externo | 0 aportes | 25 | 100 | 200 honestos | Honestos adoptados | Maliciosos (≥ 25) rechazados |
+|---|---|---|---|---|---|---|
+| Mecánica | 0,811 | 0,872 | 0,860 | **0,887** | 100 % | 100 % |
+| Fuerza | 0,892 | 0,898 | 0,900 | **0,921** | 96 % | 100 % |
+| Complejidad técnica | 0,670 | 0,681 | 0,711 | 0,698 | 84 % | 95 % |
+
+- **El modelo aprende donde más lo necesitaba.** Mecánica gana 7,6 puntos en el catálogo
+  externo, justo el cambio de dominio que midió la validación adversarial (§12.6, AUC
+  0,999): las etiquetas del propio catálogo le enseñan su redacción.
+- **Complejidad técnica no mejora de forma clara.** Es un juicio editorial y su validación
+  externa tiene ~60 casos (± 8 puntos). Coincide con la EV3: hay que mejorar los datos,
+  y 200 etiquetas no bastan para salir del ruido.
+- **El control frena a los maliciosos**: rechaza 59 de 60 corridas desde 25 aportes, y la
+  que pasó no empeoraba más que la tolerancia. Tiene un costo: rechaza a veces aportes
+  honestos en complejidad (falsos rechazos), porque el ruido de 60 casos supera la
+  tolerancia de 0,02.
+- **Con 30 % de errores**, pocas correcciones todavía ayudan en mecánica, pero muchas lo
+  empeoran (0,772 con 200): el consenso de varios usuarios es lo que filtra ese error.
+
+### 18.3 El ciclo completo, en un comando
+
+```bash
+python scripts/aprender_de_usuarios.py ~/Downloads/sustituto-seguro-aportes-<fecha>.json   # ~3 min
+python scripts/aprender_de_usuarios.py --ejemplo     # 100 aportes honestos simulados (demostración)
+python scripts/aprender_de_usuarios.py --deshacer    # respalda los aportes y vuelve a la EV3
+```
+
+Importa, reentrena (`modelado_supervisado` y `grafo_biomecanico`), regenera la página y
+la copia de la app, y muestra por objetivo el F1 con y sin aportes, cuánto coincide el
+modelo con lo que enseñaron los usuarios (antes, en ejercicios que no vio y después) y la
+decisión. `--deshacer` deja el perfil idéntico al de la EV3 (comprobado).
+
+### 18.4 Ética, privacidad y límites
+
+- **Privacidad.** La página exporta solo correcciones y calificaciones de ejercicios. Edad,
+  peso, sesiones y dolor nunca salen del dispositivo (lo verifica `probar_web.py`).
+- **Seguridad.** Una corrección cambia la descripción de un ejercicio, nunca el filtro de
+  articulaciones: ningún aporte puede hacer que una alternativa cargue la zona lesionada.
+- **Límites.** Los usuarios son simulados con etiquetas de free-exercise-db: con usuarios
+  reales hay que volver a medir. La regla de no empeorar usa una validación de ~60 casos;
+  con más datos convendría un intervalo *bootstrap*. Las calificaciones de alternativas se
+  guardan e importan, pero todavía no reentrenan el recomendador.
+
+**Reproducir:** `kedro run --pipeline aprendizaje_usuarios` (~1 min, después de
+`modelado_supervisado`), `notebooks/05_aprendizaje_usuarios.ipynb` y
+`pytest tests/test_aprendizaje.py` (7 tests).
