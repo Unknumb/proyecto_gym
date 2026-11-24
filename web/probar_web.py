@@ -243,6 +243,14 @@ with sync_playwright() as p:
     # Respaldo: uno legítimo se recupera completo; uno alterado no inserta HTML ni ejercicios inseguros
     pg.goto(url + "#progreso"); pg.wait_for_timeout(300)
     antes_r = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1'))")
+    # Sin Claude (página local o GitHub Pages) también se puede guardar: descarga normal del navegador
+    with pg.expect_download() as descarga_r:
+        pg.click("#exportar")
+    with tempfile.TemporaryDirectory() as tmp:
+        guardado = Path(tmp) / "respaldo.json"
+        descarga_r.value.save_as(guardado)
+        check(json.loads(guardado.read_text(encoding="utf-8"))["sesiones"] == antes_r["sesiones"]
+              and "Respaldo guardado" in pg.inner_text("#msg-datos"), "sin Claude: guardar respaldo descarga el archivo")
     pg.set_input_files("#importar", files=[{"name": "r.json", "mimeType": "application/json", "buffer": json.dumps(antes_r).encode()}])
     pg.wait_for_timeout(300)
     despues_r = pg.evaluate("JSON.parse(localStorage.getItem('sustituto-seguro-v1'))")
