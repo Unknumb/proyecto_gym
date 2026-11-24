@@ -13,8 +13,9 @@ Uso, desde la raíz del repositorio::
 
 Además de las recomendaciones, lleva lo que la página explica de cada ejercicio
 (músculos de apoyo; mecánica, fuerza y complejidad con su origen y la confianza del
-modelo), el resumen de la EV3 (``ensambles_comparacion``) y lo que el modelo aprendió
-de los usuarios (``aprendizaje_usuarios_informe`` y ``aprendizaje_simulacion``).
+modelo), de dónde salen los datos y cómo se prepararon (``resumen_datos``), el resumen
+de la EV3 (``ensambles_comparacion``) y lo que el modelo aprendió de los usuarios
+(``aprendizaje_usuarios_informe`` y ``aprendizaje_simulacion``).
 
 ``--json-dir`` permite leer las tablas como JSON en lugar de parquet (útil en
 entornos sin pyarrow): ``familias_movimiento.json``, ``embeddings_node2vec.json`` y
@@ -64,6 +65,48 @@ def _tabla(df: pd.DataFrame) -> dict:
     filas = [[round(v, 4) if isinstance(v, float) else (bool(v) if isinstance(v, (bool, np.bool_)) else v)
               for v in fila] for fila in df.itertuples(index=False)]
     return {"columnas": list(df.columns), "filas": filas}
+
+
+def resumen_datos() -> dict:
+    """Lo que la sección *De los datos al modelo* muestra: fuentes, hallazgos del EDA y
+    preparación, calculados de las salidas del pipeline (no escritos a mano)."""
+    from sklearn.metrics import cohen_kappa_score  # noqa: PLC0415
+
+    integracion = pd.read_csv(REPORTES / "integracion_fuentes_resumen.csv")
+    fuentes = integracion[integracion["dimension"] == "fuente"].set_index("grupo")["n_ejercicios"].astype(int)
+    catalogo = integracion[integracion["dimension"] == "contexto_catalogo"].set_index("grupo")["n_ejercicios"]
+    contexto = pd.read_csv(REPORTES / "sustitucion_contexto.csv")
+    gimnasio = contexto[(contexto["metodo"] == "kmeans_node2vec") & (contexto["contexto"] == "gimnasio")].iloc[0]
+
+    # EDA §11.5: el nivel de dificultad de free-exercise-db frente al curado de megaGymDataset
+    ejercicios = pd.read_parquet(RAIZ / "data/03_primary/ejercicios.parquet")
+    pares = ejercicios[(ejercicios["nivel_origen"] == "free_exercise_db") & ejercicios["nivel_megagym"].notna()]
+    nivel, nivel_mg = pares["nivel"].astype(str), pares["nivel_megagym"].astype(str)
+
+    tabla = pd.read_parquet(RAIZ / "data/05_model_input/tabla_base.parquet")
+    fedb = tabla[tabla["rol"] == "entrenamiento"]
+    ma = pd.read_csv(RAIZ / "data/03_primary/musculo_articulacion.csv")
+    comparacion = pd.read_csv(REPORTES / "modelos_comparacion.csv")
+    externa = comparacion[comparacion["conjunto"] == "externa_catalogo"].groupby("objetivo", sort=False)["n"].first()
+    clases = {o: {str(k): round(float(v), 3) for k, v in fedb[o].value_counts(normalize=True).sort_index().items()}
+              for o in OBJETIVOS}
+    return {
+        "fuentes": {"catalogo": int(fuentes["catalogo"]), "free_exercise_db": int(len(fedb)),
+                    "free_exercise_db_nuevos": int(fuentes["free_exercise_db"]), "wger_nuevos": int(fuentes["wger"]),
+                    "total": int(fuentes.sum()), "musculos": int(len(set(ejercicios["musculos_primarios"].explode().dropna())
+                                                                  | set(ejercicios["musculos_secundarios"].explode().dropna()))),
+                    "articulaciones": int(ma["articulacion"].nunique())},
+        "nivel": {"n": int(len(pares)), "acuerdo": round(float((nivel == nivel_mg).mean()), 3),
+                  "kappa": round(float(cohen_kappa_score(nivel, nivel_mg)), 2)},
+        "gimnasio": {"pct_catalogo": round(float(catalogo["gimnasio"] / catalogo.sum()), 3),
+                     "sin_equipamiento_antes": float(gimnasio["con_sin_equipamiento_antes"]),
+                     "sin_equipamiento_despues": float(gimnasio["con_sin_equipamiento_despues"])},
+        "preparacion": {"ejercicios": int(len(fedb)), "grupos": int(fedb["grupo"].nunique()),
+                        "train": int((fedb["particion"] == "train").sum()), "test": int((fedb["particion"] == "test").sum()),
+                        "musculos_modelo": int(sum(c.startswith("agonista__") for c in tabla.columns)),
+                        "externa": {o: int(n) for o, n in externa.items()}},
+        "clases": clases,
+    }
 
 
 def resumen_modelo() -> dict:
@@ -160,7 +203,7 @@ def exportar(fam: pd.DataFrame, emb: pd.DataFrame, perfil: pd.DataFrame) -> dict
     # ids: la página identifica por ejercicio_id (no por posición) los ejercicios con nombre en español
     return {"ids": f["ejercicio_id"].tolist(), "articulaciones": articulaciones, "familias": familias, "equipos": equipos,
             "musculos": musculos, "ejercicios": ejercicios, "rec": rec, "clases": clases,
-            "modelo": resumen_modelo(), "aprendizaje": resumen_aprendizaje()}
+            "datos": resumen_datos(), "modelo": resumen_modelo(), "aprendizaje": resumen_aprendizaje()}
 
 
 def main() -> None:
