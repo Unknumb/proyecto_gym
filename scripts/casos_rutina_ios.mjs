@@ -2,7 +2,7 @@
 // (web/app.html) sobre perfiles fijos y guarda lo que arma, con los ejercicios por
 // ejercicio_id. Los tests de Swift (RutinasTests) comprueban que la app arme lo mismo.
 //
-//   node scripts/casos_rutina_ios.mjs
+//   node scripts/casos_rutina_ios.mjs [salida.json]
 //
 // Lee el generador directamente de web/app.html, sin copiarlo: si cambia la web y la
 // app no, el test de Swift falla.
@@ -58,6 +58,6 @@ for (let k = 0; k < 60; k++) {
       id: D.ids[e.i], grupo: e.grupo, series: e.series, reps: e.reps, descanso: e.descanso, iso: e.iso, extra: e.extra,
       alternativas: e.alternativas.map(a => D.ids[a]) })) })) } });
 }
-const salida = join(raiz, 'ios/SustitutoSeguroCore/Tests/SustitutoSeguroCoreTests/Recursos/casos_rutina.json');
+const salida = process.argv[2] || join(raiz, 'ios/SustitutoSeguroCore/Tests/SustitutoSeguroCoreTests/Recursos/casos_rutina.json');
 writeFileSync(salida, JSON.stringify({ casos }, null, 1));
-console.log(`${casos.length} rutinas de la web → ${salida.slice(raiz.length + 1)}`);
+console.log(`${casos.length} rutinas de la web → ${salida}`);

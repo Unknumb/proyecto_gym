@@ -64,7 +64,8 @@ struct RutinasTests {
                     for e in dia.ejercicios {
                         for id in [e.id] + e.alternativas {
                             let arts = Self.recomendador.ejercicio(id: id)!.articulaciones
-                            #expect(!arts.contains { vetadas.contains($0) }, "\(lesion): \(id) carga \(arts)")
+                            let carga = arts.contains { vetadas.contains($0) }
+                            #expect(!carga, "\(lesion): \(id) carga \(arts)")
                         }
                     }
                 }
@@ -75,11 +76,14 @@ struct RutinasTests {
     @Test func testSinImpactoDesde60AnosYConMenores() {
         let mayor = Self.generador.generar(Perfil(edad: 70, nivel: "avanzado", dias: 4, equipo: ["pesas", "gym"]), hoy: "2026-11-27")
         let curados = Dictionary(uniqueKeysWithValues: TablasRutina.curados.map { ($0.id, $0) })
-        #expect(mayor.dias.allSatisfy(\.equilibrio))
-        #expect(!mayor.dias.flatMap(\.ejercicios).contains { curados[$0.id]?.imp == true })
+        let todosConEquilibrio = mayor.dias.allSatisfy { $0.equilibrio }
+        let conImpacto = mayor.dias.flatMap { $0.ejercicios }.contains { curados[$0.id]?.imp == true }
+        #expect(todosConEquilibrio)
+        #expect(!conImpacto)
         let nino = Self.generador.generar(Perfil(edad: 12, objetivo: "fuerza", dias: 3, equipo: ["banda"]), hoy: "2026-11-27")
         #expect(nino.objetivo == "salud")
-        #expect(nino.dias.flatMap(\.ejercicios).allSatisfy { (curados[$0.id]?.nivel ?? 1) == 1 })
+        let todosSimples = nino.dias.flatMap { $0.ejercicios }.allSatisfy { (curados[$0.id]?.nivel ?? 1) == 1 }
+        #expect(todosSimples)
         #expect(nino.avisos.first?.titulo == "Menores de 14 años:")
     }
 

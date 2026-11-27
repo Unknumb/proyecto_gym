@@ -16,9 +16,10 @@ struct MisDatosView: View {
                 LabeledContent("Revisiones de recomendaciones", value: "\(c.revisiones.count)")
                 LabeledContent("Etiquetas corregidas", value: "\(c.correcciones.count)")
                 LabeledContent("Ejercicios nuevos", value: "\(c.ejerciciosNuevos.count)")
-                LabeledContent("Sesiones de entrenamiento", value: "\(c.sesiones.count)")
+                LabeledContent("Sesiones de la rutina", value: "\(c.entrenamientos.count)")
+                if !c.sesiones.isEmpty { LabeledContent("Sesiones libres (versión anterior)", value: "\(c.sesiones.count)") }
             } footer: {
-                Text("Los datos viven solo en este teléfono. Salen de él únicamente cuando los exportas.")
+                Text("Sin cuenta, los datos viven solo en este teléfono. Con cuenta, el perfil, la rutina, las sesiones, el peso y los aportes también se guardan en el servidor.")
             }
 
             Section {
@@ -87,7 +88,7 @@ struct MisDatosView: View {
                             titleVisibility: .visible) {
             Button("Borrar todo", role: .destructive) { almacen.borrarTodo() }
         } message: {
-            Text("No se puede deshacer. Exporta antes si quieres conservarlos.")
+            Text("No se puede deshacer. Exporta antes si quieres conservarlos. Si tienes cuenta, lo borrado también se borra de ella.")
         }
     }
 

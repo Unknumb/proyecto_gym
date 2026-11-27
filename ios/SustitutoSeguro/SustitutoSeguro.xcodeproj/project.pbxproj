@@ -14,6 +14,11 @@
 		65F451B74A3E0FF164541BDE /* Catalogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C45AF3C1B79DE6EE435769 /* Catalogo.swift */; };
 		86C36F56331C5B14B5E2EFC7 /* SustitutoSeguroCore in Frameworks */ = {isa = PBXBuildFile; productRef = 537312C840EA39C42C4B6D34 /* SustitutoSeguroCore */; };
 		979BA3B31F77CE3808ACF8F8 /* Textos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B046E82646EE39DC91CFBE /* Textos.swift */; };
+		74911577CA00C426DC940E44 /* Cuenta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535B1DA7FDF40CAA6C3918DA /* Cuenta.swift */; };
+		B3A6D591134C528423A04056 /* InicioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACF6E140770D145DE9390DD /* InicioView.swift */; };
+		9EA0AA64119173B890CBB27A /* RutinaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD76AD7FD58A9F74BA652268 /* RutinaView.swift */; };
+		F367099A9570C05349811C39 /* ProgresoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930D647C71679AF205413054 /* ProgresoView.swift */; };
+		DB5E20DAAC1D457BFCE56DC5 /* CuentaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE58442CE71CB8DF15E5835 /* CuentaView.swift */; };
 		DC311FA6A4AF2ADC493CB3B1 /* EntrenarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B991D8456EC5337A6BBCE49 /* EntrenarView.swift */; };
 		E029D520A419F053BFEE5D93 /* SustituirView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F6D3769AF68BCC1BC036C1 /* SustituirView.swift */; };
 		F054463F17155A955890DADB /* MisDatosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E91F79512ED92518CBF2A11 /* MisDatosView.swift */; };
@@ -29,6 +34,11 @@
 		59C45AF3C1B79DE6EE435769 /* Catalogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catalogo.swift; sourceTree = "<group>"; };
 		5A480B36312FC7C4DFAAEBA6 /* modelo_perfil.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = modelo_perfil.json; sourceTree = "<group>"; };
 		641B2C0626C29FB461658C62 /* SustitutoSeguroCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SustitutoSeguroCore; path = ../SustitutoSeguroCore; sourceTree = SOURCE_ROOT; };
+		535B1DA7FDF40CAA6C3918DA /* Cuenta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cuenta.swift; sourceTree = "<group>"; };
+		DACF6E140770D145DE9390DD /* InicioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InicioView.swift; sourceTree = "<group>"; };
+		DD76AD7FD58A9F74BA652268 /* RutinaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RutinaView.swift; sourceTree = "<group>"; };
+		930D647C71679AF205413054 /* ProgresoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgresoView.swift; sourceTree = "<group>"; };
+		0EE58442CE71CB8DF15E5835 /* CuentaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuentaView.swift; sourceTree = "<group>"; };
 		7B991D8456EC5337A6BBCE49 /* EntrenarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrenarView.swift; sourceTree = "<group>"; };
 		98723819AA411E9F98D8CECA /* DetalleEjercicioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetalleEjercicioView.swift; sourceTree = "<group>"; };
 		CA55E5EA4B79ED804913A166 /* SustitutoSeguroApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SustitutoSeguroApp.swift; sourceTree = "<group>"; };
@@ -82,6 +92,11 @@
 				134D78AE479ECE640D51AB4F /* Almacen.swift */,
 				59C45AF3C1B79DE6EE435769 /* Catalogo.swift */,
 				98723819AA411E9F98D8CECA /* DetalleEjercicioView.swift */,
+				535B1DA7FDF40CAA6C3918DA /* Cuenta.swift */,
+				DACF6E140770D145DE9390DD /* InicioView.swift */,
+				DD76AD7FD58A9F74BA652268 /* RutinaView.swift */,
+				930D647C71679AF205413054 /* ProgresoView.swift */,
+				0EE58442CE71CB8DF15E5835 /* CuentaView.swift */,
 				7B991D8456EC5337A6BBCE49 /* EntrenarView.swift */,
 				1E91F79512ED92518CBF2A11 /* MisDatosView.swift */,
 				108EFC2BB3C151F90E439320 /* NuevoEjercicioView.swift */,
@@ -180,6 +195,11 @@
 				FEB9A231878932C757FE2826 /* Almacen.swift in Sources */,
 				65F451B74A3E0FF164541BDE /* Catalogo.swift in Sources */,
 				FD0018210D3A79EE10352263 /* DetalleEjercicioView.swift in Sources */,
+				74911577CA00C426DC940E44 /* Cuenta.swift in Sources */,
+				B3A6D591134C528423A04056 /* InicioView.swift in Sources */,
+				9EA0AA64119173B890CBB27A /* RutinaView.swift in Sources */,
+				F367099A9570C05349811C39 /* ProgresoView.swift in Sources */,
+				DB5E20DAAC1D457BFCE56DC5 /* CuentaView.swift in Sources */,
 				DC311FA6A4AF2ADC493CB3B1 /* EntrenarView.swift in Sources */,
 				F054463F17155A955890DADB /* MisDatosView.swift in Sources */,
 				1B987458E5CE3ABCE149CD87 /* NuevoEjercicioView.swift in Sources */,

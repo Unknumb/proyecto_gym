@@ -3,7 +3,7 @@ import Foundation
 // Generador de rutinas: el mismo de la página (web/app.html, «RUTINA: generador»), regla por
 // regla, para que la web y el iPhone armen la misma rutina con los mismos datos.
 // `RutinasTests` lo comprueba contra 60 rutinas armadas por la web
-// (`scripts/casos_rutina_ios.mjs`), y `tests/test_app_ios.py` que las tablas coincidan.
+// (`scripts/casos_rutina_ios.mjs`), y `tests/test_rutina_ios.py` que las tablas coincidan.
 
 // MARK: - Datos del usuario y de la rutina (mismo formato que la API de cuentas, README §20)
 
