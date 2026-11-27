@@ -1152,7 +1152,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 88 tests, ~15 s; corren sobre los artefactos versionados
+python -m pytest -q      # 114 tests, ~50 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
