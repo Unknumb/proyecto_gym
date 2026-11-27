@@ -19,6 +19,33 @@ jobs:
       - name: Tests unitarios, de datos y de modelo
         run: python -m pytest -q
 
+  # Los cinco notebooks se ejecutan de principio a fin en un entorno limpio (README §8.3).
+  notebooks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-lock.txt
+      - name: Instalar dependencias (versiones fijadas)
+        run: pip install -r requirements-lock.txt
+      - name: Ejecutar los notebooks en orden
+        run: |
+          set -e
+          mkdir -p /tmp/notebooks-ejecutados
+          for nb in notebooks/0*.ipynb; do
+            echo "::group::$nb"
+            inicio=$(date +%s)
+            jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=1800 \
+              --output-dir /tmp/notebooks-ejecutados "$nb"
+            echo "$nb: $(( $(date +%s) - inicio )) s"
+            echo "::endgroup::"
+          done
+      - name: Archivos de datos o modelos que cambió la ejecución (informativo)
+        run: git diff --stat -- data models
+
   # App de iPhone (ios/): misma predicción que scikit-learn y que la app compile.
   ios:
     runs-on: macos-15
