@@ -355,6 +355,10 @@ def _contar(cx, tabla: str, uid: int) -> int:
 def crear_app(url_base: str | None = None, secreto: str | None = None, catalogo: Catalogo | None = None) -> Flask:
     app = Flask(__name__)
     app.config["MAX_CONTENT_LENGTH"] = MAX_CUERPO
+    if os.environ.get("DETRAS_DE_PROXY"):
+        # Detrás de Caddy (AWS): la IP real del cliente viene en X-Forwarded-For
+        from werkzeug.middleware.proxy_fix import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)
     url_base = url_base or os.environ.get("DATABASE_URL") or f"sqlite:///{RAIZ / 'api/instancia/cuentas.db'}"
     secreto = secreto or os.environ.get("SECRETO")
     if not secreto:

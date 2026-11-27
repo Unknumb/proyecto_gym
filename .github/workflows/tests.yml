@@ -19,6 +19,33 @@ jobs:
       - name: Tests unitarios, de datos y de modelo
         run: python -m pytest -q
 
+  # La API de cuentas contra un PostgreSQL real, el mismo motor que RDS en AWS (README §20).
+  api-postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: sustituto
+          POSTGRES_PASSWORD: sustituto
+          POSTGRES_DB: sustituto
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U sustituto" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements-lock.txt
+      - name: Instalar dependencias (versiones fijadas) y el driver de PostgreSQL
+        run: pip install -r requirements-lock.txt -r api/requirements.txt
+      - name: Tests de la API en SQLite y en PostgreSQL
+        env:
+          DATABASE_URL_TEST: postgresql://sustituto:sustituto@localhost:5432/sustituto
+        run: python -m pytest -q tests/test_api.py
+
   # Los cinco notebooks se ejecutan de principio a fin en un entorno limpio (README §8.3).
   notebooks:
     runs-on: ubuntu-latest
