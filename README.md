@@ -27,8 +27,8 @@ ensambles) con su despliegue
 >   correcciones vuelven a entrenarlo con tres controles (§18). El análisis de postura con
 >   la cámara (§7, punto 2) queda fuera de alcance.
 > - **EFT (§19): cierre del proyecto.** Resultado final contra los KPIs, conclusiones,
->   limitaciones y recomendaciones para el negocio, y las dos revisiones humanas que
->   certifican lo que la validación externa no alcanza a medir.
+>   limitaciones y recomendaciones para el negocio, y la revisión humana de etiquetas que
+>   certifica lo que la validación externa no alcanza a medir.
 
 ### Guía de lectura para la EFT
 
@@ -1147,7 +1147,7 @@ VS Code y nbviewer.
 ### 8.4 Tests
 
 ```bash
-python -m pytest -q      # 90 tests, ~15 s; corren sobre los artefactos versionados
+python -m pytest -q      # 88 tests, ~15 s; corren sobre los artefactos versionados
 ```
 
 | Nivel | Qué verifica |
@@ -1161,7 +1161,7 @@ python -m pytest -q      # 90 tests, ~15 s; corren sobre los artefactos versiona
 | MLflow | Las métricas registradas son las de los reportes versionados; el hook deja la corrida terminada y el modelo del registro predice igual que el `.pkl` (§8.8) |
 | App de iPhone | El modelo de la app es el del pipeline; la app y el importador usan las mismas columnas; el importador rechaza datos inválidos (§17) |
 | Ensambles | Mismos pliegues que el diagnóstico de la EV2; están las tres familias; la búsqueda mejora el boosting por defecto; `adoptar` sigue la regla y ningún ensamble la cumple (§16) |
-| Revisiones humanas | Las planillas son la muestra determinista del pipeline (solo etiquetas del modelo en el catálogo, una por ejercicio); el mapeo cubre todo el veto; intervalo de Wilson; solo cuenta lo revisado; lo revisado entra por el importador de §18 (§19.3) |
+| Revisión de etiquetas | La planilla es la muestra determinista del pipeline (solo etiquetas del modelo en el catálogo, una por ejercicio); intervalo de Wilson; solo cuenta lo revisado; lo revisado entra por el importador de §18 (§19.3) |
 | Aprendizaje de usuarios | Sin aportes todo queda como en la EV2 y la EV3; consenso; los aportes heredan grupo y partición de su gemelo (sin fuga); el perfil los marca como «usuarios»; el control descarta etiquetas invertidas; la simulación muestra aprendizaje; el importador lee el archivo de la página (§18) |
 
 GitHub Actions corre en cada *push* (`.github/workflows/tests.yml`) tres trabajos: `pytest`,
@@ -1195,7 +1195,7 @@ proyecto_ejercicios/
 │   │   ├── equipamiento_canonico.csv        # Ontología: equipamiento → familia y contexto
 │   │   ├── fuentes_match_validacion_manual.csv  # Muestras revisadas del emparejamiento (§11)
 │   │   ├── aportes_usuarios/            # Correcciones y calificaciones de la página y la app (§18)
-│   │   ├── revision_equipo/             # Planillas de las revisiones humanas: 105 etiquetas y 41 asignaciones articulares (§19.3)
+│   │   ├── revision_equipo/             # Planilla de revisión humana de 105 etiquetas del catálogo (§19.3)
 │   │   └── huellas_sha256.txt           # Huella de cada archivo crudo (§8.2)
 │   ├── 02_intermediate/
 │   │   ├── exercises_clean.parquet  # Grano ejercicio × músculo secundario
@@ -1258,7 +1258,7 @@ proyecto_ejercicios/
 │   ├── exportar_modelo_ios.py       # Modelos del perfil → JSON de la app de iPhone (§17)
 │   ├── importar_aportes.py          # Aportes de la página (.json) o de la app (CSV) → data/01_raw/aportes_usuarios/ (§18)
 │   ├── aprender_de_usuarios.py      # Importa, reentrena, regenera la página y resume qué aprendió (§18)
-│   ├── revisiones_equipo.py         # Planillas de revisión humana y medición del KPI de acierto (§19.3)
+│   ├── revision_etiquetas.py        # Planilla de revisión humana y medición del KPI de acierto (§19.3)
 │   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6, punto 2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
@@ -1284,7 +1284,7 @@ proyecto_ejercicios/
 ├── ios/                             # App de iPhone (§17)
 │   ├── SustitutoSeguro/             # App SwiftUI, project.yml y SustitutoSeguro.xcodeproj
 │   └── SustitutoSeguroCore/         # Inferencia del perfil, recomendaciones y CSV en Swift
-├── tests/                           # Tests unitarios, de datos, de modelo, del dashboard, la web, la app y las revisiones (§8.4)
+├── tests/                           # Tests unitarios, de datos, de modelo, del dashboard, la web, la app y la revisión de etiquetas (§8.4)
 ├── .github/workflows/tests.yml      # CI: pytest, ejecución de los cinco notebooks y app de iPhone en cada push
 ├── src/gym_exercises/
 │   ├── hooks.py                     # Registro de cada corrida en MLflow (§8.8)
@@ -1460,8 +1460,7 @@ síntesis del proyecto completo, con la EV2, la EV3 y el despliegue, está en **
 ## 10. Próximos pasos que dejó la EV1, y su estado
 
 **Estado al cierre (EFT):** los puntos 2, 4 y 5 se resolvieron en la EV2. El punto 1, la
-validación clínica, sigue siendo la limitación principal: la EFT deja preparada la
-planilla para hacerla (§19.3). El punto 3 sigue pendiente. Ambos pasan a las
+validación clínica, sigue siendo la limitación principal. El punto 3 sigue pendiente. Ambos pasan a las
 recomendaciones finales (§19.4).
 
 Prioridades que se fijaron para la EV2, ordenadas por bloqueo: los puntos 1 y 2 son
@@ -2580,7 +2579,7 @@ decisión. `--deshacer` deja el perfil idéntico al de la EV3 (comprobado).
 2. **La seguridad se garantiza con una regla, no con un modelo.** En las 13.304 consultas
    precalculadas, ninguna alternativa carga la articulación vetada, porque el veto es un filtro duro previo
    al ranking, verificado por tests. Esa garantía es tan buena como el mapeo músculo →
-   articulación, que todavía no tiene validación clínica (§19.3).
+   articulación, que todavía no tiene validación clínica (§6, punto 4).
 3. **El techo está en los datos, no en el algoritmo.** Los siete candidatos de la EV3,
    incluidos los dos de la EV2, empatan dentro del ruido. Los errores se repiten en los mismos
    ejercicios, los ambiguos y los mal etiquetados en la fuente (§16.4). Mejorar exige
@@ -2594,15 +2593,15 @@ decisión. `--deshacer` deja el perfil idéntico al de la EV3 (comprobado).
    Es un sesgo creado por diseño, declarado y medido, que se corrige curando datos y no
    bajando el umbral.
 
-### 19.3 Las dos revisiones humanas
+### 19.3 Revisión humana de las etiquetas
 
-La validación externa del modelo tiene ~60 casos por objetivo (±8 puntos) y el mapeo
-articular no lo revisó nadie del área de la salud. Son los dos huecos que la evidencia
-automática no puede cerrar. Las planillas quedan listas en `data/01_raw/revision_equipo/`
-y `scripts/revisiones_equipo.py` mide el resultado. La muestra es determinista, así que
-nadie elige qué ejercicios revisar, y `tests/test_revisiones_equipo.py` lo comprueba.
+La validación externa del modelo tiene ~60 casos por objetivo (±8 puntos): alcanza para
+detectar una caída, no para certificar la meta del 90 %. La planilla para revisarlo a
+mano queda lista en `data/01_raw/revision_equipo/etiquetas.csv` y
+`scripts/revision_etiquetas.py` mide el resultado. La muestra es determinista, así que
+nadie elige qué ejercicios revisar, y `tests/test_revision_etiquetas.py` lo comprueba.
 
-**1. Etiquetas del catálogo (`etiquetas.csv`, 105 filas).** 35 etiquetas de mecánica, 35
+**La planilla (105 filas).** 35 etiquetas de mecánica, 35
 de fuerza y 35 de complejidad técnica, todas puestas por el modelo en ejercicios del
 catálogo: exactamente las que mide el KPI de acierto. En cada fila, con el nombre, los
 músculos, el equipamiento y las instrucciones a la vista, se escribe en
@@ -2615,15 +2614,9 @@ modelo está bien, se repite. Si no se sabe, se deja vacía.
 | Fuerza | `push` / `pull` / `static` | Empuje (press), tracción (remo) o estático, sin movimiento (plancha) |
 | Complejidad técnica | `baja` / `alta` | Baja: apta para principiantes. Alta: nivel intermedio o experto en free-exercise-db |
 
-**2. Mapeo músculo → articulación (`mapeo_articular.csv`, 41 filas).** Las asignaciones que
-usa el veto, cada una con su fuente citada. Un profesional de la salud (kinesiología,
-medicina del deporte) escribe en `veredicto` `correcto`, `incorrecto` o `incompleto` (le
-falta una articulación) y, si corresponde, la articulación correcta, su nombre, su
-profesión y la fecha.
-
 ```bash
-python scripts/revisiones_equipo.py evaluar     # acierto por objetivo con su intervalo y el estado del mapeo
-python scripts/aprender_de_usuarios.py data/08_reporting/revision_equipo_aportes   # reentrena con lo revisado (§18)
+python scripts/revision_etiquetas.py evaluar     # acierto por objetivo, con su intervalo
+python scripts/aprender_de_usuarios.py data/08_reporting/revision_etiquetas_aportes   # reentrena con lo revisado (§18)
 ```
 
 El acierto se informa con un intervalo de Wilson del 95 %. El KPI se **certifica** si todo
@@ -2652,12 +2645,12 @@ de unos ±6 puntos.
 | Cuándo | Recomendación | Por qué |
 |---|---|---|
 | Ya, en el producto | Mantener la abstención como respuesta visible, la marca "mismo movimiento / otro movimiento" y la cuota sin equipamiento | Son las tres decisiones que hacen al sistema seguro y equitativo (§14.4) |
-| Antes de abrirlo al público | Completar la validación clínica del mapeo (planilla 2) | Sin ella, la garantía de seguridad es tan buena como Wikipedia y ExRx.net |
-| Antes de abrirlo al público | Completar la revisión de las 105 etiquetas (planilla 1) y reentrenar con ella | Certifica el KPI de acierto y decide si el *stacking* conviene para complejidad técnica |
+| Antes de abrirlo al público | Validar el mapeo músculo → articulación con un profesional de la salud | Sin esa validación, la garantía de seguridad es tan buena como Wikipedia y ExRx.net |
+| Antes de abrirlo al público | Completar la revisión de las 105 etiquetas (§19.3) y reentrenar con ella | Certifica el KPI de acierto y decide si el *stacking* conviene para complejidad técnica |
 | Antes de abrirlo al público | Medir la latencia y el consumo de la app en un iPhone real | Hoy está medida en Mac (§17.2) |
 | Con usuarios reales | Subir `votos_minimos` de 1 a 3 y volver a medir el aprendizaje | Con un solo voto, un usuario equivocado basta para cambiar una etiqueta (§18.1) |
 | En los datos | Corregir las etiquetas discordantes de free-exercise-db y armonizar `chest` / `shoulders` en la ontología | Sube el techo de todos los modelos y cierra el hueco de las familias de pecho y hombro (§13.4, §16.7) |
 | Siguiente versión | Análisis de postura con la cámara, en el dispositivo, con una sola topología (Apple Vision o MediaPipe) | El paso de mayor alcance que queda del diseño original (§7, punto 2), recién cuando el mapeo esté validado |
 
-**Reproducir el cierre:** `python scripts/revisiones_equipo.py evaluar` y
-`pytest tests/test_revisiones_equipo.py`.
+**Reproducir el cierre:** `python scripts/revision_etiquetas.py evaluar` y
+`pytest tests/test_revision_etiquetas.py`.

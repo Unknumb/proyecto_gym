@@ -71,8 +71,7 @@ alternativa segura.
 ## Riesgos y ética
 
 - **Seguridad:** toda la protección depende del mapeo músculo → articulación, armado
-  desde Wikipedia y ExRx.net y aún sin validación clínica. La planilla para que la revise
-  un profesional de la salud está lista.
+  desde Wikipedia y ExRx.net y aún sin validación clínica de un profesional de la salud.
 - **Sesgo:** sin corrección, el ranking favorecía el gimnasio. Con una cuota sin
   equipamiento, el 98 % de las listas incluye una opción sin equipamiento. La abstención deja peor
   cubiertos a wger y al cardio, y está declarado.

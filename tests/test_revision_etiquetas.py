@@ -1,8 +1,8 @@
-"""Tests de las revisiones humanas de la EFT (``scripts/revisiones_equipo.py``, README §19.3).
+"""Tests de la revisión humana de etiquetas (``scripts/revision_etiquetas.py``, README §19.3).
 
-Verifican que las planillas versionadas sean la muestra determinista que da hoy el
-pipeline (nadie eligió a mano qué revisar), que el acierto y su intervalo se calculen
-bien y que las etiquetas revisadas entren al reentrenamiento por el importador de §18.
+Verifican que la planilla versionada sea la muestra determinista que da hoy el pipeline
+(nadie eligió a mano qué revisar), que el acierto y su intervalo se calculen bien y que
+las etiquetas revisadas entren al reentrenamiento por el importador de §18.
 """
 from __future__ import annotations
 
@@ -22,9 +22,8 @@ def _modulo(nombre: str):
     return modulo
 
 
-rev = _modulo("revisiones_equipo")
+rev = _modulo("revision_etiquetas")
 FIJAS_ETIQUETAS = rev.COLUMNAS_ETIQUETAS[:10]  # lo que no completa el equipo
-FIJAS_MAPEO = rev.COLUMNAS_MAPEO[:6]
 
 
 @pytest.fixture(scope="module")
@@ -52,13 +51,6 @@ def test_la_muestra_mide_lo_que_pide_el_kpi(datos, planilla):
         # Solo etiquetas puestas por el modelo en el catálogo: las que mide el KPI de acierto
         assert origen.at[r["ejercicio_id"], "fuente"] == "catalogo"
         assert origen.at[r["ejercicio_id"], f"{r['objetivo']}_origen"] == "modelo"
-
-
-def test_la_planilla_del_mapeo_cubre_todo_el_veto():
-    planilla = pd.read_csv(rev.PLANILLA_MAPEO, dtype=str, keep_default_na=False)
-    mapeo = pd.read_csv(RAIZ / "data/03_primary/musculo_articulacion.csv", dtype=str)
-    assert list(planilla.columns) == rev.COLUMNAS_MAPEO
-    assert set(zip(planilla["musculo"], planilla["articulacion"])) == set(zip(mapeo["musculo"], mapeo["articulacion"]))
 
 
 def test_intervalo_de_wilson():
@@ -102,12 +94,3 @@ def test_las_etiquetas_revisadas_entran_por_el_importador(datos, planilla):
     assert len(aportes) == 6 and aportes["comentario"].str.startswith("revisión del equipo").all()
     assert importador.validar("correcciones_etiquetas", aportes, importador._referencias()) == []
 
-
-def test_mapeo_sin_revisar_y_revisado():
-    planilla = pd.read_csv(rev.PLANILLA_MAPEO, dtype=str, keep_default_na=False)
-    vacio = rev.evaluar_mapeo(planilla).iloc[0]
-    assert vacio["revisadas"] == 0 and vacio["de"] == len(planilla)
-    revisado = planilla.copy()
-    revisado.loc[revisado.index[:4], "veredicto"] = ["correcto", "Correcto", "incorrecto", "incompleto"]
-    fila = rev.evaluar_mapeo(revisado).iloc[0]
-    assert fila["revisadas"] == 4 and fila["aciertos"] == 2
