@@ -68,3 +68,6 @@ ios/**/DerivedData/
 
 # Respaldos que deja scripts/aprender_de_usuarios.py --deshacer
 data/01_raw/aportes_usuarios/respaldo-*/
+
+# API de cuentas: base SQLite de desarrollo
+api/instancia/
