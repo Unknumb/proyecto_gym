@@ -26,6 +26,10 @@ ensambles) con su despliegue
 >   Seguro* (§15) y la app de iPhone (§17) ponen el modelo en manos de las personas, y sus
 >   correcciones vuelven a entrenarlo con tres controles (§18). El análisis de postura con
 >   la cámara (§7, punto 2) queda fuera de alcance.
+> - **Cuentas, app completa y AWS (§20).** A pedido del profesor: base de datos PostgreSQL
+>   para que las personas tengan cuenta en la página y en la app, la app de iPhone con las
+>   mismas secciones que la web, y el despliegue en AWS Academy con una plantilla de
+>   CloudFormation.
 > - **EFT (§19): cierre del proyecto.** Resultado final contra los KPIs, conclusiones,
 >   limitaciones y recomendaciones para el negocio, y la revisión humana de etiquetas que
 >   certifica lo que la validación externa no alcanza a medir.
@@ -56,6 +60,7 @@ La tabla sigue el orden de los entregables y de la rúbrica de la pauta.
 | Datos y archivos para reproducir sin modificaciones | `data/`, `models/` · §8.1–§8.2 |
 | Estructura profesional del proyecto | §8.5 (`data/`, `notebooks/`, `models/`, `images/`, `README.md`) |
 | Despliegue: página web, app de iPhone y aprendizaje con usuarios | §15, §17, §18 |
+| Cuentas con base de datos, app completa y despliegue en AWS | **§20** · `api/`, `deploy/aws/`, `ios/` |
 
 <details>
 <summary><b>Guías de lectura de las evaluaciones anteriores (EV2 y EV3)</b></summary>
@@ -1162,11 +1167,15 @@ python -m pytest -q      # 88 tests, ~15 s; corren sobre los artefactos versiona
 | App de iPhone | El modelo de la app es el del pipeline; la app y el importador usan las mismas columnas; el importador rechaza datos inválidos (§17) |
 | Ensambles | Mismos pliegues que el diagnóstico de la EV2; están las tres familias; la búsqueda mejora el boosting por defecto; `adoptar` sigue la regla y ningún ensamble la cumple (§16) |
 | Revisión de etiquetas | La planilla es la muestra determinista del pipeline (solo etiquetas del modelo en el catálogo, una por ejercicio); intervalo de Wilson; solo cuenta lo revisado; lo revisado entra por el importador de §18 (§19.3) |
+| API de cuentas | Registro e inicio de sesión, contraseñas con hash, límite de intentos, validación de cada dato, aislamiento entre usuarios, sincronización (lo de la cuenta gana), borrado en cascada; en SQLite y en PostgreSQL (§20) |
+| Rutina en la app | Las tablas del generador en Swift son las de la página y las 60 rutinas de referencia están al día (§20.3) |
 | Aprendizaje de usuarios | Sin aportes todo queda como en la EV2 y la EV3; consenso; los aportes heredan grupo y partición de su gemelo (sin fuga); el perfil los marca como «usuarios»; el control descarta etiquetas invertidas; la simulación muestra aprendizaje; el importador lee el archivo de la página (§18) |
 
-GitHub Actions corre en cada *push* (`.github/workflows/tests.yml`) tres trabajos: `pytest`,
-`notebooks`, que ejecuta los cinco notebooks de principio a fin en un entorno limpio, e
-`ios`, que verifica la paridad del modelo en Swift y compila la app.
+GitHub Actions corre en cada *push* (`.github/workflows/tests.yml`) cuatro trabajos: `pytest`;
+`api-postgres`, que prueba la API de cuentas contra un PostgreSQL 16 real (el motor de RDS);
+`notebooks`, que ejecuta los cinco notebooks de principio a fin en un entorno limpio; e
+`ios`, que verifica la paridad del modelo en Swift, corre los tests de Swift (incluida la
+rutina idéntica a la de la web) y compila la app.
 
 ### 8.5 Estructura del repositorio
 
@@ -1259,6 +1268,8 @@ proyecto_ejercicios/
 │   ├── importar_aportes.py          # Aportes de la página (.json) o de la app (CSV) → data/01_raw/aportes_usuarios/ (§18)
 │   ├── aprender_de_usuarios.py      # Importa, reentrena, regenera la página y resume qué aprendió (§18)
 │   ├── revision_etiquetas.py        # Planilla de revisión humana y medición del KPI de acierto (§19.3)
+│   ├── exportar_aportes_bd.py       # Aportes guardados en la base de datos → archivo del importador (§20)
+│   ├── casos_rutina_ios.mjs         # Rutinas de referencia de la web para los tests de Swift (§20.3)
 │   └── construir_mapeo_articulaciones.py  # Tabla músculo → articulación (§6, punto 2)
 ├── notebooks/
 │   ├── 01_exploratory_data_analysis.ipynb
@@ -1279,13 +1290,21 @@ proyecto_ejercicios/
 ├── web/
 │   ├── app.html                     # Fuente de la aplicación web Sustituto Seguro (§15)
 │   ├── probar_web.py                # Pruebas en navegador real (Playwright)
+│   ├── probar_cuentas.py            # Cuentas de punta a punta: API real + navegador (§20)
 │   └── capturas/                    # Capturas de la aplicación
 ├── docs/index.html                  # Aplicación web armada, lista para GitHub Pages (§15)
-├── ios/                             # App de iPhone (§17)
+├── api/                             # API de cuentas: Flask + PostgreSQL (o SQLite en local) (§20)
+│   ├── servidor.py                  # Rutas, validación, sesiones firmadas y sincronización
+│   ├── basedatos.py                 # Esquema y conexión, el mismo SQL en PostgreSQL y SQLite
+│   └── requirements.txt             # Flask, Gunicorn y el driver de PostgreSQL
+├── deploy/aws/                      # Despliegue en AWS Academy (§20.4)
+│   ├── sustituto-seguro.yaml        # CloudFormation: VPC, EC2 + IP fija + HTTPS, RDS PostgreSQL
+│   └── README.md                    # Guía paso a paso para el Learner Lab
+├── ios/                             # App de iPhone (§17, §20.3)
 │   ├── SustitutoSeguro/             # App SwiftUI, project.yml y SustitutoSeguro.xcodeproj
-│   └── SustitutoSeguroCore/         # Inferencia del perfil, recomendaciones y CSV en Swift
+│   └── SustitutoSeguroCore/         # Perfil, recomendaciones, rutina, progreso, cliente de la API y CSV en Swift
 ├── tests/                           # Tests unitarios, de datos, de modelo, del dashboard, la web, la app y la revisión de etiquetas (§8.4)
-├── .github/workflows/tests.yml      # CI: pytest, ejecución de los cinco notebooks y app de iPhone en cada push
+├── .github/workflows/tests.yml      # CI: pytest, API en PostgreSQL, los cinco notebooks y la app de iPhone en cada push
 ├── src/gym_exercises/
 │   ├── hooks.py                     # Registro de cada corrida en MLflow (§8.8)
 │   ├── pipeline_registry.py
@@ -2062,7 +2081,9 @@ presentación. Esta fase lo pone en manos de una persona cualquiera: alguien con
 lesión que quiere seguir entrenando sin cargar la zona que le duele.
 
 **Archivos:** fuente en `web/app.html`, página armada en `docs/index.html`.
-Funciona en computador y celular, sin servidor y sin cuentas.
+Funciona en computador y celular. Las recomendaciones y la rutina se calculan en el
+navegador; desde §20 la persona puede además crear una cuenta para guardar sus datos en
+el servidor.
 
 | Inicio | Sustituir (celular) | Rutina con IA |
 |---|---|---|
@@ -2131,9 +2152,9 @@ disponible para quien tenga cuenta de Claude.
 - **Sin servidor.** Las recomendaciones se precalculan (≈0,9 MB). La página carga una vez
   y funciona sin conexión a una API, así que no hay costo de operación ni datos personales
   en un servidor.
-- **Privacidad (§5.4).** Edad, peso, lesiones y progreso viven solo en el navegador de
-  cada persona (`localStorage`). El costo es que se pierden al cambiar de dispositivo, y
-  para eso está el respaldo.
+- **Privacidad (§5.4).** Sin cuenta, edad, peso, lesiones y progreso viven solo en el
+  navegador de cada persona (`localStorage`). El costo es que se pierden al cambiar de
+  dispositivo: para eso está el respaldo y, desde §20, la cuenta opcional.
 - **Nombres en español** solo para los 68 ejercicios de las rutinas; los otros 2.393
   conservan el nombre original en inglés. La búsqueda acepta términos en español
   ("sentadilla", "peso muerto", "dominadas").
@@ -2393,9 +2414,11 @@ resultado.
 ## 17. App de iPhone — entregar datos al modelo desde el teléfono
 
 La app nativa *Sustituto Seguro* (SwiftUI, iOS 17) pone el modelo en el teléfono y
-permite que una persona le entregue datos nuevos. Todo corre **en el dispositivo**:
-no hay servidor, y los datos solo salen del teléfono cuando se exportan. Es la primera
-versión del punto 3 de §7, Edge AI.
+permite que una persona le entregue datos nuevos. El modelo corre **en el dispositivo**,
+sin servidor: es la primera versión del punto 3 de §7, Edge AI. Desde §20 la app tiene
+además las mismas secciones que la web (rutina, entrenamiento y progreso) y una cuenta
+opcional en el servidor del proyecto; sin cuenta, los datos solo salen del teléfono cuando
+se exportan.
 
 ### 17.1 Qué hace
 
@@ -2404,8 +2427,8 @@ versión del punto 3 de §7, Edge AI.
 | **Sustituir** | Un ejercicio y la articulación lesionada; califica cada alternativa (buena, aceptable, mala, insegura) | Propone hasta 5 alternativas que no cargan la articulación, o se abstiene y explica por qué (las mismas de la web, §15) |
 | **Detalle del ejercicio** | Corrige una etiqueta del perfil (mecánica, fuerza, complejidad) | Muestra la etiqueta del pipeline, su origen y su confianza |
 | **Nuevo ejercicio** | Nombre, instrucciones, equipamiento y músculos de un ejercicio fuera del catálogo | Predice en el teléfono su perfil de exigencia, con abstención bajo el umbral |
-| **Entrenar** | Series (peso, repeticiones, esfuerzo) y dolor por zona | Avisa con un dolor de 7/10 o más |
-| **Mis datos** | — | Lista lo registrado y lo exporta a cinco CSV |
+| **Mi rutina, Entrenar, Progreso** | Su perfil, cada serie y el dolor al terminar | La misma rutina y los mismos avisos que la web (§20.3) |
+| **Mis aportes y exportación** | — | Lista lo registrado y lo exporta a cinco CSV |
 
 ### 17.2 El modelo en el teléfono
 
@@ -2460,7 +2483,8 @@ El test `test_la_app_lleva_el_modelo_actual_del_pipeline` falla si se olvida.
 | Prueba | Qué verifica | Dónde corre |
 |---|---|---|
 | `tests/test_app_ios.py` | El modelo de la app es el del pipeline; los casos de prueba siguen valiendo; la app y el importador usan las mismas columnas; el importador rechaza datos inválidos y no duplica | CI (Linux) |
-| `swift run verificar`, `swift test` | Paridad con scikit-learn, recomendador, CSV | CI (macOS) y cualquier Mac con Swift |
+| `tests/test_rutina_ios.py` | Las tablas del generador en Swift y las 60 rutinas de referencia coinciden con la página | CI (Linux) |
+| `swift run verificar`, `swift test` | Paridad con scikit-learn, recomendador, CSV, rutina igual a la web, progreso y sincronización | CI (macOS) y cualquier Mac con Swift |
 | `xcodebuild … build` | La app compila para el simulador de iPhone | CI (macOS) |
 
 ---
@@ -2540,8 +2564,10 @@ decisión. `--deshacer` deja el perfil idéntico al de la EV3 (comprobado).
 
 ### 18.4 Ética, privacidad y límites
 
-- **Privacidad.** La página exporta solo correcciones y calificaciones de ejercicios. Edad,
-  peso, sesiones y dolor nunca salen del dispositivo (lo verifica `probar_web.py`).
+- **Privacidad.** El archivo de aportes trae solo correcciones y calificaciones de
+  ejercicios, sin edad, peso, sesiones ni dolor (lo verifica `probar_web.py`). Esos datos
+  solo salen del dispositivo si la persona crea una cuenta, con su consentimiento (§20.5),
+  y `exportar_aportes_bd.py` tampoco los incluye.
 - **Seguridad.** Una corrección cambia la descripción de un ejercicio, nunca el filtro de
   articulaciones: ningún aporte puede hacer que una alternativa cargue la zona lesionada.
 - **Límites.** Los usuarios son simulados con etiquetas de free-exercise-db: con usuarios
@@ -2654,3 +2680,154 @@ de unos ±6 puntos.
 
 **Reproducir el cierre:** `python scripts/revision_etiquetas.py evaluar` y
 `pytest tests/test_revision_etiquetas.py`.
+
+---
+
+## 20. Cuentas, app completa y despliegue en AWS
+
+Después del cierre (§19), el profesor pidió tres cosas: **(1)** una base de datos para que las
+personas se registren en la página y en la app y tengan su cuenta; **(2)** que la app de iPhone
+funcione completa, igual que la web; y **(3)** lanzar el sistema en AWS. Las tres están
+hechas, y el modelo sigue corriendo en el navegador o en el teléfono: el servidor solo guarda
+los datos de cada cuenta.
+
+### 20.1 Arquitectura
+
+```
+Página web (navegador) ──┐                          AWS Academy (us-east-1)
+                         ├─HTTPS─► EC2: Caddy ─► Gunicorn + Flask (api/) ──► RDS PostgreSQL
+App de iPhone ───────────┘         (certificado        · /        página       (privada, solo
+                                    sslip.io)          · /api/*   cuentas       desde la EC2)
+```
+
+- **Sin cuenta, nada cambia:** la página y la app funcionan igual que antes, con los datos solo
+  en el dispositivo.
+- **Con cuenta:** al entrar, lo que la persona tenía guardado se sube a su cuenta (lo que ya
+  estaba en la cuenta gana) y se baja todo lo de la cuenta. Después cada cambio se sube unos
+  segundos más tarde, y solo lo que cambió. Una sesión registrada en el iPhone aparece en la
+  web, y al revés.
+- **Al cerrar sesión** los datos se borran del dispositivo y siguen en la cuenta.
+
+### 20.2 Base de datos y API
+
+`api/servidor.py` (Flask) sirve la página y la API; `api/basedatos.py` crea el esquema. El
+mismo SQL corre en **PostgreSQL** (RDS, en AWS) y en **SQLite** (en el computador, sin instalar
+nada). Seis tablas, todas borradas en cascada con la cuenta:
+
+| Tabla | Qué guarda | Clave |
+|---|---|---|
+| `usuarios` | Correo, nombre, hash de la contraseña, fecha de creación | `id`, correo único |
+| `perfiles` | Edad, peso, altura, deporte, nivel, objetivo, días, minutos, tipo de rutina, equipamiento, lesiones | `usuario_id` |
+| `rutinas` | La rutina armada (JSON, con los ejercicios por `ejercicio_id`) | `usuario_id` |
+| `sesiones` | Fecha, día, minutos, esfuerzo, dolor por zona, series con kilos y repeticiones, origen (web o ios) | `usuario_id` + `uid` |
+| `pesos` | Peso corporal por fecha | `usuario_id` + `fecha` |
+| `correcciones`, `revisiones` | Aportes al modelo (§18): un voto vigente por persona y ejercicio | `usuario_id` + ejercicio + objetivo |
+
+| Ruta | Para qué |
+|---|---|
+| `POST /api/registro`, `POST /api/sesion` | Crear la cuenta o iniciar sesión; devuelven un token firmado (30 días) |
+| `GET /api/cuenta`, `DELETE /api/cuenta` | Resumen de la cuenta; borrarla con todos sus datos (pide la contraseña) |
+| `GET /api/datos`, `POST /api/sincronizar` | Todo lo de la cuenta; subir lo guardado sin cuenta |
+| `PUT /api/datos/perfil`, `PUT`/`DELETE /api/datos/rutina` | Perfil y rutina |
+| `POST`/`DELETE /api/datos/sesiones`, `PUT`/`DELETE /api/datos/pesos` | Sesiones y peso corporal |
+| `POST /api/datos/aportes` | Correcciones y calificaciones para reentrenar (§18) |
+| `GET /api/salud` | Si el servidor y la base responden |
+
+Cada dato se valida en el servidor con los mismos vocabularios de la página (deportes,
+niveles, lesiones, `ejercicio_id` existentes, rangos de edad, peso, dolor y repeticiones), y
+los errores vuelven en español. Las contraseñas se guardan con `scrypt` (nunca en texto), el
+inicio de sesión se bloquea tras 10 intentos fallidos en 15 minutos, y cada persona solo puede
+leer y cambiar lo suyo.
+
+Para reentrenar con los aportes de las cuentas, `python scripts/exportar_aportes_bd.py`
+escribe el mismo archivo que exporta la página, sin datos de identidad, y lo recibe el
+importador de §18.
+
+### 20.3 La app de iPhone, igual que la web
+
+La app tiene ahora las mismas secciones que la página:
+
+| Pestaña | Qué hace |
+|---|---|
+| **Inicio** | Qué hace la app, el resumen de la semana y accesos a cada sección |
+| **Mi rutina** | El formulario (edad, peso, altura, deporte, nivel, objetivo, días, minutos, tipo, equipamiento, lesiones) y la rutina semanal, con avisos; cada ejercicio se cambia por otra opción segura deslizándolo, y se puede generar otra variante |
+| **Entrenar** | Elegir el día (marca el que toca), anotar kilos y repeticiones, marcar cada serie con cronómetro de descanso, y al terminar esfuerzo, dolor por zona (avisa desde 4/10 y pide detenerse desde 7/10) y notas |
+| **Progreso** | Sesiones de la semana, racha, esfuerzo promedio y alertas de tendencia del dolor; gráficos (Swift Charts) de constancia, dolor por zona, carga por ejercicio y peso corporal; historial |
+| **Más** | Mi cuenta, Sustituir, Nuevo ejercicio, aportes y exportación (§17), Cómo funciona |
+
+**La misma rutina en los dos lados.** El generador de la página se portó regla por regla a
+Swift (`SustitutoSeguroCore/Rutinas.swift`): mismas tablas, mismos filtros de seguridad y el
+mismo orden de desempate. `scripts/casos_rutina_ios.mjs` ejecuta el generador de
+`web/app.html` sobre 60 perfiles que recorren edades (12 a 75 años), pesos, deportes,
+niveles, objetivos, tipos de rutina, días, equipamientos y lesiones, y `RutinasTests`
+comprueba que la app arme exactamente lo mismo: tipo, avisos, días, ejercicios, series,
+repeticiones, descanso y alternativas. Otro test revisa que ningún ejercicio ni alternativa
+cargue una lesión marcada, y `tests/test_rutina_ios.py` falla si la página cambia y la app no.
+
+**Mi cuenta en la app.** Se escribe la dirección del servidor (la de AWS, §20.4) y se crea la
+cuenta o se inicia sesión. El token va en el llavero de iOS (Keychain); la app sube solo lo
+que cambió y, al volver a abrirse, baja lo nuevo de la cuenta.
+
+**Instalar en un iPhone:** como en §17.4, con el Mac del equipo y Xcode.
+
+### 20.4 Despliegue en AWS Academy
+
+[`deploy/aws/sustituto-seguro.yaml`](deploy/aws/sustituto-seguro.yaml) crea todo con una
+plantilla de CloudFormation, respetando los límites del Learner Lab (regiones `us-east-1` o
+`us-west-2`, instancias chicas, sin crear roles de IAM):
+
+| Recurso | Para qué |
+|---|---|
+| VPC propia con dos subredes | RDS exige dos zonas de disponibilidad |
+| EC2 `t3.micro` (Amazon Linux 2023) con IP elástica | Página y API, siempre en la misma dirección |
+| Caddy | HTTPS con certificado gratuito para `<ip>.sslip.io` (la app de iPhone exige HTTPS) |
+| Gunicorn + Flask | La API, como servicio que arranca solo con el servidor |
+| RDS PostgreSQL `db.t3.micro`, privada | La base de datos; solo acepta conexiones del servidor web |
+
+La guía paso a paso está en [`deploy/aws/README.md`](deploy/aws/README.md): crear la pila
+(unos 20 minutos), abrir la dirección de la salida `DireccionPagina`, qué hacer al volver al
+laboratorio (AWS detiene el servidor al terminar cada sesión), cómo actualizar
+(`sudo sustituto-actualizar`), cómo ver las tablas con `psql` y cómo borrar la pila al
+terminar para no gastar el crédito.
+
+### 20.5 Privacidad y seguridad
+
+Guardar datos en un servidor cambia la decisión de §5.4, donde nada salía del dispositivo. El
+dolor por zona y las lesiones son **datos de salud**, sensibles para la Ley 19.628 y la Ley
+21.719. Por eso:
+
+- **La cuenta es opcional** y la configuración por defecto sigue siendo la más protectora:
+  sin cuenta, nada sale del dispositivo.
+- **Consentimiento expreso:** para crear la cuenta hay que aceptar, en una casilla aparte, que
+  el perfil, la rutina, las sesiones, el dolor y el peso se guarden en el servidor.
+- **Minimización:** se guarda lo necesario para la rutina y el progreso; no hay fotos, video,
+  ubicación ni datos del dispositivo. Las contraseñas solo como hash.
+- **Control de la persona:** borrar la cuenta elimina de la base, en cascada, todo lo suyo.
+- **Seguridad:** HTTPS de punta a punta, base de datos sin acceso desde internet, token
+  firmado con un secreto propio de cada servidor, límite de intentos de inicio de sesión.
+- **El reentrenamiento no ve identidades:** `exportar_aportes_bd.py` solo saca correcciones y
+  calificaciones, sin correo ni nombre.
+
+### 20.6 Pruebas y límites
+
+| Prueba | Qué verifica | Dónde corre |
+|---|---|---|
+| `tests/test_api.py` | Registro, inicio de sesión, hash, límite de intentos, validación, aislamiento entre usuarios, sincronización, aportes, borrado en cascada, exportación de aportes | CI: SQLite (`pytest`) y PostgreSQL 16 (`api-postgres`) |
+| `web/probar_cuentas.py` | En un navegador real con la API: registrarse sube lo local, los cambios se suben solos, otro navegador ve lo mismo, cerrar sesión limpia el navegador, borrar la cuenta borra todo, sin servidor la página sigue funcionando | Local (Playwright) |
+| `RutinasTests`, `EntrenamientoTests` (Swift) | Rutina igual a la web en 60 perfiles, ninguna lesión cargada, progreso, sesión en curso, subida de solo lo que cambió | CI (`ios`, macOS) |
+| `xcodebuild … build` | La app completa compila para el simulador | CI (`ios`, macOS) |
+
+**Límites.**
+
+- La plantilla se validó en su sintaxis y referencias, pero el despliegue en sí lo hace el
+  equipo en su Learner Lab: AWS Academy no permite hacerlo desde fuera.
+- En el Learner Lab el servidor se detiene al terminar cada sesión; para una demostración hay
+  que iniciar el laboratorio antes. La dirección `sslip.io` depende de un servicio de DNS
+  gratuito; con un dominio propio bastaría cambiar una línea del `Caddyfile`.
+- Con una cuenta gratuita de Apple la app se instala por 7 días; para publicarla en el App
+  Store hace falta la cuenta de desarrollador (USD 99 al año).
+- Los aportes de la app se suben a la cuenta pero no se bajan a otro dispositivo: sirven para
+  reentrenar, no para mostrarse.
+
+**Probar en el computador, sin AWS:** `python -m api.servidor` levanta la página y la API en
+`http://localhost:8000` con SQLite.
