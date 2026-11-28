@@ -274,10 +274,24 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   .slider-row label { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+/* Cuenta (README §20) */
+.cuenta-barra { display: flex; justify-content: flex-end; padding-top: 12px; margin-bottom: -6px; }
+.cuenta-chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--fg); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+.cuenta-chip:hover { border-color: var(--accent); }
+.cuenta-chip .punto { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.cuenta-chip.activa .punto { background: var(--ok); }
+.cuenta-chip.error .punto { background: var(--amber); }
+.pestanas-cuenta { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; padding: 3px; background: var(--surface-2); gap: 2px; }
+.pestanas-cuenta button { border: 0; background: none; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: 600; }
+.pestanas-cuenta button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+.casilla { display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; color: var(--muted); }
+.casilla input { margin-top: 4px; accent-color: var(--accent); width: 18px; height: 18px; flex: none; }
 </style>
 
 <nav class="tabs" aria-label="Secciones"><div class="in" id="tabs"></div></nav>
 <div class="wrap">
+  <div class="cuenta-barra" id="cuenta-barra" hidden></div>
   <main id="app"></main>
   <footer>
     <p>Proyecto de Machine Learning (MLY1101, Duoc UC) · <a href="https://github.com/Unknumb/proyecto_gym" target="_blank" rel="noopener">github.com/Unknumb/proyecto_gym</a></p>
@@ -468,9 +482,12 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   let S = { perfil: null, rutina: null, sesiones: [], pesos: [], enCurso: null };
   try { const t = localStorage.getItem(CLAVE); if (t) S = Object.assign(S, JSON.parse(t)); } catch (_) { /* sin almacenamiento */ }
   let almacenOK = true;
+  let CTA = null; // cuenta conectada al servidor (README §20); se crea más abajo
   function guardar() {
     try { localStorage.setItem(CLAVE, JSON.stringify(S)); almacenOK = true; } catch (_) { almacenOK = false; }
+    if (CTA) CTA.cambio();
   }
+  const nuevoUid = () => (crypto.randomUUID ? crypto.randomUUID() : 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
 
   // ═══════════════ Aportes para el modelo (README §18) ═══════════════
   // Correcciones de etiquetas y calificaciones de alternativas. Se identifican por ejercicio_id y
@@ -544,7 +561,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
   };
   const svgIco = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
   const TABS = [['inicio', 'Inicio'], ['sustituir', 'Sustituir'], ['rutina', 'Mi rutina'], ['entrenar', 'Entrenar'], ['progreso', 'Progreso'], ['modelo', 'El modelo']];
-  const VISTAS = ['inicio', 'sustituir', 'rutina', 'entrenar', 'progreso', 'como-funciona', 'modelo', 'aportes'];
+  const VISTAS = ['inicio', 'sustituir', 'rutina', 'entrenar', 'progreso', 'como-funciona', 'modelo', 'aportes', 'cuenta'];
   let vista = 'inicio';
   $('tabs').innerHTML = TABS.map(([k, t]) => `<a href="#${k}" data-tab="${k}">${svgIco(k)}<span>${t}</span></a>`).join('');
 
@@ -564,7 +581,8 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       const activa = a.dataset.tab === vista || (vista === 'como-funciona' && a.dataset.tab === 'inicio') || (vista === 'aportes' && a.dataset.tab === 'modelo');
       if (activa) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
-    ({ inicio: vInicio, sustituir: vSustituir, rutina: vRutina, entrenar: vEntrenar, progreso: vProgreso, 'como-funciona': vComo, modelo: vModelo, aportes: vAportes })[vista]();
+    ({ inicio: vInicio, sustituir: vSustituir, rutina: vRutina, entrenar: vEntrenar, progreso: vProgreso, 'como-funciona': vComo, modelo: vModelo, aportes: vAportes, cuenta: vCuenta })[vista]();
+    pintarBarraCuenta();
   }
 
   // ═══════════════ Fechas ═══════════════
@@ -1309,7 +1327,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
     $('volver').onclick = () => { s.finalizando = false; guardar(); vEntrenar(); };
     $('guardar-ses').onclick = () => {
       const min = Math.max(1, Math.round((Date.now() - s.inicio) / 60000));
-      S.sesiones.push({ fecha: hoyISO(), dia: s.dia, titulo: S.rutina.dias[s.dia]?.titulo || '', minutos: Math.min(min, 300), esfuerzo: s.esfuerzo,
+      S.sesiones.push({ uid: nuevoUid(), fecha: hoyISO(), dia: s.dia, titulo: S.rutina.dias[s.dia]?.titulo || '', minutos: Math.min(min, 300), esfuerzo: s.esfuerzo,
         dolor: s.dolor, notas: s.notas || '', ejercicios: s.ejercicios.map(e => ({ i: e.i, series: e.series.filter(x => x.hecho).map(x => ({ kg: x.kg === '' ? null : x.kg, reps: x.reps })) })).filter(e => e.series.length) });
       S.enCurso = null; guardar(); location.hash = 'progreso';
     };
@@ -1484,7 +1502,7 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       const f = fecha(s?.fecha); if (!f) return null;
       const dolor = {};
       for (const [k, v] of Object.entries(s.dolor && typeof s.dolor === 'object' ? s.dolor : {})) { const n = ent(v, 0, 10); if (tiene(LES, k) && n !== null) dolor[k] = n; }
-      return { fecha: f, dia: ent(s.dia, 0, 5, 0), titulo: txt(s.titulo, 60), minutos: ent(s.minutos, 1, 300, 1), esfuerzo: ent(s.esfuerzo, 1, 10, 6),
+      return { uid: txt(s.uid, 64) || nuevoUid(), fecha: f, dia: ent(s.dia, 0, 5, 0), titulo: txt(s.titulo, 60), minutos: ent(s.minutos, 1, 300, 1), esfuerzo: ent(s.esfuerzo, 1, 10, 6),
         dolor, notas: txt(s.notas, 500),
         ejercicios: lista(s.ejercicios).filter(e => ejValido(e?.i)).map(e => ({ i: e.i,
           series: lista(e.series).slice(0, 10).map(z => ({ kg: dec(z?.kg, 0, 1000), reps: ent(z?.reps, 0, 1000, 0) })) })).filter(e => e.series.length) };
@@ -1501,6 +1519,230 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
       .map(r => ({ orig: r.orig, alt: r.alt, art: r.art, perfil: r.perfil, v: r.v, sim: dec(r.sim, 0, 1, 0), misma: r.misma === true, fecha: txt(r.fecha, 40) || new Date().toISOString() }));
     return { correcciones: correcciones.slice(-2000), revisiones: revisiones.slice(-2000) };
   }
+
+
+  // ═══════════════ CUENTAS (README §20) ═══════════════
+  // Si la página la entrega el servidor de cuentas (AWS o `python -m api.servidor`), cada persona puede
+  // registrarse y guardar su perfil, rutina, sesiones, peso y aportes en la base de datos. Sin servidor,
+  // todo sigue guardándose solo en este navegador. En la base los ejercicios van por ejercicio_id, no por
+  // posición: así la web y la app de iPhone hablan del mismo ejercicio.
+  const CLAVE_CUENTA = 'sustituto-seguro-cuenta';
+  const cuenta = { disponible: null, token: null, usuario: null, estado: '', error: '', aviso: '', ultimo: null };
+  try { const c = JSON.parse(localStorage.getItem(CLAVE_CUENTA) || 'null'); if (c && c.token) Object.assign(cuenta, { token: c.token, usuario: c.usuario }); } catch (_) { /* sin almacenamiento */ }
+  const guardarCuenta = () => { try { localStorage.setItem(CLAVE_CUENTA, JSON.stringify(cuenta.token ? { token: cuenta.token, usuario: cuenta.usuario } : null)); } catch (_) { /* */ } };
+
+  async function api(metodo, ruta, cuerpo) {
+    const r = await fetch('/api/' + ruta, { method: metodo, headers: { 'Content-Type': 'application/json', ...(cuenta.token ? { Authorization: 'Bearer ' + cuenta.token } : {}) },
+      body: cuerpo === undefined ? undefined : JSON.stringify(cuerpo) });
+    let d = {}; try { d = await r.json(); } catch (_) { /* respuesta vacía */ }
+    if (r.status === 401 && cuenta.token && ruta !== 'sesion') perderSesion();
+    if (!r.ok) { const e = new Error(d.error || 'No se pudo conectar con el servidor.'); e.status = r.status; throw e; }
+    return d;
+  }
+
+  // Web → base de datos
+  const nulo = v => v === '' || v === undefined ? null : v;
+  const perfilApi = p => p && { ...p, peso: nulo(p.peso), altura: nulo(p.altura), tipo: p.tipo || 'auto' };
+  const idDe = i => D.ids[i];
+  const rutinaApi = r => r && { creada: r.creada, objetivo: r.objetivo, tipo: r.tipo || null, porqueTipo: r.porqueTipo || '', perfil: perfilApi(r.perfil),
+    avisos: r.avisos || [], huecos: r.huecos || [],
+    dias: r.dias.map(d => ({ titulo: d.titulo, equilibrio: !!d.equilibrio, ejercicios: d.ejercicios.map(e => ({ id: idDe(e.i), grupo: e.grupo, series: e.series,
+      reps: String(e.reps), descanso: e.descanso, iso: !!e.iso, extra: !!e.extra, alternativas: (e.alternativas || []).map(idDe) })) })) };
+  const sesionApi = s => ({ uid: s.uid, fecha: s.fecha, dia: s.dia, titulo: s.titulo || '', minutos: s.minutos, esfuerzo: s.esfuerzo, notas: s.notas || '',
+    dolor: s.dolor || {}, ejercicios: s.ejercicios.map(e => ({ id: idDe(e.i), series: e.series.map(z => ({ kg: z.kg === '' ? null : z.kg, reps: z.reps })) })), origen: 'web' });
+  const correccionApi = c => ({ ejercicio_id: c.id, objetivo: c.o, etiqueta: D.clases[c.o][c.k], etiqueta_previa: c.previa || '',
+    origen_previo: ORIGEN_PIPELINE[c.origen] || '', confianza_previa: (c.conf || 0) / 100, fecha: c.fecha });
+  const revisionApi = r => ({ original_id: r.orig, alternativa_id: r.alt, articulacion: r.art, perfil: r.perfil ? 'principiante' : 'cualquiera',
+    veredicto: r.v, similitud: r.sim, misma_familia: !!r.misma, fecha: r.fecha });
+
+  // Base de datos → web (y por el mismo saneamiento que un respaldo: nada externo entra sin revisar)
+  const iDe = id => tiene(IDX, id) ? IDX[id] : -1;
+  const ORIGEN_WEB = Object.fromEntries(Object.entries(ORIGEN_PIPELINE).map(([k, v]) => [v, k]));
+  function datosWeb(d) {
+    const rutina = d.rutina && { ...d.rutina, dias: (d.rutina.dias || []).map(dia => ({ ...dia, ejercicios: (dia.ejercicios || []).map(e => ({ ...e, i: iDe(e.id),
+      alternativas: (e.alternativas || []).map(iDe).filter(i => i >= 0) })).filter(e => e.i >= 0) })) };
+    const crudo = { perfil: d.perfil, rutina,
+      sesiones: (d.sesiones || []).map(s => ({ ...s, ejercicios: (s.ejercicios || []).map(e => ({ i: iDe(e.id), series: e.series })).filter(e => e.i >= 0) })),
+      pesos: d.pesos || [],
+      aportes: { correcciones: (d.correcciones || []).map(c => ({ id: c.ejercicio_id, o: c.objetivo, k: (D.clases[c.objetivo] || []).indexOf(c.etiqueta),
+        previa: c.etiqueta_previa, origen: ORIGEN_WEB[c.origen_previo] || '', conf: Math.round((c.confianza_previa || 0) * 100), fecha: c.fecha })),
+        revisiones: (d.revisiones || []).map(r => ({ orig: r.original_id, alt: r.alternativa_id, art: r.articulacion, perfil: r.perfil === 'principiante' ? 1 : 0,
+          v: r.veredicto, sim: r.similitud, misma: !!r.misma_familia, fecha: r.fecha })) } };
+    return sanearRespaldo(crudo);
+  }
+  const fotoLocal = () => {
+    S.sesiones.forEach(s => { if (!s.uid) s.uid = nuevoUid(); });
+    return { perfil: JSON.stringify(perfilApi(S.perfil) || null), rutina: JSON.stringify(rutinaApi(S.rutina) || null),
+      sesiones: new Map(S.sesiones.map(s => [s.uid, JSON.stringify(sesionApi(s))])), pesos: new Map(S.pesos.map(p => [p.fecha, p.kg])),
+      aportes: JSON.stringify({ c: (S.aportes?.correcciones || []).map(correccionApi), r: (S.aportes?.revisiones || []).map(revisionApi) }) };
+  };
+
+  function aplicarDatosDeLaCuenta(d) {
+    const enCurso = S.enCurso;
+    S = { ...datosWeb(d), enCurso };
+    try { localStorage.setItem(CLAVE, JSON.stringify(S)); } catch (_) { /* */ }
+    cuenta.ultimo = fotoLocal();
+  }
+
+  async function entrarYSincronizar(respuesta) {
+    cuenta.token = respuesta.token; cuenta.usuario = respuesta.usuario; guardarCuenta();
+    const f = fotoLocal();
+    const local = { perfil: JSON.parse(f.perfil), rutina: JSON.parse(f.rutina), sesiones: [...f.sesiones.values()].map(x => JSON.parse(x)),
+      pesos: [...f.pesos].map(([fecha, kg]) => ({ fecha, kg })), correcciones: JSON.parse(f.aportes).c, revisiones: JSON.parse(f.aportes).r };
+    aplicarDatosDeLaCuenta(await api('POST', 'sincronizar', local));
+    cuenta.estado = 'Guardado en tu cuenta'; cuenta.error = '';
+  }
+
+  function perderSesion() {
+    // La sesión venció o la cuenta ya no existe: se conservan los datos locales, que se suben al volver a entrar
+    cuenta.token = null; cuenta.usuario = null; cuenta.ultimo = null; guardarCuenta();
+    cuenta.error = 'Tu sesión terminó. Vuelve a iniciar sesión: lo que hiciste se guarda aquí mientras tanto.';
+    pintarBarraCuenta();
+  }
+
+  function salirLocal(mensaje) {
+    // Al cerrar sesión, este dispositivo deja de guardar los datos de la cuenta: quedan en el servidor
+    cuenta.token = null; cuenta.usuario = null; cuenta.ultimo = null; guardarCuenta();
+    S = { perfil: null, rutina: null, sesiones: [], pesos: [], enCurso: null };
+    try { localStorage.setItem(CLAVE, JSON.stringify(S)); } catch (_) { /* */ }
+    cuenta.aviso = mensaje || ''; cuenta.error = ''; cuenta.estado = '';
+    if (typeof render === 'function') render();
+  }
+
+  // Cada cambio local se sube en segundo plano: solo lo que cambió desde la última vez
+  let temporizadorSync = null, sincronizando = false, pendiente = false;
+  async function subirCambios() {
+    if (!cuenta.token || !cuenta.ultimo) return;
+    if (sincronizando) { pendiente = true; return; }
+    sincronizando = true;
+    try {
+      const antes = cuenta.ultimo, ahora = fotoLocal();
+      if (ahora.perfil !== antes.perfil && ahora.perfil !== 'null') await api('PUT', 'datos/perfil', JSON.parse(ahora.perfil));
+      if (ahora.rutina !== antes.rutina) await (ahora.rutina === 'null' ? api('DELETE', 'datos/rutina') : api('PUT', 'datos/rutina', JSON.parse(ahora.rutina)));
+      for (const [uid, s] of ahora.sesiones) if (antes.sesiones.get(uid) !== s) await api('POST', 'datos/sesiones', JSON.parse(s));
+      for (const uid of antes.sesiones.keys()) if (!ahora.sesiones.has(uid)) await api('DELETE', 'datos/sesiones/' + encodeURIComponent(uid));
+      for (const [fecha, kg] of ahora.pesos) if (antes.pesos.get(fecha) !== kg) await api('PUT', 'datos/pesos', { fecha, kg });
+      for (const fecha of antes.pesos.keys()) if (!ahora.pesos.has(fecha)) await api('DELETE', 'datos/pesos/' + fecha);
+      if (ahora.aportes !== antes.aportes) { const a = JSON.parse(ahora.aportes); await api('POST', 'datos/aportes', { correcciones: a.c, revisiones: a.r }); }
+      cuenta.ultimo = ahora; cuenta.estado = 'Guardado en tu cuenta'; cuenta.error = '';
+    } catch (e) {
+      if (cuenta.token) { cuenta.error = e.status ? e.message : 'Sin conexión: tus cambios se guardan aquí y se subirán cuando vuelva.'; }
+    } finally {
+      sincronizando = false; pintarBarraCuenta();
+      if (vista === 'cuenta') vCuenta();
+      if (pendiente) { pendiente = false; subirCambios(); }
+    }
+  }
+  CTA = { cambio() { if (!cuenta.token) return; clearTimeout(temporizadorSync); temporizadorSync = setTimeout(subirCambios, 600); } };
+  window.addEventListener('online', () => { if (cuenta.token) subirCambios(); });
+
+  async function comprobarServidor() {
+    if (!/^https?:$/.test(location.protocol)) { cuenta.disponible = false; return; }
+    try {
+      const r = await fetch('/api/salud', { cache: 'no-store' });
+      const d = r.ok ? await r.json() : null;
+      cuenta.disponible = !!(d && d.cuentas);
+    } catch (_) { cuenta.disponible = false; }
+    if (cuenta.disponible && cuenta.token) {
+      try { aplicarDatosDeLaCuenta(await api('GET', 'datos')); cuenta.estado = 'Guardado en tu cuenta'; }
+      catch (e) { if (cuenta.token) cuenta.error = 'Sin conexión con tu cuenta: usando lo guardado en este dispositivo.'; }
+    }
+    render();
+  }
+
+  function pintarBarraCuenta() {
+    const b = $('cuenta-barra'); if (!b) return;
+    b.hidden = !cuenta.disponible || vista === 'cuenta';
+    if (b.hidden) return;
+    b.innerHTML = cuenta.token
+      ? `<a class="cuenta-chip ${cuenta.error ? 'error' : 'activa'}" href="#cuenta"><span class="punto" aria-hidden="true"></span>${esc(cuenta.usuario?.nombre || 'Mi cuenta')}</a>`
+      : `<a class="cuenta-chip" href="#cuenta"><span class="punto" aria-hidden="true"></span>Iniciar sesión</a>`;
+  }
+
+  let modoCuenta = 'entrar', borrandoCuenta = false;
+  function vCuenta() {
+    if (cuenta.disponible === null) { app.innerHTML = '<div class="vista"><p class="muted">Conectando…</p></div>'; return; }
+    if (!cuenta.disponible) {
+      app.innerHTML = `<div class="vista"><header class="hero" style="padding-top:0"><div class="eyebrow">Mi cuenta</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Esta versión no tiene cuentas</h1>
+        <p class="lead">Tus datos se guardan solo en este navegador. Las cuentas funcionan en la versión publicada con servidor (AWS), donde puedes usar la misma cuenta en la web y en la app de iPhone.</p></header>
+        <div class="row"><a class="btn" href="#progreso">Ir a mi progreso</a></div></div>`;
+      return;
+    }
+    if (!cuenta.token) {
+      const registro = modoCuenta === 'registro';
+      app.innerHTML = `<div class="vista">
+        <header class="hero" style="padding-top:0"><div class="eyebrow">Mi cuenta</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">${registro ? 'Crea tu cuenta' : 'Inicia sesión'}</h1>
+          <p class="lead">Con una cuenta, tu perfil, tu rutina y tu progreso quedan guardados en el servidor y los ves igual en la web y en la app de iPhone.</p></header>
+        <section class="card">
+          <div class="pestanas-cuenta" role="tablist"><button type="button" role="tab" data-modo="entrar" aria-selected="${!registro}">Iniciar sesión</button><button type="button" role="tab" data-modo="registro" aria-selected="${registro}">Crear cuenta</button></div>
+          <form id="f-cuenta" class="pasos-form" novalidate>
+            ${registro ? '<div class="field"><label for="c-nombre">Tu nombre</label><input id="c-nombre" autocomplete="name" maxlength="80" required></div>' : ''}
+            <div class="field"><label for="c-email">Correo</label><input id="c-email" type="email" autocomplete="email" inputmode="email" required></div>
+            <div class="field"><label for="c-clave">Contraseña${registro ? ' <span class="muted small">(al menos 8 caracteres)</span>' : ''}</label><input id="c-clave" type="password" autocomplete="${registro ? 'new-password' : 'current-password'}" minlength="8" required></div>
+            ${registro ? `<label class="casilla"><input type="checkbox" id="c-acepto"><span>Acepto que mi perfil (edad, peso, lesiones), mi rutina y mis sesiones se guarden en mi cuenta. Puedo borrar la cuenta y todos sus datos cuando quiera.</span></label>` : ''}
+            ${S.sesiones.length || S.perfil ? `<p class="muted small">Lo que tienes guardado en este navegador (${S.sesiones.length} sesiones) se sube a tu cuenta al entrar.</p>` : ''}
+            ${cuenta.aviso ? `<p class="small" style="color:var(--ok)" role="status">${esc(cuenta.aviso)}</p>` : ''}
+            <p id="c-error" class="small" style="color:var(--veto)" role="alert">${esc(cuenta.error)}</p>
+            <div class="row"><button class="btn primary" type="submit" id="c-enviar">${registro ? 'Crear cuenta' : 'Entrar'}</button></div>
+          </form>
+        </section></div>`;
+      app.querySelectorAll('[data-modo]').forEach(b => b.onclick = () => { modoCuenta = b.dataset.modo; cuenta.error = ''; cuenta.aviso = ''; vCuenta(); });
+      $('f-cuenta').addEventListener('submit', async ev => {
+        ev.preventDefault();
+        const err = $('c-error'), boton = $('c-enviar');
+        const email = $('c-email').value.trim(), contrasena = $('c-clave').value;
+        if (registro && !$('c-nombre').value.trim()) { err.textContent = 'Escribe tu nombre.'; return; }
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) { err.textContent = 'Escribe un correo válido.'; return; }
+        if (contrasena.length < 8) { err.textContent = 'La contraseña debe tener al menos 8 caracteres.'; return; }
+        if (registro && !$('c-acepto').checked) { err.textContent = 'Para crear la cuenta tienes que aceptar que tus datos se guarden en ella.'; return; }
+        boton.disabled = true; err.textContent = ''; cuenta.aviso = '';
+        try {
+          const r = registro ? await api('POST', 'registro', { email, contrasena, nombre: $('c-nombre').value.trim() })
+            : await api('POST', 'sesion', { email, contrasena });
+          await entrarYSincronizar(r);
+          vCuenta();
+        } catch (e) { cuenta.token = null; guardarCuenta(); err.textContent = e.message; boton.disabled = false; }
+      });
+      return;
+    }
+    const u = cuenta.usuario || {};
+    app.innerHTML = `<div class="vista">
+      <header class="hero" style="padding-top:0"><div class="eyebrow">Mi cuenta</div><h1 style="font-size:clamp(1.8rem,5vw,2.4rem)">Hola, ${esc(u.nombre || '')}</h1>
+        <p class="lead">${esc(u.email || '')}</p></header>
+      <div class="aviso ${cuenta.error ? 'amber' : 'teal'}" role="status"><p><b>${cuenta.error ? 'Atención:' : 'Al día.'}</b> ${esc(cuenta.error || cuenta.estado || 'Tus datos se guardan en tu cuenta.')}</p></div>
+      <section class="resumen-inicio">
+        <div class="kpi"><span class="v num-tab">${S.sesiones.length}</span><span class="l">Sesiones en tu cuenta</span></div>
+        <div class="kpi"><span class="v num-tab">${S.pesos.length}</span><span class="l">Registros de peso</span></div>
+        <div class="kpi"><span class="v num-tab">${(S.aportes?.correcciones?.length || 0) + (S.aportes?.revisiones?.length || 0)}</span><span class="l">Aportes al modelo</span></div>
+        <div class="kpi"><span class="v">${S.rutina ? 'Sí' : 'No'}</span><span class="l">Rutina guardada</span></div>
+      </section>
+      <section class="card"><h3>Qué se guarda</h3>
+        <p class="muted">Tu nombre, tu correo y tu contraseña cifrada; tu perfil (edad, peso, altura, deporte, nivel, equipamiento y lesiones), tu rutina, tus sesiones con el dolor que registraste, tu peso y tus aportes al modelo. Para reentrenar el modelo solo se usan tus aportes, sin tu nombre ni tu correo.</p>
+        <div class="row"><button class="btn" type="button" id="c-sync">Sincronizar ahora</button><button class="btn ghost" type="button" id="c-salir">Cerrar sesión</button></div>
+        <p class="muted small">Al cerrar sesión, los datos se borran de este navegador y siguen en tu cuenta.</p>
+      </section>
+      <section class="card plain"><h3>Borrar mi cuenta</h3>
+        ${borrandoCuenta ? `<p class="muted">Se borran para siempre tu cuenta y todos sus datos. Escribe tu contraseña para confirmar.</p>
+          <div class="field" style="max-width:320px"><label for="c-clave-borrar">Contraseña</label><input id="c-clave-borrar" type="password" autocomplete="current-password"></div>
+          <p id="c-error-borrar" class="small" style="color:var(--veto)" role="alert"></p>
+          <div class="row"><button class="btn danger" type="button" id="c-borrar-si">Borrar mi cuenta</button><button class="btn ghost" type="button" id="c-borrar-no">Cancelar</button></div>`
+        : '<div class="row"><button class="btn ghost danger" type="button" id="c-borrar">Borrar mi cuenta y sus datos</button></div>'}
+      </section></div>`;
+    $('c-sync').onclick = async () => {
+      try { aplicarDatosDeLaCuenta(await api('GET', 'datos')); cuenta.estado = 'Sincronizado recién.'; cuenta.error = ''; }
+      catch (e) { cuenta.error = e.message; }
+      vCuenta();
+    };
+    $('c-salir').onclick = () => { salirLocal(''); location.hash = 'cuenta'; };
+    if (borrandoCuenta) {
+      $('c-borrar-no').onclick = () => { borrandoCuenta = false; vCuenta(); };
+      $('c-borrar-si').onclick = async () => {
+        try { await api('DELETE', 'cuenta', { contrasena: $('c-clave-borrar').value }); borrandoCuenta = false; salirLocal('Tu cuenta y todos sus datos se borraron.'); }
+        catch (e) { $('c-error-borrar').textContent = e.message; }
+      };
+    } else $('c-borrar').onclick = () => { borrandoCuenta = true; vCuenta(); };
+  }
+  comprobarServidor();
 
 
   // ═══════════════ EL MODELO POR DENTRO (EV3) ═══════════════
@@ -1748,7 +1990,8 @@ footer { color: var(--muted); font-size: 0.84rem; display: grid; gap: 6px; borde
           <p>Revisa tu rutina, te explica por qué sirve, da consejos y propone cambios. Solo puede elegir entre ejercicios que ya pasaron el filtro de seguridad, y tú decides si aplicarlos. También puedes hacerle preguntas sobre tu entrenamiento.</p>
           <p>Funciona con tu propia cuenta de Claude y te pide permiso la primera vez. Si no tienes cuenta, el resto de la aplicación funciona igual.</p></div></details>
         <details><summary>¿Dónde quedan mis datos?</summary><div>
-          <p>En tu navegador, en este dispositivo. No hay cuentas ni servidor que los guarde. Si borras los datos del navegador o cambias de teléfono, se pierden: usa “Guardar respaldo” en la sección Progreso.</p></div></details>
+          <p>Sin cuenta, en tu navegador, en este dispositivo: si borras los datos del navegador o cambias de teléfono, se pierden (usa “Guardar respaldo” en la sección Progreso).</p>
+          <p>Con una cuenta (en <a href="#cuenta">Mi cuenta</a>, cuando la página corre en el servidor del proyecto), tu perfil, rutina, sesiones, peso y aportes también se guardan en una base de datos, y los ves igual en otro navegador o en la app de iPhone. La contraseña se guarda cifrada y puedes borrar la cuenta con todos sus datos cuando quieras.</p></div></details>
         <details><summary>¿Qué tan confiable es?</summary><div>
           <p>Con 2.461 ejercicios de tres fuentes abiertas, el sistema encuentra al menos 3 alternativas para el 89 % de los ejercicios que se pueden sustituir. En rodilla y hombro la cobertura es menor. Los nombres en español están revisados para los ejercicios más comunes; el resto aparece con su nombre original en inglés.</p>
           <p>Es una herramienta informativa basada en datos: no conoce tu lesión en detalle. Un kinesiólogo siempre tiene la última palabra.</p></div></details>

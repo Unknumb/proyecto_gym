@@ -54,6 +54,22 @@ extension View {
         #endif
     }
 
+    func tecladoURL() -> some View {
+        #if os(iOS)
+        keyboardType(.URL)
+        #else
+        self
+        #endif
+    }
+
+    func tecladoCorreo() -> some View {
+        #if os(iOS)
+        keyboardType(.emailAddress)
+        #else
+        self
+        #endif
+    }
+
     func sinMayusculaInicial() -> some View {
         #if os(iOS)
         textInputAutocapitalization(.never)

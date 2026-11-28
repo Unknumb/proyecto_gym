@@ -5,7 +5,7 @@ import SustitutoSeguroCore
 
 /// El modelo del perfil (`modelo_perfil.json`) y las recomendaciones precalculadas
 /// (`recomendaciones.json`, las mismas de la web), cargados desde el paquete de la app. Todo corre en el
-/// teléfono: no hay servidor.
+/// teléfono; la cuenta (opcional) solo guarda los datos de la persona.
 ///
 /// `@MainActor`: SwiftUI solo se entera de los cambios de un objeto observable si
 /// ocurren en el hilo principal. La lectura y decodificación de los JSON corre
@@ -15,6 +15,7 @@ import SustitutoSeguroCore
 final class Catalogo {
     private(set) var perfilador: Perfilador?
     private(set) var recomendador: Recomendador?
+    private(set) var generador: GeneradorRutina?
     private(set) var error: String?
 
     func cargar() async {
@@ -29,11 +30,18 @@ final class Catalogo {
             }.value
             self.perfilador = perfilador
             self.recomendador = recomendador
+            self.generador = GeneradorRutina(recomendador: recomendador)
             Self.registro.info("Modelo y recomendaciones cargados en \(Date().timeIntervalSince(inicio), format: .fixed(precision: 2)) s")
         } catch {
             self.error = error.localizedDescription
             Self.registro.error("No se pudieron cargar los datos: \(error.localizedDescription, privacy: .public)")
         }
+    }
+
+    /// Nombre para mostrar: el español de los ejercicios conocidos, o el del catálogo.
+    func nombre(_ id: String) -> String {
+        if let es = generador?.nombreEspanol(id) { return es }
+        return recomendador?.ejercicio(id: id).map { Textos.capitalizar($0.nombreVisible) } ?? id
     }
 
     private static let registro = Logger(subsystem: "cl.unknumb.sustitutoseguro", category: "catalogo")

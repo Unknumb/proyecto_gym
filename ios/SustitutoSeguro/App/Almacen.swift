@@ -79,19 +79,47 @@ struct SesionEntrenamiento: Codable, Identifiable, Hashable {
     var dolores: [RegistroDolor] = []
 }
 
-/// Todo lo que la persona registra en la app. Vive solo en el teléfono, en
-/// `Documentos/datos_app.json`, y sale de él únicamente cuando se exporta.
+/// Todo lo que la persona registra en la app, en `Documentos/datos_app.json`. Sin cuenta vive
+/// solo en el teléfono; con cuenta, el perfil, la rutina, las sesiones, el peso y los aportes se
+/// copian también al servidor (ver `Cuenta`).
 @Observable
 final class Almacen {
     struct Contenido: Codable {
+        var perfil: Perfil?
+        var rutina: Rutina?
+        var entrenamientos: [Sesion] = []          // sesiones de la rutina (formato de la API)
+        var pesos: [Pesaje] = []
+        var enCurso: EnCurso?
         var revisiones: [RevisionRecomendacion] = []
         var correcciones: [CorreccionEtiqueta] = []
         var ejerciciosNuevos: [EjercicioNuevo] = []
-        var sesiones: [SesionEntrenamiento] = []
+        var sesiones: [SesionEntrenamiento] = []    // registro libre de versiones anteriores de la app
+
+        init() {}
+
+        private enum CodingKeys: String, CodingKey {
+            case perfil, rutina, entrenamientos, pesos, enCurso, revisiones, correcciones, ejerciciosNuevos, sesiones
+        }
+
+        /// Cada campo es opcional: así un archivo de una versión anterior de la app se sigue leyendo.
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            perfil = try? c.decodeIfPresent(Perfil.self, forKey: .perfil)
+            rutina = try? c.decodeIfPresent(Rutina.self, forKey: .rutina)
+            entrenamientos = (try? c.decodeIfPresent([Sesion].self, forKey: .entrenamientos)) ?? []
+            pesos = (try? c.decodeIfPresent([Pesaje].self, forKey: .pesos)) ?? []
+            enCurso = try? c.decodeIfPresent(EnCurso.self, forKey: .enCurso)
+            revisiones = (try? c.decodeIfPresent([RevisionRecomendacion].self, forKey: .revisiones)) ?? []
+            correcciones = (try? c.decodeIfPresent([CorreccionEtiqueta].self, forKey: .correcciones)) ?? []
+            ejerciciosNuevos = (try? c.decodeIfPresent([EjercicioNuevo].self, forKey: .ejerciciosNuevos)) ?? []
+            sesiones = (try? c.decodeIfPresent([SesionEntrenamiento].self, forKey: .sesiones)) ?? []
+        }
     }
 
-    var contenido: Contenido { didSet { guardar() } }
+    var contenido: Contenido { didSet { guardar(); alCambiar?() } }
     private(set) var errorAlGuardar: String?
+    /// La cuenta se suscribe para subir los cambios.
+    @ObservationIgnored var alCambiar: (() -> Void)?
     private let archivo: URL
 
     init(archivo: URL = URL.documentsDirectory.appending(path: "datos_app.json")) {
@@ -109,6 +137,81 @@ final class Almacen {
         }
     }
 
+    // MARK: Rutina y entrenamiento
+
+    /// Guarda el perfil y arma la rutina nueva (o una variante de la actual).
+    func guardarPerfil(_ perfil: Perfil, generador: GeneradorRutina) {
+        let p = perfil.normalizado()
+        var c = contenido
+        c.perfil = p
+        c.rutina = generador.generar(p, hoy: Fechas.iso())
+        c.enCurso = nil
+        contenido = c
+    }
+
+    func otraVariante(generador: GeneradorRutina) {
+        guard let p = contenido.perfil else { return }
+        var azar = SystemRandomNumberGenerator()
+        contenido.rutina = GeneradorRutina.variante(de: generador.generar(p, hoy: Fechas.iso()), generador: &azar)
+    }
+
+    func cambiarEjercicio(dia: Int, posicion: Int) {
+        guard var r = contenido.rutina else { return }
+        GeneradorRutina.cambiar(&r, dia: dia, posicion: posicion)
+        contenido.rutina = r
+    }
+
+    func empezar(dia: Int) {
+        guard let r = contenido.rutina, r.dias.indices.contains(dia) else { return }
+        contenido.enCurso = EnCurso(rutina: r, dia: dia, sesiones: contenido.entrenamientos)
+    }
+
+    func terminarSesion() {
+        guard let s = contenido.enCurso else { return }
+        var c = contenido
+        c.entrenamientos.append(s.terminar(hoy: Fechas.iso()))
+        c.entrenamientos.sort { $0.fecha < $1.fecha }
+        c.enCurso = nil
+        contenido = c
+    }
+
+    func registrarPeso(_ kg: Double) {
+        let hoy = Fechas.iso()
+        var pesos = contenido.pesos.filter { $0.fecha != hoy }
+        pesos.append(Pesaje(fecha: hoy, kg: kg))
+        contenido.pesos = pesos.sorted { $0.fecha < $1.fecha }
+    }
+
+    // MARK: Cuenta
+
+    /// Lo que se guarda en la cuenta, en el formato de la API.
+    var datosCuenta: DatosCuenta {
+        let c = contenido
+        let correcciones = c.correcciones.map {
+            CorreccionAporte(ejercicio_id: $0.ejercicioId, objetivo: $0.objetivo, etiqueta: $0.etiquetaCorregida,
+                             etiqueta_previa: $0.etiquetaPipeline ?? "", origen_previo: $0.origenPipeline ?? "",
+                             confianza_previa: $0.confianzaPipeline, fecha: CSV.fecha($0.fecha))
+        }
+        let revisiones = c.revisiones.map {
+            RevisionAporte(original_id: $0.originalId, alternativa_id: $0.alternativaId, articulacion: $0.articulacion,
+                           perfil: $0.principiante ? "principiante" : "cualquiera", veredicto: $0.veredicto.rawValue,
+                           similitud: $0.similitud, misma_familia: $0.mismaFamilia, fecha: CSV.fecha($0.fecha))
+        }
+        return DatosCuenta(perfil: c.perfil, rutina: c.rutina, sesiones: c.entrenamientos, pesos: c.pesos,
+                           correcciones: correcciones, revisiones: revisiones)
+    }
+
+    /// Reemplaza lo local con lo de la cuenta (los aportes solo se suben: quedan como están).
+    func aplicar(_ d: DatosCuenta) {
+        var c = contenido
+        c.perfil = d.perfil
+        c.rutina = d.rutina
+        c.entrenamientos = d.sesiones.sorted { $0.fecha < $1.fecha }
+        c.pesos = d.pesos.sorted { $0.fecha < $1.fecha }
+        if let enCurso = c.enCurso, !(d.rutina?.dias.indices.contains(enCurso.dia) ?? false) { c.enCurso = nil }
+        contenido = c
+    }
+
     // MARK: Consultas
 
     func revision(original: String, alternativa: String, articulacion: String) -> RevisionRecomendacion? {
@@ -123,7 +226,8 @@ final class Almacen {
 
     var total: Int {
         contenido.revisiones.count + contenido.correcciones.count + contenido.ejerciciosNuevos.count
-            + contenido.sesiones.count
+            + contenido.sesiones.count + contenido.entrenamientos.count + contenido.pesos.count
+            + (contenido.perfil == nil ? 0 : 1)
     }
 
     // MARK: Cambios
@@ -143,6 +247,9 @@ final class Almacen {
     }
 
     func borrarTodo() { contenido = Contenido() }
+
+    /// Nombres de los ejercicios para la exportación (los pone la vista, que tiene el catálogo).
+    @ObservationIgnored var nombres: [String: String] = [:]
 
     // MARK: Exportación
 
@@ -185,15 +292,26 @@ final class Almacen {
                                CSV.fecha(e.fecha)]
             }
         case .series:
-            return c.sesiones.flatMap { s in
+            let libres = c.sesiones.flatMap { s in
                 s.series.enumerated().map { k, serie in
                     [CSV.fecha(s.fecha), s.id.uuidString, serie.ejercicioId, serie.nombre, String(k + 1),
                      CSV.numero(serie.pesoKg, decimales: 1), String(serie.repeticiones), String(serie.esfuerzo)]
                 }
             }
+            let deRutina = c.entrenamientos.flatMap { s in
+                s.ejercicios.flatMap { e in
+                    e.series.enumerated().map { k, serie in
+                        [s.fecha, s.uid, e.id, nombres[e.id] ?? e.id, String(k + 1),
+                         CSV.numero(serie.kg ?? 0, decimales: 1), String(serie.reps), String(s.esfuerzo)]
+                    }
+                }
+            }
+            return libres + deRutina
         case .dolor:
             return c.sesiones.flatMap { s in
                 s.dolores.map { [CSV.fecha(s.fecha), s.id.uuidString, $0.zona, String($0.dolor)] }
+            } + c.entrenamientos.flatMap { s in
+                s.dolor.sorted { $0.key < $1.key }.map { [s.fecha, s.uid, TablasRutina.nombreLesion($0.key).lowercased(), String($0.value)] }
             }
         }
     }

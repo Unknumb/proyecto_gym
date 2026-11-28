@@ -1,0 +1,269 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  Sustituto Seguro (MLY1101, Duoc UC): página web y API de cuentas en EC2, base de datos
+  PostgreSQL en RDS y dirección fija con HTTPS. Pensada para AWS Academy Learner Lab
+  (us-east-1 o us-west-2, sin crear roles de IAM). Guía en deploy/aws/README.md.
+
+Parameters:
+  ClaveBaseDatos:
+    Type: String
+    NoEcho: true
+    MinLength: 12
+    MaxLength: 40
+    AllowedPattern: "[A-Za-z0-9]+"
+    ConstraintDescription: Entre 12 y 40 letras o números, sin símbolos.
+    Description: Contraseña del usuario administrador de PostgreSQL (12 a 40 letras o números).
+  Repositorio:
+    Type: String
+    Default: https://github.com/Unknumb/proyecto_gym.git
+    Description: Repositorio público con el proyecto.
+  Rama:
+    Type: String
+    Default: main
+    Description: Rama del repositorio que se despliega.
+  TipoInstancia:
+    Type: String
+    Default: t3.micro
+    AllowedValues: [t3.micro, t3.small]
+    Description: Tamaño del servidor web (Learner Lab acepta hasta large).
+  UsarHTTPS:
+    Type: String
+    Default: "si"
+    AllowedValues: ["si", "no"]
+    Description: >-
+      "si" obtiene un certificado gratuito para <ip>.sslip.io (la app de iPhone exige HTTPS).
+      "no" sirve solo HTTP, por si el certificado falla.
+  LlaveSSH:
+    Type: String
+    Default: vockey
+    Description: Par de llaves para entrar por SSH (Learner Lab trae "vockey"). Vacío para no usar.
+  ImagenServidor:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+    Description: Amazon Linux 2023 más reciente (no hace falta cambiarlo).
+
+Conditions:
+  ConHTTPS: !Equals [!Ref UsarHTTPS, "si"]
+  ConLlave: !Not [!Equals [!Ref LlaveSSH, ""]]
+
+Resources:
+  # ── Red: una VPC propia con dos subredes públicas (RDS exige dos zonas) ──────────────
+  Red:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.40.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags: [{Key: Name, Value: sustituto-seguro}]
+  PuertaInternet:
+    Type: AWS::EC2::InternetGateway
+  UnionPuerta:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Red
+      InternetGatewayId: !Ref PuertaInternet
+  SubredA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Red
+      CidrBlock: 10.40.1.0/24
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      MapPublicIpOnLaunch: true
+      Tags: [{Key: Name, Value: sustituto-seguro-a}]
+  SubredB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Red
+      CidrBlock: 10.40.2.0/24
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      MapPublicIpOnLaunch: true
+      Tags: [{Key: Name, Value: sustituto-seguro-b}]
+  TablaRutas:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Red
+  RutaInternet:
+    Type: AWS::EC2::Route
+    DependsOn: UnionPuerta
+    Properties:
+      RouteTableId: !Ref TablaRutas
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref PuertaInternet
+  RutasA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubredA
+      RouteTableId: !Ref TablaRutas
+  RutasB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref SubredB
+      RouteTableId: !Ref TablaRutas
+
+  # ── Seguridad: la web abierta (80/443), la base solo desde el servidor web ──────────
+  GrupoWeb:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Sustituto Seguro - web (HTTP, HTTPS y SSH)
+      VpcId: !Ref Red
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: 0.0.0.0/0}
+        - {IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIp: 0.0.0.0/0}
+        - {IpProtocol: tcp, FromPort: 22, ToPort: 22, CidrIp: 0.0.0.0/0}
+  GrupoBaseDatos:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Sustituto Seguro - PostgreSQL solo desde el servidor web
+      VpcId: !Ref Red
+      SecurityGroupIngress:
+        - {IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref GrupoWeb}
+
+  # ── Base de datos: PostgreSQL en RDS, privada ───────────────────────────────────────
+  SubredesBaseDatos:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subredes de la base de Sustituto Seguro
+      SubnetIds: [!Ref SubredA, !Ref SubredB]
+  BaseDatos:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      Engine: postgres
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: "20"
+      StorageType: gp2
+      DBName: sustituto
+      MasterUsername: sustituto
+      MasterUserPassword: !Ref ClaveBaseDatos
+      DBSubnetGroupName: !Ref SubredesBaseDatos
+      VPCSecurityGroups: [!Ref GrupoBaseDatos]
+      PubliclyAccessible: false
+      MultiAZ: false
+      BackupRetentionPeriod: 1
+      MonitoringInterval: 0
+      EnablePerformanceInsights: false
+      Tags: [{Key: Name, Value: sustituto-seguro}]
+
+  # ── Servidor web: dirección fija, Caddy (HTTPS) delante de la API en Python ─────────
+  IPFija:
+    Type: AWS::EC2::EIP
+    DependsOn: UnionPuerta
+    Properties:
+      Domain: vpc
+  Servidor:
+    Type: AWS::EC2::Instance
+    DependsOn: [BaseDatos, RutaInternet]
+    Properties:
+      ImageId: !Ref ImagenServidor
+      InstanceType: !Ref TipoInstancia
+      KeyName: !If [ConLlave, !Ref LlaveSSH, !Ref AWS::NoValue]
+      SubnetId: !Ref SubredA
+      SecurityGroupIds: [!Ref GrupoWeb]
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs: {VolumeSize: 16, VolumeType: gp3}
+      Tags: [{Key: Name, Value: sustituto-seguro}]
+      UserData:
+        Fn::Base64: !Sub
+          - |
+            #!/bin/bash
+            # Instalación de Sustituto Seguro (corre una vez, al crear el servidor).
+            # Registro completo en /var/log/cloud-init-output.log
+            set -euxo pipefail
+            # Esperar a que la IP fija quede asociada: al cambiar la IP se cortan las descargas en curso
+            TOKEN=$(curl -sX PUT http://169.254.169.254/latest/api/token -H "X-aws-ec2-metadata-token-ttl-seconds: 600")
+            for intento in $(seq 1 60); do
+              ip=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/public-ipv4 || true)
+              [ "$ip" = "${IPFija}" ] && break
+              sleep 5
+            done
+            dnf install -y git python3.11 python3.11-pip tar
+            useradd --system --home /opt/sustituto --shell /sbin/nologin sustituto || true
+            git clone --depth 1 --branch "${Rama}" "${Repositorio}" /opt/sustituto/app
+            python3.11 -m venv /opt/sustituto/venv
+            /opt/sustituto/venv/bin/pip install --upgrade pip
+            /opt/sustituto/venv/bin/pip install -r /opt/sustituto/app/api/requirements.txt
+            chown -R sustituto:sustituto /opt/sustituto
+
+            # Configuración: la base de RDS y un secreto propio para firmar las sesiones
+            install -m 600 /dev/null /etc/sustituto.env
+            cat > /etc/sustituto.env <<CONFIG
+            DATABASE_URL=postgresql://sustituto:${ClaveBaseDatos}@${BaseDatos.Endpoint.Address}:5432/sustituto
+            SECRETO=$(openssl rand -hex 32)
+            DETRAS_DE_PROXY=1
+            CONFIG
+
+            cat > /etc/systemd/system/sustituto.service <<'UNIDAD'
+            [Unit]
+            Description=Sustituto Seguro (API y pagina)
+            After=network-online.target
+            Wants=network-online.target
+            [Service]
+            User=sustituto
+            WorkingDirectory=/opt/sustituto/app
+            EnvironmentFile=/etc/sustituto.env
+            ExecStart=/opt/sustituto/venv/bin/gunicorn --preload -w 2 -b 127.0.0.1:8000 --access-logfile - "api.servidor:crear_app()"
+            Restart=always
+            RestartSec=5
+            [Install]
+            WantedBy=multi-user.target
+            UNIDAD
+
+            # Caddy: proxy inverso con certificado HTTPS automático (Let's Encrypt)
+            curl -fsSL -o /tmp/caddy.tar.gz https://github.com/caddyserver/caddy/releases/download/v2.8.4/caddy_2.8.4_linux_amd64.tar.gz
+            tar -xzf /tmp/caddy.tar.gz -C /usr/local/bin caddy
+            mkdir -p /etc/caddy /var/lib/caddy
+            cat > /etc/caddy/Caddyfile <<CADDY
+            ${Sitio} {
+                encode gzip
+                reverse_proxy 127.0.0.1:8000
+            }
+            CADDY
+            cat > /etc/systemd/system/caddy.service <<'UNIDAD'
+            [Unit]
+            Description=Caddy (HTTPS para Sustituto Seguro)
+            After=network-online.target sustituto.service
+            Wants=network-online.target
+            [Service]
+            Environment=XDG_DATA_HOME=/var/lib/caddy XDG_CONFIG_HOME=/var/lib/caddy
+            ExecStart=/usr/local/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+            ExecReload=/usr/local/bin/caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
+            Restart=always
+            RestartSec=5
+            [Install]
+            WantedBy=multi-user.target
+            UNIDAD
+
+            # Actualizar a la última versión de la rama: sudo sustituto-actualizar
+            cat > /usr/local/bin/sustituto-actualizar <<'ACTUALIZAR'
+            #!/bin/bash
+            set -euo pipefail
+            cd /opt/sustituto/app
+            sudo -u sustituto git pull --ff-only
+            sudo -u sustituto /opt/sustituto/venv/bin/pip install -r api/requirements.txt
+            systemctl restart sustituto
+            echo "Actualizado a $(sudo -u sustituto git log -1 --format='%h %s')"
+            ACTUALIZAR
+            chmod +x /usr/local/bin/sustituto-actualizar
+
+            systemctl daemon-reload
+            systemctl enable --now sustituto
+            systemctl enable --now caddy
+          - Sitio: !If [ConHTTPS, !Sub "${IPFija}.sslip.io", ":80"]
+  AsociacionIP:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt IPFija.AllocationId
+      InstanceId: !Ref Servidor
+
+Outputs:
+  DireccionPagina:
+    Description: Abre esta dirección en el navegador (y escríbela en la app de iPhone).
+    Value: !If [ConHTTPS, !Sub "https://${IPFija}.sslip.io", !Sub "http://${IPFija}"]
+  IPServidor:
+    Description: IP fija del servidor web.
+    Value: !Ref IPFija
+  ServidorBaseDatos:
+    Description: Dirección interna de PostgreSQL (solo accesible desde el servidor web).
+    Value: !GetAtt BaseDatos.Endpoint.Address
